@@ -1,0 +1,3 @@
+[submodule "submodule/lotivis"]
+	path = submodule/lotivis
+	url = git@github.com:lukasdanckwerth/lotivis.git
