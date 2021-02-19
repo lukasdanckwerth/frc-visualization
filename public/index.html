@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="css/lotivis.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <title>French Rap Corpus Visualization</title>
+</head>
+
+<body>
+
+<div id="frc-visualization"></div>
+
+<script src="corpus-model/track.js"></script>
+<script src="corpus-model/album.js"></script>
+<script src="corpus-model/artist.js"></script>
+<script src="corpus-model/department.js"></script>
+<script src="corpus-model/corpus.js"></script>
+<script src="corpus-model/delegate.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
+<script src="js/lotivis.js"></script>
+
+<script>
+
+  let delegate = new FRCDelegate();
+  // let delegate = new lotivis.Datasource();
+  // delegate.name = 'French Rap Corpus Visualization';
+  // delegate.geoJSON = 'assets/Departements-Simple.geojson'
+
+  let application = new lotivis.Application('frc-visualization', delegate);
+
+</script>
+
+</body>
+
+</html>
