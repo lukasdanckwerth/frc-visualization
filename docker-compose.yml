@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  frc-visualization:
+    build: .
+    container_name: frc-visualization
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - NODE_ENV=production
