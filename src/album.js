@@ -1,4 +1,10 @@
-class Album {
+import {Track} from "./track";
+
+/**
+ *
+ */
+export class Album {
+
     constructor(albumJSON) {
         this.name = albumJSON.name;
         this.tracks = [];
@@ -13,3 +19,5 @@ class Album {
         }
     }
 }
+
+exports.Album = Album;

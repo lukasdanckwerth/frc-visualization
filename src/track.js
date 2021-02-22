@@ -2,7 +2,7 @@
  *
  * @class Track
  */
-class Track {
+export class Track {
 
     /**
      *

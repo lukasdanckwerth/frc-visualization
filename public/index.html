@@ -12,29 +12,31 @@
 
 <body>
 
-<div id="frc-visualization"></div>
-
-<script src="corpus-model/track.js"></script>
-<script src="corpus-model/album.js"></script>
-<script src="corpus-model/artist.js"></script>
-<script src="corpus-model/department.js"></script>
-<script src="corpus-model/corpus.js"></script>
-<script src="corpus-model/delegate.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
-<script src="js/lotivis.js"></script>
-
-<script>
-
-  let delegate = new FRCDelegate();
-  // let delegate = new lotivis.Datasource();
-  // delegate.name = 'French Rap Corpus Visualization';
-  // delegate.geoJSON = 'assets/Departements-Simple.geojson'
-
-  let application = new lotivis.Application('frc-visualization', delegate);
-
-</script>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <h1>
+        French Rap Corpus Visualization
+      </h1>
+    </div>
+    <div class="col-6">
+      <div class="card card-inset menu">
+        <a href="search.html">
+          Search
+        </a>
+        <a href="timechart.html">
+          Time Data
+        </a>
+        <a href="mapchart.html">
+          Map Data
+        </a>
+        <a href="plotchart.html">
+          Plot Data
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 

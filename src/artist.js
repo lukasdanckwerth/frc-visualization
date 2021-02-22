@@ -1,7 +1,10 @@
+import {Album} from "./album";
+import {Track} from "./track";
+
 /**
  *
  */
-class Artist {
+export class Artist {
 
   constructor(artistJSON) {
     this.name = artistJSON.name;
@@ -64,3 +67,5 @@ class Artist {
     return allWords;
   }
 }
+
+exports.Artist = Artist;
