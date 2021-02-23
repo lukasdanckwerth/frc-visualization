@@ -9,8 +9,8 @@
 
 ## Stati
 
-* Pipeline status ```development```: [![Build and Test](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/node.js.yml)
-* Pipeline status ```master```: [![pipeline status](https://gitlab.com/lukasdanckwerth/frc-visualization/badges/master/pipeline.svg)](https://gitlab.com/lukasdanckwerth/frc-visualization/-/commits/master)
+* Pipeline status ```development```: [![Build and Test](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml/badge.svg?branch=development)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml)
+* Pipeline status ```main```: [![Build and Test](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml)
 
 ## Heroku
 
@@ -19,8 +19,8 @@
 
 | Environment | URL                                           | Status |
 | ----------- | --------------------------------------------- | ------ |
-| Stage       | https://frc-visualization-stage.herokuapp.com | [![Heroku Deployment](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deploy.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deploy.yml) |
-| Production  | https://frc-visualization.herokuapp.com       |
+| Stage       | https://frc-visualization-stage.herokuapp.com | [![Heroku Deployment (Stage)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-stage.yml/badge.svg?branch=development)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-stage.yml) |
+| Production  | https://frc-visualization.herokuapp.com       | [![Heroku Deployment (Main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-main.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-main.yml) |
 
 
 

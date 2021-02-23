@@ -6,9 +6,9 @@
   "scripts": {
     "build:watch": "rollup -c --watch",
     "build": "rollup -c",
-    "create:corpus:json": "node utils/build-corpus-json.js",
-    "create:datasets": "node utils/build-datasets.js",
-    "create:datasets:map": "node utils/build-datasets-map.js",
+    "create:corpus:json": "node utils/create-corpus-json.js",
+    "create:datasets": "node utils/create-datasets.js",
+    "create:datasets:map": "node utils/create-datasets-map.js",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
     "test": "echo \"Tests are coming.\""
