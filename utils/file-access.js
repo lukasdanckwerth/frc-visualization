@@ -8,7 +8,7 @@ const fs = require('fs');
  */
 function writeJSON(json, url) {
   console.log('start writing to ' + url);
-  let content = JSON.stringify(json);
+  let content = JSON.stringify(json, null, 2);
   fs.writeFile(url, content, function (err) {
     if (err) {
       console.error(err)

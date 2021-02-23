@@ -11,18 +11,30 @@
 </head>
 <body>
 
+<div class="container">
+  <div class="row">
+    <div class="col-2">
+      <a href="index.html">
+        <button class="back-button">
+          Back
+        </button>
+      </a>
+    </div>
+    <div class="col-8 text-center">
+      <h1>Plot Data</h1>
+    </div>
+    <div class="col-12">
+      <div id="plot-chart-card">
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
 <script src="js/lotivis.js"></script>
 <script src="js/frcv.js"></script>
-
-<script>
-
-  let delegate = new frcv.FRCDelegate();
-  let application = new lotivis.Application('frc-visualization', delegate);
-
-</script>
-
 
 </body>
 </html>

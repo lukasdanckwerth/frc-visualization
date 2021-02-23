@@ -6,6 +6,7 @@
   "scripts": {
     "build-corpus-json": "node utils/build-corpus-json.js",
     "build-datasets": "node utils/build-datasets.js",
+    "build-datasets-map": "node utils/build-datasets-map.js",
     "start": "node server.js",
     "start-production": "NODE_ENV=production node server.js production",
     "watch": "rollup -c --watch",

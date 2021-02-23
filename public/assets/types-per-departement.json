@@ -1,0 +1,306 @@
+{
+  "label": "Types",
+  "stack": "Types",
+  "data": [
+    {
+      "location": 13,
+      "locationName": "bouches-du-rhône",
+      "value": 369220
+    },
+    {
+      "location": 31,
+      "locationName": "haute-garonne",
+      "value": 138619
+    },
+    {
+      "location": 94,
+      "locationName": "val-de-marne",
+      "value": 354158
+    },
+    {
+      "location": 93,
+      "locationName": "seine-saint-denis",
+      "value": 685564
+    },
+    {
+      "location": 95,
+      "locationName": "val-d’oise",
+      "value": 196341
+    },
+    {
+      "location": 78,
+      "locationName": "yvelines",
+      "value": 159443
+    },
+    {
+      "location": 75,
+      "locationName": "paris",
+      "value": 1410438
+    },
+    {
+      "location": 77,
+      "locationName": "seine-et-marne",
+      "value": 130360
+    },
+    {
+      "location": 91,
+      "locationName": "essonne",
+      "value": 309384
+    },
+    {
+      "location": 92,
+      "locationName": "hauts-de-seine",
+      "value": 227737
+    },
+    {
+      "location": 57,
+      "locationName": "moselle",
+      "value": 34814
+    },
+    {
+      "location": 67,
+      "locationName": "bas-rhin",
+      "value": 66782
+    },
+    {
+      "location": 45,
+      "locationName": "loiret",
+      "value": 29240
+    },
+    {
+      "location": 21,
+      "locationName": "côte-d’or",
+      "value": 11862
+    },
+    {
+      "location": 30,
+      "locationName": "gard",
+      "value": 21750
+    },
+    {
+      "location": 76,
+      "locationName": "seine-maritime",
+      "value": 55037
+    },
+    {
+      "location": 25,
+      "locationName": "doubs",
+      "value": 16552
+    },
+    {
+      "location": 60,
+      "locationName": "oise",
+      "value": 24064
+    },
+    {
+      "location": 84,
+      "locationName": "essonne",
+      "value": 3733
+    },
+    {
+      "location": 44,
+      "locationName": "loire-atlantique",
+      "value": 66532
+    },
+    {
+      "location": 42,
+      "locationName": "loire",
+      "value": 12616
+    },
+    {
+      "location": 69,
+      "locationName": "rhône",
+      "value": 160690
+    },
+    {
+      "location": 35,
+      "locationName": "ille-et-vilaine",
+      "value": 62456
+    },
+    {
+      "location": 59,
+      "locationName": "nord",
+      "value": 87341
+    },
+    {
+      "location": 34,
+      "locationName": "hérault",
+      "value": 76729
+    },
+    {
+      "location": 28,
+      "locationName": "eure-et-loir",
+      "value": 10884
+    },
+    {
+      "location": 38,
+      "locationName": "isère",
+      "value": 27076
+    },
+    {
+      "location": 74,
+      "locationName": "haute-savoie",
+      "value": 15206
+    },
+    {
+      "location": 33,
+      "locationName": "gironde",
+      "value": 82089
+    },
+    {
+      "location": 49,
+      "locationName": "maine-et-loire",
+      "value": 19032
+    },
+    {
+      "location": 14,
+      "locationName": "calvados",
+      "value": 12759
+    },
+    {
+      "location": 12,
+      "locationName": "aveyron",
+      "value": 2023
+    },
+    {
+      "location": 27,
+      "locationName": "eure",
+      "value": 14698
+    },
+    {
+      "location": 6,
+      "locationName": "alpes-maritimes",
+      "value": 34047
+    },
+    {
+      "location": 1,
+      "locationName": "ain",
+      "value": 8100
+    },
+    {
+      "location": 68,
+      "locationName": "haut-rhin",
+      "value": 12256
+    },
+    {
+      "location": 71,
+      "locationName": "saône-et-loire",
+      "value": 14103
+    },
+    {
+      "location": 51,
+      "locationName": "marne",
+      "value": 8558
+    },
+    {
+      "location": 83,
+      "locationName": "var",
+      "value": 11005
+    },
+    {
+      "location": 65,
+      "locationName": "hautes-pyrénées",
+      "value": 5705
+    },
+    {
+      "location": 18,
+      "locationName": "cher",
+      "value": 22065
+    },
+    {
+      "location": 66,
+      "locationName": "pyrénées-orientales",
+      "value": 9283
+    },
+    {
+      "location": 54,
+      "locationName": "meurthe-et-moselle",
+      "value": 16254
+    },
+    {
+      "location": 63,
+      "locationName": "puy-de-dôme",
+      "value": 637
+    },
+    {
+      "location": 26,
+      "locationName": "drôme",
+      "value": 2885
+    },
+    {
+      "location": 2,
+      "locationName": "aisne",
+      "value": 7659
+    },
+    {
+      "location": 29,
+      "locationName": "finistère",
+      "value": 8516
+    },
+    {
+      "location": 43,
+      "locationName": "haute-loire",
+      "value": 422
+    },
+    {
+      "location": 37,
+      "locationName": "indre-et-loire",
+      "value": 4735
+    },
+    {
+      "location": 85,
+      "locationName": "vendée",
+      "value": 6250
+    },
+    {
+      "location": 86,
+      "locationName": "vienne",
+      "value": 4900
+    },
+    {
+      "location": 58,
+      "locationName": "nièvre",
+      "value": 12098
+    },
+    {
+      "location": 41,
+      "locationName": "loir-et-cher",
+      "value": 9236
+    },
+    {
+      "location": 55,
+      "locationName": "meuse",
+      "value": 11721
+    },
+    {
+      "location": 61,
+      "locationName": "orne",
+      "value": 5946
+    },
+    {
+      "location": 90,
+      "locationName": "territoire de belfort",
+      "value": 2506
+    },
+    {
+      "location": 9,
+      "locationName": "ariège",
+      "value": 789
+    },
+    {
+      "location": 10,
+      "locationName": "aube",
+      "value": 5723
+    },
+    {
+      "location": 50,
+      "locationName": "manche",
+      "value": 389
+    },
+    {
+      "location": 88,
+      "locationName": "vosges",
+      "value": 276
+    }
+  ]
+}

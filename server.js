@@ -17,7 +17,7 @@ const express = require("express");
 const fs = require('fs');
 
 const app = express();
-const application_version = require('./submodule/lotivis/package.json').version;
+const application_version = require('./package.json').version;
 const port = process.env.PORT || 80;
 const environment = process.env.NODE_ENV || 'development';
 const bodyParser = require("body-parser");

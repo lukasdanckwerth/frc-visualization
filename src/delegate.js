@@ -15,7 +15,7 @@ export class FRCDelegate {
   constructor() {
 
     this.name = 'French Rap Corpus Visualization';
-    this.geoJSON = 'assets/Departements-Simple.geojson';
+    this.geoJSON = 'assets/Departements.geojson';
     this.dataJSON = 'assets/Corpus-Light.json';
 
     let delegate = this;

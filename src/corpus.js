@@ -160,31 +160,6 @@ export class Corpus {
   }
 
   /**
-   * Returns departemente meta data.
-   * @returns {[]}
-   */
-  getDepartementsData() {
-    let departmentDatasets = [];
-    let allTracks = this.allTracks();
-    allTracks.forEach(function (track) {
-      let departmentNumber = track.departmentNumber;
-      let departmentName = track.departmentName;
-      let dataset = departmentDatasets.find(dataset => dataset.departmentNumber === departmentNumber);
-      if (dataset) {
-        dataset.value += 1;
-      } else {
-        departmentDatasets.push({
-          departmentNumber: departmentNumber,
-          departmentName: departmentName,
-          value: 1
-        });
-      }
-    });
-
-    return departmentDatasets;
-  }
-
-  /**
    * Returns a year to track collection.
    *
    * @returns {{}}
@@ -272,6 +247,98 @@ export class Corpus {
       }
     }
     return yearCollection;
+  };
+
+  /**
+   * Returns a departments to year collection.
+   *
+   * @returns {{}}
+   */
+  getTracksPerDepartment() {
+    return this.createDepartementCollection(track => 1);
+  }
+
+  /**
+   * Returns a year to word collection.
+   *
+   * @returns {{}}
+   */
+  getWordsPerDepartment() {
+    return this.createDepartementCollection((track) => track.components.length);
+  }
+
+  /**
+   * Returns a year to words collection with relative values.
+   *
+   * @returns {{}}
+   */
+  getWordsPerDepartmentRelative() {
+    let wordsPerYear = this.getWordsPerDepartment();
+    return this.calculateRelativeDepartmentValues(wordsPerYear);
+  };
+
+  /**
+   * Returns a year to types collection.
+   *
+   * @returns {{}}
+   */
+  getTypesPerDepartment() {
+    return this.createDepartementCollection((track) => track.types.length);
+  };
+
+  /**
+   * Returns a year to types collection with relative values.
+   *
+   * @returns {{}}
+   */
+  getTypesPerDepartmentRelative() {
+    let typesPerYear = this.getTypesPerDepartment();
+    return this.calculateRelativeDepartmentValues(typesPerYear);
+  };
+
+  /**
+   * Returns a departement to.. collection.
+   *
+   * @param countFunction
+   * @returns {{}}
+   */
+  createDepartementCollection(countFunction) {
+    let departmentDatasets = [];
+    let allTracks = this.allTracks();
+    allTracks.forEach(function (track) {
+      let location = track.departmentNumber;
+      let departmentName = track.departmentName;
+      let dataset = departmentDatasets.find(dataset => dataset.location === location);
+      if (dataset) {
+        dataset.value += countFunction(track);
+      } else {
+        departmentDatasets.push({
+          location: location,
+          locationName: departmentName,
+          value: countFunction(track)
+        });
+      }
+    });
+    return departmentDatasets;
+  };
+
+  /**
+   * Returns the relative version of the given department to.. collection.
+   *
+   * @param listPerYear
+   * @returns {{}}
+   */
+  calculateRelativeDepartmentValues(listPerDepartement) {
+    let tracksPerDepartment = this.getTracksPerDepartment();
+    for (let index = 0; index < listPerDepartement.length; index++) {
+      let item = listPerDepartement[index];
+      let location = item.location;
+      let trackCount = tracksPerDepartment.find(item => item.location === location);
+      let itemCount = listPerDepartement.find(item => item.location === location);
+      item.value = itemCount.value / trackCount.value;
+    }
+
+    return listPerDepartement;
   };
 
   /**

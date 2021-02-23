@@ -1,0 +1,162 @@
+{
+  "label": "Tracks",
+  "stack": "Tracks",
+  "data": [
+    {
+      "label": "1995",
+      "value": 112,
+      "year": "1995",
+      "yearTotal": 112
+    },
+    {
+      "label": "1996",
+      "value": 81,
+      "year": "1996",
+      "yearTotal": 81
+    },
+    {
+      "label": "1997",
+      "value": 101,
+      "year": "1997",
+      "yearTotal": 101
+    },
+    {
+      "label": "1998",
+      "value": 223,
+      "year": "1998",
+      "yearTotal": 223
+    },
+    {
+      "label": "1999",
+      "value": 206,
+      "year": "1999",
+      "yearTotal": 206
+    },
+    {
+      "label": "2000",
+      "value": 171,
+      "year": "2000",
+      "yearTotal": 171
+    },
+    {
+      "label": "2001",
+      "value": 214,
+      "year": "2001",
+      "yearTotal": 214
+    },
+    {
+      "label": "2002",
+      "value": 236,
+      "year": "2002",
+      "yearTotal": 236
+    },
+    {
+      "label": "2003",
+      "value": 226,
+      "year": "2003",
+      "yearTotal": 226
+    },
+    {
+      "label": "2004",
+      "value": 244,
+      "year": "2004",
+      "yearTotal": 244
+    },
+    {
+      "label": "2005",
+      "value": 292,
+      "year": "2005",
+      "yearTotal": 292
+    },
+    {
+      "label": "2006",
+      "value": 484,
+      "year": "2006",
+      "yearTotal": 484
+    },
+    {
+      "label": "2007",
+      "value": 501,
+      "year": "2007",
+      "yearTotal": 501
+    },
+    {
+      "label": "2008",
+      "value": 421,
+      "year": "2008",
+      "yearTotal": 421
+    },
+    {
+      "label": "2009",
+      "value": 396,
+      "year": "2009",
+      "yearTotal": 396
+    },
+    {
+      "label": "2010",
+      "value": 413,
+      "year": "2010",
+      "yearTotal": 413
+    },
+    {
+      "label": "2011",
+      "value": 624,
+      "year": "2011",
+      "yearTotal": 624
+    },
+    {
+      "label": "2012",
+      "value": 949,
+      "year": "2012",
+      "yearTotal": 949
+    },
+    {
+      "label": "2013",
+      "value": 1044,
+      "year": "2013",
+      "yearTotal": 1044
+    },
+    {
+      "label": "2014",
+      "value": 1286,
+      "year": "2014",
+      "yearTotal": 1286
+    },
+    {
+      "label": "2015",
+      "value": 1834,
+      "year": "2015",
+      "yearTotal": 1834
+    },
+    {
+      "label": "2016",
+      "value": 1973,
+      "year": "2016",
+      "yearTotal": 1973
+    },
+    {
+      "label": "2017",
+      "value": 2285,
+      "year": "2017",
+      "yearTotal": 2285
+    },
+    {
+      "label": "2018",
+      "value": 2244,
+      "year": "2018",
+      "yearTotal": 2244
+    },
+    {
+      "label": "2019",
+      "value": 2047,
+      "year": "2019",
+      "yearTotal": 2047
+    },
+    {
+      "label": "2020",
+      "value": 1242,
+      "year": "2020",
+      "yearTotal": 1242
+    }
+  ]
+}
