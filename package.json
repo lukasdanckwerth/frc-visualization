@@ -4,13 +4,14 @@
   "description": "French Rap Corpus Visualization",
   "main": "server.js",
   "scripts": {
+    "build:watch": "rollup -c --watch",
+    "build": "rollup -c",
     "create:corpus:json": "node utils/build-corpus-json.js",
     "create:datasets": "node utils/build-datasets.js",
     "create:datasets:map": "node utils/build-datasets-map.js",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
-    "build:watch": "rollup -c --watch",
-    "build": "rollup -c"
+    "test": "echo \"Tests are coming.\""
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",

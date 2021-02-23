@@ -6,8 +6,6 @@ const json = require('@rollup/plugin-json');
 const resolve = require('@rollup/plugin-node-resolve').default;
 const pkg = require('./package.json');
 
-const inputJS = 'src/delegate.js';
-
 const banner = `/*!
  * frcv.js v${pkg.version} Lukas Danckwerth
  */`;
@@ -16,7 +14,7 @@ module.exports = [
   // UMD builds
   // frcv.js
   {
-    input: inputJS,
+    input: 'src/delegate.js',
     plugins: [
       json(),
       resolve(),
