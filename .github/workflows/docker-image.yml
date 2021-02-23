@@ -7,12 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag frc-visualization:$(date +%s)
+
+      - name: Login to docker hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build :latest
+        uses: actions/checkout@v2
+        run: docker build -t ${GITHUB_REPOSITORY}:$(date +%s) .
+
+      - name: Push to docker hub :latest
+        uses: actions-hub/docker@master
+        with:
+          args: push ${GITHUB_REPOSITORY}:latest
