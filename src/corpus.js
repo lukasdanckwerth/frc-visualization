@@ -165,25 +165,25 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getLyricsPerYear() {
-    return this.createYearCollection(track => 1);
+  getYearsToTrackNumbers() {
+    return this.getYearsToCollection(track => 1);
   }
 
   /**
    * Returns a year to word collection.
    * @returns {{}}
    */
-  getWordsPerYear() {
-    return this.createYearCollection((track) => track.components.length);
+  getYearsToWords() {
+    return this.getYearsToCollection((track) => track.components.length);
   }
 
   /**
    * Returns a year to words collection with relative values.
    * @returns {{}}
    */
-  getWordsPerYearRelative() {
-    let wordsPerYear = this.getWordsPerYear();
-    return this.calculateRelativeValues(wordsPerYear);
+  getYearsToWordsRelative() {
+    let wordsPerYear = this.getYearsToWords();
+    return this.getYearsToCollectionRelative(wordsPerYear);
   };
 
   /**
@@ -191,25 +191,17 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getTypesPerYear() {
-    return this.createYearCollection((track) => track.types.length);
+  getYearsToTypes() {
+    return this.getYearsToCollection((track) => track.types.length);
   };
 
   /**
    * Returns a year to types collection with relative values.
    * @returns {{}}
    */
-  getTypesPerYearRelative() {
-    let typesPerYear = this.getTypesPerYear();
-    return this.calculateRelativeValues(typesPerYear);
-  };
-
-  /**
-   * Returns a year to non standard words collection.
-   * @returns {{}}
-   */
-  getTotalNonStandardPerYearCount() {
-    return this.createYearCollection(0);
+  getYearsToTypesRelative() {
+    let typesPerYear = this.getYearsToTypes();
+    return this.getYearsToCollectionRelative(typesPerYear);
   };
 
   /**
@@ -217,7 +209,7 @@ export class Corpus {
    * @param countFunction
    * @returns {{}}
    */
-  createYearCollection(countFunction) {
+  getYearsToCollection(countFunction) {
     let allTracks = this.allTracks();
     let yearCollection = {};
     for (let i = 0; i < allTracks.length; i++) {
@@ -234,11 +226,12 @@ export class Corpus {
 
   /**
    * Returns the relative version of the given year to.. collection.
+   *
    * @param listPerYear
    * @returns {{}}
    */
-  calculateRelativeValues(listPerYear) {
-    let lyricsPerYear = this.getLyricsPerYear();
+  getYearsToCollectionRelative(listPerYear) {
+    let lyricsPerYear = this.getYearsToTrackNumbers();
     let yearCollection = {};
     for (const yearKey in lyricsPerYear) {
       if (lyricsPerYear.hasOwnProperty(yearKey)) {
@@ -255,8 +248,8 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getTracksPerDepartment() {
-    return this.createDepartementCollection(track => 1);
+  getDepartmentsToTracks() {
+    return this.getDepartmentsToCollection(track => 1);
   }
 
   /**
@@ -264,8 +257,8 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getWordsPerDepartment() {
-    return this.createDepartementCollection((track) => track.components.length);
+  getDepartmentsToWords() {
+    return this.getDepartmentsToCollection((track) => track.components.length);
   }
 
   /**
@@ -273,9 +266,9 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getWordsPerDepartmentRelative() {
-    let wordsPerYear = this.getWordsPerDepartment();
-    return this.calculateRelativeDepartmentValues(wordsPerYear);
+  getDepartmentsToWordsRelative() {
+    let wordsPerYear = this.getDepartmentsToWords();
+    return this.getDepartmentsToCollectionRelative(wordsPerYear);
   };
 
   /**
@@ -283,8 +276,8 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getTypesPerDepartment() {
-    return this.createDepartementCollection((track) => track.types.length);
+  getDepartmentsToTypes() {
+    return this.getDepartmentsToCollection((track) => track.types.length);
   };
 
   /**
@@ -292,9 +285,9 @@ export class Corpus {
    *
    * @returns {{}}
    */
-  getTypesPerDepartmentRelative() {
-    let typesPerYear = this.getTypesPerDepartment();
-    return this.calculateRelativeDepartmentValues(typesPerYear);
+  getDepartmentsToTypesRelative() {
+    let typesPerYear = this.getDepartmentsToTypes();
+    return this.getDepartmentsToCollectionRelative(typesPerYear);
   };
 
   /**
@@ -303,7 +296,7 @@ export class Corpus {
    * @param countFunction
    * @returns {{}}
    */
-  createDepartementCollection(countFunction) {
+  getDepartmentsToCollection(countFunction) {
     let departmentDatasets = [];
     let allTracks = this.allTracks();
     allTracks.forEach(function (track) {
@@ -329,8 +322,8 @@ export class Corpus {
    * @param listPerYear
    * @returns {{}}
    */
-  calculateRelativeDepartmentValues(listPerDepartement) {
-    let tracksPerDepartment = this.getTracksPerDepartment();
+  getDepartmentsToCollectionRelative(listPerDepartement) {
+    let tracksPerDepartment = this.getDepartmentsToTracks();
     for (let index = 0; index < listPerDepartement.length; index++) {
       let item = listPerDepartement[index];
       let location = item.location;
@@ -342,70 +335,56 @@ export class Corpus {
     return listPerDepartement;
   };
 
-  /**
-   *
-   * @param tracks
-   * @param startYear
-   * @param lastYear
-   * @returns {[]}
-   */
-  getChartDataForTracks(tracks, startYear = 1995, lastYear = 2020) {
-    let dict = {};
-    let labels = [];
-    let values = [];
-    let valuesTotal = [];
-    let yearsTotal = [];
-
-    for (let year = startYear; year <= lastYear; year++) {
-      dict[year] = 0;
-      labels.push(year);
+  createYearDatasetForTracks(tracks) {
+    let yearToAmount = {};
+    let includedYears = [];
+    if (!this.lyricsPerYear) {
+      this.lyricsPerYear = this.getYearsToTrackNumbers();
     }
 
     for (let i = 0; i < tracks.length; i++) {
+
       const track = tracks[i];
       const year = track.releaseYear;
-      if (dict[year]) {
-        dict[year] = dict[year] + 1;
+
+      if (yearToAmount[year]) {
+        yearToAmount[year] = yearToAmount[year] + 1;
       } else {
-        dict[year] = 1;
+        includedYears.push(year);
+        yearToAmount[year] = 1;
       }
     }
-    labels = labels.sort();
-    if (!this.lyricsPerYear) {
-      this.lyricsPerYear = this.getLyricsPerYear();
-    }
+
+    includedYears = includedYears.sort();
+
     let items = [];
-    for (let i = 0; i < labels.length; i++) {
-      const label = labels[i];
-      const value = dict[label] || 0;
-      const yearTotal = this.lyricsPerYear[label];
+    for (let i = 0; i < includedYears.length; i++) {
+      const year = includedYears[i];
+      const yearTotal = this.lyricsPerYear[year];
+      const value = yearToAmount[year] || 0;
       const relativeValue = value / yearTotal;
-      let relativeOrAbsolute = 'relative';
-      if (relativeOrAbsolute === 'relative') {
-        values.push(relativeValue);
-      } else {
-        values.push(value);
-      }
-      valuesTotal.push(value);
-      yearsTotal.push(yearTotal);
+
       items.push({
-        // label: label,
-        year: label,
+        date: year,
+        dateTotal: yearTotal || 0,
         value: value,
-        yearTotal: yearTotal || 0,
+        relativeDateValue: relativeValue
       });
     }
     return items;
-  };
+  }
 
   /**
    *
    * @param tracks
    * @returns {[]}
    */
-  getMapDataForTracks(tracks) {
-    let dict = {};
+  createDepartmentDatasetForTracks(tracks) {
+    let locationToAmount = {};
     let departmentNumbers = [];
+    let tracksPerDepartement = this.getDepartmentsToTracks();
+    console.log("tracksPerDepartement");
+    console.log(tracksPerDepartement);
 
     for (let i = 0; i < tracks.length; i++) {
       const track = tracks[i];
@@ -415,10 +394,10 @@ export class Corpus {
         departmentNumbers.push(departmentNumber);
       }
 
-      if (dict[departmentNumber]) {
-        dict[departmentNumber] = dict[departmentNumber] + 1;
+      if (locationToAmount[departmentNumber]) {
+        locationToAmount[departmentNumber] = locationToAmount[departmentNumber] + 1;
       } else {
-        dict[departmentNumber] = 1;
+        locationToAmount[departmentNumber] = 1;
       }
     }
 
@@ -427,11 +406,44 @@ export class Corpus {
     let items = [];
     for (let i = 0; i < departmentNumbers.length; i++) {
       const departmentNumber = departmentNumbers[i];
-      const value = dict[departmentNumber] || 0;
+      const value = locationToAmount[departmentNumber] || 0;
       items.push({
-        dlabel: departmentNumber,
+        location: departmentNumber,
         value: value,
+        relativeLocationValue: value
       });
+    }
+
+    return items;
+  }
+
+  createYearAndDepartmentsDatasetForTracks(tracks) {
+    let items = [];
+    let yearsToTrackNumbers = this.getYearsToTrackNumbers();
+    let tracksPerDepartement = this.getDepartmentsToTracks();
+
+    for (let index = 0; index < tracks.length; index++) {
+      let track = tracks[index];
+      let year = track.releaseYear;
+      let department = track.departmentNumber;
+
+      let entry = items.find(function (item) {
+        return item.location === department
+          && item.date === year;
+      });
+
+      if (entry) {
+        entry.value += 1;
+      } else {
+        let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
+        items.push({
+          location: department,
+          date: year,
+          value: 1,
+          dateTotal: yearsToTrackNumbers[year],
+          locationTotal: departmentEntry.value,
+        })
+      }
     }
 
     return items;

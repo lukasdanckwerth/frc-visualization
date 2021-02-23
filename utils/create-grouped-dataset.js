@@ -3,9 +3,11 @@ const frcv = require('../public/js/frcv');
 const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv.Corpus(corpusJSON);
 
-let tracksMerde = corpus.tracksForWord('merde');
-let tracksFuck = corpus.tracksForWord('fuck');
+let tracksLoger = corpus.tracksForWord('loger');
+let tracksLargent = corpus.tracksForWord('l\'argent');
 
-console.log(tracksMerde.length);
-console.log(tracksFuck.length);
+let datasetLoger = corpus.createYearAndDepartmentsDatasetForTracks(tracksLoger);
+let datasetLargent = corpus.createYearAndDepartmentsDatasetForTracks(tracksLargent);
 
+json.writeAsset(datasetLoger, 'dataset-loger.json')
+json.writeAsset(datasetLargent, 'dataset-largent.json')
