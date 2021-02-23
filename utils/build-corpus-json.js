@@ -1,7 +1,7 @@
 const json = require('./file-access');
 const frcv = require('../public/js/frcv');
 
-const sourceFileURL = 'source-data/Corpus.json'
+const sourceFileURL = 'data/Corpus.json'
 const targetDirectory = './public/assets'
 
 console.log("read corpus");
