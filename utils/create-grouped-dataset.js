@@ -3,11 +3,23 @@ const frcv = require('../public/js/frcv');
 const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv.Corpus(corpusJSON);
 
-let tracksLoger = corpus.tracksForWord('loger');
-let tracksLargent = corpus.tracksForWord('l\'argent');
+let tracksMerde = corpus.tracksForWord('merde');
+let tracksFuck = corpus.tracksForWord('fuck');
 
-let datasetLoger = corpus.createYearAndDepartmentsDatasetForTracks(tracksLoger);
-let datasetLargent = corpus.createYearAndDepartmentsDatasetForTracks(tracksLargent);
+let dataMerde = corpus.createYearAndDepartmentsDataForTracks(tracksMerde);
+let dataFuck = corpus.createYearAndDepartmentsDataForTracks(tracksFuck);
 
-json.writeAsset(datasetLoger, 'dataset-loger.json')
-json.writeAsset(datasetLargent, 'dataset-largent.json')
+let datasetMerde = {
+  label: 'merde',
+  stack: 'merde',
+  data: dataMerde
+}
+
+let datasetFuck = {
+  label: 'fuck',
+  stack: 'fuck',
+  data: dataFuck
+}
+
+json.writeAsset(datasetMerde, 'dataset-merde.json')
+json.writeAsset(datasetFuck, 'grouped-fuck.json')

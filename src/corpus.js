@@ -335,7 +335,12 @@ export class Corpus {
     return listPerDepartement;
   };
 
-  createYearDatasetForTracks(tracks) {
+  /**
+   *
+   * @param tracks
+   * @returns {[]}
+   */
+  createYearDataForTracks(tracks) {
     let yearToAmount = {};
     let includedYears = [];
     if (!this.lyricsPerYear) {
@@ -379,7 +384,7 @@ export class Corpus {
    * @param tracks
    * @returns {[]}
    */
-  createDepartmentDatasetForTracks(tracks) {
+  createDepartmentDataForTracks(tracks) {
     let locationToAmount = {};
     let departmentNumbers = [];
     let tracksPerDepartement = this.getDepartmentsToTracks();
@@ -417,7 +422,12 @@ export class Corpus {
     return items;
   }
 
-  createYearAndDepartmentsDatasetForTracks(tracks) {
+  /**
+   *
+   * @param tracks
+   * @returns {[]}
+   */
+  createYearAndDepartmentsDataForTracks(tracks) {
     let items = [];
     let yearsToTrackNumbers = this.getYearsToTrackNumbers();
     let tracksPerDepartement = this.getDepartmentsToTracks();
