@@ -1,4 +1,5 @@
 import {Artist} from "./artist";
+import {Track} from "./track";
 
 /**
  *

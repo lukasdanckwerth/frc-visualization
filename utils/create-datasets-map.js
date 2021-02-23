@@ -1,14 +1,6 @@
 const json = require('./file-access');
 const frcv = require('../public/js/frcv');
-const {yearCollectionToDataset} = require("./dataset-util");
-
-const sourceFileURL = 'data/Corpus.json'
-const targetDirectory = './public/assets'
-
-console.log("read corpus");
-const corpusJSON = json.read(sourceFileURL);
-
-console.log("parse corpus");
+const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv.Corpus(corpusJSON);
 
 function createDataset(data, name) {
@@ -21,20 +13,20 @@ function createDataset(data, name) {
 
 let tracksPerDepartement = corpus.getTracksPerDepartment();
 let datasetTracks = createDataset(tracksPerDepartement, 'Tracks');
-json.write(datasetTracks, targetDirectory + '/tracks-per-departement.json');
+json.writeAsset(datasetTracks, '/tracks-per-departement.json');
 
 let wordsPerDepartement = corpus.getWordsPerDepartment();
 let datasetWords = createDataset(wordsPerDepartement, 'Words');
-json.write(datasetWords, targetDirectory + '/words-per-departement.json');
+json.writeAsset(datasetWords, '/words-per-departement.json');
 
 let wordsPerDepartementRelative = corpus.getWordsPerDepartmentRelative();
 let datasetWordsRelative = createDataset(wordsPerDepartementRelative, 'Words (Relative)');
-json.write(datasetWordsRelative, targetDirectory + '/words-per-departement-relative.json');
+json.writeAsset(datasetWordsRelative, '/words-per-departement-relative.json');
 
 let typesDepartment = corpus.getTypesPerDepartment();
 let datasetTypes = createDataset(typesDepartment, 'Types');
-json.write(datasetTypes, targetDirectory + '/types-per-departement.json');
+json.writeAsset(datasetTypes, '/types-per-departement.json');
 
 let typesDepartmentRelative = corpus.getTypesPerDepartmentRelative();
 let datasetTypesRelative = createDataset(typesDepartmentRelative, 'Types (Relative)');
-json.write(datasetTypesRelative, targetDirectory + '/types-per-departement-relative.json');
+json.writeAsset(datasetTypesRelative, '/types-per-departement-relative.json');

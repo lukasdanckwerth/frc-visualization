@@ -7,7 +7,7 @@ typeof define === 'function' && define.amd ? define(['exports'], factory) :
 (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.frcv = {}));
 }(this, (function (exports) { 'use strict';
 
-class Track$1 {
+class Track {
     constructor(trackJSON) {
         this.title = trackJSON.title;
         this.fullTitle = trackJSON.fullTitle;
@@ -45,7 +45,7 @@ class Album {
         this.tracks = [];
         for (let i = 0; i < albumJSON.tracks.length; i++) {
             const trackJSON = albumJSON.tracks[i];
-            const track = new Track$1(trackJSON);
+            const track = new Track(trackJSON);
             track.departmentNumber = albumJSON.departmentNo;
             track.departmentName = albumJSON.departmentName;
             track.artistID = albumJSON.geniusId;
@@ -83,7 +83,7 @@ class Artist {
     this.tracks = [];
     for (let i = 0; i < artistJSON.tracks.length; i++) {
       const trackJSON = artistJSON.tracks[i];
-      const track = new Track$1(trackJSON);
+      const track = new Track(trackJSON);
       track.departmentNumber = this.departmentNo;
       track.departmentName = this.departmentName;
       track.artistID = artistJSON.geniusId;
@@ -386,7 +386,7 @@ class FRCDelegate {
 exports.Corpus = Corpus;
 exports.Artist = Artist;
 exports.Album = Album;
-exports.Track = Track$1;
+exports.Track = Track;
 
 exports.FRCDelegate = FRCDelegate;
 

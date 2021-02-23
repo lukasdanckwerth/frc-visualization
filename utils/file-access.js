@@ -1,6 +1,16 @@
 const fs = require('fs');
 
 /**
+ * Writes the given json to the assets directory.
+ *
+ * @param json The json object to write.
+ * @param name The name of the file.
+ */
+function writeAsset(json, name) {
+  writeJSON(json, './public/assets/' + name);
+}
+
+/**
  * Writes the given raw content to the given URL.
  *
  * @param json The json object.
@@ -28,5 +38,6 @@ function readJSON(url) {
   return JSON.parse(fs.readFileSync(url) || "");
 }
 
+exports.writeAsset = writeAsset;
 exports.write = writeJSON;
 exports.read = readJSON;
