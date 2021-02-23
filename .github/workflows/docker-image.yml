@@ -25,10 +25,11 @@ jobs:
         with:
           args: push ${GITHUB_REPOSITORY}:latest
 
-      - name: Heroku Docker Container Deploy
-        uses: lucassarcanjo/heroku-deploy@2.1.17
-        with:
-          email: ${{ secrets.HEROKU_MAIL }}
-          api_key: ${{ secrets.HEROKU_API_KEY }}
-          app_name: ${{ secrets.HEROKU_APP_NAME }}
-          dockerfile_path: .
+      - name: Add remote origin
+        run: |
+          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+
+      - name: Deploy to Heroku
+        run: |
+          git push heroku HEAD:master -f
+
