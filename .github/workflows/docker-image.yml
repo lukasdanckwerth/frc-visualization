@@ -18,7 +18,6 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build :latest
-        uses: actions/checkout@v2
         run: docker build -t ${GITHUB_REPOSITORY}:$(date +%s) .
 
       - name: Push to docker hub :latest
