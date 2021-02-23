@@ -1,8 +1,5 @@
 /*!
- * frcv.js v1.0.8
- * undefined
- * (c) 2021 frcv.js Lukas Danckwerth
- * Released under the MIT License
+ * frcv.js v1.0.8 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :

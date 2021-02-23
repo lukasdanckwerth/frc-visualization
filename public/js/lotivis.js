@@ -1,1 +1,0 @@
-../../submodule/lotivis/dist/js/lotivis.js

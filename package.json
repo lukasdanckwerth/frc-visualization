@@ -4,14 +4,13 @@
   "description": "French Rap Corpus Visualization",
   "main": "server.js",
   "scripts": {
-    "build-corpus-json": "node utils/build-corpus-json.js",
-    "build-datasets": "node utils/build-datasets.js",
-    "build-datasets-map": "node utils/build-datasets-map.js",
-    "start": "node server.js",
-    "start-production": "NODE_ENV=production node server.js production",
-    "watch": "rollup -c --watch",
-    "build": "rollup -c",
-    "help": "rollup --help"
+    "create:corpus:json": "node utils/build-corpus-json.js",
+    "create:datasets": "node utils/build-datasets.js",
+    "create:datasets:map": "node utils/build-datasets-map.js",
+    "serve": "node server.js",
+    "serve:production": "NODE_ENV=production node server.js production",
+    "build:watch": "rollup -c --watch",
+    "build": "rollup -c"
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",
@@ -25,9 +24,7 @@
     "rollup-stream": "^1.24.1"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "winston": "^3.3.3"
+    "express": "^4.17.1"
   },
   "engines": {
     "node": "11.10.0",
