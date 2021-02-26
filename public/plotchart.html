@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <title>FRCV - Plot Data</title>
+  <title>FRCV - Artists Active Range</title>
 </head>
 <body>
 
@@ -22,11 +22,11 @@
       </a>
     </div>
     <div class="col-8 text-center">
-      <h1>Plot Data</h1>
+      <h1>Artists Active Range</h1>
     </div>
     <div class="col-12">
       <div id="plot-chart-card">
-
+        <!-- Plot Chart Here -->
       </div>
     </div>
   </div>
@@ -36,6 +36,25 @@
 <script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lotivis@latest/dist/lotivis.js"></script>
 <script src="js/frcv.js"></script>
+
+<script>
+
+  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
+  let chart = plotChartCard.chart;
+
+  d3
+    .json('/assets/artist-active-range.json')
+    .then(function (json) {
+
+      // let string = JSON.stringify(json, null, 4);
+      // let element = document.getElementById('data');
+      // element.innerHTML = string;
+
+      chart.datasets = json;
+      chart.update();
+    });
+
+</script>
 
 </body>
 </html>

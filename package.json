@@ -10,6 +10,7 @@
     "create:datasets": "node utils/create-datasets.js",
     "create:datasets:map": "node utils/create-datasets-map.js",
     "create:grouped:dataset": "node utils/create-grouped-dataset.js",
+    "create:artists:active:range": "node utils/create-artists-active-range.js",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
     "test": "echo \"Tests are coming.\""
