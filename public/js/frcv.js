@@ -1,5 +1,5 @@
 /*!
- * frcv.js v1.0.9 Lukas Danckwerth
+ * frcv.js v1.0.10 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
