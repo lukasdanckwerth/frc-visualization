@@ -7,7 +7,7 @@
     "build:watch": "rollup -c --watch",
     "build": "rollup -c",
     "create:corpus:json": "node utils/create-corpus-json.js",
-    "create:datasets": "node utils/create-datasets.js",
+    "create:datasets": "node utils/create-datasets-years.js",
     "create:datasets:map": "node utils/create-datasets-map.js",
     "create:grouped:dataset": "node utils/create-grouped-dataset.js",
     "create:artists:active:range": "node utils/create-artists-active-range.js",

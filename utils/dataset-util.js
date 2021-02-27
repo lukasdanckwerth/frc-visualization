@@ -13,8 +13,8 @@ function yearCollectionToDataset(yearCollection, name) {
     dataset.data.push({
       label: year,
       value: value,
-      year: year,
-      yearTotal: value
+      date: year,
+      dateTotal: value
     })
   }
 

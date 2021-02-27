@@ -5,158 +5,158 @@
     {
       "label": "1995",
       "value": 57104,
-      "year": "1995",
-      "yearTotal": 57104
+      "date": "1995",
+      "dateTotal": 57104
     },
     {
       "label": "1996",
       "value": 43993,
-      "year": "1996",
-      "yearTotal": 43993
+      "date": "1996",
+      "dateTotal": 43993
     },
     {
       "label": "1997",
       "value": 62028,
-      "year": "1997",
-      "yearTotal": 62028
+      "date": "1997",
+      "dateTotal": 62028
     },
     {
       "label": "1998",
       "value": 139370,
-      "year": "1998",
-      "yearTotal": 139370
+      "date": "1998",
+      "dateTotal": 139370
     },
     {
       "label": "1999",
       "value": 125863,
-      "year": "1999",
-      "yearTotal": 125863
+      "date": "1999",
+      "dateTotal": 125863
     },
     {
       "label": "2000",
       "value": 99547,
-      "year": "2000",
-      "yearTotal": 99547
+      "date": "2000",
+      "dateTotal": 99547
     },
     {
       "label": "2001",
       "value": 116295,
-      "year": "2001",
-      "yearTotal": 116295
+      "date": "2001",
+      "dateTotal": 116295
     },
     {
       "label": "2002",
       "value": 133785,
-      "year": "2002",
-      "yearTotal": 133785
+      "date": "2002",
+      "dateTotal": 133785
     },
     {
       "label": "2003",
       "value": 130045,
-      "year": "2003",
-      "yearTotal": 130045
+      "date": "2003",
+      "dateTotal": 130045
     },
     {
       "label": "2004",
       "value": 128491,
-      "year": "2004",
-      "yearTotal": 128491
+      "date": "2004",
+      "dateTotal": 128491
     },
     {
       "label": "2005",
       "value": 170824,
-      "year": "2005",
-      "yearTotal": 170824
+      "date": "2005",
+      "dateTotal": 170824
     },
     {
       "label": "2006",
       "value": 273308,
-      "year": "2006",
-      "yearTotal": 273308
+      "date": "2006",
+      "dateTotal": 273308
     },
     {
       "label": "2007",
       "value": 269496,
-      "year": "2007",
-      "yearTotal": 269496
+      "date": "2007",
+      "dateTotal": 269496
     },
     {
       "label": "2008",
       "value": 226728,
-      "year": "2008",
-      "yearTotal": 226728
+      "date": "2008",
+      "dateTotal": 226728
     },
     {
       "label": "2009",
       "value": 232347,
-      "year": "2009",
-      "yearTotal": 232347
+      "date": "2009",
+      "dateTotal": 232347
     },
     {
       "label": "2010",
       "value": 224851,
-      "year": "2010",
-      "yearTotal": 224851
+      "date": "2010",
+      "dateTotal": 224851
     },
     {
       "label": "2011",
       "value": 343538,
-      "year": "2011",
-      "yearTotal": 343538
+      "date": "2011",
+      "dateTotal": 343538
     },
     {
       "label": "2012",
       "value": 531179,
-      "year": "2012",
-      "yearTotal": 531179
+      "date": "2012",
+      "dateTotal": 531179
     },
     {
       "label": "2013",
       "value": 549849,
-      "year": "2013",
-      "yearTotal": 549849
+      "date": "2013",
+      "dateTotal": 549849
     },
     {
       "label": "2014",
       "value": 681612,
-      "year": "2014",
-      "yearTotal": 681612
+      "date": "2014",
+      "dateTotal": 681612
     },
     {
       "label": "2015",
       "value": 882487,
-      "year": "2015",
-      "yearTotal": 882487
+      "date": "2015",
+      "dateTotal": 882487
     },
     {
       "label": "2016",
       "value": 952063,
-      "year": "2016",
-      "yearTotal": 952063
+      "date": "2016",
+      "dateTotal": 952063
     },
     {
       "label": "2017",
       "value": 1055137,
-      "year": "2017",
-      "yearTotal": 1055137
+      "date": "2017",
+      "dateTotal": 1055137
     },
     {
       "label": "2018",
       "value": 1006070,
-      "year": "2018",
-      "yearTotal": 1006070
+      "date": "2018",
+      "dateTotal": 1006070
     },
     {
       "label": "2019",
       "value": 891361,
-      "year": "2019",
-      "yearTotal": 891361
+      "date": "2019",
+      "dateTotal": 891361
     },
     {
       "label": "2020",
       "value": 540118,
-      "year": "2020",
-      "yearTotal": 540118
+      "date": "2020",
+      "dateTotal": 540118
     }
   ]
 }

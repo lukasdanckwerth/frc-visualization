@@ -11,22 +11,22 @@ function createDataset(data, name) {
   }
 }
 
-let tracksPerDepartement = corpus.getTracksPerDepartment();
+let tracksPerDepartement = corpus.getDepartmentsToTracks();
 let datasetTracks = createDataset(tracksPerDepartement, 'Tracks');
-json.writeAsset(datasetTracks, '/tracks-per-departement.json');
+json.writeAsset(datasetTracks, 'tracks-per-departement.json');
 
-let wordsPerDepartement = corpus.getWordsPerDepartment();
+let wordsPerDepartement = corpus.getDepartmentsToWords();
 let datasetWords = createDataset(wordsPerDepartement, 'Words');
-json.writeAsset(datasetWords, '/words-per-departement.json');
+json.writeAsset(datasetWords, 'words-per-departement.json');
 
-let wordsPerDepartementRelative = corpus.getWordsPerDepartmentRelative();
+let wordsPerDepartementRelative = corpus.getDepartmentsToWordsRelative();
 let datasetWordsRelative = createDataset(wordsPerDepartementRelative, 'Words (Relative)');
-json.writeAsset(datasetWordsRelative, '/words-per-departement-relative.json');
+json.writeAsset(datasetWordsRelative, 'words-per-departement-relative.json');
 
-let typesDepartment = corpus.getTypesPerDepartment();
+let typesDepartment = corpus.getDepartmentsToTypes();
 let datasetTypes = createDataset(typesDepartment, 'Types');
-json.writeAsset(datasetTypes, '/types-per-departement.json');
+json.writeAsset(datasetTypes, 'types-per-departement.json');
 
-let typesDepartmentRelative = corpus.getTypesPerDepartmentRelative();
+let typesDepartmentRelative = corpus.getDepartmentsToTypesRelative();
 let datasetTypesRelative = createDataset(typesDepartmentRelative, 'Types (Relative)');
-json.writeAsset(datasetTypesRelative, '/types-per-departement-relative.json');
+json.writeAsset(datasetTypesRelative, 'types-per-departement-relative.json');
