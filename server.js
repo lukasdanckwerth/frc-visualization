@@ -18,6 +18,8 @@ if (environment === 'development') {
   app.use('/corpus', express.static(__dirname + '/public/assets/Corpus.json'));
 }
 
+app.use('/innovation-list', express.static(__dirname + '/public/assets/InnovationList.txt'));
+
 app.use('/version', function (req, res) {
   res.json({version, environment});
 });

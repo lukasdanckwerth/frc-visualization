@@ -233,12 +233,7 @@
     let mapData = corpus.createDepartmentDataForTracks(tracks);
     mapData.forEach((item) => item.datasetName = searchText);
 
-    let chartData = corpus.createYearAndDepartmentsDataForTracks(
-      tracks,
-      firstYear,
-      lastYear,
-      sensitivity
-    );
+    let chartData = corpus.createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity);
 
     return {
       mapData: mapData,

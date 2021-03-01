@@ -9,6 +9,7 @@
     "create:corpus:json": "node utils/create-corpus-json.js",
     "create:datasets": "node utils/create-datasets-years.js",
     "create:datasets:map": "node utils/create-datasets-map.js",
+    "create:dataset:word": "node utils/create-dataset-for-word.js",
     "create:grouped:dataset": "node utils/create-grouped-dataset.js",
     "create:artists:active:range": "node utils/create-artists-active-range.js",
     "serve": "node server.js",

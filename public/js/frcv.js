@@ -321,9 +321,7 @@ class Corpus {
   createDepartmentDataForTracks(tracks) {
     let locationToAmount = {};
     let departmentNumbers = [];
-    let tracksPerDepartement = this.getDepartmentsToTracks();
-    console.log("tracksPerDepartement");
-    console.log(tracksPerDepartement);
+    this.getDepartmentsToTracks();
     for (let i = 0; i < tracks.length; i++) {
       const track = tracks[i];
       const departmentNumber = track.departmentNumber;
@@ -349,7 +347,7 @@ class Corpus {
     }
     return items;
   }
-  createYearAndDepartmentsDataForTracks(tracks) {
+  createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity) {
     let items = [];
     let yearsToTrackNumbers = this.getYearsToTrackNumbers();
     let tracksPerDepartement = this.getDepartmentsToTracks();
@@ -375,6 +373,46 @@ class Corpus {
       }
     }
     return items;
+  }
+  search(searchQuery) {
+    let groups = searchQuery.split(';').map(value => value.trim());
+    groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
+    groups = groups.map(group => group.trim());
+    groups.join(';');
+    let datasets = [];
+    for (let i = 0; i < groups.length; i++) {
+      let group = groups[i];
+      let words = group.split(',').map(value => value.trim());
+      let stack = words.join(", ");
+      for (let j = 0; j < words.length; j++) {
+        let searchWord = words[j];
+        let dataset = this.datasetFor(searchWord, stack);
+        console.log(stack);
+        datasets.push(dataset);
+      }
+    }
+    return datasets;
+  }
+  datasetFor(searchText, stack) {
+    let sensitivity = 'case-sensitive';
+    let firstYear = 1995;
+    let lastYear = 2020;
+    let tracks = this.tracksForWord(searchText, sensitivity);
+    tracks = tracks.filter(function (track) {
+      return track.releaseYear >= firstYear
+        && track.releaseYear <= lastYear;
+    });
+    let chartData = this.createYearAndDepartmentsDataForTracks(
+      tracks,
+      firstYear,
+      lastYear,
+      sensitivity
+    );
+    return {
+      label: searchText,
+      stack: stack || searchText,
+      data: chartData
+    };
   }
 }
 
