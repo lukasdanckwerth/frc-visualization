@@ -249,7 +249,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToTracks() {
-    return this.getDepartmentsToCollection(track => 1);
+    return this.getDepartmentsToCollection(() => 1);
   }
 
   /**
@@ -429,6 +429,8 @@ export class Corpus {
     let items = [];
     let yearsToTrackNumbers = this.getYearsToTrackNumbers();
     let tracksPerDepartement = this.getDepartmentsToTracks();
+    let theFirstYear = firstYear || this.getEarliestYear();
+    let theLastYear = lastYear || this.getLatestYear();
 
     for (let index = 0; index < tracks.length; index++) {
       let track = tracks[index];
@@ -450,6 +452,15 @@ export class Corpus {
           value: 1,
           dateTotal: yearsToTrackNumbers[year],
           locationTotal: departmentEntry.value,
+        });
+      }
+
+      for (let year = theFirstYear; year <= theLastYear; year++) {
+        if (items.find(item => item.date === theLastYear)) continue;
+        items.push({
+          date: year,
+          value: 0,
+          dateTotal: yearsToTrackNumbers[year]
         });
       }
     }

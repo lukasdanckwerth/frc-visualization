@@ -89,13 +89,11 @@
     <div class="col-6">
       <div id="time-chart-card">
       </div>
-    </div>
-    <div class="col-6">
-      <div id="map-chart-card">
+      <div id="plot-chart-card">
       </div>
     </div>
     <div class="col-6">
-      <div id="plot-chart-card">
+      <div id="map-chart-card">
       </div>
     </div>
     <div class="col-6">
@@ -110,7 +108,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.28/dist/lotivis.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.29/dist/lotivis.js"></script>
 <script src="js/frcv.js"></script>
 
 <script>
@@ -150,97 +148,15 @@
 
     console.log('corpus', corpus);
 
-    searchFor(searchText);
-  }
+    let datasets = corpus.search(searchText);
+    let controller = new lotivis.FilterableDatasetController(datasets);
+    console.log('datasets', datasets);
 
-  function searchFor(searchQuery) {
-
-    // clean search query
-    let groups = searchQuery.split(';').map(value => value.trim());
-    groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
-    groups = groups.map(group => group.trim());
-    let searchTextFormatted = groups.join(';');
-
-    let localDatasets = [];
-    let mapDatasets = [];
-    let trackDatasets = [];
-
-    for (let i = 0; i < groups.length; i++) {
-      let group = groups[i];
-      let words = group.split(',').map(value => value.trim());
-      let stack = words.join(", ");
-
-      for (let j = 0; j < words.length; j++) {
-
-        let searchWord = words[j];
-        let datasetObject = this.datasetFor(searchWord);
-        let data = datasetObject.chartData;
-        let mapData = datasetObject.mapData;
-        let tracks = datasetObject.tracks;
-
-        let newDataset = {
-          label: searchWord,
-          stack: stack,
-          data: data
-        };
-
-        // if (this.searchCard.valueType === 'relative') {
-        //   data.forEach(item => item.value = (item.value / item.yearTotal));
-        // }
-
-        let mapDataset = {
-          label: searchWord,
-          stack: stack,
-          data: mapData
-        };
-
-        localDatasets.push(newDataset);
-
-        mapDatasets.push(mapDataset);
-
-        trackDatasets.push({
-          label: searchWord,
-          stack: stack,
-          data: tracks
-        });
-      }
-    }
-
-    timeChartCard.chart.datasets = localDatasets;
+    timeChartCard.chart.setDatasetController(controller);
     timeChartCard.chart.update();
+    mapChartCard.chart.setDatasetController(controller);
+    plotChartCard.chart.setDatasetController(controller);
 
-    mapChartCard.chart.datasets = mapDatasets;
-    mapChartCard.chart.update();
-
-    // this.wordAboutCard.datasets = trackDatasets;
-    // this.wordAboutCard.update();
-
-    const parameters = lotivis.URLParameters.getInstance();
-    parameters.set(URLParameters.query, searchTextFormatted);
-  }
-
-  function datasetFor(searchText) {
-    let sensitivity = 'case-sensitive'; // this.searchCard.sensitivity;
-    let firstYear = 1995; // this.searchCard.firstYear;
-    let lastYear = 2020; // this.searchCard.lastYear;
-    let tracks = corpus.tracksForWord(searchText, sensitivity);
-
-    tracks = tracks.filter(function (track) {
-      return track.releaseYear >= firstYear
-        && track.releaseYear <= lastYear;
-    });
-
-    let mapData = corpus.createDepartmentDataForTracks(tracks);
-    mapData.forEach((item) => item.datasetName = searchText);
-
-    let chartData = corpus.createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity);
-
-    return {
-      mapData: mapData,
-      chartData: chartData,
-      searchText: searchText,
-      tracks: tracks
-    };
   }
 
 </script>
