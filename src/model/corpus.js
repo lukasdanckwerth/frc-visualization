@@ -420,54 +420,6 @@ export class Corpus {
     return items;
   }
 
-  /**
-   *
-   * @param tracks
-   * @returns {[]}
-   */
-  createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity) {
-    let items = [];
-    let yearsToTrackNumbers = this.getYearsToTrackNumbers();
-    let tracksPerDepartement = this.getDepartmentsToTracks();
-    let theFirstYear = firstYear || this.getEarliestYear();
-    let theLastYear = lastYear || this.getLatestYear();
-
-    for (let index = 0; index < tracks.length; index++) {
-      let track = tracks[index];
-      let year = track.releaseYear;
-      let department = track.departmentNumber;
-
-      let entry = items.find(function (item) {
-        return item.location === department
-          && item.date === year;
-      });
-
-      if (entry) {
-        entry.value += 1;
-      } else {
-        let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
-        items.push({
-          location: department,
-          date: year,
-          value: 1,
-          dateTotal: yearsToTrackNumbers[year],
-          locationTotal: departmentEntry.value,
-        });
-      }
-
-      for (let year = theFirstYear; year <= theLastYear; year++) {
-        if (items.find(item => item.date === theLastYear)) continue;
-        items.push({
-          date: year,
-          value: 0,
-          dateTotal: yearsToTrackNumbers[year]
-        });
-      }
-    }
-
-    return items;
-  }
-
   search(searchQuery) {
 
     // clean search query
@@ -522,5 +474,53 @@ export class Corpus {
       stack: stack || searchText,
       data: chartData
     };
+  }
+
+  /**
+   *
+   * @param tracks
+   * @returns {[]}
+   */
+  createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity) {
+    let items = [];
+    let yearsToTrackNumbers = this.getYearsToTrackNumbers();
+    let tracksPerDepartement = this.getDepartmentsToTracks();
+    let theFirstYear = firstYear || this.getEarliestYear();
+    let theLastYear = lastYear || this.getLatestYear();
+
+    for (let index = 0; index < tracks.length; index++) {
+      let track = tracks[index];
+      let year = track.releaseYear;
+      let department = track.departmentNumber;
+
+      let entry = items.find(function (item) {
+        return item.location === department
+          && item.date === year;
+      });
+
+      if (entry) {
+        entry.value += 1;
+      } else {
+        let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
+        items.push({
+          location: department,
+          date: year,
+          value: 1,
+          dateTotal: yearsToTrackNumbers[year],
+          locationTotal: departmentEntry.value,
+        });
+      }
+
+      for (let year = theFirstYear; year <= theLastYear; year++) {
+        if (items.find(item => item.date === theLastYear)) continue;
+        items.push({
+          date: year,
+          value: 0,
+          dateTotal: yearsToTrackNumbers[year]
+        });
+      }
+    }
+
+    return items;
   }
 }

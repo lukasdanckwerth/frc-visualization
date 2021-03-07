@@ -72,7 +72,7 @@
               </form>
             </div>
             <div class="col-2">
-              <button class="back button-down">
+              <button class="back button-down" onclick="presentInnovationList()">
                 Innovation List
               </button>
             </div>
@@ -88,39 +88,41 @@
 
     <div class="col-6">
       <div id="time-chart-card">
+        <!-- Time Chart Here -->
       </div>
       <div id="plot-chart-card">
+        <!-- Plot Chart Here -->
       </div>
     </div>
     <div class="col-6">
       <div id="map-chart-card">
+        <!-- Map Chart Here -->
       </div>
     </div>
     <div class="col-6">
       <div id="about-card">
+        <!-- About Chart Here -->
       </div>
     </div>
     <div class="col-12 text-center">
-      <div id="footer">Loading...</div>
+      <div id="loading">Loading...</div>
     </div>
-  </div><!-- row -->
-</div><!-- container -->
+  </div><!-- Row -->
+</div><!-- Container -->
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@nidi/html2canvas@1.0.0-rc.13/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.33/dist/lotivis.js"></script>
 <script src="js/frcv.js"></script>
-
 <script>
 
   let timeChartCard = new lotivis.TimeChartCard('time-chart-card');
   let mapChartCard = new lotivis.MapChartCard('map-chart-card');
-  mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
   let aboutCard = new lotivis.PlotChartCard('about-card');
-  let loadingView = document.getElementById('footer');
-
+  let loadingView = document.getElementById('loading');
   let corpus = new frcv.Corpus('');
+
+  mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
 
   d3.json('/assets/Departements.geojson')
     .then(function (geoJSON) {
@@ -157,6 +159,10 @@
     mapChartCard.chart.setDatasetController(controller);
     plotChartCard.chart.setDatasetController(controller);
 
+  }
+
+  function presentInnovationList() {
+    console.log('presentInnovationList');
   }
 
 </script>
