@@ -7,7 +7,7 @@ const resolve = require('@rollup/plugin-node-resolve').default;
 const pkg = require('./package.json');
 
 const banner = `/*!
- * frcv.js v${pkg.version} Lukas Danckwerth
+ * frc.js v${pkg.version} Lukas Danckwerth
  */`;
 
 module.exports = [
@@ -24,8 +24,8 @@ module.exports = [
     ],
     output: {
       sourcemap: true,
-      name: 'frcv',
-      file: 'public/js/frcv.js',
+      name: 'frc',
+      file: 'public/js/frc.js',
       banner,
       format: 'umd',
       indent: false,
