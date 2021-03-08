@@ -8,7 +8,7 @@ import {Track} from "./track";
 export class Corpus {
 
   /**
-   * Creates a new instace of Corpus.
+   * Creates a new instance of Corpus.
    *
    * @param parsedCorpus
    */

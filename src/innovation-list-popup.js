@@ -29,7 +29,7 @@ export class InnovationListPopup extends Popup {
     super.willShow();
     this.loadingView = new LoadingView(this.row);
 
-    d3.text('/assets/InnovationList.txt')
+    d3.text('/assets/innovation-list.txt')
       .then(function (data) {
         this.data = data.split('\n');
         this.loadingView.remove();

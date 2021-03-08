@@ -12,13 +12,14 @@ const environment = process.env.NODE_ENV || 'development';
 
 app.use('/', express.static(__dirname + '/public'));
 
+// use a smaller corpus with 100 artists in development mode for faster loading.
 if (environment === 'development') {
   app.use('/corpus', express.static(__dirname + '/public/assets/Corpus-Light.json'));
 } else {
-  app.use('/corpus', express.static(__dirname + '/public/assets/Corpus.json'));
+  app.use('/corpus', express.static(__dirname + '/public/assets/corpus.json'));
 }
 
-app.use('/innovation-list', express.static(__dirname + '/public/assets/InnovationList.txt'));
+app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation-list.txt'));
 
 app.use('/version', function (req, res) {
   res.json({version, environment});

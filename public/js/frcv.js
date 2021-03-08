@@ -1,60 +1,58 @@
 /*!
- * frcv.js v1.0.10 Lukas Danckwerth
+ * frcv.js v1.0.12 Lukas Danckwerth
  */
-(function (global, factory) {
-typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-typeof define === 'function' && define.amd ? define(['exports'], factory) :
-(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.frcv = {}));
-}(this, (function (exports) { 'use strict';
+(function (factory) {
+typeof define === 'function' && define.amd ? define(factory) :
+factory();
+}((function () { 'use strict';
 
 class Track {
-    constructor(trackJSON) {
-        this.title = trackJSON.title;
-        this.fullTitle = trackJSON.fullTitle;
-        this.releaseDate = trackJSON.releaseDate;
-        this.releaseYear = trackJSON.releaseYear;
-        this.departmentNumber = trackJSON.departmentNumber;
-        this.departmentName = trackJSON.departmentName;
-        this.id = trackJSON.id;
-        this.artistID = trackJSON.artistID;
-        this.artist = trackJSON.artist;
-        this.content = trackJSON.content;
-        if (trackJSON.content) {
-            this.components = trackJSON.content
-                .replace(/,/g, ' ')
-                .replace(/\./g, ' ')
-                .replace(/\n/g, ' ')
-                .replace(/\(/g, ' ')
-                .replace(/\)/g, ' ')
-                .replace(/\[/g, ' ')
-                .replace(/]/g, ' ')
-                .split(" ")
-                .filter((word) => word.length > 0);
-        } else if (trackJSON.components) {
-            this.components = trackJSON.components;
-        }
-        this.componentsLowercased = this.components.map(item => item.toLowerCase());
-        let typesSet = new Set(this.components);
-        this.types = Array.from(typesSet);
+  constructor(trackJSON) {
+    this.title = trackJSON.title;
+    this.fullTitle = trackJSON.fullTitle;
+    this.releaseDate = trackJSON.releaseDate;
+    this.releaseYear = trackJSON.releaseYear;
+    this.departmentNumber = trackJSON.departmentNumber;
+    this.departmentName = trackJSON.departmentName;
+    this.id = trackJSON.id;
+    this.artistID = trackJSON.artistID;
+    this.artist = trackJSON.artist;
+    this.content = trackJSON.content;
+    if (trackJSON.content) {
+      this.components = trackJSON.content
+        .replace(/,/g, ' ')
+        .replace(/\./g, ' ')
+        .replace(/\n/g, ' ')
+        .replace(/\(/g, ' ')
+        .replace(/\)/g, ' ')
+        .replace(/\[/g, ' ')
+        .replace(/]/g, ' ')
+        .split(" ")
+        .filter((word) => word.length > 0);
+    } else if (trackJSON.components) {
+      this.components = trackJSON.components;
     }
+    this.componentsLowercased = this.components.map(item => item.toLowerCase());
+    let typesSet = new Set(this.components);
+    this.types = Array.from(typesSet);
+  }
 }
 
 class Album {
-    constructor(albumJSON) {
-        this.name = albumJSON.name;
-        this.tracks = [];
-        for (let i = 0; i < albumJSON.tracks.length; i++) {
-            const trackJSON = albumJSON.tracks[i];
-            const track = new Track(trackJSON);
-            track.departmentNumber = albumJSON.departmentNo;
-            track.departmentName = albumJSON.departmentName;
-            track.artistID = albumJSON.geniusId;
-            track.artist = albumJSON.name;
-            this.tracks.push(track);
-        }
+  constructor(albumJSON) {
+    this.name = albumJSON.name;
+    this.tracks = [];
+    for (let i = 0; i < albumJSON.tracks.length; i++) {
+      const trackJSON = albumJSON.tracks[i];
+      const track = new Track(trackJSON);
+      track.departmentNumber = albumJSON.departmentNo;
+      track.departmentName = albumJSON.departmentName;
+      track.artistID = albumJSON.geniusId;
+      track.artist = albumJSON.name;
+      this.tracks.push(track);
     }
+  }
 }
-exports.Album = Album;
 
 class Artist {
   constructor(artistJSON) {
@@ -113,7 +111,6 @@ class Artist {
     return allWords;
   }
 }
-exports.Artist = Artist;
 
 class Corpus {
   constructor(parsedCorpus) {
@@ -347,43 +344,6 @@ class Corpus {
     }
     return items;
   }
-  createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity) {
-    let items = [];
-    let yearsToTrackNumbers = this.getYearsToTrackNumbers();
-    let tracksPerDepartement = this.getDepartmentsToTracks();
-    let theFirstYear = firstYear || this.getEarliestYear();
-    let theLastYear = lastYear || this.getLatestYear();
-    for (let index = 0; index < tracks.length; index++) {
-      let track = tracks[index];
-      let year = track.releaseYear;
-      let department = track.departmentNumber;
-      let entry = items.find(function (item) {
-        return item.location === department
-          && item.date === year;
-      });
-      if (entry) {
-        entry.value += 1;
-      } else {
-        let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
-        items.push({
-          location: department,
-          date: year,
-          value: 1,
-          dateTotal: yearsToTrackNumbers[year],
-          locationTotal: departmentEntry.value,
-        });
-      }
-      for (let year = theFirstYear; year <= theLastYear; year++) {
-        if (items.find(item => item.date === theLastYear)) continue;
-        items.push({
-          date: year,
-          value: 0,
-          dateTotal: yearsToTrackNumbers[year]
-        });
-      }
-    }
-    return items;
-  }
   search(searchQuery) {
     let groups = searchQuery.split(';').map(value => value.trim());
     groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
@@ -424,48 +384,49 @@ class Corpus {
       data: chartData
     };
   }
-}
-
-class FRCDelegate {
-  constructor() {
-    this.name = 'French Rap Corpus Visualization';
-    this.geoJSON = 'assets/Departements.geojson';
-    this.dataJSON = 'assets/Corpus-Light.json';
-    let delegate = this;
-    this.loadData = function (progressFunction) {
-      return new Promise(function (resolve, reject) {
-        let req = new XMLHttpRequest();
-        req.addEventListener("progress", function (event) {
-          if (event.lengthComputable) {
-            let percentComplete = event.loaded / event.total;
-            progressFunction(percentComplete, null);
-          } else {
-            let message = 'Unable to compute progress information since the total size is unknown';
-            progressFunction(null, message);
-          }
-        }, false);
-        req.addEventListener("load", function (event) {
-          let rawJSON = event.target.responseText;
-          delegate.rawJSON = rawJSON;
-          let corpusJSON = JSON.parse(rawJSON);
-          let corpus = new Corpus(corpusJSON);
-          delegate.corpus = corpus;
-          resolve(corpus);
-        }, false);
-        req.open("GET", delegate.dataJSON);
-        req.send();
-      })
-    }.bind(this);
+  createYearAndDepartmentsDataForTracks(tracks, firstYear, lastYear, sensitivity) {
+    let items = [];
+    let yearsToTrackNumbers = this.getYearsToTrackNumbers();
+    let tracksPerDepartement = this.getDepartmentsToTracks();
+    let theFirstYear = firstYear || this.getEarliestYear();
+    let theLastYear = lastYear || this.getLatestYear();
+    for (let index = 0; index < tracks.length; index++) {
+      let track = tracks[index];
+      let year = track.releaseYear;
+      let department = track.departmentNumber;
+      let entry = items.find(function (item) {
+        return item.location === department
+          && item.date === year;
+      });
+      if (entry) {
+        entry.value += 1;
+      } else {
+        let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
+        items.push({
+          location: department,
+          date: year,
+          value: 1,
+          dateTotal: yearsToTrackNumbers[year],
+          locationTotal: departmentEntry.value,
+        });
+      }
+      for (let year = theFirstYear; year <= theLastYear; year++) {
+        if (items.find(item => item.date === theLastYear)) continue;
+        items.push({
+          date: year,
+          value: 0,
+          dateTotal: yearsToTrackNumbers[year]
+        });
+      }
+    }
+    return items;
   }
 }
-exports.Corpus = Corpus;
-exports.Artist = Artist;
-exports.Album = Album;
+
 exports.Track = Track;
-
-exports.FRCDelegate = FRCDelegate;
-
-Object.defineProperty(exports, '__esModule', { value: true });
+exports.Album = Album;
+exports.Artist = Artist;
+exports.Corpus = Corpus;
 
 })));
 //# sourceMappingURL=frcv.js.map

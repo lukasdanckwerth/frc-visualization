@@ -19,5 +19,3 @@ export class Album {
     }
   }
 }
-
-exports.Album = Album;

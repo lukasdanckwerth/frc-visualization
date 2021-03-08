@@ -9,5 +9,5 @@ corpus.allTracks().forEach(function (track) {
   track.types = null;
 })
 
-json.writeAsset(corpus, '/Corpus.json');
+json.writeAsset(corpus, '/corpus.json');
 json.writeAsset(corpus.artists.slice(0, 100), '/Corpus-Light.json');

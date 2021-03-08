@@ -14,7 +14,7 @@ module.exports = [
   // UMD builds
   // frcv.js
   {
-    input: 'src/delegate.js',
+    input: 'src/index.js',
     plugins: [
       json(),
       resolve(),

@@ -67,5 +67,3 @@ export class Artist {
     return allWords;
   }
 }
-
-exports.Artist = Artist;
