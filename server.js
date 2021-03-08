@@ -14,7 +14,7 @@ app.use('/', express.static(__dirname + '/public'));
 
 // use a smaller corpus with 100 artists in development mode for faster loading.
 if (environment === 'development') {
-  app.use('/corpus', express.static(__dirname + '/public/assets/Corpus-Light.json'));
+  app.use('/corpus', express.static(__dirname + '/public/assets/corpus-light.json'));
 } else {
   app.use('/corpus', express.static(__dirname + '/public/assets/corpus.json'));
 }
