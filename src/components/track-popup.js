@@ -1,4 +1,4 @@
-import {Popup} from "../../lotivis/src/js/components/popup";
+import {Popup} from "../../../lotivis/src/js/components/popup";
 
 /**
  *

@@ -1,5 +1,5 @@
-import {Popup} from "../../lotivis/src/js/components/popup";
-import {LoadingView} from "../../lotivis/src/js/components/loading-view";
+import {Popup} from "../../../lotivis/src/js/components/popup";
+import {LoadingView} from "../../../lotivis/src/js/components/loading-view";
 import {Language} from "./language/language";
 
 /**

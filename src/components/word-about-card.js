@@ -1,4 +1,4 @@
-import {Card} from "../../lotivis/src/js/components/card";
+import {Card} from "../../../lotivis/src/js/components/card";
 import {TrackPopup} from "./track-popup";
 
 /**

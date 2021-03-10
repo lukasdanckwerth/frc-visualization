@@ -1,0 +1,21 @@
+// MARK: - Menu
+
+.menu {
+  h2 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  a {
+    display: block;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 2;
+  }
+
+  a::before {
+    content: '\2192';
+    margin: 0 $spacing 0 0 ;
+    text-decoration: none;
+  }
+}
