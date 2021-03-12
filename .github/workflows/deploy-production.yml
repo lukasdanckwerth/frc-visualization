@@ -30,8 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Add remote origin
         run: |
-          git fetch --all --unshallow
           git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME_PROD }}.git
       - name: Deploy to Heroku Main
         run: |
-          git push heroku HEAD:main/${{ github.ref }} -f
+          git push heroku HEAD:main -f
