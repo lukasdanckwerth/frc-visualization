@@ -1,12 +1,13 @@
 name: Heroku Deployment (Stage)
 
 on:
-  push:
-    branches: [ development ]
-  pull_request:
-    branches: [ development ]
+  workflow_run:
+    workflows: ["Build and Test"]
+    types:
+      - completed
 
 jobs:
+  if: ${{ github.event.workflow_run.conclusion == 'success' }}
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +15,7 @@ jobs:
       - name: Add remote origin
         run: |
           git filter-branch -- --all
-          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME_STAGE }}.git
       - name: Deploy to Heroku Main
         run: |
           git push heroku HEAD:main -f
