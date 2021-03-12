@@ -432,11 +432,6 @@ class Corpus {
   }
 }
 
-exports.Track = Track;
-exports.Album = Album;
-exports.Artist = Artist;
-exports.Corpus = Corpus;
-
 return Corpus;
 
 })));
