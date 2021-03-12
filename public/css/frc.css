@@ -1,0 +1,225 @@
+@charset "UTF-8";
+body {
+  text-decoration: none;
+  font-style: normal;
+  font-family: sans-serif;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (examples domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font-family: sans-serif;
+  font-size: 15px;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.word-list {
+  overflow: scroll;
+  line-height: 1.6;
+  display: block;
+}
+.word-list div {
+  word-break: keep-all;
+  display: block;
+}
+.word-list a {
+  cursor: pointer;
+}
+.word-list a:before {
+  content: "→";
+  margin: 0 5px 0 0;
+}
+.word-list a .representation {
+  margin: 0 0 0 5px;
+}
+.word-list a .variations {
+  margin: 0 5px 0 5px;
+  color: dimgray;
+}
+
+.info-box, .info-box-margin {
+  margin-top: 10px;
+  display: grid;
+  line-height: 1.5;
+}
+
+.info-box-margin {
+  padding: 30px;
+  padding-top: 0;
+}
+
+.footer {
+  padding: 50px 0 50px 0;
+  line-height: 2;
+  font-size: 14px;
+  color: gray;
+}
+
+.footer a {
+  margin: 0 15px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: gray;
+  transition: 0.36s;
+  cursor: pointer;
+}
+
+.footer a:hover {
+  color: dodgerblue;
+}
+
+.menu h2 {
+  margin-top: 20px;
+  font-size: 20px;
+}
+.menu a {
+  display: block;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 2;
+}
+.menu a::before {
+  content: "→";
+  margin: 0 5px 0 0;
+  text-decoration: none;
+}
+
+.progress-bar-container {
+  border: 2px solid gray;
+  border-radius: 20px;
+  width: 100%;
+  height: 14px;
+  overflow: hidden;
+}
+.progress-bar-container .progress-bar {
+  background-color: lightgray;
+  width: 20%;
+}
+
+/* MARK: - Default Elements */
+body {
+  background-color: #f0f0f1;
+  color: #333;
+  padding: 20px;
+}
+
+h1, h2, h3, h4, h5 {
+  color: black;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+p {
+  margin-bottom: 30px;
+}
+
+a, a:hover, a:visited {
+  text-decoration: none;
+  font-style: normal;
+  color: dodgerblue;
+  transition: 0.36s;
+}
+
+samp {
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+i {
+  font-style: normal;
+  font-family: FontAwesome, serif;
+}
+
+label {
+  font-size: 15px;
+}
+
+li {
+  padding-left: 10px;
+}
+
+.loading-container {
+  width: 100%;
+  padding: 100px 0;
+}
+
+.loading-card {
+  margin: auto;
+  padding: 20px 0;
+  width: 300px;
+  color: #919191;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.card-corpus-metadata .label {
+  margin-top: 7px;
+}
+.card-corpus-metadata div {
+  font-size: 22px;
+  color: darkgray;
+  bottom: 0;
+}
+.card-corpus-metadata samp {
+  font-size: 32px;
+  color: black;
+}
+
+.card-body-about {
+  margin: 20px 20px;
+}
+
+.card-inset {
+  padding: 40px 40px;
+}
+
+samp {
+  white-space: pre-wrap;
+}
