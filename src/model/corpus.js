@@ -195,7 +195,7 @@ export class Corpus {
   }
 
   /**
-   * Returns a year to word collection.
+   * Returns a departmen to word collection.
    *
    * @returns {{}}
    */
