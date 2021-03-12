@@ -23,6 +23,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "d3": "^6.5.0",
+    "postcss": "^8.2.8",
     "rollup": "^2.39.0",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-postcss": "^4.0.0",

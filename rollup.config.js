@@ -32,12 +32,12 @@ module.exports = [
       indent: false,
     },
   },
-    {
+  {
     input: 'src/index.scss',
     plugins: [
       postcss({
-         extract: true,
-         use: ['sass'],
+        extract: true,
+        use: ['sass'],
       }),
     ],
     output: {
