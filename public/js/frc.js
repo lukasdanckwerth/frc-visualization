@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.16 Lukas Danckwerth
+ * frc.js v1.0.17 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -175,10 +175,12 @@ function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, a
   let theFirstYear = firstYear || corpus.getEarliestYear();
   let theLastYear = lastYear || corpus.getLatestYear();
   let theSensitivity = sensitivity || 'case-insensitive';
+  let theAbsolute = absolute || 'relative';
   let groups = searchQuery.split(';').map(value => value.trim());
   groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
   groups = groups.map(group => group.trim());
   let datasets = [];
+  let allTracks = [];
   for (let i = 0; i < groups.length; i++) {
     let group = groups[i];
     let words = group.split(',').map(value => value.trim());
@@ -191,10 +193,14 @@ function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, a
         stack,
         theFirstYear,
         theLastYear,
-        theSensitivity);
+        theSensitivity,
+        theAbsolute
+      );
+      allTracks.push(...dataset.tracks);
       datasets.push(dataset);
     }
   }
+  datasets.tracks = allTracks;
   return datasets;
 }
 function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity, absolute) {
@@ -207,10 +213,14 @@ function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity,
     corpus,
     tracks,
     firstYear,
-    lastYear);
+    lastYear,
+    sensitivity,
+    absolute
+  );
   return {
     label: searchText,
     stack: stack || searchText,
+    tracks: tracks,
     data: chartData
   };
 }
@@ -240,6 +250,7 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
   let tracksPerDepartement = corpus.getDepartmentsToTracks();
   let theFirstYear = firstYear || corpus.getEarliestYear();
   let theLastYear = lastYear || corpus.getLatestYear();
+  let isAbsolute = absolute === 'absolute';
   for (let index = 0; index < tracks.length; index++) {
     let track = tracks[index];
     let year = track.releaseYear;
@@ -252,10 +263,12 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
       entry.value += 1;
     } else {
       let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
+      let relative = 1 / yearsToTrackNumbers[year];
       items.push({
         location: department,
         date: year,
         value: 1,
+        relativeValue: relative,
         dateTotal: yearsToTrackNumbers[year],
         locationTotal: departmentEntry.value,
       });
@@ -267,6 +280,12 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
         value: 0,
         dateTotal: yearsToTrackNumbers[year]
       });
+    }
+  }
+  if (!isAbsolute) {
+    for (let index = 0; index < items.length; index++) {
+      let item = items[index];
+      item.value = item.value / item.dateTotal;
     }
   }
   return items;
@@ -409,7 +428,7 @@ class Corpus {
     return artistsForLocations(this, locations);
   }
   search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
-    return internalSearch(this, searchQuery, firstYear, lastYear, sensitivity);
+    return internalSearch(this, searchQuery, firstYear, lastYear, sensitivity, absolute);
   }
 }
 

@@ -22,6 +22,7 @@ export function internalSearch(corpus, searchQuery, firstYear, lastYear, sensiti
   groups = groups.map(group => group.trim());
 
   let datasets = [];
+  let allTracks = [];
   for (let i = 0; i < groups.length; i++) {
 
     let group = groups[i];
@@ -40,10 +41,11 @@ export function internalSearch(corpus, searchQuery, firstYear, lastYear, sensiti
         theAbsolute
       );
 
+      allTracks.push(...dataset.tracks);
       datasets.push(dataset);
     }
   }
-
+  datasets.tracks = allTracks;
   return datasets;
 }
 
@@ -70,12 +72,14 @@ function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity,
     tracks,
     firstYear,
     lastYear,
-    sensitivity
+    sensitivity,
+    absolute
   );
 
   return {
     label: searchText,
     stack: stack || searchText,
+    tracks: tracks,
     data: chartData
   };
 }
@@ -128,6 +132,7 @@ export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear,
   let tracksPerDepartement = corpus.getDepartmentsToTracks();
   let theFirstYear = firstYear || corpus.getEarliestYear();
   let theLastYear = lastYear || corpus.getLatestYear();
+  let isAbsolute = absolute === 'absolute';
 
   for (let index = 0; index < tracks.length; index++) {
     let track = tracks[index];
@@ -143,10 +148,12 @@ export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear,
       entry.value += 1;
     } else {
       let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
+      let relative = 1 / yearsToTrackNumbers[year];
       items.push({
         location: department,
         date: year,
         value: 1,
+        relativeValue: relative,
         dateTotal: yearsToTrackNumbers[year],
         locationTotal: departmentEntry.value,
       });
@@ -159,6 +166,13 @@ export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear,
         value: 0,
         dateTotal: yearsToTrackNumbers[year]
       });
+    }
+  }
+
+  if (!isAbsolute) {
+    for (let index = 0; index < items.length; index++) {
+      let item = items[index];
+      item.value = item.value / item.dateTotal
     }
   }
 
