@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@latest/dist/lotivis.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1.0.45/dist/lotivis.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -27,10 +27,15 @@
 
     <div class="col-6">
       <div id="time-chart-card">
+        <!-- Time Chart Here -->
+      </div>
+      <div id="plot-chart-card">
+        <!-- Time Chart Here -->
       </div>
     </div>
     <div class="col-6">
       <div id="map-chart-card">
+        <!-- Map Chart Here -->
       </div>
     </div>
 
@@ -38,34 +43,48 @@
 </div><!-- Container -->
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.36/dist/lotivis.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.45/dist/lotivis.js"></script>
 <script src="js/frc.js"></script>
 
 <script>
 
   let timeChartCard = new lotivis.TimeChartCard('time-chart-card');
   let mapChartCard = new lotivis.MapChartCard('map-chart-card');
+  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
   mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
 
-  let corpus = new frc('');
+  Promise.all([
+    d3.json('/assets/Departements.geojson'),
+    d3.json('/assets/corpus-datasets.json'),
+    d3.json('/corpus'),
+  ]).then(function (results) {
 
-  d3.json('/assets/Departements.geojson')
-    .then(function (geoJSON) {
-      mapChartCard.chart.setGeoJSON(new lotivis.GeoJson(geoJSON));
+    let corpus = new frc(results[2]);
+    let geoJSON = results[0];
+    let datasets = results[1];
+    let geoJSONModel = new lotivis.GeoJson(geoJSON);
+    let controller = new lotivis.FilterableDatasetController(datasets);
+    let updater = {
+      update: function (controller, reason) {
+        if (reason === 'location-filter') {
+          let locations = controller.locationFilters;
+          plotChartCard.chart.datasets = corpus.getArtistsForLocations(locations);
+          plotChartCard.chart.update();
+        } else {
+          plotChartCard.chart.datasets = [];
+          plotChartCard.chart.update();
+        }
+      }
+    };
 
-      return d3.json('/assets/corpus-datasets.json');
-    })
-    .then(function (datasets) {
+    controller.addListener(updater);
 
-      let controller = new lotivis.FilterableDatasetController(datasets);
-      console.log('controller', controller);
+    mapChartCard.chart.setGeoJSON(geoJSONModel);
+    timeChartCard.chart.setDatasetController(controller);
+    mapChartCard.chart.setDatasetController(controller);
+    plotChartCard.chart.setDatasetController(controller);
 
-      timeChartCard.chart.setDatasetController(controller);
-      timeChartCard.chart.update();
-      mapChartCard.chart.setDatasetController(controller);
-      mapChartCard.chart.update();
-
-    });
+  });
 
 </script>
 

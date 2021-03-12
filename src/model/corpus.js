@@ -10,6 +10,8 @@ import {
 import {
   internalSearch
 } from "../access/search";
+import {tracksForYears} from "../access/tracks-access";
+import {artistsForLocations} from "../access/artists-for-locations";
 
 /**
  *
@@ -137,7 +139,8 @@ export class Corpus {
   getLatestYear() {
     let allTracks = this.allTracks();
     let lastYear = allTracks.find(item => item !== undefined).releaseYear;
-    return this.allTracks().reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
+    return this.allTracks()
+      .reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
   }
 
   /**
@@ -226,6 +229,24 @@ export class Corpus {
   getDepartmentsToTypesRelative() {
     return getDepartmentsToCollectionRelative(this, this.getDepartmentsToTypes());
   };
+
+  /**
+   *
+   * @param years
+   * @returns {*}
+   */
+  getTracksForYears(years) {
+    return tracksForYears(this, years);
+  }
+
+  /**
+   *
+   * @param locations
+   * @returns {*}
+   */
+  getArtistsForLocations(locations) {
+    return artistsForLocations(this, locations);
+  }
 
   /**
    *
