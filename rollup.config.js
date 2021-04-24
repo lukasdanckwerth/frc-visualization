@@ -31,17 +31,5 @@ module.exports = [
       format: 'umd',
       indent: false,
     },
-  },
-  {
-    input: 'src/index.scss',
-    plugins: [
-      postcss({
-        extract: true,
-        use: ['sass'],
-      }),
-    ],
-    output: {
-      file: 'public/css/frc.css',
-    },
   }
 ];

@@ -4,28 +4,27 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1.0.47/dist/lotivis.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/frc.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.css"/>
+  <link rel="stylesheet" href="css/frc-visualization.css"/>
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <title>FRCV - Artists Active Range</title>
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-2">
+<div class="lotivis-container">
+  <div class="lotivis-row">
+    <div class="lotivis-col-2">
       <a href="index.html">
-        <button class="back-button">
+        <button class="lotivis-button lotivis-button-back">
           Back
         </button>
       </a>
     </div>
-    <div class="col-8 text-center">
+    <div class="lotivis-col-8 text-center">
       <h1>Artists Active Range</h1>
     </div>
-    <div class="col-12">
+    <div class="lotivis-col-12">
       <div id="plot-chart-card">
         <!-- Plot Chart Here -->
       </div>
@@ -34,24 +33,17 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lotivis@1.0.47/dist/lotivis.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
 <script src="js/frc.js"></script>
 
 <script>
 
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
-  let chart = plotChartCard.chart;
 
   d3
     .json('/assets/artists-active-range.json')
-    .then(function (json) {
-
-      // let string = JSON.stringify(json, null, 4);
-      // let element = document.getElementById('data');
-      // element.innerHTML = string;
-
-      chart.datasets = json;
-      chart.update();
+    .then(function (datasets) {
+      plotChartCard.chart.setDatasets(datasets);
     });
 
 </script>
