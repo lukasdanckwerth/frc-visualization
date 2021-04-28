@@ -10,16 +10,16 @@ const version = require('./package.json').version;
 const port = process.env.PORT || 80;
 const environment = process.env.NODE_ENV || 'development';
 
-app.use('/', express.static(__dirname + '/public'));
+app.use('/', express.static(__dirname + '/docs'));
 
 // use a smaller corpus with 100 artists in development mode for faster loading.
 if (environment === 'development') {
-  app.use('/corpus', express.static(__dirname + '/public/assets/corpus-light.json'));
+  app.use('/corpus', express.static(__dirname + '/docs/assets/corpus-light.json'));
 } else {
-  app.use('/corpus', express.static(__dirname + '/public/assets/corpus.json'));
+  app.use('/corpus', express.static(__dirname + '/docs/assets/corpus.json'));
 }
 
-app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation-list.txt'));
+app.use('/innovation-list', express.static(__dirname + '/docs/assets/innovation-list.txt'));
 
 app.use('/version', function (req, res) {
   res.json({version, environment});

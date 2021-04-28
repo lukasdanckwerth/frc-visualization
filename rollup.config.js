@@ -26,7 +26,7 @@ module.exports = [
     output: {
       sourcemap: true,
       name: 'frc',
-      file: 'public/js/frc.js',
+      file: 'docs/js/frc.js',
       banner,
       format: 'umd',
       indent: false,
@@ -41,7 +41,7 @@ module.exports = [
       }),
     ],
     output: {
-      file: 'public/css/frc.css',
+      file: 'docs/css/frc.css',
     },
   }
 ];
