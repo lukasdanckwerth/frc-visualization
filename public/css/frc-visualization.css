@@ -93,25 +93,6 @@ table {
   padding-top: 0;
 }
 
-.footer {
-  padding: 50px 0 50px 0;
-  line-height: 2;
-  font-size: 14px;
-  color: gray;
-}
-
-.footer a {
-  margin: 0 15px;
-  font-family: "Lucida Console", "Courier New", monospace;
-  color: gray;
-  transition: 0.36s;
-  cursor: pointer;
-}
-
-.footer a:hover {
-  color: dodgerblue;
-}
-
 .menu h2 {
   margin-top: 20px;
   font-size: 20px;
@@ -141,11 +122,11 @@ table {
 }
 
 /* MARK: - Default Elements */
-body {
-  background-color: #f0f0f1;
-  color: #333;
-  padding: 20px;
-}
+/*body {*/
+/*  background-color: #f0f0f1;*/
+/*  color: #333;*/
+/*  padding: 20px;*/
+/*}*/
 
 h1, h2, h3, h4, h5 {
   color: black;
@@ -222,4 +203,24 @@ li {
 
 samp {
   white-space: pre-wrap;
+}
+
+.footer {
+  padding: 50px 0 50px 0;
+  line-height: 2;
+  font-size: 14px;
+  color: gray;
+}
+
+.footer a {
+  display: unset;
+  margin: 0 15px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: gray;
+  transition: 0.36s;
+  cursor: pointer;
+}
+
+.footer a:hover {
+  color: dodgerblue;
 }

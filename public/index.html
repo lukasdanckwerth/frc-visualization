@@ -4,8 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@latest/dist/lotivis.css"/>
-  <link rel="stylesheet" href="css/frc.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.css"/>
+  <link rel="stylesheet" href="css/frc-visualization.css"/>
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <title>French Rap Corpus Visualization</title>
@@ -13,9 +13,9 @@
 
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-3">
+<div class="lotivis-container menu">
+  <div class="lotivis-row">
+    <div class="lotivis-col-3">
       <h1>
         French Rap Corpus Visualization
       </h1>
@@ -26,22 +26,37 @@
         Environment: <span id="environment"></span>
       </div>
     </div>
-    <div class="col-6">
-      <div class="card card-inset menu">
-        <a href="search.html">
-          Search
+    <div class="lotivis-col-6">
+      <div class="lotivis-card">
+        <div class="lotivis-card-body card-inset">
+          <a href="search.html">
+            Search
+          </a>
+          <a href="corpus-data.html">
+            Corpus Data
+          </a>
+          <a href="tracks-data.html">
+            Tracks Data
+          </a>
+          <a href="dapartements-data.html">
+            Departments Data
+          </a>
+          <a href="artists-active-range.html">
+            Artists Active Range
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="lotivis-col-12">
+      <div class="footer text-center">
+        <a href="html/impress-en_EN.html">
+          Impressum
         </a>
-        <a href="corpus-data.html">
-          Corpus Data
+        <a href="html/privacy-policy-en_EN.html">
+          Privacy Policy
         </a>
-        <a href="timechart.html">
-          Tracks Data
-        </a>
-        <a href="mapchart.html">
-          Departments Data
-        </a>
-        <a href="plotchart.html">
-          Artists Active Range
+        <a href="html/about-project-en_EN.html">
+          About
         </a>
       </div>
     </div>
@@ -50,7 +65,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script>
-  d3.json('/version')
+  d3
+    .json('/version')
     .then(function (response) {
       document.getElementById('version').innerHTML = response.version;
       document.getElementById('environment').innerHTML = response.environment;

@@ -30,18 +30,6 @@ module.exports = [
       banner,
       format: 'umd',
       indent: false,
-    },
-  },
-  {
-    input: 'src/index.scss',
-    plugins: [
-      postcss({
-        extract: true,
-        use: ['sass'],
-      }),
-    ],
-    output: {
-      file: 'docs/css/frc.css',
-    },
+    }
   }
 ];
