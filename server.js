@@ -13,10 +13,10 @@ const environment = process.env.NODE_ENV || 'development';
 app.use('/', express.static(__dirname + '/docs'));
 
 // use a smaller corpus with 100 artists in development mode for faster loading.
-if (environment === 'development') {
-  app.use('/corpus', express.static(__dirname + '/docs/assets/corpus-light.json'));
-} else {
+if (environment === 'production') {
   app.use('/corpus', express.static(__dirname + '/docs/assets/corpus.json'));
+} else {
+  app.use('/corpus', express.static(__dirname + '/docs/assets/corpus-light.json'));
 }
 
 app.use('/innovation-list', express.static(__dirname + '/docs/assets/innovation-list.txt'));
