@@ -40,10 +40,19 @@
 
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
 
-  d3
-    .json('/assets/artists-active-range.json')
-    .then(function (datasets) {
-      plotChartCard.chart.setDatasets(datasets);
+  Promise.all([
+    d3.json('/assets/artists-active-range.json'),
+    d3.json('/assets/artists-active-range-female.json'),
+    d3.json('/assets/artists-active-range-male.json'),
+    d3.json('/assets/artists-active-range-groups.json')
+  ])
+    .then(function (datasetsCollection) {
+      datasetsCollection[0].label = 'All';
+      datasetsCollection[1].label = 'Female';
+      datasetsCollection[2].label = 'Male';
+      datasetsCollection[3].label = 'Group';
+      plotChartCard.setDatasets(datasetsCollection);
+      plotChartCard.chart.setDatasets(datasetsCollection[1]);
     });
 
 </script>
