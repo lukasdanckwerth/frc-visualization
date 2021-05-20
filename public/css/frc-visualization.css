@@ -180,6 +180,10 @@ li {
   font-family: "Lucida Console", "Courier New", monospace;
 }
 
+.frc-loading-card-body {
+  padding: 50px;
+}
+
 .card-corpus-metadata .label {
   margin-top: 7px;
 }
