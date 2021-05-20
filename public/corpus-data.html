@@ -11,28 +11,28 @@
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-2">
+<div class="lotivis-container">
+  <div class="lotivis-row">
+    <div class="clotivis-ol-2">
       <a href="index.html">
         <button class="back-button">
           Back
         </button>
       </a>
     </div>
-    <div class="col-8 text-center">
+    <div class="lotivis-col-8 lotivis-text-center">
       <h1>Corpus Data</h1>
     </div>
 
-    <div class="col-6">
-      <div id="time-chart-card">
-        <!-- Time Chart Here -->
+    <div class="lotivis-col-6">
+      <div id="date-chart-card">
+        <!-- Date Chart Here -->
       </div>
       <div id="plot-chart-card">
         <!-- Time Chart Here -->
       </div>
     </div>
-    <div class="col-6">
+    <div class="lotivis-col-6">
       <div id="map-chart-card">
         <!-- Map Chart Here -->
       </div>
@@ -47,7 +47,7 @@
 
 <script>
 
-  let timeChartCard = new lotivis.TimeChartCard('time-chart-card');
+  let timeChartCard = new lotivis.DateChartCard('date-chart-card');
   let mapChartCard = new lotivis.MapChartCard('map-chart-card');
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
   mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
@@ -61,7 +61,6 @@
     let corpus = new frc(results[2]);
     let geoJSON = results[0];
     let datasets = results[1];
-    let geoJSONModel = new lotivis.GeoJson(geoJSON);
     let controller = new lotivis.FilterableDatasetController(datasets);
     let updater = {
       update: function (controller, reason) {
@@ -78,7 +77,7 @@
 
     controller.addListener(updater);
 
-    mapChartCard.chart.setGeoJSON(geoJSONModel);
+    mapChartCard.chart.setGeoJSON(geoJSON);
     timeChartCard.chart.setDatasetController(controller);
     mapChartCard.chart.setDatasetController(controller);
     plotChartCard.chart.setDatasetController(controller);

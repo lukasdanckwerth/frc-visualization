@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.29 Lukas Danckwerth
+ * frc.js v1.0.30 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :

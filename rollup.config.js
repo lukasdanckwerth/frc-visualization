@@ -1,12 +1,9 @@
 /* eslint-disable import/no-commonjs */
-/* eslint-env es6 */
 
 const cleanup = require('rollup-plugin-cleanup');
 const json = require('@rollup/plugin-json');
 const resolve = require('@rollup/plugin-node-resolve').default;
 const pkg = require('./package.json');
-const postcss = require('rollup-plugin-postcss');
-
 const banner = `/*!
  * frc.js v${pkg.version} Lukas Danckwerth
  */`;
@@ -26,7 +23,7 @@ module.exports = [
     output: {
       sourcemap: true,
       name: 'frc',
-      file: 'docs/js/frc.js',
+      file: 'public/js/frc.js',
       banner,
       format: 'umd',
       indent: false,
