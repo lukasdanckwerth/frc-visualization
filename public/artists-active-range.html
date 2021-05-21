@@ -9,6 +9,11 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <title>FRCV - Artists Active Range</title>
+  <style>
+    .lotivis-plot-label {
+      fill: gray;
+    }
+  </style>
 </head>
 <body>
 
@@ -38,7 +43,11 @@
 
 <script>
 
-  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
+  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {
+    margin: {
+      left: 140
+    }
+  });
 
   Promise.all([
     d3.json('/assets/artists-active-range.json'),
@@ -52,7 +61,6 @@
       datasetsCollection[2].label = 'Male';
       datasetsCollection[3].label = 'Group';
       plotChartCard.setDatasets(datasetsCollection);
-      plotChartCard.chart.setDatasets(datasetsCollection[1]);
     });
 
 </script>
