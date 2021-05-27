@@ -334,11 +334,13 @@ class Corpus {
     this.initialize(parsedCorpus);
   }
   initialize(parsedCorpus) {
+    console.log(`frc parse corpus`);
     for (let i = 0; i < parsedCorpus.length; i++) {
       const artistJSON = parsedCorpus[i];
       const artist = new Artist(artistJSON);
       this.artists.push(artist);
     }
+    console.log(`frc loaded corpus`);
   }
   femaleArtists() {
     return this.artists.filter(artist => artist.sex === "F");

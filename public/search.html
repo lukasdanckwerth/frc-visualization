@@ -12,23 +12,26 @@
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-2">
+<div class="lotivis-container">
+  <div class="lotivis-row">
+    <div class="lotivis-col-2">
       <a href="index.html">
-        <button class="back-button">
+        <button class="lotivis-button lotivis-button-back">
           Back
         </button>
       </a>
     </div>
-    <div class="col-8 text-center">
+    <div class="lotivis-col-8 text-center">
       <h1></h1>
     </div>
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body margin-top margin-bottom">
-          <div class="row">
-            <div class="col-12 text-center">
+    <div id="loading" class="lotivis-col-12 text-center frc-loading-card-body">
+      Loading...
+    </div>
+    <div class="lotivis-col-12">
+      <div class="lotivis-card">
+        <div class="lotivis-card-body margin-top margin-bottom">
+          <div class="lotivis-row">
+            <div class="lotivis-col-12 text-center">
               <label for="search-input"></label>
               <input class="form-control form-control-sm"
                      type="text"
@@ -40,14 +43,14 @@
             </div>
             <br>
             <br>
-            <div class="col-2 text-center">
+            <div class="lotivis-col-2 text-center">
               <label for="case-sensitivity-dropdown">Case Sens.</label>
               <select id="case-sensitivity-dropdown" onchange="sensitivityDropdownAction(this)">
                 <option id="case-insensitive" value="case-insensitive">No</option>
                 <option id="case-sensitive" value="case-sensitive">Yes</option>
               </select>
             </div>
-            <div class="col-3 text-center">
+            <div class="lotivis-col-3 text-center">
               <label for="from-dropdown">From</label>
               <select id="from-dropdown" onchange="fromDropdownAction(this)">
                 <!-- Year Options Here -->
@@ -57,15 +60,15 @@
                 <!-- Year Options Here -->
               </select>
             </div>
-            <div class="col-2">
+            <div class="lotivis-col-2">
               <label for="relative-absolute-dropdown">Rel. / Abs.</label>
               <select id="relative-absolute-dropdown" onchange="relativeAbsoluteAction(this)">
                 <option id="relative" value="relative">Rel.</option>
                 <option id="absolute" value="absolute">Abs.</option>
               </select>
             </div>
-            <div class="col-2">
-              <button class="back button-down" onclick="presentInnovationList(this)">
+            <div class="lotivis-col-2">
+              <button class="lotivis-button lotivis-button-down" onclick="presentInnovationList(this)">
                 Innovation List
               </button>
             </div>
@@ -74,7 +77,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="lotivis-col-6">
       <div id="time-chart-card">
         <!-- Time Chart Here -->
       </div>
@@ -82,13 +85,13 @@
         <!-- Plot Chart Here -->
       </div>
     </div>
-    <div class="col-6">
+    <div class="lotivis-col-6">
       <div id="map-chart-card">
         <!-- Map Chart Here -->
       </div>
       <div id="tracks-card">
-        <div class="card">
-          <div class="card-header">
+        <div class="lotivis-card">
+          <div class="lotivis-card-header">
             Tracks
           </div>
           <div id="tracks-card-content" class="card-body margin-top margin-left margin-right margin-bottom">
@@ -97,15 +100,13 @@
         </div>
       </div>
     </div>
-    <div class="col-12 text-center">
-      <div id="loading">Loading...</div>
-    </div>
   </div><!-- Row -->
 </div><!-- Container -->
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
 <script src="js/frc.js"></script>
+
 <script>
 
   class TrackPopup extends lotivis.Popup {
@@ -176,14 +177,15 @@
   }
 
   // create lotivis components
-  let timeChartCard = new lotivis.TimeChartCard('time-chart-card');
+  let timeChartCard = new lotivis.DateChartCard('time-chart-card');
   let mapChartCard = new lotivis.MapChartCard('map-chart-card');
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
-  let aboutCard = new lotivis.PlotChartCard('about-card');
+
+
   let loadingView = document.getElementById('loading');
   let searchField = document.getElementById('search-input');
 
-  let corpus = new frc('');
+  var corpus = new frc('');
   mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
 
   // search options;
@@ -195,6 +197,8 @@
     if (Object.getPrototypeOf(this.event) === KeyboardEvent.prototype
       && this.event.key !== 'Enter') return;
     let searchText = input.value;
+
+    console.log("searchText:", searchText);
 
     if (searchText === undefined) {
       return console.log('search text undefined');
@@ -210,12 +214,16 @@
       relativeAbsolute
     );
 
-    let controller = new lotivis.FilterableDatasetController(datasets);
+    let controller = new lotivis.DatasetController(datasets);
 
-    timeChartCard.chart.setDatasetController(controller);
+    timeChartCard.chart.datasetsController = controller;
     timeChartCard.chart.update();
-    mapChartCard.chart.setDatasetController(controller);
-    plotChartCard.chart.setDatasetController(controller);
+
+    mapChartCard.chart.datasetsController = controller;
+    mapChartCard.chart.update();
+
+    plotChartCard.chart.datasetsController = controller;
+    plotChartCard.chart.update();
 
     fillTracksCard(datasets);
   }
@@ -337,40 +345,33 @@
       });
   }
 
-  d3.json('/assets/Departements.geojson')
+  d3.json('/assets/departements.geojson')
     .then(function (geoJSON) {
-      mapChartCard.chart.setGeoJSON(new lotivis.GeoJson(geoJSON));
+      mapChartCard.chart.setGeoJSON(geoJSON);
+      mapChartCard.chart.update();
     });
 
   d3.json('/corpus')
     .then(function (corpusJSON) {
-      corpus = new frc(corpusJSON);
-      fillYearDropdowns();
-      loadingView.style.display = 'none';
+      loadingView.innerHTML = `Parsing...`;
+      return corpusJSON;
+    })
+    .then(function (corpusJSON) {
+
+      const worker = new Worker("./js/parse-corpus.js", { type: "module" });
+      worker.onmessage = function (message) {
+        // console.info('onmessage', message.data);
+        corpus = message.data;
+        corpus = Object.assign(corpus, new frc(''));
+        fillYearDropdowns();
+        loadingView.style.display = 'none';
+      };
+
+      worker.postMessage(corpusJSON);
     })
     .catch(function (error) {
       console.error(error);
     });
-
-
-  // this.row
-  //   .selectAll('div')
-  //   .append('div')
-  //   .data(reducedData)
-  //   .enter()
-  //   .append('div')
-  //   .append('a')
-  //   .append('span')
-  //   .classed('representation', true)
-  //   .text(item => item.title)
-  //   .append('span')
-  //   .classed('variations', true)
-  //   .text(item => '(' + item.variations + ')')
-  //   .on('click', function (item, some) {
-  //     thisReference.searchCard.searchField.setText('' + some.variations);
-  //     thisReference.searchCard.startSearching();
-  //     thisReference.dismiss();
-  //   });
 
 </script>
 
