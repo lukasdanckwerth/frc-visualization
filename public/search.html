@@ -132,7 +132,7 @@
     injectTrackContentContainer() {
       this.lyricsContainer = this.row
         .append('lotivis-div')
-        .classed('lotivis-col-12 lotivis-margin-left margin-left lotivis-margin-top margin-top', true)
+        .classed('lotivis-col-12 frcv-lyrics-container', true)
         .append('p');
     }
 
@@ -174,7 +174,7 @@
 
     preferredSize() {
       return {
-        width: 800,
+        width: 1000,
         height: 600
       };
     }
@@ -243,6 +243,12 @@
 
     let body = d3.select('body');
     let popup = new lotivis.Popup(body);
+    popup.preferredSize = function () {
+      return {
+        width: 500,
+        height: 300
+      };
+    }
     popup.showUnder(sourceElement);
 
     d3
@@ -252,9 +258,9 @@
         popup
           .card
           .body
-          .classed('margin-top margin-left margin-bottom margin-right menu', true)
           .style('overflow', 'scroll')
           .append('div')
+          .classed('frcv-innovation-list', true)
           .selectAll('a')
           .data(lines)
           .enter()
@@ -265,7 +271,7 @@
             console.log('line', line);
             let corrected = line.replaceAll(';', ',');
             searchField.value = corrected;
-            search(searchField);
+            searchFieldAction(searchField);
             popup.dismiss();
           });
       });
@@ -378,6 +384,7 @@
     })
     .then(function (corpusJSON) {
       corpus = new frc(corpusJSON);
+      timeChartCard.chart.config.dateLabels = corpus.getDateLabels();
       fillYearDropdowns();
       loadingView.style.display = 'none';
     })

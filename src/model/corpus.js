@@ -145,6 +145,13 @@ export class Corpus {
       .reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
   }
 
+  getDateLabels() {
+    let firstDate = this.getEarliestYear();
+    let lastDate = this.getLatestYear();
+    let range = lastDate - firstDate + 1;
+    return Array(range).fill(0).map((e, i) => i + firstDate);
+  }
+
   /**
    * Returns a year to track collection.
    *

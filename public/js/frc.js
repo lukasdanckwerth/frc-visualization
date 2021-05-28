@@ -393,6 +393,12 @@ class Corpus {
     return this.allTracks()
       .reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
   }
+  getDateLabels() {
+    let firstDate = this.getEarliestYear();
+    let lastDate = this.getLatestYear();
+    let range = lastDate - firstDate + 1;
+    return Array(range).fill(0).map((e, i) => i + firstDate);
+  }
   getYearsToTrackNumbers() {
     return getYearsToCollection(this, () => 1);
   }

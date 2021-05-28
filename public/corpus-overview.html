@@ -83,6 +83,8 @@
   ]).then(function (results) {
 
     let corpus = new frc(results[2]);
+    dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
+
     let geoJSON = results[0];
     let datasets = results[1];
     let controller = new lotivis.DatasetController(datasets);

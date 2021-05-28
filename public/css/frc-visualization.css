@@ -58,6 +58,29 @@ table {
   border-spacing: 0;
 }
 
+/*frcv*/
+
+.frcv-innovation-list {
+  margin: 20px;
+}
+
+.frcv-innovation-list a {
+  display: block;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.frcv-innovation-list a::before {
+  content: "→";
+  margin: 0 5px 0 0;
+  text-decoration: none;
+}
+
+.frcv-lyrics-container {
+  margin: 20px;
+  line-height: 1.3;
+}
+
 .word-list {
   overflow: scroll;
   line-height: 1.6;
