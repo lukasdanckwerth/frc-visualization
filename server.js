@@ -19,7 +19,7 @@ if (environment === 'production') {
   app.use('/corpus', express.static(__dirname + '/public/assets/corpus.light.json'));
 }
 
-app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation-list.txt'));
+app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation.list.txt'));
 
 app.use('/version', function (req, res) {
   res.json({version, environment});

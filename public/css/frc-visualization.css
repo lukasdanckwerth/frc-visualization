@@ -60,13 +60,19 @@ table {
 
 /*frcv*/
 
-.frcv-menu-container {
+.frcv-container {
   margin: 20px 20px;
   line-height: 1.5;
 }
 
-.frcv-menu-container h1 {
+.frcv-container h1, .frcv-container-fix h1 {
   margin-bottom: 20px;
+}
+
+.frcv-container-fix {
+  max-width: 800px;
+  margin: 20px auto;
+  line-height: 1.5;
 }
 
 .frcv-menu {
@@ -191,4 +197,8 @@ samp {
 
 .frcv-code {
   font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.frcv-center {
+  text-align: center;
 }

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="lotivis-container">
+<div class="frcv-container">
   <div class="lotivis-row">
     <div class="lotivis-col-2">
       <a href="index.html">
@@ -24,14 +24,14 @@
     <div class="lotivis-col-8 text-center">
       <h1></h1>
     </div>
-    <div class="lotivis-col-12" id="loading">
+    <div class="lotivis-col-12" id="frcv-loading">
       <div class="lotivis-card">
         <div class="frc-loading-card">
           Loading...
         </div>
       </div>
     </div>
-    <div class="lotivis-col-12">
+    <div class="lotivis-col-12" id="frcv-search-field-area">
       <div class="lotivis-card">
         <div class="lotivis-card-body margin-top margin-bottom">
           <div class="lotivis-row">
@@ -96,7 +96,9 @@
       <div id="tracks-card">
         <div class="lotivis-card">
           <div class="lotivis-card-header">
-            Tracks
+            <label class="lotivis-title-label">
+              Tracks
+            </label>
           </div>
           <div id="tracks-card-content" class="frcv-tracks-list">
 
@@ -181,16 +183,19 @@
     }
   }
 
+  lotivis.config.downloadFilePrefix = 'frcv';
   lotivis.debug(true);
+
   let parameters = lotivis.URLParameters.getInstance();
 
   // create lotivis components
-  let timeChartCard = new lotivis.DateChartCard('time-chart-card');
-  let mapChartCard = new lotivis.MapChartCard('map-chart-card');
+  let timeChartCard = new lotivis.DateChartCard('time-chart-card', {title: 'Years'});
+  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {title: 'Departements'});
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
 
-
-  let loadingView = document.getElementById('loading');
+  let loadingView = document.getElementById('frcv-loading');
+  let searchArea = document.getElementById('frcv-search-field-area');
+  searchArea.style.display = 'none';
   let searchField = document.getElementById('search-input');
 
   var corpus = new frc('');
@@ -235,7 +240,7 @@
       timeChartCard.chart,
       mapChartCard.chart,
       plotChartCard.chart
-    ])
+    ]);
 
     fillTracksCard(datasets);
   }
@@ -249,11 +254,11 @@
         width: 500,
         height: 300
       };
-    }
+    };
     popup.showUnder(sourceElement);
 
     d3
-      .text('/assets/innovation-list.txt')
+      .text('/assets/innovation.list.txt')
       .then(function (text) {
         let lines = text.split('\n').filter(line => line.length > 0);
         popup
@@ -267,11 +272,9 @@
           .enter()
           .append('a')
           .style('cursor', 'pointer')
-          .html(line => `<nobr>${line.replaceAll(`;`,`, `)}</nobr>`)
+          .html((line, index) => `<nobr>${index + 1}. ${line.replaceAll(`;`, `, `)}</nobr>`)
           .on('click', function (event, line) {
-            console.log('line', line);
-            let corrected = line.replaceAll(';', ',');
-            searchField.value = corrected;
+            searchField.value = line.replaceAll(';', ',');
             searchFieldAction(searchField);
             popup.dismiss();
           });
@@ -280,22 +283,22 @@
 
   function sensitivityDropdownAction(some) {
     sensitivity = some.value;
-    search(searchField);
+    search(searchField.value);
   }
 
   function fromDropdownAction(some) {
     firstYear = Number(some.value);
-    search(searchField);
+    search(searchField.value);
   }
 
   function tillDropdownAction(some) {
     lastYear = Number(some.value);
-    search(searchField);
+    search(searchField.value);
   }
 
   function relativeAbsoluteAction(some) {
     relativeAbsolute = some.value;
-    search(searchField);
+    search(searchField.value);
   }
 
   function fillYearDropdowns() {
@@ -358,7 +361,7 @@
         return `<li>${components.join(' ')}</li>`;
       })
       .on('click', function (event, item) {
-        presentTrackPopup(item)
+        presentTrackPopup(item);
       });
   }
 
@@ -388,6 +391,7 @@
       timeChartCard.chart.config.dateLabels = corpus.getDateLabels();
       fillYearDropdowns();
       loadingView.style.display = 'none';
+      searchArea.style.display = 'unset';
     })
     .then(function () {
       let searchString = parameters.getString('searchText');

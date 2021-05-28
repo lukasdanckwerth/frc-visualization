@@ -1,4 +1,4 @@
-const json = require('./file-access');
+const json = require('./file.access');
 const frcv = require('../../public/js/frc');
 const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv(corpusJSON);

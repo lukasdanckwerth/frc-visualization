@@ -6,13 +6,13 @@
   "scripts": {
     "build:watch": "rollup -c --watch",
     "build": "rollup -c",
-    "create:corpus:json": "node src/utils/create-corpus-json.js",
+    "create:corpus:json": "node src/utils/generate.corpus.json.js",
     "create:corpus:datasets": "node src/utils/generate.overview.datasets.js",
-    "create:datasets": "node src/utils/create-datasets-years.js",
-    "create:datasets:map": "node src/utils/create-datasets-map.js",
+    "create:datasets": "node src/utils/generate.year.relation.datasets.js",
+    "create:datasets:map": "node src/utils/generate.departement.relation.datasets.js",
     "generate:overview:word": "node src/utils/generate.overview.words.js",
     "generate:assets": "node src/utils/generate.assets.js",
-    "generate:artists:active:range": "node src/utils/create-artists-active-range.js",
+    "generate:artists:active:range": "node src/utils/generate.artists.active.range.js",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
     "test": "echo \"Tests are coming.\""

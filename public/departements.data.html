@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.css"/>
+  <link rel="stylesheet" href="css/frc-visualization.css"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <title>FRCV - Departments Data</title>
+</head>
+<body>
+
+<div class="frcv-container">
+  <div class="lotivis-row">
+    <div class="lotivis-col-2">
+      <a href="index.html">
+        <button class="lotivis-button lotivis-button-back">
+          Back
+        </button>
+      </a>
+    </div>
+    <div class="lotivis-col-8 text-center">
+      <h1>Departments Data</h1>
+    </div>
+    <div class="lotivis-col-12">
+      <div id="map-chart-card">
+
+      </div>
+    </div>
+    <div class="lotivis-col-12">
+      <div id="radio">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.min.js"></script>
+<script src="js/frc.js"></script>
+
+<script>
+
+  lotivis.config.downloadFilePrefix = 'frcv';
+
+  const geoJsonURL = '/assets/Departements.geojson';
+  const mapChartCard = new lotivis.MapChartCard('map-chart-card', {title: 'Departements Data'});
+  const chart = mapChartCard.chart;
+
+  chart.excludedFeatureCodes = ['2A', '2B'];
+
+  Promise
+    .all([
+      d3.json('assets/departements.to.tracks.json'),
+      d3.json('assets/departements.to.words.json'),
+      d3.json('assets/departements.to.words.relative.json'),
+      d3.json('assets/departements.to.types.json'),
+      d3.json('assets/departements.to.types.relative.json'),
+      d3.json(geoJsonURL)
+    ])
+    .then(function (datasetsAndGeoJSON) {
+      let rawGeoJSON = datasetsAndGeoJSON.pop();
+      let datasets = datasetsAndGeoJSON;
+      chart.setGeoJSON(rawGeoJSON);
+      mapChartCard.setDatasets(datasets);
+    });
+
+</script>
+
+</body>
+</html>

@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div class="lotivis-container">
+<div class="frcv-container-fix">
   <div class="lotivis-row">
     <div class="lotivis-col-2">
       <a href="index.html">
@@ -28,6 +28,13 @@
     </div>
     <div class="lotivis-col-8 text-center">
       <h1>Artists Active Range</h1>
+    </div>
+    <div class="lotivis-col-12" id="frcv-loading-card">
+      <div class="lotivis-card">
+        <div class="frc-loading-card">
+          Loading...
+        </div>
+      </div>
     </div>
     <div class="lotivis-col-12">
       <div id="plot-chart-card">
@@ -43,17 +50,19 @@
 
 <script>
 
+  let loadingCard = d3.select('#frcv-loading-card');
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {
     margin: {
       left: 140
     }
   });
+  plotChartCard.hide();
 
   Promise.all([
-    d3.json('/assets/artists-active-range.json'),
-    d3.json('/assets/artists-active-range-female.json'),
-    d3.json('/assets/artists-active-range-male.json'),
-    d3.json('/assets/artists-active-range-groups.json')
+    d3.json('/assets/artists.active.range.json'),
+    d3.json('/assets/artists.active.range.female.json'),
+    d3.json('/assets/artists.active.range.male.json'),
+    d3.json('/assets/artists.active.range.groups.json')
   ])
     .then(function (datasetsCollection) {
       datasetsCollection[0].label = 'All';
@@ -61,6 +70,8 @@
       datasetsCollection[2].label = 'Male';
       datasetsCollection[3].label = 'Group';
       plotChartCard.setDatasets(datasetsCollection);
+      plotChartCard.show();
+      loadingCard.style('display', 'none');
     });
 
 </script>

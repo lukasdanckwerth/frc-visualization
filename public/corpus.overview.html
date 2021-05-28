@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="frcv-menu-container">
+<div class="frcv-container">
   <div class="lotivis-row">
     <div class="lotivis-col-2">
       <a href="index.html">
@@ -59,6 +59,7 @@
 
   // enable debug mode
   lotivis.debug(true);
+  lotivis.config.downloadFilePrefix = 'frcv';
 
   // create lotivis elements
   let dateChartCard = new lotivis.DateChartCard('date-chart-card', {title: ' '});
