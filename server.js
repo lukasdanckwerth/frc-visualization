@@ -16,7 +16,7 @@ app.use('/', express.static(__dirname + '/public'));
 if (environment === 'production') {
   app.use('/corpus', express.static(__dirname + '/public/assets/corpus.json'));
 } else {
-  app.use('/corpus', express.static(__dirname + '/public/assets/corpus-light.json'));
+  app.use('/corpus', express.static(__dirname + '/public/assets/corpus.light.json'));
 }
 
 app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation-list.txt'));

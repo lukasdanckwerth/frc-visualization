@@ -10,7 +10,7 @@ import {
 import {
   internalSearch
 } from "../access/search";
-import {tracksForYears} from "../access/tracks-access";
+import {tracksForYears, yearDepartementTracksRelation} from "../access/tracks-access";
 import {artistsForLocations} from "../access/artists-for-locations";
 
 /**
@@ -246,6 +246,18 @@ export class Corpus {
    */
   getTracksForYears(years) {
     return tracksForYears(this, years);
+  }
+
+  getTracks(firstYear, lastYear) {
+    return this.allTracks().filter(track => track.releaseYear >= firstYear && track.releaseYear <= lastYear);
+  }
+
+  getTracksForYearAndDepartement(year, departmentNumber) {
+    return this.allTracks().filter(track => track.releaseYear === year && track.departmentNumber === departmentNumber);
+  }
+
+  yearDepartementTracksRelation() {
+    return yearDepartementTracksRelation(this);
   }
 
   /**

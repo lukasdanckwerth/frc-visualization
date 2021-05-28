@@ -24,8 +24,12 @@
     <div class="lotivis-col-8 text-center">
       <h1></h1>
     </div>
-    <div id="loading" class="lotivis-col-12 text-center frc-loading-card-body">
-      Loading...
+    <div class="lotivis-col-12" id="loading">
+      <div class="lotivis-card">
+        <div class="frc-loading-card">
+          Loading...
+        </div>
+      </div>
     </div>
     <div class="lotivis-col-12">
       <div class="lotivis-card">
@@ -94,7 +98,7 @@
           <div class="lotivis-card-header">
             Tracks
           </div>
-          <div id="tracks-card-content" class="card-body margin-top margin-left margin-right margin-bottom">
+          <div id="tracks-card-content" class="frcv-tracks-list">
 
           </div>
         </div>
@@ -115,38 +119,24 @@
 
     inject() {
       super.inject();
-      this.injectRow();
       this.injectTrackContentContainer();
+    }
+
+    injectTrackContentContainer() {
+      this.lyricsContainer = this.card.body
+        .append('div')
+        .classed('frcv-lyrics-container', true)
+        .append('p');
     }
 
     setTitle(newTitle) {
       this.card.titleLabel.text(newTitle || 'Unknown Title');
     }
 
-    injectRow() {
-      this.row = this.card.body
-        .append('div')
-        .classed('lotivis-row', true);
-    }
-
-    injectTrackContentContainer() {
-      this.lyricsContainer = this.row
-        .append('lotivis-div')
-        .classed('lotivis-col-12 frcv-lyrics-container', true)
-        .append('p');
-    }
-
-    update() {
-      if (!this.track) return;
+    setContent(newContent) {
       let input = this.searchWord;
-      let content = String(this.track.content);
-      let lines = content.split('\n');
+      let lines = newContent.split('\n');
       let html = '';
-
-      let artist = this.track.artist;
-      let title = this.track.title;
-      this.setTitle(`${artist} - ${title}`);
-
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         let words = line.split(' ');
@@ -168,8 +158,19 @@
         html += '<br>';
       }
 
-      console.log('this', this);
       this.lyricsContainer.html(html);
+      console.log(this.track);
+    }
+
+    update() {
+      if (!this.track) return;
+
+      let artist = this.track.artist;
+      let title = this.track.title;
+      this.setTitle(`${artist} - ${title}`);
+
+      let content = String(this.track.content);
+      this.setContent(content);
     }
 
     preferredSize() {

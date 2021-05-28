@@ -293,6 +293,29 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
 
 function tracksForYears(corpus, years) {
 }
+function yearDepartementTracksRelation(corpus) {
+  let relation = {};
+  let allTracks = corpus.allTracks();
+  allTracks.forEach(function (track) {
+    let year = track.releaseYear;
+    let departement = track.departmentNumber;
+    let yearCandidate = relation[year];
+    if (yearCandidate) {
+      let departementCandidate = yearCandidate[departement];
+      if (departementCandidate) {
+        departementCandidate.push(track);
+      } else {
+        departementCandidate = [track];
+      }
+      yearCandidate[departement] = departementCandidate;
+    } else {
+      yearCandidate = {};
+      yearCandidate[departement] = [track];
+    }
+    relation[year] = yearCandidate;
+  });
+  return relation;
+}
 
 function artistsForLocations(corpus, locations) {
   let artists = corpus.artists;
@@ -431,6 +454,15 @@ class Corpus {
   };
   getTracksForYears(years) {
     return tracksForYears();
+  }
+  getTracks(firstYear, lastYear) {
+    return this.allTracks().filter(track => track.releaseYear >= firstYear && track.releaseYear <= lastYear);
+  }
+  getTracksForYearAndDepartement(year, departmentNumber) {
+    return this.allTracks().filter(track => track.releaseYear === year && track.departmentNumber === departmentNumber);
+  }
+  yearDepartementTracksRelation() {
+    return yearDepartementTracksRelation(this);
   }
   getArtistsForLocations(locations) {
     return artistsForLocations(this, locations);

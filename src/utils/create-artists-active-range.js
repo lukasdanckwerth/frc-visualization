@@ -29,7 +29,7 @@ function createDatasets(artists, name) {
   }).filter((dataset) => dataset.data.length > 0);
 }
 
-json.writeAsset(createDatasets(artists), 'artists-active-range.json');
-json.writeAsset(createDatasets(maleArtists), 'artists-active-range-male.json');
-json.writeAsset(createDatasets(femaleArtists), 'artists-active-range-female.json');
-json.writeAsset(createDatasets(groupArtists), 'artists-active-range-groups.json');
+json.writeAsset(createDatasets(artists), 'artists.active.range.json');
+json.writeAsset(createDatasets(maleArtists), 'artists.active.range.male.json');
+json.writeAsset(createDatasets(femaleArtists), 'artists.active.range.female.json');
+json.writeAsset(createDatasets(groupArtists), 'artists.active.range.groups.json');

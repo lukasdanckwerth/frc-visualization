@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="lotivis-container">
+<div class="frcv-menu-container">
   <div class="lotivis-row">
     <div class="lotivis-col-2">
       <a href="index.html">
@@ -23,15 +23,12 @@
     </div>
     <div class="lotivis-col-8 text-center">
       <h1>Corpus Data</h1>
-      <br>
     </div>
     <div class="lotivis-col-2"></div>
     <div class="lotivis-col-12" id="loading">
       <div class="lotivis-card">
-        <div class="frc-loading-card-body text-center">
-          <h1>
-            Loading...
-          </h1>
+        <div class="frc-loading-card">
+          Loading...
         </div>
       </div>
     </div>
@@ -63,56 +60,68 @@
   // enable debug mode
   lotivis.debug(true);
 
-  if (!location.hash) {
-    location.hash = '#reloading';
-    location.reload(true);
-  } else {
-    location.hash = '#reloaded';
-  }
-
-  //
-  let dateChartCard = new lotivis.DateChartCard('date-chart-card');
-  let mapChartCard = new lotivis.MapChartCard('map-chart-card');
+  // create lotivis elements
+  let dateChartCard = new lotivis.DateChartCard('date-chart-card', {title: ' '});
+  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {title: 'Departements'});
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
   let loadingCard = d3.select('#loading');
 
   Promise.all([
-    d3.json('/assets/Departements.geojson'),
-    d3.json('/assets/corpus-datasets.json'),
     d3.json('/corpus'),
-  ]).then(function (results) {
+    d3.json('/assets/departements.geojson'),
+    d3.json('/assets/corpus.overview.tracks.json'),
+    d3.json('/assets/corpus.overview.words.json'),
+    // d3.json('/assets/corpus.overview.words.relative.json'),
+    // d3.json('/assets/corpus.overview.types.json'),
+    // d3.json('/assets/corpus.overview.types.relative.json')
+  ])
+    .then(function (results) {
+      console.log('results', results);
 
-    let corpus = new frc(results[2]);
-    dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
+      let rawCorpus = results.shift();
+      let corpus = new frc(rawCorpus);
+      dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
 
-    let geoJSON = results[0];
-    let datasets = results[1];
-    let controller = new lotivis.DatasetController(datasets);
-    let updater = {
-      update: function (controller, reason) {
-        if (reason === 'location-filter') {
-          let locations = controller.locationFilters;
-          plotChartCard.chart.datasets = corpus.getArtistsForLocations(locations);
-          plotChartCard.chart.update();
-        } else {
-          plotChartCard.chart.datasets = [];
-          plotChartCard.chart.update();
-        }
-      }
-    };
+      let geoJSON = results.shift();
+      mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
+      mapChartCard.chart.setGeoJSON(geoJSON);
+      mapChartCard.chart.update();
 
-    mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
-    mapChartCard.chart.setGeoJSON(geoJSON);
+      dateChartCard.onSelectedDatasetChanged = function (dataset, index, datasetLabel) {
 
-    controller.addListener(updater);
-    controller.register([
-      mapChartCard.chart,
-      dateChartCard.chart,
-      plotChartCard.chart
-    ]);
+        let controller = dateChartCard.chart.datasetController;
+        let updater = {
+          update: function (controller, reason) {
+            if (reason === 'location-filter') {
+              let locations = controller.locationFilters;
+              console.log('locations', locations);
+              let artists = corpus.getArtistsForLocations(locations);
+              console.log('artists', artists);
+              plotChartCard.chart.setDatasets(artists);
+              plotChartCard.chart.update();
+            } else {
+              plotChartCard.chart.setDatasets([]);
+              plotChartCard.chart.update();
+            }
+          }
+        };
 
-    loadingCard.style('display', 'none');
-  });
+        controller.addListener(updater);
+        controller.register([
+          mapChartCard.chart
+        ]);
+
+        console.log('controller', controller.listeners);
+      };
+
+      dateChartCard.setDatasets(results);
+
+      loadingCard.style('display', 'none');
+    })
+    .catch(function (error) {
+      console.log(error);
+      alert(error);
+    });
 
 </script>
 
