@@ -38,7 +38,7 @@
                      placeholder="Search Word"
                      id="search-input"
                      list="search-input-data"
-                     onkeydown="search(this)">
+                     onkeydown="searchFieldAction(this)">
               <datalist id="search-input-data"></datalist>
             </div>
             <br>
@@ -104,6 +104,8 @@
 </div><!-- Container -->
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-server@3.0.1/dist/topojson-server.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
 <script src="js/frc.js"></script>
 
@@ -111,30 +113,26 @@
 
   class TrackPopup extends lotivis.Popup {
 
-    render() {
-      super.render();
-      this.renderHeadline();
-      this.renderRow();
-      this.renderTrackContentContainer();
+    inject() {
+      super.inject();
+      this.injectRow();
+      this.injectTrackContentContainer();
     }
 
-    renderHeadline() {
-      this.card
-        .headerRow
-        .append('h3')
-        .text('Track');
+    setTitle(newTitle) {
+      this.card.titleLabel.text(newTitle || 'Unknown Title');
     }
 
-    renderRow() {
+    injectRow() {
       this.row = this.card.body
         .append('div')
-        .classed('row', true);
+        .classed('lotivis-row', true);
     }
 
-    renderTrackContentContainer() {
+    injectTrackContentContainer() {
       this.lyricsContainer = this.row
-        .append('div')
-        .classed('col-12', true)
+        .append('lotivis-div')
+        .classed('lotivis-col-12 lotivis-margin-left margin-left lotivis-margin-top margin-top', true)
         .append('p');
     }
 
@@ -144,6 +142,11 @@
       let content = String(this.track.content);
       let lines = content.split('\n');
       let html = '';
+
+      let artist = this.track.artist;
+      let title = this.track.title;
+      this.setTitle(`${artist} - ${title}`);
+
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         let words = line.split(' ');
@@ -165,6 +168,7 @@
         html += '<br>';
       }
 
+      console.log('this', this);
       this.lyricsContainer.html(html);
     }
 
@@ -175,6 +179,9 @@
       };
     }
   }
+
+  lotivis.debug(true);
+  let parameters = lotivis.URLParameters.getInstance();
 
   // create lotivis components
   let timeChartCard = new lotivis.DateChartCard('time-chart-card');
@@ -193,12 +200,17 @@
   let sensitivity = document.getElementById('case-sensitivity-dropdown').value;
   let relativeAbsolute = 'relative';
 
-  function search(input) {
+  function searchFieldAction(input) {
     if (Object.getPrototypeOf(this.event) === KeyboardEvent.prototype
       && this.event.key !== 'Enter') return;
     let searchText = input.value;
+    if (!searchText) return;
+    search(searchText);
+  }
 
+  function search(searchText) {
     console.log("searchText:", searchText);
+    parameters.set('searchText', searchText);
 
     if (searchText === undefined) {
       return console.log('search text undefined');
@@ -214,25 +226,24 @@
       relativeAbsolute
     );
 
+    console.log('datasets', datasets);
+
     let controller = new lotivis.DatasetController(datasets);
 
-    timeChartCard.chart.datasetsController = controller;
-    timeChartCard.chart.update();
-
-    mapChartCard.chart.datasetsController = controller;
-    mapChartCard.chart.update();
-
-    plotChartCard.chart.datasetsController = controller;
-    plotChartCard.chart.update();
+    controller.register([
+      timeChartCard.chart,
+      mapChartCard.chart,
+      plotChartCard.chart
+    ])
 
     fillTracksCard(datasets);
   }
 
-  function presentInnovationList(some) {
-    console.log('presentInnovationList', some);
+  function presentInnovationList(sourceElement) {
+
     let body = d3.select('body');
     let popup = new lotivis.Popup(body);
-    popup.showUnder(some);
+    popup.showUnder(sourceElement);
 
     d3
       .text('/assets/innovation-list.txt')
@@ -249,7 +260,7 @@
           .enter()
           .append('a')
           .style('cursor', 'pointer')
-          .html(line => `<nobr>${line}</nobr>`)
+          .html(line => `<nobr>${line.replaceAll(`;`,`, `)}</nobr>`)
           .on('click', function (event, line) {
             console.log('line', line);
             let corrected = line.replaceAll(';', ',');
@@ -282,6 +293,10 @@
 
   function fillYearDropdowns() {
     let html = '';
+
+    console.log('corpus: ' + corpus);
+    console.log('corpus: ', corpus);
+
     firstYear = corpus.getEarliestYear();
     lastYear = corpus.getLatestYear();
 
@@ -298,6 +313,7 @@
 
   function fillTracksCard(datasets) {
 
+    let tracksObject = datasets.tracks;
     let element = d3.select('#tracks-card-content');
     element.selectAll('div').remove();
     element
@@ -318,8 +334,9 @@
       })
       .selectAll("div")
       .data(function (dataset) {
-        dataset.tracks.forEach(item => item.dataset = dataset.label);
-        return dataset.tracks
+        let tracks = tracksObject[dataset.label];
+        tracks.forEach(item => item.dataset = dataset.label);
+        return tracks
           .sort(function (item1, item2) {
             return d3.descending(item1.releaseYear, item2.releaseYear);
           });
@@ -334,15 +351,18 @@
         return `<li>${components.join(' ')}</li>`;
       })
       .on('click', function (event, item) {
-        let parent = d3.select('body');
-        let popup = new TrackPopup(parent);
-
-        popup.searchWord = item.dataset;
-        popup.track = item;
-        popup.update();
-        popup.showBigModal();
-
+        presentTrackPopup(item)
       });
+  }
+
+  function presentTrackPopup(track) {
+    let parent = d3.select('body');
+    let popup = new TrackPopup(parent);
+
+    popup.searchWord = track.dataset;
+    popup.track = track;
+    popup.update();
+    popup.showBigModal();
   }
 
   d3.json('/assets/departements.geojson')
@@ -357,17 +377,16 @@
       return corpusJSON;
     })
     .then(function (corpusJSON) {
-
-      const worker = new Worker("./js/parse-corpus.js", { type: "module" });
-      worker.onmessage = function (message) {
-        // console.info('onmessage', message.data);
-        corpus = message.data;
-        corpus = Object.assign(corpus, new frc(''));
-        fillYearDropdowns();
-        loadingView.style.display = 'none';
-      };
-
-      worker.postMessage(corpusJSON);
+      corpus = new frc(corpusJSON);
+      fillYearDropdowns();
+      loadingView.style.display = 'none';
+    })
+    .then(function () {
+      let searchString = parameters.getString('searchText');
+      if (!searchString) return;
+      search(searchString);
+      searchField.value = searchString;
+      return;
     })
     .catch(function (error) {
       console.error(error);

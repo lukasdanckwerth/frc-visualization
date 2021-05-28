@@ -180,7 +180,7 @@ function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, a
   groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
   groups = groups.map(group => group.trim());
   let datasets = [];
-  let allTracks = [];
+  let tracksObject = {};
   for (let i = 0; i < groups.length; i++) {
     let group = groups[i];
     let words = group.split(',').map(value => value.trim());
@@ -196,11 +196,12 @@ function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, a
         theSensitivity,
         theAbsolute
       );
-      allTracks.push(...dataset.tracks);
+      tracksObject[searchWord] = dataset.tracks;
+      dataset.tracks = null;
       datasets.push(dataset);
     }
   }
-  datasets.tracks = allTracks;
+  datasets.tracks = tracksObject;
   return datasets;
 }
 function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity, absolute) {
@@ -256,8 +257,7 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
     let year = track.releaseYear;
     let department = track.departmentNumber;
     let entry = items.find(function (item) {
-      return item.location === department
-        && item.date === year;
+      return item.location === department && item.date === year;
     });
     if (entry) {
       entry.value += 1;

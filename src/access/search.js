@@ -22,7 +22,7 @@ export function internalSearch(corpus, searchQuery, firstYear, lastYear, sensiti
   groups = groups.map(group => group.trim());
 
   let datasets = [];
-  let allTracks = [];
+  let tracksObject = {};
   for (let i = 0; i < groups.length; i++) {
 
     let group = groups[i];
@@ -41,11 +41,12 @@ export function internalSearch(corpus, searchQuery, firstYear, lastYear, sensiti
         theAbsolute
       );
 
-      allTracks.push(...dataset.tracks);
+      tracksObject[searchWord] = dataset.tracks;
+      dataset.tracks = null;
       datasets.push(dataset);
     }
   }
-  datasets.tracks = allTracks;
+  datasets.tracks = tracksObject;
   return datasets;
 }
 
@@ -140,8 +141,7 @@ export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear,
     let department = track.departmentNumber;
 
     let entry = items.find(function (item) {
-      return item.location === department
-        && item.date === year;
+      return item.location === department && item.date === year;
     });
 
     if (entry) {
