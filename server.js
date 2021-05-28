@@ -9,6 +9,16 @@ const app = express();
 const version = require('./package.json').version;
 const port = process.env.PORT || 81;
 const environment = process.env.NODE_ENV || 'development';
+const fs = require('fs');
+let corpusSize = 0;
+
+fs.stat(__dirname + '/public/assets/corpus.json', (err, stats) => {
+  if (err) {
+    console.log(`File doesn't exist.`);
+  } else {
+    corpusSize = stats.size;
+  }
+});
 
 app.use('/', express.static(__dirname + '/public'));
 
@@ -22,7 +32,11 @@ if (environment === 'production') {
 app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation.list.txt'));
 
 app.use('/version', function (req, res) {
-  res.json({version, environment});
+  res.json({version, environment, corpusSize});
+});
+
+app.use('/corpus-size', function (req, res) {
+  res.json({corpusSize});
 });
 
 app.listen(port, function () {

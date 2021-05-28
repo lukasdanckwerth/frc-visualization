@@ -202,3 +202,16 @@ samp {
 .frcv-center {
   text-align: center;
 }
+
+.lotivis-card-body-content {
+  margin: 30px;
+}
+
+.lotivis-popup-underground {
+  background-color: rgba(255,255,255,0.55);
+}
+
+.frcv-popup-container {
+  margin: 20px;
+  line-height: 1.5;
+}

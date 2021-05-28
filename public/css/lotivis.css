@@ -1,0 +1,623 @@
+@charset "UTF-8";
+body {
+  text-decoration: none;
+  font-style: normal;
+  font-family: sans-serif;
+}
+
+.lotivis-container a, .lotivis-container a:visited, .lotivis-container-full a, .lotivis-container-full a:visited {
+  text-decoration: none;
+  color: #333;
+}
+.lotivis-container a:hover, .lotivis-container a:visited:hover, .lotivis-container a.lotivis-anchor-back:hover, .lotivis-container a.lotivis-anchor-back:visited:hover, .lotivis-container-full a:hover, .lotivis-container-full a:visited:hover, .lotivis-container-full a.lotivis-anchor-back:hover, .lotivis-container-full a.lotivis-anchor-back:visited:hover {
+  color: dodgerblue;
+}
+.lotivis-container a:active, .lotivis-container-full a:active {
+  opacity: 0.6;
+}
+.lotivis-container a.lotivis-anchor-back, .lotivis-container-full a.lotivis-anchor-back {
+  font-size: 25px;
+  color: #999999;
+}
+.lotivis-container a.lotivis-anchor-back::before, .lotivis-container-full a.lotivis-anchor-back::before {
+  content: "←";
+  margin: 0 5px 0 0;
+}
+
+/* MARK: - Buttons */
+button.lotivis-button {
+  text-decoration: none;
+  font-size: 12px;
+  background-color: #00000000;
+  color: gray;
+  padding: 5px 0;
+  text-align: center;
+  display: inline-block;
+  font-weight: normal;
+  cursor: pointer;
+  opacity: 1;
+  transition: 0.36s;
+  border: none;
+}
+
+button.lotivis-button:hover {
+  color: dodgerblue;
+}
+
+button.lotivis-button:active {
+  opacity: 0.6;
+}
+
+button.lotivis-button-back::before {
+  content: "←";
+  margin: 0 5px 0 0;
+}
+
+button.lotivis-button-forward::after {
+  content: "→";
+  margin: 0 0 0 5px;
+}
+
+button.lotivis-button-down::after {
+  content: "↓";
+  margin: 0 0 0 5px;
+}
+
+button.lotivis-button-small {
+  font-size: 12px;
+}
+
+button.lotivis-button-round {
+  border-radius: 999px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+button.lotivis-button-round:active {
+  background: rgba(0, 0, 0, 0.1);
+  opacity: 1;
+}
+
+.lotivis-button-group {
+  padding: 0;
+  margin: 0;
+}
+.lotivis-button-group button {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0 8px;
+}
+.lotivis-button-group button:first-of-type {
+  margin-left: 0;
+}
+.lotivis-button-group button:last-of-type {
+  margin-right: 0;
+}
+.lotivis-button-group input {
+  margin: 0 8px;
+}
+.lotivis-button-group label {
+  margin-right: 8px;
+}
+
+.lotivis-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0 30px 0;
+  color: #464845;
+  margin: 0 0 20px 0;
+}
+
+.lotivis-card-header {
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  height: 14px;
+}
+.lotivis-card-header .lotivis-card-header-right {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+.lotivis-card-header .lotivis-card-header-center {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: auto;
+}
+.lotivis-card-header .lotivis-card-header-left {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lotivis-card-header .lotivis-title-label {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.lotivis-card-body {
+  width: 100%;
+}
+.lotivis-card-body .lotivis-card-body-settings {
+  margin: 10px;
+}
+.lotivis-card-body .lotivis-card-body-settings div {
+  display: block;
+  line-height: 1.2;
+}
+
+.lotivis-card-footer {
+  padding: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.lotivis-disabled {
+  opacity: 0.6;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: right;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
+.margin-left {
+  margin-left: 20px;
+}
+
+.margin-right {
+  margin-right: 20px;
+}
+
+.larger {
+  font-size: larger;
+}
+
+.primary {
+  color: #333;
+}
+
+.secondary {
+  color: #888;
+}
+
+.important {
+  color: red;
+}
+
+.lotivis-headline {
+  text-align: center;
+  margin-bottom: 0.5cm;
+}
+.lotivis-headline h1 {
+  font-size: 26px;
+  font-style: normal;
+  margin: 0 0 5px;
+}
+
+.lotivis-data-status-label {
+  font-size: 12px;
+}
+
+.lotivis-data-status-text {
+  font-size: 12px;
+}
+
+.lotivis-data-status-success {
+  color: green;
+}
+
+.lotivis-data-status-failure {
+  background-color: tomato;
+  color: white;
+  padding: 10px;
+  animation: fadeIn ease 0.3s;
+}
+
+.lotivis-data-textarea {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0 solid #cccccc;
+  width: 100%;
+  font-family: monospace, sans-serif;
+  outline: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.lotivis-data-card-status-tooltip {
+  position: fixed;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  background-color: tomato;
+  color: white;
+}
+
+.lotivis-date-chart-label {
+  pointer-events: none;
+  font-size: 20px;
+}
+
+.lotivis-date-chart-legend-label {
+  font-size: 13px;
+}
+
+.lotivis-date-chart-legend-circle {
+  cursor: pointer;
+  stroke-width: 2;
+}
+
+.lotivis-date-chart-bar {
+  pointer-events: none;
+}
+
+.lotivis-selection-rect {
+  border-radius: 10px;
+  fill: dodgerblue;
+}
+
+.lotivis-menu li {
+  margin-top: 5px;
+}
+.lotivis-menu a, .lotivis-menu a:visited {
+  color: dodgerblue;
+  opacity: 0.8;
+}
+.lotivis-menu a:hover, .lotivis-menu a:visited:hover {
+  color: dodgerblue;
+  opacity: 1;
+}
+.lotivis-menu a:active {
+  opacity: 0.6;
+}
+.lotivis-menu a::after {
+  content: "→";
+  margin: 0 0 0 5px;
+}
+
+input[type=radio] {
+  margin: 0 5px 0 20px;
+  cursor: pointer;
+}
+
+input[type=radio]:first-of-type {
+  margin-left: 0;
+}
+
+input[type=text] {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 3px 10px;
+  width: 90%;
+}
+
+input[type=checkbox] {
+  margin: 0 5px 0 0;
+  cursor: pointer;
+}
+
+.dropdown-container label {
+  margin-right: 5px;
+}
+.dropdown-container label::after {
+  content: ":";
+}
+
+.radio-group label {
+  color: black;
+  font-weight: normal;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.36s;
+}
+.radio-group label:hover {
+  color: dodgerblue;
+}
+.radio-group label:active {
+  opacity: 0.6;
+}
+
+.lotivis-container {
+  padding: 10px 50px 0 50px;
+  margin: auto;
+  max-width: 1200px;
+  font-size: 14px;
+}
+
+.lotivis-container-full {
+  padding: 10px 0 0;
+  margin: auto;
+  font-size: 14px;
+}
+
+.lotivis-row, .lotivis-group {
+  width: 100%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  line-height: 1;
+}
+
+.lotivis-col-12 {
+  width: calc(100% - 10px);
+}
+
+.lotivis-col-11 {
+  width: calc(91.6666% - 10px);
+}
+
+.lotivis-col-10 {
+  width: calc(83.3333% - 10px);
+}
+
+.lotivis-col-9 {
+  width: calc(75% - 10px);
+}
+
+.lotivis-col-8 {
+  width: calc(66.6666% - 10px);
+}
+
+.lotivis-col-7 {
+  width: calc(58.3333% - 10px);
+}
+
+.lotivis-col-6 {
+  width: calc(50% - 10px);
+}
+
+.lotivis-col-5 {
+  width: calc(41.66666% - 10px);
+}
+
+.lotivis-col-4 {
+  width: calc(33.3333% - 10px);
+}
+
+.lotivis-col-3 {
+  width: calc(25% - 10px);
+}
+
+.lotivis-col-2 {
+  width: calc(16.6666% - 10px);
+}
+
+.lotivis-col-1 {
+  width: calc(8.3333% - 10px);
+}
+
+.lotivis-col-12,
+.lotivis-col-11,
+.lotivis-col-10,
+.lotivis-col-9,
+.lotivis-col-8,
+.lotivis-col-7,
+.lotivis-col-6,
+.lotivis-col-5,
+.lotivis-col-4,
+.lotivis-col-3,
+.lotivis-col-2,
+.lotivis-col-1 {
+  padding: 0 5px;
+}
+
+.lotivis-map-area {
+  fill: white;
+  fill-opacity: 0;
+  stroke: black;
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.lotivis-map-exterior-borders {
+  fill: white;
+  fill-opacity: 0;
+  stroke: green;
+  stroke-width: 3;
+  pointer-events: none;
+}
+
+.lotivis-map-label {
+  fill: black;
+  text-anchor: middle;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.lotivis-map-selection-rect {
+  pointer-events: none;
+  position: absolute;
+  fill: white;
+  fill-opacity: 0;
+  stroke: red;
+  stroke-width: 1px;
+  stroke-dasharray: 1, 3;
+}
+
+.lotivis-map-legend-rect {
+  stroke: black;
+  stroke-width: 1;
+}
+
+.lotivis-plot-background {
+  fill: rgba(255, 255, 255, 0);
+}
+
+.lotivis-plot-bar {
+  stroke: lightgrey;
+  stroke-width: 1;
+}
+
+.lotivis-plot-grid {
+  color: lightgrey;
+  stroke-width: 1;
+}
+
+.lotivis-plot-label {
+  fill: white;
+  text-anchor: start;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.lotivis-popup-underground {
+  display: none;
+  position: fixed;
+  z-index: 99991;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.lotivis-popup-underground .lotivis-card {
+  background-color: #f0f0f1;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
+}
+
+.lotivis-fade-in {
+  animation: fadeIn ease 0.3s;
+  -webkit-animation: fadeIn ease 0.3s;
+  -moz-animation: fadeIn ease 0.3s;
+  -o-animation: fadeIn ease 0.3s;
+  -ms-animation: fadeIn ease 0.3s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.lotivis-tooltip {
+  position: relative;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.lotivis-tooltip .lotivis-tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #f0f0f1;
+  color: #333;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 20px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -130px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 30px 0;
+}
+
+.lotivis-tooltip .lotivis-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #f0f0f1 transparent transparent transparent;
+}
+
+.lotivis-tooltip:hover .lotivis-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.lotivis-underground, .lotivis-modal-underground, .lotivis-popup-underground {
+  display: none;
+  position: fixed;
+  z-index: 99991;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.lotivis-underground .lotivis-card, .lotivis-modal-underground .lotivis-card, .lotivis-popup-underground .lotivis-card {
+  background-color: #f0f0f1;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
+}
+
+.lotivis-popup-underground {
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.lotivis-modal-underground {
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.lotivis-tooltip {
+  position: absolute;
+  padding: 10px;
+  background: white;
+  font: 12px sans-serif;
+  stroke-width: 2;
+  border-radius: 8px;
+  border: solid 1px dodgerblue;
+  pointer-events: none;
+  line-height: 1.4;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px 0;
+}

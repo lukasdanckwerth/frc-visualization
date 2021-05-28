@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
+  <link rel="stylesheet" href="css/lotivis.css"/>
   <link rel="stylesheet" href="css/frc-visualization.css"/>
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -37,33 +38,47 @@
     <a href="artists.active.range.html">
       Artists Active Range
     </a>
-    <a href="search.html">
+    <a id="frcv-search">
       Search
     </a>
   </div>
-<!--  <div class="frcv-footer">-->
-<!--    <a href="html/impress-en_EN.html">-->
-<!--      Impressum-->
-<!--    </a>-->
-<!--    <br>-->
-<!--    <a href="html/privacy-policy-en_EN.html">-->
-<!--      Privacy Policy-->
-<!--    </a>-->
-<!--    <br>-->
-<!--    <a href="html/about-project-en_EN.html">-->
-<!--      About-->
-<!--    </a>-->
-<!--  </div>-->
+  <!--  <div class="frcv-footer">-->
+  <!--    <a href="html/impress-en_EN.html">-->
+  <!--      Impressum-->
+  <!--    </a>-->
+  <!--    <br>-->
+  <!--    <a href="html/privacy-policy-en_EN.html">-->
+  <!--      Privacy Policy-->
+  <!--    </a>-->
+  <!--    <br>-->
+  <!--    <a href="html/about-project-en_EN.html">-->
+  <!--      About-->
+  <!--    </a>-->
+  <!--  </div>-->
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/lotivis.min.js"></script>
+<script src="js/content.loading.popup.js"></script>
+
 <script>
+
   d3
     .json('/version')
     .then(function (response) {
       document.getElementById('version').innerHTML = response.version;
       document.getElementById('environment').innerHTML = response.environment;
     });
+
+
+  d3
+    .select('#frcv-search')
+    .on('click', function (some) {
+      let pop = new ContentLoadingPopup();
+      pop.showBigModal();
+      pop.loadContentFrom('/html/about-project-en_EN.html')
+    });
+
 </script>
 
 </body>
