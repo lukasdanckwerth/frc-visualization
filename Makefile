@@ -11,7 +11,7 @@ update:
 
 stage:
 	git checkout stage
-	git pull --rebase origin stage
+	git pull origin stage
 	git merge dev
 	git push origin stage
 	git checkout dev
@@ -22,8 +22,8 @@ patch:
 
 production:
 	git checkout main
-	git pull --rebase origin stage
-	git pull --rebase origin main
+	git pull origin stage
+	git pull origin main
 	git merge stage
 	git push origin main
 	git checkout dev
