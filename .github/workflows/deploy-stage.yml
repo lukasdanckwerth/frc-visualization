@@ -3,7 +3,7 @@ name: Deploy Stage
 on:
   push:
     branches:
-      - main
+      - stage
     tags-ignore:
       - 'v*'
 
@@ -29,6 +29,8 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 'stage'
       - name: Add remote origin
         run: |
           git filter-branch -- --all
