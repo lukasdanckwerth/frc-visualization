@@ -17,6 +17,7 @@ export class Track {
     this.departmentNumber = trackJSON.departmentNumber;
     this.departmentName = trackJSON.departmentName;
     this.id = trackJSON.id;
+    this.url = trackJSON.url;
     this.artistID = trackJSON.artistID;
     this.artist = trackJSON.artist;
     this.content = trackJSON.content;

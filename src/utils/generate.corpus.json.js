@@ -1,7 +1,7 @@
 const json = require('./file.access');
-const frcv = require('../../public/js/frcv');
+const frcv = require('../../public/js/frc');
 const corpusJSON = require('./load-corpus').corpusJSON;
-const corpus = new frcv.Corpus(corpusJSON);
+const corpus = new frcv(corpusJSON);
 
 corpus.allTracks().forEach(function (track) {
   track.components = null;
@@ -9,5 +9,5 @@ corpus.allTracks().forEach(function (track) {
   track.types = null;
 })
 
-json.writeAsset(corpus, '/corpus.json');
-json.writeAsset(corpus.artists.slice(0, 100), '/corpus.light.json');
+json.writeAsset(corpus, 'corpus.json');
+json.writeAsset(corpus.artists.slice(0, 100), 'corpus.light.json');

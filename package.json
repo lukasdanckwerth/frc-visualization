@@ -6,7 +6,7 @@
   "scripts": {
     "build:watch": "rollup -c --watch",
     "build": "rollup -c",
-    "create:corpus:json": "node src/utils/generate.corpus.json.js",
+    "generate:corpus:json": "node src/utils/generate.corpus.json.js",
     "create:corpus:datasets": "node src/utils/generate.overview.datasets.js",
     "create:datasets": "node src/utils/generate.year.relation.datasets.js",
     "create:datasets:map": "node src/utils/generate.departement.relation.datasets.js",

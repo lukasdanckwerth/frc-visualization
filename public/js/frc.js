@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.30 Lukas Danckwerth
+ * frc.js v1.0.33 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -16,6 +16,7 @@ class Track {
     this.departmentNumber = trackJSON.departmentNumber;
     this.departmentName = trackJSON.departmentName;
     this.id = trackJSON.id;
+    this.url = trackJSON.url;
     this.artistID = trackJSON.artistID;
     this.artist = trackJSON.artist;
     this.content = trackJSON.content;
@@ -358,6 +359,7 @@ class Corpus {
   }
   initialize(parsedCorpus) {
     console.log(`frc parse corpus`);
+    console.log(`artist:`, parsedCorpus[0]);
     for (let i = 0; i < parsedCorpus.length; i++) {
       const artistJSON = parsedCorpus[i];
       const artist = new Artist(artistJSON);

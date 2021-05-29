@@ -309,12 +309,8 @@
   }
 
   function presentTrackPopup(track) {
-    let parent = d3.select('body');
-    let popup = new TrackPopup(parent);
-
-    popup.searchWord = track.dataset;
-    popup.track = track;
-    popup.update();
+    let popup = new TrackPopup();
+    popup.setTrack(track);
     popup.showBigModal();
   }
 
