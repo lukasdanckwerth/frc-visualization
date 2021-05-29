@@ -25,6 +25,16 @@ export function getDepartmentsToTracksCollection(tracks, countFunction) {
     countFunction);
 }
 
+export function getDepartmentsToTracksCollectionRelative(data, tracksPerDepartement) {
+  data.forEach(function (item) {
+    let itemLocation = item.location;
+    let tracksPerDepartementItem = tracksPerDepartement.find(item => item.location === itemLocation);
+    if (!tracksPerDepartementItem) return;
+    item.value = item.value / tracksPerDepartementItem.value
+  })
+  return data;
+}
+
 export function getDepartmentsToArtistsCollection(artists, countFunction) {
   return createDepartementData(artists,
     artist => artist.departmentNo,

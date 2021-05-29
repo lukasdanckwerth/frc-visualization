@@ -19,9 +19,15 @@ let wordsPerDepartement = corpus.getDepartmentsToWords();
 let datasetWords = createDataset(wordsPerDepartement, 'Words');
 json.writeAsset(datasetWords, 'departements.to.words.json');
 
+let datasetWordsRelative = createDataset(corpus.getDepartmentsToWordsRelative(), 'Words-Relative');
+json.writeAsset(datasetWordsRelative, 'departements.to.words.relative.json');
+
 let typesDepartment = corpus.getDepartmentsToTypes();
 let datasetTypes = createDataset(typesDepartment, 'Types');
 json.writeAsset(datasetTypes, 'departements.to.types.json');
+
+let datasetTypesRelative = createDataset(corpus.getDepartmentsToTypesRelative(), 'Types-Relative');
+json.writeAsset(datasetTypesRelative, 'departements.to.types.relative.json');
 
 let datasetArtists = createDataset(corpus.getDepartmentsToArtists(), 'Artists');
 json.writeAsset(datasetArtists, 'departements.to.artists.json', false);

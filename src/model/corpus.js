@@ -5,7 +5,7 @@ import {
 } from "./corpus.datasets.year";
 import {
   getDepartmentsToTracksCollection,
-  getDepartmentsToArtistsCollection
+  getDepartmentsToArtistsCollection, getDepartmentsToTracksCollectionRelative
 } from "./corpus.datasets.departement";
 import {
   internalSearch
@@ -236,12 +236,34 @@ export class Corpus {
   }
 
   /**
+   * Returns a year to words collection.
+   *
+   * @returns {{}}
+   */
+  getDepartmentsToWordsRelative() {
+    return getDepartmentsToTracksCollectionRelative(
+      this.getDepartmentsToWords(), this.getDepartmentsToTracks()
+    );
+  };
+
+  /**
    * Returns a year to types collection.
    *
    * @returns {{}}
    */
   getDepartmentsToTypes() {
     return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
+  };
+
+  /**
+   * Returns a year to types collection.
+   *
+   * @returns {{}}
+   */
+  getDepartmentsToTypesRelative() {
+    return getDepartmentsToTracksCollectionRelative(
+      this.getDepartmentsToTypes(), this.getDepartmentsToTracks()
+    );
   };
 
   /**

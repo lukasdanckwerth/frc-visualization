@@ -170,6 +170,15 @@ function getDepartmentsToTracksCollection(tracks, countFunction) {
     track => track.departmentName,
     countFunction);
 }
+function getDepartmentsToTracksCollectionRelative(data, tracksPerDepartement) {
+  data.forEach(function (item) {
+    let itemLocation = item.location;
+    let tracksPerDepartementItem = tracksPerDepartement.find(item => item.location === itemLocation);
+    if (!tracksPerDepartementItem) return;
+    item.value = item.value / tracksPerDepartementItem.value;
+  });
+  return data;
+}
 function getDepartmentsToArtistsCollection(artists, countFunction) {
   return createDepartementData(artists,
     artist => artist.departmentNo,
@@ -407,8 +416,18 @@ class Corpus {
   getDepartmentsToWords() {
     return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.components.length);
   }
+  getDepartmentsToWordsRelative() {
+    return getDepartmentsToTracksCollectionRelative(
+      this.getDepartmentsToWords(), this.getDepartmentsToTracks()
+    );
+  };
   getDepartmentsToTypes() {
     return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
+  };
+  getDepartmentsToTypesRelative() {
+    return getDepartmentsToTracksCollectionRelative(
+      this.getDepartmentsToTypes(), this.getDepartmentsToTracks()
+    );
   };
   getTracksForYears(years) {
     return this.allTracks().filter(track => years.includes(track.releaseYear));
