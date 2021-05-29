@@ -19,8 +19,8 @@
 
 | Environment | URL                                           | Status |
 | ----------- | --------------------------------------------- | ------ |
-| Stage       | https://frc-visualization-stage.herokuapp.com | [![Heroku Deployment (Stage)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-stage.yml/badge.svg?branch=development)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-stage.yml) |
-| Production  | https://frc-visualization.herokuapp.com       | [![Heroku Deployment (Main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-main.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/heroku-deployment-main.yml) |
+| Stage       | https://frc-visualization-stage.herokuapp.com | [![Deploy Stage](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml) |
+| Production  | https://frc-visualization.herokuapp.com       | [![Deploy Production](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml) |
 
 
 
