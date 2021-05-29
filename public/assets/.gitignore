@@ -1,1 +1,3 @@
-*.min.json
+*.json
+*.geojson
+*.txt

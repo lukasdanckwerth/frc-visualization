@@ -10,6 +10,10 @@ function writeAsset(json, name) {
   writeJSON(json, './public/assets/' + name);
 }
 
+function writeTXT(content, name) {
+  fs.writeFileSync('./public/assets/' + name, content);
+}
+
 /**
  * Writes the given raw content to the given URL.
  *
@@ -20,7 +24,9 @@ function writeJSON(json, url) {
   console.log('start writing to ' + url);
   let content = JSON.stringify(json, null, 2);
   let contentMin = JSON.stringify(json);
-  let urlMin = String(url).replace('.json', '.min.json');
+  let urlMin = String(url)
+    .replace('.json', '.min.json')
+    .replace('.geojson', '.min.geojson');
   fs.writeFileSync(url, content);
   fs.writeFileSync(urlMin, contentMin);
 }
@@ -35,6 +41,12 @@ function readJSON(url) {
   return JSON.parse(fs.readFileSync(url) || "");
 }
 
+function readTXT(url) {
+  return fs.readFileSync(url) || "";
+}
+
 exports.writeAsset = writeAsset;
 exports.write = writeJSON;
+exports.writeTXT = writeTXT;
 exports.read = readJSON;
+exports.readTXT = readTXT;
