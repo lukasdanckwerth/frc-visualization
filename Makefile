@@ -6,10 +6,7 @@ commands: $(eval .SILENT:)
 	echo ""
 
 update:
-	# grab the latest from origin/main
-	git pull --rebase origin main
-
-  # create your feature branch
+	git pull --rebase origin dev
 	git checkout dev
 
 stage:
