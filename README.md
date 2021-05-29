@@ -7,11 +7,6 @@
 
 ### Docker
 
-## Stati
-
-* Pipeline status ```development```: [![Build and Test](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml/badge.svg?branch=development)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml)
-* Pipeline status ```main```: [![Build and Test](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/build-and-test.yml)
-
 ## Heroku
 
 * ```development``` branch is deployed to Heroku ```stage```
