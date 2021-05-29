@@ -19,16 +19,17 @@ function writeTXT(content, name) {
  *
  * @param json The json object.
  * @param url The url of the file.
+ * @param minify Indicates whether to use a minified JSON version.
  */
-function writeJSON(json, url) {
+function writeJSON(json, url, minify = true) {
   console.log('start writing to ' + url);
-  let content = JSON.stringify(json, null, 2);
-  let contentMin = JSON.stringify(json);
-  let urlMin = String(url)
-    .replace('.json', '.min.json')
-    .replace('.geojson', '.min.geojson');
+  let content;
+  if (minify) {
+    content = JSON.stringify(json);
+  } else {
+    content = JSON.stringify(json, null, 2);
+  }
   fs.writeFileSync(url, content);
-  fs.writeFileSync(urlMin, contentMin);
 }
 
 /**

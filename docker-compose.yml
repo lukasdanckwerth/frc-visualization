@@ -5,6 +5,6 @@ services:
     container_name: frc-visualization
     restart: always
     ports:
-      - 80:80
+      - 80:81
     environment:
       - NODE_ENV=production

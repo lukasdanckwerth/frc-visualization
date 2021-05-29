@@ -1,5 +1,5 @@
 const json = require('./file.access');
-const frcv = require('../../public/js/frc');
+const frcv = require('../public/js/frc');
 const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv(corpusJSON);
 const {yearCollectionToDataset} = require("./dataset.util");
