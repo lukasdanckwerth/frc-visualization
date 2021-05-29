@@ -15,3 +15,15 @@ stage:
 	git merge dev
 	git push origin stage
 	git checkout dev
+
+patch:
+	npm version patch
+	git push --follow-tags
+
+production:
+	git checkout main
+	git pull --rebase origin stage
+	git pull --rebase origin main
+	git merge stage
+	git push origin main
+	git checkout dev
