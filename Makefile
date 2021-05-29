@@ -1,13 +1,19 @@
 
 commands: $(eval .SILENT:)
 	echo "targets:" && echo ""
-	echo "  update           Checkout "$$"UPDATE_TAG (default master) and pull repository with submodules"
-	echo "  upgrade          Checkout every submodules current master branch"
+	echo "  update        Start developing on branch dev"
+	echo "  patch         Patch npm version. Push."
+	echo "  stage         Merge stage with dev. Then push."
+	echo "  production    Merge production with stage. Then push."
 	echo ""
 
 update:
 	git pull --rebase origin dev
 	git checkout dev
+
+patch:
+	npm version patch
+	git push --follow-tags
 
 stage:
 	git checkout stage
@@ -15,10 +21,6 @@ stage:
 	git merge dev
 	git push origin stage
 	git checkout dev
-
-patch:
-	npm version patch
-	git push --follow-tags
 
 production:
 	git checkout main
