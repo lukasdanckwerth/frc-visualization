@@ -35,7 +35,6 @@ export class Corpus {
    */
   initialize(parsedCorpus) {
     console.log(`frc parse corpus`);
-    console.log(`artist:`, parsedCorpus[0]);
     for (let i = 0; i < parsedCorpus.length; i++) {
       const artistJSON = parsedCorpus[i];
       const artist = new Artist(artistJSON);

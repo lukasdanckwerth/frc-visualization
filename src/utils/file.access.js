@@ -7,7 +7,7 @@ const fs = require('fs');
  * @param name The name of the file.
  */
 function writeAsset(json, name) {
-  writeJSON(json, './public/assets/' + name);``
+  writeJSON(json, './public/assets/' + name);
 }
 
 /**
@@ -19,13 +19,10 @@ function writeAsset(json, name) {
 function writeJSON(json, url) {
   console.log('start writing to ' + url);
   let content = JSON.stringify(json, null, 2);
-  fs.writeFile(url, content, function (err) {
-    if (err) {
-      console.error(err)
-    } else {
-      console.log("did write to " + url)
-    }
-  });
+  let contentMin = JSON.stringify(json);
+  let urlMin = String(url).replace('.json', '.min.json');
+  fs.writeFileSync(url, content);
+  fs.writeFileSync(urlMin, contentMin);
 }
 
 /**

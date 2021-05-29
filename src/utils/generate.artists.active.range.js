@@ -31,7 +31,7 @@ function createDatasets(artists, label) {
   return dataset;
 }
 
-json.writeAsset(createDatasets(artists), 'All');
-json.writeAsset(createDatasets(maleArtists), 'Male');
-json.writeAsset(createDatasets(femaleArtists), 'Female');
-json.writeAsset(createDatasets(groupArtists), 'Groups');
+json.writeAsset(createDatasets(artists, 'All'), 'artists.active.range.json');
+json.writeAsset(createDatasets(maleArtists, 'Male'), 'artists.active.range.male.json');
+json.writeAsset(createDatasets(femaleArtists, 'Female'), 'artists.active.range.female.json');
+json.writeAsset(createDatasets(groupArtists, 'Groups'), 'artists.active.range.groups.json');
