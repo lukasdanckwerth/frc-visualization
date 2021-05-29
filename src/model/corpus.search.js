@@ -1,4 +1,4 @@
-import {Track} from "../model/track";
+import {Track} from "./track";
 
 /**
  *

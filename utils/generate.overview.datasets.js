@@ -29,7 +29,6 @@ function createDataset(valueAccess) {
     }
   }
 
-  console.log('data', data.length);
   return data;
 }
 
@@ -46,5 +45,3 @@ let wordsPerYear = corpus.getYearsToWords();
 wordsData.forEach(item =>
   item.value
 )
-console.log(wordsPerYear);
-console.log(wordsPerDepartement);

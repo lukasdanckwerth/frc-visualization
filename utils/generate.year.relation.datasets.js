@@ -2,24 +2,31 @@ const json = require('./file.access');
 const frcv = require('../public/js/frc');
 const corpusJSON = require('./load-corpus').corpusJSON;
 const corpus = new frcv(corpusJSON);
-const {yearCollectionToDataset} = require("./dataset.util");
+
+function createDataset(data, name) {
+  return {
+    label: name,
+    stack: name,
+    data: data
+  }
+}
 
 let tracksPerYear = corpus.getYearsToTrackNumbers();
-let datasetLyrics = yearCollectionToDataset(tracksPerYear, 'Tracks');
-json.writeAsset(datasetLyrics, 'year.to.track.json');
+let datasetLyrics = createDataset(tracksPerYear, 'Tracks');
+json.writeAsset(datasetLyrics, 'year.to.track.json', false);
 
 let wordsPerYear = corpus.getYearsToWords();
-let datasetWords = yearCollectionToDataset(wordsPerYear, 'Words');
-json.writeAsset(datasetWords, 'year.to.words.json');
+let datasetWords = createDataset(wordsPerYear, 'Words');
+json.writeAsset(datasetWords, 'year.to.words.json', false);
 
 let wordsPerYearRelative = corpus.getYearsToWordsRelative();
-let datasetWordsRelative = yearCollectionToDataset(wordsPerYearRelative, 'Words-(Relative)');
-json.writeAsset(datasetWordsRelative, 'year.to.words.relative.json');
+let datasetWordsRelative = createDataset(wordsPerYearRelative, 'Words-(Relative)');
+json.writeAsset(datasetWordsRelative, 'year.to.words.relative.json', false);
 
 let typesPerYear = corpus.getYearsToTypes();
-let datasetTypes = yearCollectionToDataset(typesPerYear, 'Types');
-json.writeAsset(datasetTypes, 'year.to.types.json');
+let datasetTypes = createDataset(typesPerYear, 'Types');
+json.writeAsset(datasetTypes, 'year.to.types.json', false);
 
 let typesPerYearRelative = corpus.getYearsToTypesRelative();
-let datasetTypesRelative = yearCollectionToDataset(typesPerYearRelative, 'Types-(Relative)');
-json.writeAsset(datasetTypesRelative, 'year.to.types.relative.json');
+let datasetTypesRelative = createDataset(typesPerYearRelative, 'Types-(Relative)');
+json.writeAsset(datasetTypesRelative, 'year.to.types.relative.json', false);

@@ -6,8 +6,8 @@ const fs = require('fs');
  * @param json The json object to write.
  * @param name The name of the file.
  */
-function writeAsset(json, name) {
-  writeJSON(json, './public/assets/' + name);
+function writeAsset(json, name, minify = true) {
+  writeJSON(json, './public/assets/' + name, minify);
 }
 
 function writeTXT(content, name) {

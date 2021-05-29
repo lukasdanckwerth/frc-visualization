@@ -1,17 +1,15 @@
 import {Artist} from "./artist";
 import {
   getYearsToCollection,
-  getYearsToCollectionRelative
-} from "../access/year-relations";
+  getYearsToCollectionRelative, getYearsToTracksCollection
+} from "./corpus.datasets.year";
 import {
-  getDepartmentsToCollection,
-  getDepartmentsToCollectionRelative
-} from "../access/department-relations";
+  getDepartmentsToTracksCollection,
+  getDepartmentsToArtistsCollection
+} from "./corpus.datasets.departement";
 import {
   internalSearch
-} from "../access/search";
-import {tracksForYears, yearDepartementTracksRelation} from "../access/tracks-access";
-import {artistsForLocations} from "../access/artists-for-locations";
+} from "./corpus.search";
 
 /**
  *
@@ -146,11 +144,18 @@ export class Corpus {
   }
 
   getDateLabels() {
-    console.log('this.firstYear', this.firstYear);
     let firstDate = this.firstYear || this.getEarliestYear();
     let lastDate = this.lastYear || this.getLatestYear();
     let range = lastDate - firstDate + 1;
     return Array(range).fill(0).map((e, i) => i + firstDate);
+  }
+
+  getLocations() {
+    return Array.from(new Set(this.artists.map(artist => artist.departmentNo)));
+  }
+
+  getLocationNames() {
+    return Array.from(new Set(this.artists.map(artist => artist.departmentName)));
   }
 
   /**
@@ -159,7 +164,7 @@ export class Corpus {
    * @returns {{}}
    */
   getYearsToTrackNumbers() {
-    return getYearsToCollection(this, () => 1);
+    return getYearsToTracksCollection(this.allTracks(), () => 1);
   }
 
   /**
@@ -167,7 +172,7 @@ export class Corpus {
    * @returns {{}}
    */
   getYearsToWords() {
-    return getYearsToCollection(this, (track) => track.components.length);
+    return getYearsToTracksCollection(this.allTracks(), (track) => track.components.length);
   }
 
   /**
@@ -175,7 +180,7 @@ export class Corpus {
    * @returns {{}}
    */
   getYearsToWordsRelative() {
-    return getYearsToCollectionRelative(this, this.getYearsToWords());
+    return getYearsToCollectionRelative(this.getYearsToWords(), this.getYearsToTrackNumbers());
   };
 
   /**
@@ -184,7 +189,7 @@ export class Corpus {
    * @returns {{}}
    */
   getYearsToTypes() {
-    return getYearsToCollection(this, (track) => track.types.length);
+    return getYearsToTracksCollection(this.allTracks(), (track) => track.types.length);
   };
 
   /**
@@ -192,8 +197,25 @@ export class Corpus {
    * @returns {{}}
    */
   getYearsToTypesRelative() {
-    return getYearsToCollectionRelative(this, this.getYearsToTypes());
+    return getYearsToCollectionRelative(this.getYearsToTypes(), this.getYearsToTrackNumbers());
   };
+
+
+  getDepartmentsToArtists() {
+    return getDepartmentsToArtistsCollection(this.artists, () => 1);
+  }
+
+  getDepartmentsToMaleArtists() {
+    return getDepartmentsToArtistsCollection(this.maleArtists(), () => 1);
+  }
+
+  getDepartmentsToFemaleArtists() {
+    return getDepartmentsToArtistsCollection(this.femaleArtists(), () => 1);
+  }
+
+  getDepartmentsToGroupArtists() {
+    return getDepartmentsToArtistsCollection(this.groupArtists(), () => 1);
+  }
 
   /**
    * Returns a departments to year collection.
@@ -201,7 +223,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToTracks() {
-    return getDepartmentsToCollection(this, () => 1);
+    return getDepartmentsToTracksCollection(this.allTracks(), () => 1);
   }
 
   /**
@@ -210,17 +232,8 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToWords() {
-    return getDepartmentsToCollection(this, (track) => track.components.length);
+    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.components.length);
   }
-
-  /**
-   * Returns a year to words collection with relative values.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToWordsRelative() {
-    return getDepartmentsToCollectionRelative(this, this.getDepartmentsToWords());
-  };
 
   /**
    * Returns a year to types collection.
@@ -228,16 +241,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToTypes() {
-    return getDepartmentsToCollection(this, (track) => track.types.length);
-  };
-
-  /**
-   * Returns a year to types collection with relative values.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToTypesRelative() {
-    return getDepartmentsToCollectionRelative(this, this.getDepartmentsToTypes());
+    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
   };
 
   /**
@@ -246,7 +250,7 @@ export class Corpus {
    * @returns {*}
    */
   getTracksForYears(years) {
-    return tracksForYears(this, years);
+    return this.allTracks().filter(track => years.includes(track.releaseYear));
   }
 
   getTracks(firstYear, lastYear) {
@@ -257,17 +261,12 @@ export class Corpus {
     return this.allTracks().filter(track => track.releaseYear === year && track.departmentNumber === departmentNumber);
   }
 
-  yearDepartementTracksRelation() {
-    return yearDepartementTracksRelation(this);
+  tracksForLocations(departmentNumbers) {
+    this.allTracks().filter(track => departmentNumbers.includes(track.departmentNumber));
   }
 
-  /**
-   *
-   * @param locations
-   * @returns {*}
-   */
-  getArtistsForLocations(locations) {
-    return artistsForLocations(this, locations);
+  artistsForLocations(departmentNumbers) {
+    return this.artists.filter(artist => departmentNumbers.includes(artist.departmentNo));
   }
 
   /**

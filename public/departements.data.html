@@ -60,11 +60,13 @@
 
   Promise
     .all([
+      d3.json('assets/departements.to.artists.json'),
+      d3.json('assets/departements.to.male.artists.json'),
+      d3.json('assets/departements.to.female.artists.json'),
+      d3.json('assets/departements.to.group.artists.json'),
       d3.json('assets/departements.to.tracks.json'),
       d3.json('assets/departements.to.words.json'),
-      d3.json('assets/departements.to.words.relative.json'),
       d3.json('assets/departements.to.types.json'),
-      d3.json('assets/departements.to.types.relative.json'),
       d3.json('assets/departements.geojson')
     ])
     .then(function (datasetsAndGeoJSON) {

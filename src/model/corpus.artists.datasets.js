@@ -1,20 +1,3 @@
-/**
- *
- * @param corpus
- * @param locations
- * @returns {[]}
- */
-export function artistsForLocations(corpus, locations) {
-  let artists = corpus.artists;
-  let includedArtists = [];
-  for (let index = 0; index < artists.length; index++) {
-    let artist = artists[index];
-    if (locations.includes(String(artist.departmentNo))) {
-      includedArtists.push(artist);
-    }
-  }
-  return artistsDatasets(includedArtists);
-}
 
 /**
  *

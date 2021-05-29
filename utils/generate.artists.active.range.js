@@ -23,7 +23,7 @@ function createDatasets(artists, label) {
 
     return {
       label: artist.name,
-      data: data
+      data: corpus.combineData(data)
     };
 
   }).filter((dataset) => dataset.data.length > 0);

@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.33 Lukas Danckwerth
+ * frc.js v1.0.35 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -114,62 +114,67 @@ class Artist {
   }
 }
 
-function getYearsToCollection(corpus, countFunction) {
-  let allTracks = corpus.allTracks();
-  let yearCollection = {};
-  for (let i = 0; i < allTracks.length; i++) {
-    const track = allTracks[i];
-    const year = track.releaseYear;
-    if (yearCollection[year]) {
-      yearCollection[year] = yearCollection[year] + countFunction(track);
+function createYearData(collection, dateAccess, valueAccess) {
+  let data = [];
+  collection.forEach(function (item) {
+    let date = dateAccess(item);
+    let dataset = data.find(dataset => dataset.date === date);
+    if (dataset) {
+      dataset.value += valueAccess(item);
     } else {
-      yearCollection[year] = countFunction(track);
+      data.push({
+        date: date,
+        value: valueAccess(item)
+      });
     }
-  }
-  return yearCollection;
+  });
+  return data;
 }
-function getYearsToCollectionRelative(corpus, listPerYear) {
-  let lyricsPerYear = corpus.getYearsToTrackNumbers();
-  let yearCollection = {};
-  for (const yearKey in lyricsPerYear) {
-    if (lyricsPerYear.hasOwnProperty(yearKey)) {
-      let lyricsCount = lyricsPerYear[yearKey];
-      let wordsCount = listPerYear[yearKey];
-      yearCollection[yearKey] = wordsCount / lyricsCount;
-    }
-  }
-  return yearCollection;
+function getYearsToTracksCollection(tracks, countFunction) {
+  return createYearData(
+    tracks,
+    track => track.releaseYear,
+    countFunction);
+}
+function getYearsToCollectionRelative(data, tracksPerYear) {
+  data.forEach(function (item) {
+    let itemDate = item.date;
+    let tracksPerYearItem = tracksPerYear.find(item => item.date === itemDate);
+    if (!tracksPerYearItem) return;
+    item.value = item.value / tracksPerYearItem.value;
+  });
+  return data;
 }
 
-function getDepartmentsToCollection(corpus, countFunction) {
+function createDepartementData(collection, locationAccess, locationNameAccess, valueAccess) {
   let departmentDatasets = [];
-  let allTracks = corpus.allTracks();
-  allTracks.forEach(function (track) {
-    let location = track.departmentNumber;
-    let departmentName = track.departmentName;
+  collection.forEach(function (item) {
+    let location = locationAccess(item);
+    let departmentName = locationNameAccess(item);
     let dataset = departmentDatasets.find(dataset => dataset.location === location);
     if (dataset) {
-      dataset.value += countFunction(track);
+      dataset.value += valueAccess(item);
     } else {
       departmentDatasets.push({
         location: location,
         locationName: departmentName,
-        value: countFunction(track)
+        value: valueAccess(item)
       });
     }
   });
   return departmentDatasets;
 }
-function getDepartmentsToCollectionRelative(corpus, listPerDepartement) {
-  let tracksPerDepartment = corpus.getDepartmentsToTracks();
-  for (let index = 0; index < listPerDepartement.length; index++) {
-    let item = listPerDepartement[index];
-    let location = item.location;
-    let trackCount = tracksPerDepartment.find(item => item.location === location);
-    let itemCount = listPerDepartement.find(item => item.location === location);
-    item.value = itemCount.value / trackCount.value;
-  }
-  return listPerDepartement;
+function getDepartmentsToTracksCollection(tracks, countFunction) {
+  return createDepartementData(tracks,
+    track => track.departmentNumber,
+    track => track.departmentName,
+    countFunction);
+}
+function getDepartmentsToArtistsCollection(artists, countFunction) {
+  return createDepartementData(artists,
+    artist => artist.departmentNo,
+    artist => artist.departmentName,
+    artist => 1);
 }
 
 function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, absolute) {
@@ -292,66 +297,6 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
   return items;
 }
 
-function tracksForYears(corpus, years) {
-}
-function yearDepartementTracksRelation(corpus) {
-  let relation = {};
-  let allTracks = corpus.allTracks();
-  allTracks.forEach(function (track) {
-    let year = track.releaseYear;
-    let departement = track.departmentNumber;
-    let yearCandidate = relation[year];
-    if (yearCandidate) {
-      let departementCandidate = yearCandidate[departement];
-      if (departementCandidate) {
-        departementCandidate.push(track);
-      } else {
-        departementCandidate = [track];
-      }
-      yearCandidate[departement] = departementCandidate;
-    } else {
-      yearCandidate = {};
-      yearCandidate[departement] = [track];
-    }
-    relation[year] = yearCandidate;
-  });
-  return relation;
-}
-
-function artistsForLocations(corpus, locations) {
-  let artists = corpus.artists;
-  let includedArtists = [];
-  for (let index = 0; index < artists.length; index++) {
-    let artist = artists[index];
-    if (locations.includes(String(artist.departmentNo))) {
-      includedArtists.push(artist);
-    }
-  }
-  return artistsDatasets(includedArtists);
-}
-function artistsDatasets(artists) {
-  let datasets = [];
-  for (let index = 0; index < artists.length; index++) {
-    let artist = artists[index];
-    let tracks = artist.allTracks();
-    let data = [];
-    for (let trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
-      let track = tracks[trackIndex];
-      data.push({
-        date: track.releaseYear,
-        location: artist.departmentNo,
-        value: 1,
-      });
-    }
-    datasets.push({
-      label: artist.name,
-      stack: artist.name,
-      data: data
-    });
-  }
-  return datasets;
-}
-
 class Corpus {
   constructor(parsedCorpus) {
     this.artists = [];
@@ -418,44 +363,55 @@ class Corpus {
       .reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
   }
   getDateLabels() {
-    console.log('this.firstYear', this.firstYear);
     let firstDate = this.firstYear || this.getEarliestYear();
     let lastDate = this.lastYear || this.getLatestYear();
     let range = lastDate - firstDate + 1;
     return Array(range).fill(0).map((e, i) => i + firstDate);
   }
+  getLocations() {
+    return Array.from(new Set(this.artists.map(artist => artist.departmentNo)));
+  }
+  getLocationNames() {
+    return Array.from(new Set(this.artists.map(artist => artist.departmentName)));
+  }
   getYearsToTrackNumbers() {
-    return getYearsToCollection(this, () => 1);
+    return getYearsToTracksCollection(this.allTracks(), () => 1);
   }
   getYearsToWords() {
-    return getYearsToCollection(this, (track) => track.components.length);
+    return getYearsToTracksCollection(this.allTracks(), (track) => track.components.length);
   }
   getYearsToWordsRelative() {
-    return getYearsToCollectionRelative(this, this.getYearsToWords());
+    return getYearsToCollectionRelative(this.getYearsToWords(), this.getYearsToTrackNumbers());
   };
   getYearsToTypes() {
-    return getYearsToCollection(this, (track) => track.types.length);
+    return getYearsToTracksCollection(this.allTracks(), (track) => track.types.length);
   };
   getYearsToTypesRelative() {
-    return getYearsToCollectionRelative(this, this.getYearsToTypes());
+    return getYearsToCollectionRelative(this.getYearsToTypes(), this.getYearsToTrackNumbers());
   };
+  getDepartmentsToArtists() {
+    return getDepartmentsToArtistsCollection(this.artists);
+  }
+  getDepartmentsToMaleArtists() {
+    return getDepartmentsToArtistsCollection(this.maleArtists());
+  }
+  getDepartmentsToFemaleArtists() {
+    return getDepartmentsToArtistsCollection(this.femaleArtists());
+  }
+  getDepartmentsToGroupArtists() {
+    return getDepartmentsToArtistsCollection(this.groupArtists());
+  }
   getDepartmentsToTracks() {
-    return getDepartmentsToCollection(this, () => 1);
+    return getDepartmentsToTracksCollection(this.allTracks(), () => 1);
   }
   getDepartmentsToWords() {
-    return getDepartmentsToCollection(this, (track) => track.components.length);
+    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.components.length);
   }
-  getDepartmentsToWordsRelative() {
-    return getDepartmentsToCollectionRelative(this, this.getDepartmentsToWords());
-  };
   getDepartmentsToTypes() {
-    return getDepartmentsToCollection(this, (track) => track.types.length);
-  };
-  getDepartmentsToTypesRelative() {
-    return getDepartmentsToCollectionRelative(this, this.getDepartmentsToTypes());
+    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
   };
   getTracksForYears(years) {
-    return tracksForYears();
+    return this.allTracks().filter(track => years.includes(track.releaseYear));
   }
   getTracks(firstYear, lastYear) {
     return this.allTracks().filter(track => track.releaseYear >= firstYear && track.releaseYear <= lastYear);
@@ -463,16 +419,34 @@ class Corpus {
   getTracksForYearAndDepartement(year, departmentNumber) {
     return this.allTracks().filter(track => track.releaseYear === year && track.departmentNumber === departmentNumber);
   }
-  yearDepartementTracksRelation() {
-    return yearDepartementTracksRelation(this);
+  tracksForLocations(departmentNumbers) {
+    this.allTracks().filter(track => departmentNumbers.includes(track.departmentNumber));
   }
-  getArtistsForLocations(locations) {
-    return artistsForLocations(this, locations);
+  artistsForLocations(departmentNumbers) {
+    return this.artists.filter(artist => departmentNumbers.includes(artist.departmentNo));
   }
   search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
     return internalSearch(this, searchQuery, firstYear, lastYear, sensitivity, absolute);
   }
 }
+
+Corpus.prototype.combineData = function (data) {
+  let combined = [];
+  data.forEach(function (item) {
+    let candidate = combined.find(dataset =>
+      dataset.location === item.location && dataset.date === item.date);
+    if (candidate) {
+      candidate.value += item.value;
+    } else {
+      combined.push({
+        date: item.date,
+        location: item.location,
+        value: item.value
+      });
+    }
+  });
+  return combined;
+};
 
 return Corpus;
 
