@@ -1,6 +1,6 @@
 {
   "name": "de.beuth.frc-visualisation",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "French Rap Corpus Visualization",
   "main": "server.js",
   "scripts": {
