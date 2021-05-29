@@ -17,3 +17,4 @@ stage:
 	git pull --rebase origin stage
 	git merge dev
 	git push origin stage
+	git checkout dev
