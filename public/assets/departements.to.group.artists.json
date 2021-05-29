@@ -1,0 +1,206 @@
+{
+  "label": "Group Artists",
+  "stack": "Group Artists",
+  "data": [
+    {
+      "location": 13,
+      "locationName": "bouches-du-rhône",
+      "value": 35
+    },
+    {
+      "location": 94,
+      "locationName": "val-de-marne",
+      "value": 25
+    },
+    {
+      "location": 93,
+      "locationName": "seine-saint-denis",
+      "value": 43
+    },
+    {
+      "location": 75,
+      "locationName": "paris",
+      "value": 99
+    },
+    {
+      "location": 31,
+      "locationName": "haute-garonne",
+      "value": 13
+    },
+    {
+      "location": 95,
+      "locationName": "val-d’oise",
+      "value": 16
+    },
+    {
+      "location": 77,
+      "locationName": "seine-et-marne",
+      "value": 11
+    },
+    {
+      "location": 92,
+      "locationName": "hauts-de-seine",
+      "value": 20
+    },
+    {
+      "location": 69,
+      "locationName": "rhône",
+      "value": 12
+    },
+    {
+      "location": 78,
+      "locationName": "yvelines",
+      "value": 7
+    },
+    {
+      "location": 91,
+      "locationName": "essonne",
+      "value": 24
+    },
+    {
+      "location": 45,
+      "locationName": "loiret",
+      "value": 2
+    },
+    {
+      "location": 25,
+      "locationName": "doubs",
+      "value": 2
+    },
+    {
+      "location": 60,
+      "locationName": "oise",
+      "value": 1
+    },
+    {
+      "location": 59,
+      "locationName": "nord",
+      "value": 5
+    },
+    {
+      "location": 67,
+      "locationName": "bas-rhin",
+      "value": 3
+    },
+    {
+      "location": 28,
+      "locationName": "eure-et-loir",
+      "value": 1
+    },
+    {
+      "location": 35,
+      "locationName": "ille-et-vilaine",
+      "value": 5
+    },
+    {
+      "location": 76,
+      "locationName": "seine-maritime",
+      "value": 4
+    },
+    {
+      "location": 33,
+      "locationName": "gironde",
+      "value": 3
+    },
+    {
+      "location": 44,
+      "locationName": "loire-atlantique",
+      "value": 3
+    },
+    {
+      "location": 14,
+      "locationName": "calvados",
+      "value": 1
+    },
+    {
+      "location": 27,
+      "locationName": "eure",
+      "value": 3
+    },
+    {
+      "location": 6,
+      "locationName": "alpes-maritimes",
+      "value": 1
+    },
+    {
+      "location": 68,
+      "locationName": "haut-rhin",
+      "value": 2
+    },
+    {
+      "location": 74,
+      "locationName": "haute-savoie",
+      "value": 2
+    },
+    {
+      "location": 38,
+      "locationName": "isère",
+      "value": 1
+    },
+    {
+      "location": 51,
+      "locationName": "marne",
+      "value": 1
+    },
+    {
+      "location": 34,
+      "locationName": "hérault",
+      "value": 3
+    },
+    {
+      "location": 42,
+      "locationName": "loire",
+      "value": 1
+    },
+    {
+      "location": 37,
+      "locationName": "indre-et-loire",
+      "value": 2
+    },
+    {
+      "location": 43,
+      "locationName": "haute-loire",
+      "value": 1
+    },
+    {
+      "location": 66,
+      "locationName": "pyrénées-orientales",
+      "value": 1
+    },
+    {
+      "location": 30,
+      "locationName": "gard",
+      "value": 2
+    },
+    {
+      "location": 29,
+      "locationName": "finistère",
+      "value": 1
+    },
+    {
+      "location": 18,
+      "locationName": "cher",
+      "value": 1
+    },
+    {
+      "location": 54,
+      "locationName": "meurthe-et-moselle",
+      "value": 1
+    },
+    {
+      "location": 57,
+      "locationName": "moselle",
+      "value": 1
+    },
+    {
+      "location": 58,
+      "locationName": "nièvre",
+      "value": 1
+    },
+    {
+      "location": 55,
+      "locationName": "meuse",
+      "value": 1
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "label": "Female Artists",
+  "stack": "Female Artists",
+  "data": [
+    {
+      "location": 44,
+      "locationName": "loire-atlantique",
+      "value": 3
+    },
+    {
+      "location": 93,
+      "locationName": "seine-saint-denis",
+      "value": 9
+    },
+    {
+      "location": 94,
+      "locationName": "val-de-marne",
+      "value": 6
+    },
+    {
+      "location": 91,
+      "locationName": "essonne",
+      "value": 3
+    },
+    {
+      "location": 75,
+      "locationName": "paris",
+      "value": 13
+    },
+    {
+      "location": 92,
+      "locationName": "hauts-de-seine",
+      "value": 3
+    },
+    {
+      "location": 12,
+      "locationName": "aveyron",
+      "value": 1
+    },
+    {
+      "location": 1,
+      "locationName": "ain",
+      "value": 1
+    },
+    {
+      "location": 95,
+      "locationName": "val-d’oise",
+      "value": 5
+    },
+    {
+      "location": 6,
+      "locationName": "alpes-maritimes",
+      "value": 1
+    },
+    {
+      "location": 60,
+      "locationName": "oise",
+      "value": 2
+    },
+    {
+      "location": 13,
+      "locationName": "bouches-du-rhône",
+      "value": 5
+    },
+    {
+      "location": 69,
+      "locationName": "rhône",
+      "value": 3
+    },
+    {
+      "location": 67,
+      "locationName": "bas-rhin",
+      "value": 1
+    },
+    {
+      "location": 37,
+      "locationName": "indre-et-loire",
+      "value": 1
+    },
+    {
+      "location": 59,
+      "locationName": "nord",
+      "value": 1
+    },
+    {
+      "location": 78,
+      "locationName": "yvelines",
+      "value": 1
+    },
+    {
+      "location": 77,
+      "locationName": "seine-et-marne",
+      "value": 1
+    },
+    {
+      "location": 50,
+      "locationName": "manche",
+      "value": 1
+    }
+  ]
+}
