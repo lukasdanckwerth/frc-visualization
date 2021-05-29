@@ -9,6 +9,13 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <title>FRCV - Years Data</title>
+  <style>
+    .lotivis-card {
+      border: none;
+      background-color: white;
+      box-shadow: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -45,9 +52,18 @@
 
   lotivis.config.downloadFilePrefix = 'frcv';
 
-  const dateChartCard = new lotivis.DateChartCard('date-chart-card', {title: 'Years Data'});
-  dateChartCard.chart.config.margin.top = 20;
-  const chart = dateChartCard.chart;
+  const dateChartCard = new lotivis.DateChartCard('date-chart-card', {
+    title: 'Years Data',
+    margin: {
+      top: 20,
+      right: 20,
+      left: 70
+    }
+  });
+
+  dateChartCard.onSelectedDatasetChanged = function (data, index, label) {
+    dateChartCard.setTitle(label + ' Years Data');
+  }
 
   Promise
     .all([

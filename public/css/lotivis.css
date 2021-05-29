@@ -308,7 +308,6 @@ input[type=text] {
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 3px 10px;
-  width: 90%;
 }
 
 input[type=checkbox] {

@@ -7,7 +7,7 @@ const fs = require('fs');
  * @param name The name of the file.
  */
 function writeAsset(json, name) {
-  writeJSON(json, './public/assets/' + name);
+  writeJSON(json, './public/assets/' + name);``
 }
 
 /**

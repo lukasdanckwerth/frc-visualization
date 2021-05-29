@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.css"/>
+  <link rel="stylesheet" href="css/lotivis.css"/>
   <link rel="stylesheet" href="css/frc-visualization.css">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -33,49 +33,42 @@
     </div>
     <div class="lotivis-col-12" id="frcv-search-field-area">
       <div class="lotivis-card">
-        <div class="lotivis-card-body margin-top margin-bottom">
-          <div class="lotivis-row">
-            <div class="lotivis-col-12 text-center">
-              <label for="search-input"></label>
-              <input class="form-control form-control-sm"
-                     type="text"
-                     placeholder="Search Word"
-                     id="search-input"
-                     list="search-input-data"
-                     onkeydown="searchFieldAction(this)">
-              <datalist id="search-input-data"></datalist>
-            </div>
-            <br>
-            <br>
-            <div class="lotivis-col-2 text-center">
-              <label for="case-sensitivity-dropdown">Case Sens.</label>
-              <select id="case-sensitivity-dropdown" onchange="sensitivityDropdownAction(this)">
-                <option id="case-insensitive" value="case-insensitive">No</option>
-                <option id="case-sensitive" value="case-sensitive">Yes</option>
-              </select>
-            </div>
-            <div class="lotivis-col-3 text-center">
-              <label for="from-dropdown">From</label>
-              <select id="from-dropdown" onchange="fromDropdownAction(this)">
-                <!-- Year Options Here -->
-              </select>
-              <label for="till-dropdown">To</label>
-              <select id="till-dropdown" onchange="tillDropdownAction(this)">
-                <!-- Year Options Here -->
-              </select>
-            </div>
-            <div class="lotivis-col-2">
-              <label for="relative-absolute-dropdown">Rel. / Abs.</label>
-              <select id="relative-absolute-dropdown" onchange="relativeAbsoluteAction(this)">
-                <option id="relative" value="relative">Rel.</option>
-                <option id="absolute" value="absolute">Abs.</option>
-              </select>
-            </div>
-            <div class="lotivis-col-2">
-              <button class="lotivis-button lotivis-button-down" onclick="presentInnovationList(this)">
-                Innovation List
-              </button>
-            </div>
+        <div class="frcv-search-field-card">
+          <div>
+            <label for="search-input"></label>
+            <input class=""
+                   type="text"
+                   placeholder="Search Word"
+                   id="search-input"
+                   list="frcv-search-input-data"
+                   onkeydown="searchFieldAction(this)">
+            <datalist id="frcv-search-input-data"></datalist>
+          </div>
+          <div class="">
+            <label for="case-sensitivity-dropdown">Case Sens.</label>
+            <select id="case-sensitivity-dropdown" onchange="sensitivityDropdownAction(this)">
+              <option id="case-insensitive" value="case-insensitive">No</option>
+              <option id="case-sensitive" value="case-sensitive">Yes</option>
+            </select>
+
+            <label for="from-dropdown">From</label>
+            <select id="from-dropdown" onchange="fromDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+            <label for="till-dropdown">To</label>
+            <select id="till-dropdown" onchange="tillDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+
+            <label for="relative-absolute-dropdown">Rel. / Abs.</label>
+            <select id="relative-absolute-dropdown" onchange="relativeAbsoluteAction(this)">
+              <option id="relative" value="relative">Rel.</option>
+              <option id="absolute" value="absolute">Abs.</option>
+            </select>
+
+            <button class="lotivis-button lotivis-button-down" onclick="presentInnovationList(this)">
+              Innovation List
+            </button>
           </div>
         </div>
       </div>
@@ -112,99 +105,47 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-server@3.0.1/dist/topojson-server.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
+<script src="js/lotivis.js"></script>
 <script src="js/frc.js"></script>
+<script src="js/recent.searches.js"></script>
+<script src="js/track.popup.js"></script>
 
 <script>
 
-  class TrackPopup extends lotivis.Popup {
-
-    inject() {
-      super.inject();
-      this.injectTrackContentContainer();
-    }
-
-    injectTrackContentContainer() {
-      this.lyricsContainer = this.card.body
-        .append('div')
-        .classed('frcv-lyrics-container', true)
-        .append('p');
-    }
-
-    setTitle(newTitle) {
-      this.card.titleLabel.text(newTitle || 'Unknown Title');
-    }
-
-    setContent(newContent) {
-      let input = this.searchWord;
-      let lines = newContent.split('\n');
-      let html = '';
-      for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
-        let words = line.split(' ');
-        for (let j = 0; j < words.length; j++) {
-          let word = words[j];
-          if (word.toLowerCase() === input.toLowerCase()) {
-            html += `<b class="important">${word}</b>`;
-          } else if (word.toLowerCase() === `${input},`.toLowerCase()) {
-            html += `<b class="important">${word}</b>`;
-          } else if (word.toLowerCase() === `${input})`.toLowerCase()) {
-            html += `<b class="important">${word}</b>`;
-          } else if (word.toLowerCase() === `(${input}`.toLowerCase()) {
-            html += `<b class="important">${word}</b>`;
-          } else {
-            html += word;
-          }
-          html += ' ';
-        }
-        html += '<br>';
-      }
-
-      this.lyricsContainer.html(html);
-      console.log(this.track);
-    }
-
-    update() {
-      if (!this.track) return;
-
-      let artist = this.track.artist;
-      let title = this.track.title;
-      this.setTitle(`${artist} - ${title}`);
-
-      let content = String(this.track.content);
-      this.setContent(content);
-    }
-
-    preferredSize() {
-      return {
-        width: 1000,
-        height: 600
-      };
-    }
-  }
-
+  // configure lotivis
   lotivis.config.downloadFilePrefix = 'frcv';
   lotivis.debug(true);
 
-  let parameters = lotivis.URLParameters.getInstance();
-
   // create lotivis components
   let timeChartCard = new lotivis.DateChartCard('time-chart-card', {title: 'Years'});
-  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {title: 'Departements'});
-  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
+  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {title: 'Variations'});
+  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {
+    title: 'Departements',
+    excludedFeatureCodes: ['2A', '2B']
+  });
 
   let loadingView = document.getElementById('frcv-loading');
+  let searchField = document.getElementById('search-input');
   let searchArea = document.getElementById('frcv-search-field-area');
   searchArea.style.display = 'none';
-  let searchField = document.getElementById('search-input');
 
-  var corpus = new frc('');
-  mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
+  let queryParameter = 'q';
+  let parameters = lotivis.URLParameters.getInstance();
+  let recentSearches = new RecentSearches('frcv-search-input-data');
+
+  let corpus = new frc('');
+
 
   // search options;
   let firstYear, lastYear;
   let sensitivity = document.getElementById('case-sensitivity-dropdown').value;
   let relativeAbsolute = 'relative';
+
+  function updateYearsRange() {
+    corpus.firstYear = firstYear;
+    corpus.lastYear = lastYear;
+    timeChartCard.chart.config.dateLabels = corpus.getDateLabels();
+  }
 
   function searchFieldAction(input) {
     if (Object.getPrototypeOf(this.event) === KeyboardEvent.prototype
@@ -215,8 +156,7 @@
   }
 
   function search(searchText) {
-    console.log("searchText:", searchText);
-    parameters.set('searchText', searchText);
+    parameters.set(queryParameter, searchText);
 
     if (searchText === undefined) {
       return console.log('search text undefined');
@@ -232,10 +172,7 @@
       relativeAbsolute
     );
 
-    console.log('datasets', datasets);
-
     let controller = new lotivis.DatasetController(datasets);
-
     controller.register([
       timeChartCard.chart,
       mapChartCard.chart,
@@ -243,6 +180,7 @@
     ]);
 
     fillTracksCard(datasets);
+    recentSearches.append(searchText);
   }
 
   function presentInnovationList(sourceElement) {
@@ -288,11 +226,13 @@
 
   function fromDropdownAction(some) {
     firstYear = Number(some.value);
+    updateYearsRange();
     search(searchField.value);
   }
 
   function tillDropdownAction(some) {
     lastYear = Number(some.value);
+    updateYearsRange();
     search(searchField.value);
   }
 
@@ -303,9 +243,7 @@
 
   function fillYearDropdowns() {
     let html = '';
-
-    console.log('corpus: ' + corpus);
-    console.log('corpus: ', corpus);
+    let firstYearOverride = 2000;
 
     firstYear = corpus.getEarliestYear();
     lastYear = corpus.getLatestYear();
@@ -319,6 +257,11 @@
     fromDropdown.innerHTML = html;
     tillDropdown.innerHTML = html;
     tillDropdown.value = `${lastYear}`;
+
+    if (firstYearOverride) {
+      firstYear = firstYearOverride;
+      fromDropdown.value = `${firstYearOverride}`;
+    }
   }
 
   function fillTracksCard(datasets) {
@@ -388,13 +331,15 @@
     })
     .then(function (corpusJSON) {
       corpus = new frc(corpusJSON);
-      timeChartCard.chart.config.dateLabels = corpus.getDateLabels();
+
       fillYearDropdowns();
+      updateYearsRange();
+
       loadingView.style.display = 'none';
       searchArea.style.display = 'unset';
     })
     .then(function () {
-      let searchString = parameters.getString('searchText');
+      let searchString = parameters.getString(queryParameter);
       if (!searchString) return;
       search(searchString);
       searchField.value = searchString;

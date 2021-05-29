@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div class="frcv-container-fix">
+<div class="frcv-container">
   <div class="lotivis-row">
     <div class="lotivis-col-2">
       <a href="index.html">
@@ -44,18 +44,21 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
+<script src="js/lib/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
 <script src="js/frc.js"></script>
 
 <script>
 
+  lotivis.config.downloadFilePrefix = 'frcv';
+  lotivis.debug(true);
+
   let loadingCard = d3.select('#frcv-loading-card');
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {
-    margin: {
-      left: 140
-    }
+    title: 'Artists Active Range',
+    margin: {left: 140}
   });
+
   plotChartCard.hide();
 
   Promise.all([

@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
 body {
   text-decoration: none;
   font-style: normal;
@@ -40,39 +42,47 @@ body {
   line-height: 1;
 }
 
-ol, ul {
-  list-style: none;
+h1, h2, h3, h4, h5 {
+  color: black;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
 }
 
-blockquote, q {
-  quotes: none;
+li {
+  font-family: 'Open Sans', sans-serif;
 }
 
-blockquote:before, blockquote:after, q:before, q:after {
-  content: "";
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
+/* font */
 
 /*frcv*/
 
 .frcv-container {
-  margin: 20px 20px;
+  margin: 20px;
   line-height: 1.5;
-}
-
-.frcv-container h1, .frcv-container-fix h1 {
-  margin-bottom: 20px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .frcv-container-fix {
   max-width: 800px;
   margin: 20px auto;
   line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.frcv-container h1, .frcv-container-fix h1 {
+  margin-bottom: 20px;
+}
+
+.frcv-container h1, .frcv-container-fix h1 {
+  font-size: 36px;
+}
+
+.frcv-container h2, .frcv-container-fix h2 {
+  font-size: 30px;
+}
+
+.frcv-container h3, .frcv-container-fix h3 {
+  font-size: 24px;
 }
 
 .frcv-menu {
@@ -84,6 +94,7 @@ table {
   cursor: pointer;
   font-size: 24px;
   line-height: 2;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .frcv-menu a::before {
@@ -119,21 +130,23 @@ table {
   line-height: 1.3;
 }
 
-
-/* MARK: - Default Elements */
-/*body {*/
-/*  background-color: #f0f0f1;*/
-/*  color: #333;*/
-/*  padding: 20px;*/
-/*}*/
-
-h1, h2, h3, h4, h5 {
-  color: black;
-  font-weight: bold;
+.frcv-warn-popup-container p, .frcv-warn-popup-container span {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 23px;
 }
 
-h1 {
-  font-size: 36px;
+.frcv-search-field-card {
+  text-align: center;
+  margin: 10px;
+  line-height: 2;
+}
+
+.frcv-search-field-card input[type="text"] {
+  width: 90%;
+}
+
+.frcv-search-field-card select {
+  margin-right: 20px;
 }
 
 p {
@@ -181,6 +194,7 @@ samp {
   line-height: 2;
   font-size: 14px;
   color: gray;
+  text-align: center;
 }
 
 .frcv-footer a {
@@ -189,6 +203,7 @@ samp {
   color: gray;
   transition: 0.36s;
   cursor: pointer;
+  margin-left: 30px;
 }
 
 .frcv-footer a:hover {
@@ -203,15 +218,26 @@ samp {
   text-align: center;
 }
 
-.lotivis-card-body-content {
-  margin: 30px;
+.frcv-headline {
+  font-family: 'Open Sans', sans-serif;
 }
+
+/*.lotivis-card-body-content {*/
+/*  margin: 30px;*/
+/*}*/
 
 .lotivis-popup-underground {
-  background-color: rgba(255,255,255,0.55);
+  background-color: rgba(255, 255, 255, 0.55);
 }
 
-.frcv-popup-container {
-  margin: 20px;
-  line-height: 1.5;
+.lotivis-button a {
+  font-size: 24px;
+  text-align: center;
+}
+
+.lotivis-card {
+  border: none;
+  background-color: white;
+  box-shadow: none;
+  padding-bottom: 10px;
 }

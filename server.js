@@ -10,24 +10,29 @@ const version = require('./package.json').version;
 const port = process.env.PORT || 81;
 const environment = process.env.NODE_ENV || 'development';
 const fs = require('fs');
-let corpusSize = 0;
 
-fs.stat(__dirname + '/public/assets/corpus.json', (err, stats) => {
-  if (err) {
-    console.log(`File doesn't exist.`);
-  } else {
-    corpusSize = stats.size;
-  }
-});
-
-app.use('/', express.static(__dirname + '/public'));
+let corpusJSONPath = '';
 
 // use a smaller corpus with 100 artists in development mode for faster loading.
 if (environment === 'production') {
-  app.use('/corpus', express.static(__dirname + '/public/assets/corpus.json'));
+  corpusJSONPath = __dirname + '/public/assets/corpus.json';
 } else {
-  app.use('/corpus', express.static(__dirname + '/public/assets/corpus.light.json'));
+  corpusJSONPath = __dirname + '/public/assets/corpus.light.json';
 }
+
+function bytesToSize(bytes) {
+  let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes == 0) return '0 Byte';
+  let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+  let formatted = Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+  return `${formatted} (${bytes + ' bytes'})`
+}
+
+app.use('/', express.static(__dirname + '/public'));
+app.use('/corpus', express.static(corpusJSONPath));
+
+const stats = fs.statSync(corpusJSONPath);
+const corpusSize = bytesToSize(stats.size);
 
 app.use('/innovation-list', express.static(__dirname + '/public/assets/innovation.list.txt'));
 
