@@ -11,3 +11,9 @@ update:
 
   # create your feature branch
 	git checkout dev
+
+stage:
+	git checkout stage
+	git pull --rebase origin stage
+	git merge dev
+	git push origin stage
