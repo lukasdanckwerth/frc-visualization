@@ -9,6 +9,5 @@ update:
 	# grab the latest from origin/main
 	git pull --rebase origin main
 
-	# create your feature branch
+  # create your feature branch
 	git checkout dev
-
