@@ -1,6 +1,33 @@
 # FRC-Visualization
 
+
+
 ## Getting started
+
+```bash
+# clone repository
+$ git clone git@github.com:lukasdanckwerth/frc-visualization.git
+
+# pull dev branch
+$ git pull --rebase origin dev
+
+# checkout dev branch
+$ git checkout dev
+```
+
+#### Deploy Stage
+
+```bash
+# user makefile merge from dev to stage branch which will start an automatic deployment
+make stage
+```
+
+#### Deploy Production
+
+```bash
+```
+
+
 
 ### Node.js
 
