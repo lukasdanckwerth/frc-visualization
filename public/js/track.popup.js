@@ -9,7 +9,20 @@ class TrackPopup extends lotivis.Popup {
     this.lyricsContainer = this.card.body
       .append('div')
       .classed('frcv-lyrics-container', true)
+      .classed('frcv-container', true)
       .append('p');
+  }
+
+  setTrack(track) {
+    this.track = track;
+    this.searchWord = track.dataset;
+    let artist = this.track.artist;
+
+    let title = this.track.title;
+    this.setTitle(`${title} by ${artist} (${this.track.departmentName}, ${this.track.releaseYear})`);
+
+    let content = String(this.track.content);
+    this.setContent(content);
   }
 
   setTitle(newTitle) {
@@ -20,6 +33,9 @@ class TrackPopup extends lotivis.Popup {
     let input = this.searchWord;
     let lines = newContent.split('\n');
     let html = '';
+
+    html += `<h1 class="frcv-headline">${this.track.title}</h1>`;
+
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       let words = line.split(' ');
@@ -41,25 +57,13 @@ class TrackPopup extends lotivis.Popup {
       html += '<br>';
     }
 
+    html += '<br>';
+    html += `<a href="${this.track.url}">${this.track.url}</a>`;
+
     this.lyricsContainer.html(html);
-    console.log(this.track);
-  }
-
-  update() {
-    if (!this.track) return;
-
-    let artist = this.track.artist;
-    let title = this.track.title;
-    this.setTitle(`${artist} - ${title}`);
-
-    let content = String(this.track.content);
-    this.setContent(content);
   }
 
   preferredSize() {
-    return {
-      width: 1000,
-      height: 600
-    };
+    return {width: 1000, height: 600};
   }
 }
