@@ -56,10 +56,14 @@
   mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
   mapChartCard.onSelectedDatasetChanged = function (data, index, label) {
     // mapChartCard.setTitle(label + ' Departements Data');
-  }
+  };
 
   Promise
     .all([
+      d3.json('assets/departements.to.artists.json'),
+      d3.json('assets/departements.to.male.artists.json'),
+      d3.json('assets/departements.to.female.artists.json'),
+      d3.json('assets/departements.to.group.artists.json'),
       d3.json('assets/departements.to.tracks.json'),
       d3.json('assets/departements.to.words.json'),
       d3.json('assets/departements.to.words.relative.json'),
@@ -72,6 +76,9 @@
       let datasets = datasetsAndGeoJSON;
       mapChartCard.chart.setGeoJSON(rawGeoJSON);
       mapChartCard.setDatasets(datasets);
+    })
+    .catch(function (error) {
+      alert(error);
     });
 
 </script>
