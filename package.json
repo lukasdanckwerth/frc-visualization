@@ -8,12 +8,6 @@
     "build:watch": "rollup -c --watch",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
-    "generate:corpus:json": "node utils/generate.corpus.json.js",
-    "generate:artists:active:range": "node utils/generate.artists.active.range.js",
-    "generate.overview.datasets": "node utils/generate.overview.datasets.js",
-    "generate.year.relation.datasets": "node utils/generate.year.relation.datasets.js",
-    "generate.departement.relation.datasets": "node utils/generate.departement.relation.datasets.js",
-    "generate.overview.words": "node utils/generate.overview.words.js",
     "generate:assets": "node utils/generate.assets.js",
     "test": "echo \"Tests are coming.\""
   },
