@@ -443,7 +443,7 @@ class Corpus {
     this.allTracks().filter(track => departmentNumbers.includes(track.departmentNumber));
   }
   artistsForLocations(departmentNumbers) {
-    return this.artists.filter(artist => departmentNumbers.includes(artist.departmentNo));
+    return this.artists.filter(artist => departmentNumbers.includes(String(artist.departmentNo)));
   }
   search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
     return internalSearch(this, searchQuery, firstYear, lastYear, sensitivity, absolute);
@@ -466,6 +466,28 @@ Corpus.prototype.combineData = function (data) {
     }
   });
   return combined;
+};
+Corpus.prototype.artistsToDatasets = function (artists) {
+  let datasets = [];
+  for (let index = 0; index < artists.length; index++) {
+    let artist = artists[index];
+    let tracks = artist.allTracks();
+    let data = [];
+    for (let trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
+      let track = tracks[trackIndex];
+      data.push({
+        date: track.releaseYear,
+        location: artist.departmentNo,
+        value: 1,
+      });
+    }
+    datasets.push({
+      label: artist.name,
+      stack: artist.name,
+      data: data
+    });
+  }
+  return datasets;
 };
 
 return Corpus;
