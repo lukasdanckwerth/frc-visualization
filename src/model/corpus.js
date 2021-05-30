@@ -1,6 +1,5 @@
 import {Artist} from "./artist";
 import {
-  getYearsToCollection,
   getYearsToCollectionRelative, getYearsToTracksCollection
 } from "./corpus.datasets.year";
 import {

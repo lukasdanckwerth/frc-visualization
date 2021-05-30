@@ -270,22 +270,23 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
   for (let index = 0; index < tracks.length; index++) {
     let track = tracks[index];
     let year = track.releaseYear;
+    let yearTotal = yearsToTrackNumbers.find(item => item.date === year).value;
     let department = track.departmentNumber;
+    let departmentTotal = tracksPerDepartement.find(entry => entry.location === department).value;
     let entry = items.find(function (item) {
       return item.location === department && item.date === year;
     });
     if (entry) {
       entry.value += 1;
     } else {
-      let departmentEntry = tracksPerDepartement.find(entry => entry.location === department);
-      let relative = 1 / yearsToTrackNumbers[year];
+      let relative = 1 / yearTotal;
       items.push({
         location: department,
         date: year,
         value: 1,
         relativeValue: relative,
-        dateTotal: yearsToTrackNumbers[year],
-        locationTotal: departmentEntry.value,
+        dateTotal: yearTotal,
+        locationTotal: departmentTotal,
       });
     }
     for (let year = theFirstYear; year <= theLastYear; year++) {
@@ -293,7 +294,7 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
       items.push({
         date: year,
         value: 0,
-        dateTotal: yearsToTrackNumbers[year]
+        dateTotal: yearTotal
       });
     }
   }
