@@ -287,7 +287,7 @@ export class Corpus {
   }
 
   artistsForLocations(departmentNumbers) {
-    return this.artists.filter(artist => departmentNumbers.includes(artist.departmentNo));
+    return this.artists.filter(artist => departmentNumbers.includes(String(artist.departmentNo)));
   }
 
   /**

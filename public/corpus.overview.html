@@ -52,7 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-server@3.0.1/dist/topojson-server.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.js"></script>
+<script src="js/lotivis.js"></script>
 <script src="js/frc.js"></script>
 
 <script>
@@ -95,10 +95,9 @@
           update: function (controller, reason) {
             if (reason === 'location-filter') {
               let locations = controller.locationFilters;
-              console.log('locations', locations);
-              let artists = corpus.getArtistsForLocations(locations);
-              console.log('artists', artists);
-              plotChartCard.chart.setDatasets(artists);
+              let artists = corpus.artistsForLocations(locations);
+              let datasets = corpus.artistsToDatasets(artists);
+              plotChartCard.chart.setDatasets(datasets);
               plotChartCard.chart.update();
             } else {
               plotChartCard.chart.setDatasets([]);
