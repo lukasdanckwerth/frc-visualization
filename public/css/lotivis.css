@@ -148,6 +148,10 @@ button.lotivis-button-round:active {
   line-height: 1.2;
 }
 
+.lotivis-card-body-margin {
+  padding: 20px;
+}
+
 .lotivis-card-footer {
   padding: 10px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);

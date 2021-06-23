@@ -23,7 +23,7 @@ module.exports = [
     output: {
       sourcemap: true,
       name: 'frc',
-      file: 'public/js/frc.js',
+      file: 'public/js/lib/frc.js',
       banner,
       format: 'umd',
       indent: false,
