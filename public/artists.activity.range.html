@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/frc-visualization.css"/>
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <title>FRCV - Artists Active Range</title>
+  <title>FRCV - Artists Activity Range</title>
   <style>
     .lotivis-plot-label {
       fill: gray;
@@ -27,7 +27,7 @@
       </a>
     </div>
     <div class="lotivis-col-8 text-center">
-      <h1>Artists Active Range</h1>
+      <h1>Artists Activity Range</h1>
     </div>
     <div class="lotivis-col-12" id="frcv-loading-card">
       <div class="lotivis-card">
@@ -55,8 +55,8 @@
 
   let loadingCard = d3.select('#frcv-loading-card');
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {
-    title: 'Artists Active Range',
-    margin: {left: 140}
+    title: 'Artists Activity Range',
+    margin: {left: 200}
   });
 
   plotChartCard.hide();
