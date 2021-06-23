@@ -210,9 +210,17 @@
           .enter()
           .append('a')
           .style('cursor', 'pointer')
-          .html((line, index) => `<nobr>${index + 1}. ${line.replaceAll(`;`, `, `)}</nobr>`)
+          .html(function (line, index) {
+            let lineFormatted = line;
+            if (line.replaceAll) {
+              lineFormatted = line.replaceAll(`;`, `, `);
+            } else {
+              lineFormatted = line.split(';').join(`, `);
+            }
+            return `<nobr>${index + 1}. ${lineFormatted}</nobr>`;
+          })
           .on('click', function (event, line) {
-            searchField.value = line.replaceAll(';', ',');
+            searchField.value = line.split(';').join(`,`);
             searchFieldAction(searchField);
             popup.dismiss();
           });
