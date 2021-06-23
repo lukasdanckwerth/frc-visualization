@@ -162,9 +162,9 @@ var createID;
  */
 function toSaveID(theID) {
   return theID
-    .replaceAll(' ', '-')
-    .replaceAll('/', '-')
-    .replaceAll('.', '-');
+    .split(` `).join(`-`)
+    .split(`/`).join(`-`)
+    .split(`.`).join(`-`);
 }
 
 /**
@@ -283,7 +283,8 @@ class Component {
       let selector = camel2title(this.constructor.name)
         .toLowerCase()
         .trim()
-        .replaceAll(' ', '-');
+        .split(` `).join(`-`);
+
       this.initializeFromSelector(selector);
     }
   }
@@ -1165,7 +1166,7 @@ class DatasetsController {
    */
   getFilename() {
     if (!this.labels) return 'Unknown';
-    let labels = this.labels.map(label => label.replaceAll(' ', '-'));
+    let labels = this.labels.map(label => label.split(` `).join(`-`));
     if (labels.length > 10) {
       labels = labels.splice(0, 10);
     }
@@ -3961,7 +3962,7 @@ class ChartCard extends Card {
     this.radioGroup.onChange = function (value) {
       let dataset = this.datasets.find(function (dataset) {
         if (!dataset.label) return false;
-        return dataset.label.replaceAll(' ', '-') === value;
+        return dataset.label.split(` `).join(`-`) === value;
       });
       if (!dataset) return lotivis_log(`Can't find dataset with label ${value}`);
       this.setDataset(dataset);
