@@ -1023,36 +1023,57 @@ const DateWeekAssessor = function (weekday) {
 };
 
 /**
- * @class DataviewCache
+ * @class DataViewCache
  */
-
-
-class DataviewCache {
+class DataViewCache {
 
   /**
-   * Creates a new instance of DataviewCache
+   * Creates a new instance of DataViewCache.
    */
   constructor() {
     let content = {};
 
-    this.getDataview = function (type, locationFilters, dateFilters, datasetFilters) {
+    /**
+     * Creates an identifier for a cached data view with the given parameters.
+     * @param type The type of the graph.
+     * @param locationFilters The collection of filtered locations.
+     * @param dateFilters The collection of filtered dates.
+     * @param datasetFilters The collection of filtered datasets.
+     * @returns {*}
+     */
+    function createName(type, locationFilters, dateFilters, datasetFilters) {
+      return type + locationFilters + dateFilters + datasetFilters;
+    }
+
+    /**
+     * Returns the cached data view for the given parameters.
+     * @param type The type of the graph.
+     * @param locationFilters The collection of filtered locations.
+     * @param dateFilters The collection of filtered dates.
+     * @param datasetFilters The collection of filtered datasets.
+     * @returns {*}
+     */
+    this.getDataView = function (type, locationFilters, dateFilters, datasetFilters) {
       let name = createName(type, locationFilters, dateFilters, datasetFilters);
       return content[name];
     };
 
-    this.setDataview = function (dataview, type, locationFilters, dateFilters, datasetFilters) {
+    /**
+     * Inserts the given data view into the cache for the given parameters.
+     * @param dataView The data view to cache.
+     * @param type The type of the graph.
+     * @param locationFilters The collection of filtered locations.
+     * @param dateFilters The collection of filtered dates.
+     * @param datasetFilters The collection of filtered datasets.
+     */
+    this.setDataView = function (dataView, type, locationFilters, dateFilters, datasetFilters) {
       let name = createName(type, locationFilters, dateFilters, datasetFilters);
-      content[name] = dataview;
-      lotivis_log(`this.content: `, this.content);
+      content[name] = dataView;
     };
 
-    function createName(type, locationFilters, dateFilters, datasetFilters) {
-      return type +
-        locationFilters +
-        dateFilters +
-        datasetFilters;
-    }
-
+    /**
+     * Invalidates the cache.
+     */
     this.invalidate = function () {
       content = {};
     };
@@ -1085,7 +1106,7 @@ class DatasetsController {
     this.dateFilters = this.config.dateFilters || [];
     this.datasetFilters = this.config.datasetFilters || [];
     this.filters = {};
-    this.cache = new DataviewCache();
+    this.cache = new DataViewCache();
     if (this.config.filters) {
       this.filters.locations = this.config.filters.locations || [];
       this.filters.dates = this.config.filters.dates || [];
@@ -2009,7 +2030,7 @@ function validateDataset(dataset) {
 }
 
 /**
- * Validates the given datasets.controller item by ensuring it has a valid `date`, `location` and `value` property value.
+ * Validates the given datasets.controller item by ensuring it has a valid `time`, `location` and `value` property value.
  * @param item The datasets.controller item to validate.
  * @throws MissingPropertyError
  */
@@ -2420,9 +2441,6 @@ function createDatasets(flatData) {
 
   for (let itemIndex = 0; itemIndex < flatData.length; itemIndex++) {
     let item = flatData[itemIndex];
-
-    if (!validateDataItem(item)) ;
-
     let label = item.dataset || item.label;
     let dataset = datasetsByLabel[label];
 
@@ -2710,11 +2728,11 @@ function toSet(array) {
 }
 
 /**
- * Returns the earliest date occurring in the flat array of items.
+ * Returns the earliest time occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The earliest date.
+ * @returns {*} The earliest time.
  */
 function extractEarliestDate(flatData, dateAccess = (date) => date) {
   return extractDatesFromFlatData(flatData)
@@ -2722,22 +2740,22 @@ function extractEarliestDate(flatData, dateAccess = (date) => date) {
 }
 
 /**
- * Returns the earliest date occurring in the flat array of items.
+ * Returns the earliest time occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The earliest date.
+ * @returns {*} The earliest time.
  */
 function extractEarliestDateWithValue(flatData, dateAccess = (date) => date) {
   return extractEarliestDate(filterWithValue(flatData), dateAccess);
 }
 
 /**
- * Returns the latest date occurring in the flat array of items.
+ * Returns the latest time occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The latest date.
+ * @returns {*} The latest time.
  */
 function extractLatestDate(flatData, dateAccess = (date) => date) {
   return extractDatesFromFlatData(flatData)
@@ -2745,11 +2763,11 @@ function extractLatestDate(flatData, dateAccess = (date) => date) {
 }
 
 /**
- * Returns the latest date occurring in the flat array of items.
+ * Returns the latest time occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The latest date.
+ * @returns {*} The latest time.
  */
 function extractLatestDateWithValue(flatData, dateAccess = (date) => date) {
   return extractLatestDate(filterWithValue(flatData), dateAccess);
@@ -2769,7 +2787,7 @@ function filterWithValue(flatData) {
  *
  * @param datasets
  * @param dateAccess
- * @returns {{date: *}[]}
+ * @returns {{time: *}[]}
  */
 function dateToItemsRelation(datasets, dateAccess) {
 
@@ -2995,12 +3013,12 @@ class DateAxisRenderer {
 
   /**
    * Creates a new instance of DateAxisRenderer.
-   * @param dateChart The parental date chart.
+   * @param dateChart The parental time chart.
    */
   constructor(dateChart) {
 
     /**
-     * Appends the `left` and `bottom` axis to the date chart.
+     * Appends the `left` and `bottom` axis to the time chart.
      */
     this.render = function () {
       let height = dateChart.config.height;
@@ -3023,14 +3041,14 @@ class DateAxisRenderer {
 }
 
 /**
- * Appends labels on top of the bars of a date chart.
+ * Appends labels on top of the bars of a time chart.
  * @class DateLabelRenderer
  */
 class DateLabelRenderer {
 
   /**
    * Creates a new instance of DateLabelRenderer.
-   * @param dateChart The parental date chart.
+   * @param dateChart The parental time chart.
    */
   constructor(dateChart) {
 
@@ -3061,7 +3079,7 @@ class DateLabelRenderer {
         .data(dataset => dataset)
         .enter()
         .append('text')
-        .attr('class', 'lotivis-date-chart-label')
+        .attr('class', 'lotivis-time-chart-label')
         .attr("transform", function (item) {
           let x = xChartRef(item.data.date) + xStackRef(stack.label) + bandwidth;
           let y = yChartRef(item[1]) - 5;
@@ -3087,6 +3105,7 @@ class DateLegendRenderer {
     this.renderNormalLegend = function () {
       let config = dateChart.config;
       let controller = dateChart.datasetController;
+      let numberFormat = dateChart.numberFormat;
       let datasets = controller.datasets;
       let datasetNames = controller.labels;
       let circleRadius = 6;
@@ -3103,7 +3122,7 @@ class DateLegendRenderer {
 
       legends
         .append('text')
-        .attr('class', 'lotivis-date-chart-legend-label')
+        .attr('class', 'lotivis-time-chart-legend-label')
         .attr("font-size", 13)
         .attr("x", (item) => xLegend(item.label) - 30)
         .attr("y", dateChart.graphHeight + labelMargin)
@@ -3111,7 +3130,11 @@ class DateLegendRenderer {
         .style("fill", function (item) {
           return controller.getColorForDataset(item.label);
         })
-        .text((item) => `${item.label} (${controller.getSumOfDataset(item.label)})`)
+        .text(function (item) {
+          let value = controller.getSumOfDataset(item.label);
+          let formatted = numberFormat.format(value);
+          return `${item.label} (${formatted})`;
+        })
         .on('click', function (event) {
           if (!event || !event.target) return;
           if (!event.target.innerHTML) return;
@@ -3123,7 +3146,7 @@ class DateLegendRenderer {
 
       legends
         .append("circle")
-        .attr('class', 'lotivis-date-chart-legend-circle')
+        .attr('class', 'lotivis-time-chart-legend-circle')
         .attr("r", circleRadius)
         .attr("cx", (item) => xLegend(item.label) - (circleRadius * 2) - 30)
         .attr("cy", dateChart.graphHeight + labelMargin - circleRadius + 2)
@@ -3135,6 +3158,7 @@ class DateLegendRenderer {
 
     this.renderCombinedStacksLegend = function () {
       let stackNames = dateChart.datasetController.stacks;
+      let numberFormat = dateChart.numberFormat;
       let circleRadius = 6;
       let labelMargin = 50;
 
@@ -3145,13 +3169,13 @@ class DateLegendRenderer {
 
       let legends = dateChart
         .graph
-        .selectAll('.lotivis-date-chart-legend-label')
+        .selectAll('.lotivis-time-chart-legend-label')
         .data(stackNames)
         .enter();
 
       legends
         .append('text')
-        .attr('class', 'lotivis-date-chart-legend-label')
+        .attr('class', 'lotivis-time-chart-legend-label')
         .attr("font-size", 23)
         .attr("x", (item) => xLegend(item) - 30)
         .attr("y", function () {
@@ -3162,7 +3186,9 @@ class DateLegendRenderer {
           return Color$1.colorsForStack(index)[0].rgbString();
         }.bind(this))
         .text(function (item) {
-          return `${item} (${sumOfStack(dateChart.datasetController.flatData, item)})`;
+          let value = sumOfStack(dateChart.datasetController.flatData, item);
+          let formatted = numberFormat.format(value);
+          return `${item} (${formatted})`;
         }.bind(this));
 
       legends
@@ -3184,14 +3210,14 @@ class DateLegendRenderer {
 }
 
 /**
- * Appends the bars to a date chart.
+ * Appends the bars to a time chart.
  * @class DateBarsRenderer
  */
 class DateBarsRenderer {
 
   /**
    * Creates a new instance of DateBarsRenderer.
-   * @param dateChart The parental date chart.
+   * @param dateChart The parental time chart.
    */
   constructor(dateChart) {
 
@@ -3218,7 +3244,7 @@ class DateBarsRenderer {
         .data((data) => data)
         .enter()
         .append("rect")
-        .attr('class', 'lotivis-date-chart-bar')
+        .attr('class', 'lotivis-time-chart-bar')
         .attr("rx", isCombineStacks ? 0 : barRadius)
         .attr("ry", isCombineStacks ? 0 : barRadius)
         .attr("x", (d) => dateChart.xChart(d.data.date) + dateChart.xStack(stack.label))
@@ -3311,7 +3337,7 @@ class DateGhostBarsRenderer {
 }
 
 /**
- * Injects and presents a tooltip on a date chart.
+ * Injects and presents a tooltip on a time chart.
  *
  * @class DateTooltipRenderer
  */
@@ -3362,7 +3388,7 @@ class DateTooltipRenderer {
      * Calculates the x offset to position the tooltip on the left side
      * of a bar.
      *
-     * @param date The presented date of selected bar.
+     * @param date The presented time of selected bar.
      * @param factor The size factor of the chart.
      * @param offset The offset of the chart.
      * @param tooltipSize The size of the tooltip.
@@ -3377,7 +3403,7 @@ class DateTooltipRenderer {
      * Calculates the x offset to position the tooltip on the right side
      * of a bar.
      *
-     * @param date The presented date of selected bar.
+     * @param date The presented time of selected bar.
      * @param factor The size factor of the chart.
      * @param offset The offset of the chart.
      * @returns {number} The x offset for the tooltip.
@@ -3390,9 +3416,9 @@ class DateTooltipRenderer {
     }
 
     /**
-     * Returns the HTML content for the given date.
+     * Returns the HTML content for the given time.
      *
-     * @param date The date to get the HTML content for.
+     * @param date The time to get the HTML content for.
      * @returns {string} Return the rendered HTML content.
      */
     function getHTMLForDate(date) {
@@ -3413,7 +3439,8 @@ class DateTooltipRenderer {
         .map(function (item) {
           let color = dateChart.datasetController.getColorForDataset(item.dataset);
           let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-          return `${divHTML} ${item.dataset}: <b>${item.value}</b>`;
+          let valueFormatted = dateChart.config.numberFormat.format(item.value);
+          return `${divHTML} ${item.dataset}: <b>${valueFormatted}</b>`;
         })
         .join('<br>');
 
@@ -3421,10 +3448,10 @@ class DateTooltipRenderer {
     }
 
     /**
-     * Presents the tooltip next to bar presenting the given date.
+     * Presents the tooltip next to bar presenting the given time.
      *
      * @param event The mouse event.
-     * @param date The date which is presented.
+     * @param date The time which is presented.
      */
     this.showTooltip = function (event, date) {
 
@@ -3680,7 +3707,7 @@ class DateChart extends Chart {
   renderSVG() {
     this.svg = this.element
       .append('svg')
-      .attr('class', 'lotivis-chart-svg lotivis-date-chart')
+      .attr('class', 'lotivis-chart-svg lotivis-time-chart')
       .attr('preserveAspectRatio', 'xMidYMid meet')
       .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`)
       .attr('id', this.svgSelector);
@@ -3775,6 +3802,10 @@ class UrlParameters {
   updateCurrentPageFooter() {
     // console.log('window.lotivisApplication: ' + window.lotivisApplication);
     // window.lotivisApplication.currentPage.updateFooter();
+    const url = this.getURL();
+    d3
+      .select('#lotivis-url-container')
+      .text(url);
   }
 }
 
@@ -3784,7 +3815,7 @@ UrlParameters.query = 'query';
 UrlParameters.searchViewMode = 'search-view-mode';
 UrlParameters.chartType = 'chart-type';
 UrlParameters.chartShowLabels = 'chart-show-labels';
-UrlParameters.chartCombineStacks = 'chart-datasetCombine-stacks';
+UrlParameters.chartCombineStacks = 'combine-stacks';
 UrlParameters.contentType = 'content-type';
 UrlParameters.valueType = 'value-type';
 UrlParameters.searchSensitivity = 'search-sensitivity';
@@ -3838,7 +3869,6 @@ class DateChartSettingsPopup extends SettingsPopup {
     super.inject();
     this.injectShowLabelsCheckbox();
     this.injectCombineStacksCheckbox();
-    this.injectRadios();
   }
 
   injectShowLabelsCheckbox() {
@@ -3848,7 +3878,7 @@ class DateChartSettingsPopup extends SettingsPopup {
     this.showLabelsCheckbox.onClick = function (checked) {
       this.chart.config.showLabels = checked;
       this.chart.update();
-      UrlParameters.getInstance().set(UrlParameters.chartShowLabels + this.selector, checked);
+      UrlParameters.getInstance().set(`showLabels-${this.chart.selector}`, checked);
     }.bind(this);
   }
 
@@ -3859,31 +3889,13 @@ class DateChartSettingsPopup extends SettingsPopup {
     this.combineStacksCheckbox.onClick = function (checked) {
       this.chart.config.combineStacks = checked;
       this.chart.update();
-      UrlParameters.getInstance().set(UrlParameters.chartCombineStacks + this.selector, checked);
-    }.bind(this);
-  }
-
-  injectRadios() {
-    let container = this.row.append('div');
-    this.typeRadioGroup = new RadioGroup(container);
-    this.typeRadioGroup.setOptions([
-      new Option('bar', 'Bar'),
-      new Option('line', 'Line')
-    ]);
-
-    this.typeRadioGroup.onChange = function (value) {
-      this.chart.type = value;
-      this.chart.update();
-      UrlParameters.getInstance().set(UrlParameters.chartType + this.selector, value);
+      UrlParameters.getInstance().set(`combineStacks-${this.chart.selector}`, checked);
     }.bind(this);
   }
 
   willShow() {
     this.showLabelsCheckbox.setChecked(this.chart.config.showLabels);
-    // console.log('this.diachronicChart.showLabels: ' + this.diachronicChart.isShowLabels);
     this.combineStacksCheckbox.setChecked(this.chart.config.combineStacks);
-    // console.log('this.diachronicChart.combineGroups: ' + this.diachronicChart.isCombineStacks);
-    this.typeRadioGroup.setSelectedOption(this.chart.type);
   }
 }
 
@@ -4027,7 +4039,7 @@ class ChartCard extends Card {
 }
 
 /**
- * A lotivis date chart card.
+ * A lotivis time chart card.
  * @class DateChartCard
  * @extends Card
  */
@@ -4054,6 +4066,7 @@ class DateChartCard extends ChartCard {
     this.chartID = this.selector + '-chart';
     this.body.attr('id', this.chartID);
     this.chart = new DateChart(this.chartID, this.config);
+    this.applyURLParameters();
   }
 
   /**
@@ -4077,17 +4090,16 @@ class DateChartCard extends ChartCard {
     this.radioGroup.setOptions(options);
   }
 
-  // /**
-  //  *
-  //  */
-  // applyURLParameters() {
-  //   this.chart.type = UrlParameters.getInstance()
-  //     .getString(UrlParameters.chartType + this.chartID, 'bar');
-  //   this.chart.config.showLabels = UrlParameters.getInstance()
-  //     .getBoolean(UrlParameters.chartShowLabels + this.chartID, this.chart.config.showLabels);
-  //   this.chart.config.combineStacks = UrlParameters.getInstance()
-  //     .getBoolean(UrlParameters.chartCombineStacks + this.chartID, this.chart.config.combineStacks);
-  // }
+  /**
+   *
+   */
+  applyURLParameters() {
+    let parameters = UrlParameters.getInstance();
+    this.chart.config.showLabels = parameters
+      .getBoolean(`showLabels-${this.chartID}`, this.chart.config.showLabels);
+    this.chart.config.combineStacks = parameters
+      .getBoolean(`combineStacks-${this.chartID}`, this.chart.config.combineStacks);
+  }
 
   /**
    * Tells this chart card to present the setting popup card.
@@ -4105,7 +4117,7 @@ class DateChartCard extends ChartCard {
    * @override
    */
   screenshotButtonAction() {
-    let filename = this.chart.datasetController.getFilename() || 'date-chart';
+    let filename = this.chart.datasetController.getFilename() || 'time-chart';
     let downloadFilename = createDownloadFilename(filename, `date-chart`);
     downloadImage(this.chart.svgSelector, downloadFilename);
   }
@@ -4407,6 +4419,8 @@ class MapLegendRenderer {
           .attr('x', offset + 35)
           .attr('y', (d, i) => (i * 20) + 44)
           .text((d, i) => formatNumber((i / steps) * max));
+
+        return;
       }
     };
   }
@@ -4539,6 +4553,8 @@ class MapDatasetRenderer {
             .style('fill', generator(opacity));
 
         }
+
+        return;
       }
     };
   }
@@ -5395,7 +5411,7 @@ class PlotBarsRenderer {
      * Draws the bars.
      */
     this.renderBars = function () {
-      let datasets = plotChart.dataView.datasets;
+      let datasets = plotChart.dataView.datasetsSorted || plotChart.dataView.datasets;
       plotChart.definitions = plotChart.svg.append("defs");
 
       for (let index = 0; index < datasets.length; index++) {
@@ -5459,18 +5475,22 @@ class PlotTooltipRenderer {
     function getHTMLContentForDataset(dataset) {
       let components = [];
 
+      let sum = dataset.data.map(item => item.value).reduce((acc, next) => +acc + +next, 0);
+      let formatted = plotChart.config.numberFormat.format(sum);
+
       components.push('Label: ' + dataset.label);
       components.push('');
       components.push('Start: ' + dataset.firstDate);
       components.push('End: ' + dataset.lastDate);
       components.push('');
-      components.push('Items: ' + dataset.data.map(item => item.value).reduce((acc, next) => +acc + +next, 0));
+      components.push('Items: ' + formatted);
       components.push('');
 
       let filtered = dataset.data.filter(item => item.value !== 0);
       for (let index = 0; index < filtered.length; index++) {
         let entry = filtered[index];
-        components.push(`${entry.date}: ${entry.value}`);
+        let formatted = plotChart.config.numberFormat.format(entry.value);
+        components.push(`${entry.date}: ${formatted}`);
       }
 
       return components.join('<br/>');
@@ -5558,7 +5578,7 @@ class PlotLabelRenderer {
      * Draws the labels on the bars on the plot chart.
      */
     this.renderLabels = function () {
-      if (!plotChart.config.isShowLabels) return;
+      if (!plotChart.config.showLabels) return;
       let xBandwidth = plotChart.yChart.bandwidth();
       let xChart = plotChart.xChart;
       plotChart.labels = plotChart
@@ -5573,7 +5593,8 @@ class PlotLabelRenderer {
         .attr("width", (d) => xChart(d.lastDate) - xChart(d.firstDate) + xBandwidth)
         .text(function (dataset) {
           if (dataset.sum === 0) return;
-          return `${dataset.duration + 1} years, ${dataset.sum} items`;
+          let formatted = plotChart.config.numberFormat.format(dataset.sum);
+          return `${dataset.duration + 1} years, ${formatted} items`;
         });
     };
   }
@@ -5634,6 +5655,7 @@ class PlotBackgroundRenderer {
  * Enumeration of sorts available in the plot chart.
  */
 const PlotChartSort = {
+  none: 'none',
   alphabetically: 'alphabetically',
   duration: 'duration',
   intensity: 'intensity',
@@ -5651,12 +5673,15 @@ const defaultPlotChartConfig = {
   },
   lineHeight: 28,
   radius: 23,
-  isShowLabels: true,
+  showLabels: true,
   drawGrid: true,
   showTooltip: true,
   lowColor: 'rgb(184, 233, 148)',
   highColor: 'rgb(0, 122, 255)',
-  sort: PlotChartSort.duration
+  sort: PlotChartSort.none,
+  numberFormat: Intl.NumberFormat('de-DE', {
+    maximumFractionDigits: 3
+  }),
 };
 
 /**
@@ -5777,11 +5802,14 @@ class PlotChart extends Chart {
    *
    */
   precalculate() {
+
     if (this.datasetController) {
       this.dataView = this.datasetController.getPlotDataview();
     } else {
       this.dataView = {datasets: [], barsCount: 0};
     }
+
+    this.sortDatasets();
 
     let margin = this.config.margin;
     let barsCount = this.dataView.labelsCount || 0;
@@ -5794,7 +5822,6 @@ class PlotChart extends Chart {
     this.svg
       .attr("viewBox", `0 0 ${this.config.width} ${this.preferredHeight}`);
 
-    this.sortDatasets();
     this.createScales();
   }
 
@@ -5864,25 +5891,31 @@ class PlotChart extends Chart {
   }
 
   sortDatasets() {
-    this.dataView.datasets = this.dataView.datasets.reverse();
-    switch (this.sort) {
+    let datasets = this.dataView.datasets;
+    let sortedDatasets = [];
+    switch (this.config.sort) {
       case PlotChartSort.alphabetically:
-        this.dataView.datasets = this.dataView.datasets
+        sortedDatasets = datasets
           .sort((set1, set2) => set1.label > set2.label);
         break;
       case PlotChartSort.duration:
-        this.dataView.datasets = this.dataView.datasets
+        sortedDatasets = datasets
           .sort((set1, set2) => set1.duration < set2.duration);
         break;
       case PlotChartSort.intensity:
-        this.dataView.datasets = this.dataView.datasets
+        sortedDatasets = datasets
           .sort((set1, set2) => set1.sum < set2.sum);
         break;
       case PlotChartSort.firstDate:
-        this.dataView.datasets = this.dataView.datasets
-          .sort((set1, set2) => set1.earliestDate > set2.earliestDate);
+        sortedDatasets = datasets
+          .sort((set1, set2) => set1.firstDate > set2.firstDate);
+        break;
+      default:
+        sortedDatasets = datasets;
         break;
     }
+
+    this.dataView.labels = sortedDatasets.map(dataset => String(dataset.label)).reverse();
   }
 }
 
@@ -5904,7 +5937,7 @@ class PlotChartSettingsPopup extends SettingsPopup {
     this.showLabelsCheckbox = new Checkbox(container);
     this.showLabelsCheckbox.setText('Labels');
     this.showLabelsCheckbox.onClick = function (checked) {
-      this.chart.config.isShowLabels = checked;
+      this.chart.config.showLabels = checked;
       this.chart.update();
       UrlParameters.getInstance().set(UrlParameters.chartShowLabels, checked);
     }.bind(this);
@@ -5919,7 +5952,7 @@ class PlotChartSettingsPopup extends SettingsPopup {
       new Option(PlotChartSort.firstDate)
     ]);
     this.sortDropdown.setOnChange(function (value) {
-      this.chart.sort = value;
+      this.chart.config.sort = value;
       this.chart.update();
     }.bind(this));
   }
@@ -5928,8 +5961,8 @@ class PlotChartSettingsPopup extends SettingsPopup {
    * Tells this popup that it is about to be displayed.
    */
   willShow() {
-    this.showLabelsCheckbox.setChecked(this.chart.config.isShowLabels);
-    this.sortDropdown.setSelectedOption(this.chart.sort);
+    this.showLabelsCheckbox.setChecked(this.chart.config.showLabels);
+    this.sortDropdown.setSelectedOption(this.chart.config.sort);
   }
 }
 
@@ -5950,7 +5983,7 @@ class PlotChartCard extends ChartCard {
     super(theSelector, config);
     this.injectRadioGroup();
     this.applyURLParameters();
-    this.setTitle('Plot');
+    // this.setTitle('Plot');
   }
 
   /**
@@ -6477,7 +6510,7 @@ function combineDataByGroupsize(data, ratio) {
 }
 
 DatasetsController.prototype.getCached = function (type) {
-  return this.cache.getDataview(
+  return this.cache.getDataView(
     type,
     this.locationFilters,
     this.dateFilters,
@@ -6486,7 +6519,7 @@ DatasetsController.prototype.getCached = function (type) {
 };
 
 DatasetsController.prototype.setCached = function (dataview, type) {
-  return this.cache.setDataview(
+  return this.cache.setDataView(
     dataview,
     type,
     this.locationFilters,
@@ -6661,7 +6694,7 @@ exports.DataviewDatasetsControllerSelectionCard = DataviewDatasetsControllerSele
 exports.UpdatableDataviewCard = UpdatableDataviewCard;
 exports.EditableDataviewCard = EditableDataviewCard;
 
-// date
+// time
 exports.DateChart = DateChart;
 exports.DateChartCard = DateChartCard;
 
@@ -6684,7 +6717,7 @@ exports.parseCSVDate = parseCSVDate;
 exports.config = LotivisConfig;
 exports.debug = debug;
 
-// date assessors
+// time assessors
 exports.DefaultDateAccess = DefaultDateAccess;
 exports.FormattedDateAccess = FormattedDateAccess;
 exports.GermanDateAccess = DateGermanAssessor;
@@ -6696,6 +6729,7 @@ exports.URLParameters = UrlParameters;
 var exports$1 = exports;
 
 console.log(`[lotivis]  lotivis module loaded.`);
+UrlParameters.getInstance().updateCurrentPageFooter();
 
 exports.default = exports$1;
 
