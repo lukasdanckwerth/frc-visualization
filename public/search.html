@@ -285,14 +285,14 @@
       .append('div')
       .html(function (dataset, index) {
 
-        let data = dataset.data.filter(item => item.value !== 0);
+        let tracks = tracksObject[dataset.label];
         let components = [];
         if (index !== 0) {
           components.push(`<br>`);
         }
         components.push(`<b class="larger">`);
         components.push(`${dataset.label}`);
-        components.push(` (${data.length} Tracks)`);
+        components.push(` (${tracks.length} Tracks)`);
         components.push(`</b>`);
 
         return components.join('');
