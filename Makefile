@@ -8,7 +8,7 @@ commands: $(eval .SILENT:)
 	echo ""
 
 update:
-	git pull --rebase origin dev
+	git pull origin dev
 	git checkout dev
 
 patch:
