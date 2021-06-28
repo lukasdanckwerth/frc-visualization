@@ -288,25 +288,16 @@
       .append('div')
       .html(function (dataset, index) {
 
-<<<<<<< HEAD
         let tracks = tracksObject[dataset.label];
-=======
-        let data = dataset.data.filter(item => item.value !== 0);
->>>>>>> 3b17c15 (bugfix in search)
         let components = [];
         if (index !== 0) {
           components.push(`<br>`);
         }
         components.push(`<b class="larger">`);
         components.push(`${dataset.label}`);
-<<<<<<< HEAD
         components.push(` (${tracks.length} Tracks)`);
-=======
-        components.push(` (${data.length} Tracks)`);
->>>>>>> 3b17c15 (bugfix in search)
         components.push(`</b>`);
 
-        
         return components.join('');
       })
       .selectAll("div")
