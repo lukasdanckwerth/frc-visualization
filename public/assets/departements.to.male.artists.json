@@ -291,6 +291,26 @@
       "location": 88,
       "locationName": "vosges",
       "value": 1
+    },
+    {
+      "value": 0,
+      "location": 14,
+      "locationTotal": 38
+    },
+    {
+      "value": 0,
+      "location": 12,
+      "locationTotal": 9
+    },
+    {
+      "value": 0,
+      "location": 43,
+      "locationTotal": 2
+    },
+    {
+      "value": 0,
+      "location": 50,
+      "locationTotal": 1
     }
   ]
 }

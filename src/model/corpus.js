@@ -4,7 +4,8 @@ import {
 } from "./corpus.datasets.year";
 import {
   getDepartmentsToTracksCollection,
-  getDepartmentsToArtistsCollection, getDepartmentsToTracksCollectionRelative
+  getDepartmentsToArtistsCollection,
+  getDepartmentsToTracksCollectionRelative
 } from "./corpus.datasets.departement";
 import {
   internalSearch
@@ -75,7 +76,10 @@ export class Corpus {
   allTracks() {
     let allTracks = [];
     for (let i = 0; i < this.artists.length; i++) {
-      allTracks.push(...this.artists[i].allTracks());
+      let artistTracks = this.artists[i].allTracks();
+      for (let i = 0; i < artistTracks.length; i++) {
+        allTracks.push(artistTracks[i]);
+      }
     }
     return allTracks;
   }
@@ -201,19 +205,19 @@ export class Corpus {
 
 
   getDepartmentsToArtists() {
-    return getDepartmentsToArtistsCollection(this.artists, () => 1);
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.artists, () => 1);
   }
 
   getDepartmentsToMaleArtists() {
-    return getDepartmentsToArtistsCollection(this.maleArtists(), () => 1);
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.maleArtists(), () => 1);
   }
 
   getDepartmentsToFemaleArtists() {
-    return getDepartmentsToArtistsCollection(this.femaleArtists(), () => 1);
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.femaleArtists(), () => 1);
   }
 
   getDepartmentsToGroupArtists() {
-    return getDepartmentsToArtistsCollection(this.groupArtists(), () => 1);
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.groupArtists(), () => 1);
   }
 
   /**
@@ -222,7 +226,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToTracks() {
-    return getDepartmentsToTracksCollection(this.allTracks(), () => 1);
+    return getDepartmentsToTracksCollection(null, this.allTracks(), () => 1);
   }
 
   /**
@@ -231,7 +235,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToWords() {
-    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.components.length);
+    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.components.length);
   }
 
   /**
@@ -251,7 +255,7 @@ export class Corpus {
    * @returns {{}}
    */
   getDepartmentsToTypes() {
-    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
+    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.types.length);
   };
 
   /**

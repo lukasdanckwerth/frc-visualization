@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.36 Lukas Danckwerth
+ * frc.js v1.0.37 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -146,9 +146,10 @@ function getYearsToCollectionRelative(data, tracksPerYear) {
   return data;
 }
 
-function createDepartementData(collection, locationAccess, locationNameAccess, valueAccess) {
+function createDepartementData(tracksPerDepartement, collection, locationAccess, locationNameAccess, valueAccess) {
   let departmentDatasets = [];
-  collection.forEach(function (item) {
+  for (let i = 0; i < collection.length; i++) {
+    let item = collection[i];
     let location = locationAccess(item);
     let departmentName = locationNameAccess(item);
     let dataset = departmentDatasets.find(dataset => dataset.location === location);
@@ -161,11 +162,25 @@ function createDepartementData(collection, locationAccess, locationNameAccess, v
         value: valueAccess(item)
       });
     }
-  });
+  }
+  if (tracksPerDepartement) {
+    for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
+      let departmentObject = tracksPerDepartement[departementIndex];
+      let location = departmentObject.location;
+      if (departmentDatasets.find(item => item.location === location)) continue;
+      departmentDatasets.push({
+        value: 0,
+        location: location,
+        locationTotal: departmentObject.value,
+      });
+    }
+  }
   return departmentDatasets;
 }
-function getDepartmentsToTracksCollection(tracks, countFunction) {
-  return createDepartementData(tracks,
+function getDepartmentsToTracksCollection(tracksPerDepartement, tracks, countFunction) {
+  return createDepartementData(
+    tracksPerDepartement,
+    tracks,
     track => track.departmentNumber,
     track => track.departmentName,
     countFunction);
@@ -179,11 +194,14 @@ function getDepartmentsToTracksCollectionRelative(data, tracksPerDepartement) {
   });
   return data;
 }
-function getDepartmentsToArtistsCollection(artists, countFunction) {
-  return createDepartementData(artists,
+function getDepartmentsToArtistsCollection(tracksPerDepartement, artists, countFunction) {
+  return createDepartementData(
+    tracksPerDepartement,
+    artists,
     artist => artist.departmentNo,
     artist => artist.departmentName,
-    artist => 1);
+    artist => 1
+  );
 }
 
 function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, absolute) {
@@ -249,8 +267,7 @@ function tracksForWord(corpus, word, sensitivity = 'case-sensitive') {
         tracks.push(new Track(allTracks[i]));
       }
     }
-  }
-  else if (sensitivity === 'case-insensitive') {
+  } else if (sensitivity === 'case-insensitive') {
     word = word.toLowerCase();
     for (let i = 0; i < allTracks.length; i++) {
       if (allTracks[i].componentsLowercased.indexOf(word) !== -1) {
@@ -304,6 +321,16 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
       item.value = item.value / item.dateTotal;
     }
   }
+  for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
+    let departmentObject = tracksPerDepartement[departementIndex];
+    let location = departmentObject.location;
+    if (items.find(item => item.location === location)) continue;
+    items.push({
+      value: 0,
+      location: location,
+      locationTotal: departmentObject.value,
+    });
+  }
   return items;
 }
 
@@ -333,7 +360,10 @@ class Corpus {
   allTracks() {
     let allTracks = [];
     for (let i = 0; i < this.artists.length; i++) {
-      allTracks.push(...this.artists[i].allTracks());
+      let artistTracks = this.artists[i].allTracks();
+      for (let i = 0; i < artistTracks.length; i++) {
+        allTracks.push(artistTracks[i]);
+      }
     }
     return allTracks;
   }
@@ -400,22 +430,22 @@ class Corpus {
     return getYearsToCollectionRelative(this.getYearsToTypes(), this.getYearsToTrackNumbers());
   };
   getDepartmentsToArtists() {
-    return getDepartmentsToArtistsCollection(this.artists);
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.artists);
   }
   getDepartmentsToMaleArtists() {
-    return getDepartmentsToArtistsCollection(this.maleArtists());
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.maleArtists());
   }
   getDepartmentsToFemaleArtists() {
-    return getDepartmentsToArtistsCollection(this.femaleArtists());
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.femaleArtists());
   }
   getDepartmentsToGroupArtists() {
-    return getDepartmentsToArtistsCollection(this.groupArtists());
+    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.groupArtists());
   }
   getDepartmentsToTracks() {
-    return getDepartmentsToTracksCollection(this.allTracks(), () => 1);
+    return getDepartmentsToTracksCollection(null, this.allTracks(), () => 1);
   }
   getDepartmentsToWords() {
-    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.components.length);
+    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.components.length);
   }
   getDepartmentsToWordsRelative() {
     return getDepartmentsToTracksCollectionRelative(
@@ -423,7 +453,7 @@ class Corpus {
     );
   };
   getDepartmentsToTypes() {
-    return getDepartmentsToTracksCollection(this.allTracks(), (track) => track.types.length);
+    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.types.length);
   };
   getDepartmentsToTypesRelative() {
     return getDepartmentsToTracksCollectionRelative(

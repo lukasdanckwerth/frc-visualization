@@ -117,7 +117,10 @@
   lotivis.debug(true);
 
   // create lotivis components
-  let timeChartCard = new lotivis.DateChartCard('time-chart-card', {title: 'Years'});
+  let timeChartCard = new lotivis.DateChartCard('time-chart-card', {
+    title: 'Years',
+    showLabels: true
+  });
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {title: 'Variations'});
   let mapChartCard = new lotivis.MapChartCard('map-chart-card', {
     title: 'Departements',
