@@ -201,6 +201,106 @@
       "location": 55,
       "locationName": "meuse",
       "value": 1
+    },
+    {
+      "value": 0,
+      "location": 21,
+      "locationTotal": 47
+    },
+    {
+      "value": 0,
+      "location": 84,
+      "locationTotal": 25
+    },
+    {
+      "value": 0,
+      "location": 49,
+      "locationTotal": 92
+    },
+    {
+      "value": 0,
+      "location": 12,
+      "locationTotal": 9
+    },
+    {
+      "value": 0,
+      "location": 1,
+      "locationTotal": 42
+    },
+    {
+      "value": 0,
+      "location": 71,
+      "locationTotal": 47
+    },
+    {
+      "value": 0,
+      "location": 83,
+      "locationTotal": 54
+    },
+    {
+      "value": 0,
+      "location": 65,
+      "locationTotal": 21
+    },
+    {
+      "value": 0,
+      "location": 63,
+      "locationTotal": 2
+    },
+    {
+      "value": 0,
+      "location": 26,
+      "locationTotal": 21
+    },
+    {
+      "value": 0,
+      "location": 2,
+      "locationTotal": 32
+    },
+    {
+      "value": 0,
+      "location": 85,
+      "locationTotal": 19
+    },
+    {
+      "value": 0,
+      "location": 86,
+      "locationTotal": 13
+    },
+    {
+      "value": 0,
+      "location": 41,
+      "locationTotal": 34
+    },
+    {
+      "value": 0,
+      "location": 61,
+      "locationTotal": 24
+    },
+    {
+      "value": 0,
+      "location": 90,
+      "locationTotal": 11
+    },
+    {
+      "value": 0,
+      "location": 9,
+      "locationTotal": 7
+    },
+    {
+      "value": 0,
+      "location": 10,
+      "locationTotal": 23
+    },
+    {
+      "value": 0,
+      "location": 50,
+      "locationTotal": 1
+    },
+    {
+      "value": 0,
+      "location": 88,
+      "locationTotal": 1
     }
   ]
 }

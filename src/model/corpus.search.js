@@ -103,8 +103,7 @@ export function tracksForWord(corpus, word, sensitivity = 'case-sensitive') {
         tracks.push(new Track(allTracks[i]));
       }
     }
-  }
-  else if (sensitivity === 'case-insensitive') {
+  } else if (sensitivity === 'case-insensitive') {
     word = word.toLowerCase();
     for (let i = 0; i < allTracks.length; i++) {
       if (allTracks[i].componentsLowercased.indexOf(word) !== -1) {
@@ -177,8 +176,19 @@ export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear,
   if (!isAbsolute) {
     for (let index = 0; index < items.length; index++) {
       let item = items[index];
-      item.value = item.value / item.dateTotal
+      item.value = item.value / item.dateTotal;
     }
+  }
+
+  for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
+    let departmentObject = tracksPerDepartement[departementIndex];
+    let location = departmentObject.location;
+    if (items.find(item => item.location === location)) continue;
+    items.push({
+      value: 0,
+      location: location,
+      locationTotal: departmentObject.value,
+    });
   }
 
   return items;
