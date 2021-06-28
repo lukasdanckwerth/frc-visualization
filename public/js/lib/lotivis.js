@@ -3189,7 +3189,18 @@ class DateLegendRenderer {
         .text(function (item) {
           let value = sumOfStack(dateChart.datasetController.flatData, item);
           let formatted = numberFormat.format(value);
-          return `${item} (${formatted})`;
+          let labels = item.split(',');
+          let text;
+
+          if (labels.length > 3) {
+            labels = labels.splice(0, 3);
+            text = labels.join(', ') + ',...';
+          } else {
+            text = item;
+          }
+
+          return `${text} (${formatted})`;
+
         }.bind(this));
 
       legends
@@ -4397,6 +4408,59 @@ class MapLegendRenderer {
 
         legend
           .append("g")
+          .selectAll("text")
+          .data(['Keine Daten'])
+          .enter()
+          .append("text")
+          .attr('class', 'lotivis-map-legend-text')
+          .attr('x', offset + 35)
+          .attr('y', 44)
+          .text(d => d);
+
+        legend
+          .append('g')
+          .selectAll("rect")
+          .data([0])
+          .enter()
+          .append("rect")
+          .attr('class', 'lotivis-map-legend-rect')
+          .style('fill', 'white')
+          .attr('x', offset + 10)
+          .attr('y', 30)
+          .attr('width', 18)
+          .attr('height', 18)
+          .style('stroke-dasharray', '1,3')
+          .style('stroke', 'black')
+          .style('stroke-width', 1);
+
+        legend
+          .append("g")
+          .selectAll("text")
+          .data([0])
+          .enter()
+          .append("text")
+          .attr('class', 'lotivis-map-legend-text')
+          .attr('x', offset + 35)
+          .attr('y', 64)
+          .text(d => d);
+
+        legend
+          .append('g')
+          .selectAll("rect")
+          .data([0])
+          .enter()
+          .append("rect")
+          .attr('class', 'lotivis-map-legend-rect')
+          .style('fill', 'WhiteSmoke')
+          .attr('x', offset + 10)
+          .attr('y', 50)
+          .attr('width', 18)
+          .attr('height', 18)
+          .style('stroke', 'black')
+          .style('stroke-width', 1);
+
+        legend
+          .append("g")
           .selectAll("rect")
           .data(data)
           .enter()
@@ -4404,7 +4468,7 @@ class MapLegendRenderer {
           .attr('class', 'lotivis-map-legend-rect')
           .style('fill', generator)
           .attr('x', offset + 10)
-          .attr('y', (d, i) => (i * 20) + 30)
+          .attr('y', (d, i) => (i * 20) + 70)
           .attr('width', 18)
           .attr('height', 18)
           .style('stroke', 'black')
@@ -4418,8 +4482,14 @@ class MapLegendRenderer {
           .append("text")
           .attr('class', 'lotivis-map-legend-text')
           .attr('x', offset + 35)
-          .attr('y', (d, i) => (i * 20) + 44)
-          .text((d, i) => formatNumber((i / steps) * max));
+          .attr('y', (d, i) => (i * 20) + 84)
+          .text(function (d, i) {
+            if (d === 0) {
+              return '> 0'
+            } else {
+              return formatNumber(((i / steps) * max));
+            }
+          });
 
         return;
       }
@@ -4551,7 +4621,13 @@ class MapDatasetRenderer {
           mapChart.svg
             .selectAll('.lotivis-map-area')
             .filter((item) => equals(mapChart.config.featureIDAccessor(item), locationID))
-            .style('fill', generator(opacity));
+            .style('fill', function () {
+              if (opacity === 0) {
+                return 'WhiteSmoke';
+              } else {
+                return generator(opacity);
+              }
+            });
 
         }
 
@@ -4613,7 +4689,7 @@ class MapGeoJSONRenderer {
         .attr('id', feature => `lotivis-map-area-${idAccessor(feature)}`)
         .classed('lotivis-map-area', true)
         .style('stroke-dasharray', (feature) => feature.departmentsData ? '0' : '1,4')
-        .style('fill', 'whitesmoke')
+        .style('fill', 'white')
         .style('fill-opacity', 1)
         .on('click', mapChart.onSelectFeature.bind(mapChart))
         .on('mouseenter', mouseEnter)
