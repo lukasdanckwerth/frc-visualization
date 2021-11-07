@@ -9,7 +9,6 @@
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
     "generate:assets": "node utils/generate.assets.js",
-    "test": "echo \"Tests are coming.\""
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",

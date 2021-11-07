@@ -1,5 +1,5 @@
 /*!
- * frc.js v1.0.37 Lukas Danckwerth
+ * frc.js v1.0.40 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -523,4 +523,4 @@ Corpus.prototype.artistsToDatasets = function (artists) {
 return Corpus;
 
 })));
-//# sourceMappingURL=frc.js.map
+//# sourceMappingURL=frc.js.map.chart

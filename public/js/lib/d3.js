@@ -2448,7 +2448,7 @@ function drag() {
         .on("touchmove.drag", touchmoved)
         .on("touchend.drag touchcancel.drag", touchended)
         .style("touch-action", "none")
-        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+        .style("-webkit-tap-highlight-shared.color", "rgba(0,0,0,0)");
   }
 
   function mousedowned(event, d) {
@@ -2780,7 +2780,7 @@ define(Color, color, {
   displayable: function() {
     return this.rgb().displayable();
   },
-  hex: color_formatHex, // Deprecated! Use color.formatHex.
+  hex: color_formatHex, // Deprecated! Use shared.color.formatHex.
   formatHex: color_formatHex,
   formatHsl: color_formatHsl,
   formatRgb: color_formatRgb,
@@ -2863,7 +2863,7 @@ define(Rgb, rgb, extend(Color, {
         && (-0.5 <= this.b && this.b < 255.5)
         && (0 <= this.opacity && this.opacity <= 1);
   },
-  hex: rgb_formatHex, // Deprecated! Use color.formatHex.
+  hex: rgb_formatHex, // Deprecated! Use shared.color.formatHex.
   formatHex: rgb_formatHex,
   formatRgb: rgb_formatRgb,
   toString: rgb_formatRgb
@@ -3765,7 +3765,7 @@ function timer(callback, delay, time) {
 }
 
 function timerFlush() {
-  now(); // Get the current time, if not already set.
+  now(); // Get the current date.chart, if not already set.
   ++frame; // Pretend we’ve set an alarm, if we haven’t already.
   var t = taskHead, e;
   while (t) {
@@ -5173,7 +5173,7 @@ function brush$1(dim) {
         .on("touchmove.brush", touchmoved)
         .on("touchend.brush touchcancel.brush", touchended)
         .style("touch-action", "none")
-        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+        .style("-webkit-tap-highlight-shared.color", "rgba(0,0,0,0)");
   }
 
   brush.move = function(group, selection) {
@@ -12134,7 +12134,7 @@ function identity$4() {
       var t = y * ca - x * sa;
       x = x * ca + y * sa;
       y = t;
-    }    
+    }
     return [x + tx, y + ty];
   }
   projection.invert = function(p) {
@@ -14382,7 +14382,7 @@ function linearish(scale) {
       step = start, start = stop, stop = step;
       step = i0, i0 = i1, i1 = step;
     }
-    
+
     while (maxIter-- > 0) {
       step = tickIncrement(start, stop, count);
       if (step === prestep) {
@@ -15464,15 +15464,15 @@ function formatLocale(locale) {
         d.d = "W" in d ? (d.w + 6) % 7 + d.W * 7 - (day$1 + 5) % 7 : d.w + d.U * 7 - (day$1 + 6) % 7;
       }
 
-      // If a time zone is specified, all fields are interpreted as UTC and then
-      // offset according to the specified time zone.
+      // If a date.chart zone is specified, all fields are interpreted as UTC and then
+      // offset according to the specified date.chart zone.
       if ("Z" in d) {
         d.H += d.Z / 100 | 0;
         d.M += d.Z % 100;
         return utcDate(d);
       }
 
-      // Otherwise, all fields are in local time.
+      // Otherwise, all fields are in local date.chart.
       return localDate(d);
     };
   }
@@ -18789,7 +18789,7 @@ function zoom() {
         .on("touchstart.zoom", touchstarted)
         .on("touchmove.zoom", touchmoved)
         .on("touchend.zoom touchcancel.zoom", touchended)
-        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+        .style("-webkit-tap-highlight-shared.color", "rgba(0,0,0,0)");
   }
 
   zoom.transform = function(collection, transform, point, event) {

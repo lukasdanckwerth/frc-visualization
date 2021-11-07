@@ -1,5 +1,5 @@
 /*!
- * lotivis.js v1.0.89
+ * lotivis.js v1.0.90
  * https://github.com/lukasdanckwerth/lotivis#readme
  * (c) 2021 lotivis.js Lukas Danckwerth
  * Released under the MIT License
@@ -92,7 +92,7 @@ Color$1.plotColor = function (till) {
 };
 
 /**
- * Returns a randomly generated color.
+ * Returns a randomly generated shared.color.
  * @returns {string}
  */
 Color$1.randomColor = function () {
@@ -110,7 +110,7 @@ try {
 }
 
 /**
- * Returns a randomly generated color.
+ * Returns a randomly generated shared.color.
  * @returns {[]}
  */
 Color$1.colorsForStack = function (stackNumber, amount = 1) {
@@ -618,7 +618,7 @@ const LotivisConfig = {
   debug: true,
   // A string which is used as prefix for download.
   downloadFilePrefix: 'lotivis',
-  // A string which is used as separator between components when creating a file name.
+  // A string which is used as separator between shared.components when creating a file name.
   filenameSeparator: '_',
   // A string which is used for unknown values.
   unknown: 'LOTIVIS_UNKNOWN'
@@ -723,7 +723,7 @@ class Chart extends Component {
   }
 
   /**
-   * Appends / draw the components of this chart.
+   * Appends / draw the shared.components of this chart.
    * @returns {LotivisUnimplementedMethodError}
    */
   draw() {
@@ -1210,7 +1210,7 @@ Chart.prototype.setDatasetsController = function (newController) {
 };
 
 /**
- * Sets the datasets of this map chart.
+ * Sets the datasets of this map.chart chart.
  * @param newDatasets The new dataset.
  */
 Chart.prototype.setDatasets = function (newDatasets) {
@@ -1421,7 +1421,7 @@ class Popup extends Component {
   // MARK: - Render
 
   /**
-   * Appends components to this popup.
+   * Appends shared.components to this popup.
    * Should be overridden by subclasses.
    */
   inject() {
@@ -2031,7 +2031,7 @@ function validateDataset(dataset) {
 }
 
 /**
- * Validates the given datasets.controller item by ensuring it has a valid `time`, `location` and `value` property value.
+ * Validates the given datasets.controller item by ensuring it has a valid `date.chart`, `location` and `value` property value.
  * @param item The datasets.controller item to validate.
  * @throws MissingPropertyError
  */
@@ -2729,11 +2729,11 @@ function toSet(array) {
 }
 
 /**
- * Returns the earliest time occurring in the flat array of items.
+ * Returns the earliest date.chart occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The earliest time.
+ * @returns {*} The earliest date.chart.
  */
 function extractEarliestDate(flatData, dateAccess = (date) => date) {
   return extractDatesFromFlatData(flatData)
@@ -2741,22 +2741,22 @@ function extractEarliestDate(flatData, dateAccess = (date) => date) {
 }
 
 /**
- * Returns the earliest time occurring in the flat array of items.
+ * Returns the earliest date.chart occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The earliest time.
+ * @returns {*} The earliest date.chart.
  */
 function extractEarliestDateWithValue(flatData, dateAccess = (date) => date) {
   return extractEarliestDate(filterWithValue(flatData), dateAccess);
 }
 
 /**
- * Returns the latest time occurring in the flat array of items.
+ * Returns the latest date.chart occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The latest time.
+ * @returns {*} The latest date.chart.
  */
 function extractLatestDate(flatData, dateAccess = (date) => date) {
   return extractDatesFromFlatData(flatData)
@@ -2764,11 +2764,11 @@ function extractLatestDate(flatData, dateAccess = (date) => date) {
 }
 
 /**
- * Returns the latest time occurring in the flat array of items.
+ * Returns the latest date.chart occurring in the flat array of items.
  *
  * @param flatData The flat samples array.
  * @param dateAccess
- * @returns {*} The latest time.
+ * @returns {*} The latest date.chart.
  */
 function extractLatestDateWithValue(flatData, dateAccess = (date) => date) {
   return extractLatestDate(filterWithValue(flatData), dateAccess);
@@ -2788,7 +2788,7 @@ function filterWithValue(flatData) {
  *
  * @param datasets
  * @param dateAccess
- * @returns {{time: *}[]}
+ * @returns {{date.chart: *}[]}
  */
 function dateToItemsRelation(datasets, dateAccess) {
 
@@ -2964,7 +2964,7 @@ class DataviewFlatCard extends DataviewCard {
 class DataviewDatasetsControllerCard extends DataviewCard {
 
   /**
-   * Creates a new instance of DataviewDatasetsControllerCard.
+   * Creates a new instance of DatasetsControllerCard.
    */
   constructor(parent) {
     super(parent);
@@ -3013,13 +3013,13 @@ class DataviewDatasetsControllerSelectionCard extends DataviewCard {
 class DateAxisRenderer {
 
   /**
-   * Creates a new instance of DateAxisRenderer.
-   * @param dateChart The parental time chart.
+   * Creates a new instance of DateChartAxisRenderer.
+   * @param dateChart The parental date.chart chart.
    */
   constructor(dateChart) {
 
     /**
-     * Appends the `left` and `bottom` axis to the time chart.
+     * Appends the `left` and `bottom` axis to the date.chart chart.
      */
     this.render = function () {
       let height = dateChart.config.height;
@@ -3042,14 +3042,14 @@ class DateAxisRenderer {
 }
 
 /**
- * Appends labels on top of the bars of a time chart.
+ * Appends labels on top of the bars of a date.chart chart.
  * @class DateLabelRenderer
  */
 class DateLabelRenderer {
 
   /**
-   * Creates a new instance of DateLabelRenderer.
-   * @param dateChart The parental time chart.
+   * Creates a new instance of TimeChartLabelRenderer.
+   * @param dateChart The parental date.chart chart.
    */
   constructor(dateChart) {
 
@@ -3080,7 +3080,7 @@ class DateLabelRenderer {
         .data(dataset => dataset)
         .enter()
         .append('text')
-        .attr('class', 'lotivis-time-chart-label')
+        .attr('class', 'lotivis-date.chart-chart-label')
         .attr("transform", function (item) {
           let x = xChartRef(item.data.date) + xStackRef(stack.label) + bandwidth;
           let y = yChartRef(item[1]) - 5;
@@ -3123,7 +3123,7 @@ class DateLegendRenderer {
 
       legends
         .append('text')
-        .attr('class', 'lotivis-time-chart-legend-label')
+        .attr('class', 'lotivis-date.chart-chart-legend-label')
         .attr("font-size", 13)
         .attr("x", (item) => xLegend(item.label) - 30)
         .attr("y", dateChart.graphHeight + labelMargin)
@@ -3142,12 +3142,13 @@ class DateLegendRenderer {
           let components = event.target.innerHTML.split(' (');
           components.pop();
           let label = components.join(" (");
+          console.log('label', label);
           dateChart.toggleDataset(label);
         }.bind(this));
 
       legends
         .append("circle")
-        .attr('class', 'lotivis-time-chart-legend-circle')
+        .attr('class', 'lotivis-date.chart-chart-legend-circle')
         .attr("r", circleRadius)
         .attr("cx", (item) => xLegend(item.label) - (circleRadius * 2) - 30)
         .attr("cy", dateChart.graphHeight + labelMargin - circleRadius + 2)
@@ -3170,13 +3171,13 @@ class DateLegendRenderer {
 
       let legends = dateChart
         .graph
-        .selectAll('.lotivis-time-chart-legend-label')
+        .selectAll('.lotivis-date.chart-chart-legend-label')
         .data(stackNames)
         .enter();
 
       legends
         .append('text')
-        .attr('class', 'lotivis-time-chart-legend-label')
+        .attr('class', 'lotivis-date.chart-chart-legend-label')
         .attr("font-size", 23)
         .attr("x", (item) => xLegend(item) - 30)
         .attr("y", function () {
@@ -3222,14 +3223,14 @@ class DateLegendRenderer {
 }
 
 /**
- * Appends the bars to a time chart.
+ * Appends the bars to a date.chart chart.
  * @class DateBarsRenderer
  */
 class DateBarsRenderer {
 
   /**
-   * Creates a new instance of DateBarsRenderer.
-   * @param dateChart The parental time chart.
+   * Creates a new instance of TimeChartBarsRenderer.
+   * @param dateChart The parental date.chart chart.
    */
   constructor(dateChart) {
 
@@ -3256,7 +3257,8 @@ class DateBarsRenderer {
         .data((data) => data)
         .enter()
         .append("rect")
-        .attr('class', 'lotivis-time-chart-bar')
+        .attr('class', 'lotivis-date.chart-chart-bar')
+        .attr('class', 'lotivis-date-chart-bar')
         .attr("rx", isCombineStacks ? 0 : barRadius)
         .attr("ry", isCombineStacks ? 0 : barRadius)
         .attr("x", (d) => dateChart.xChart(d.data.date) + dateChart.xStack(stack.label))
@@ -3274,7 +3276,7 @@ class DateBarsRenderer {
 class DateGhostBarsRenderer {
 
   /**
-   * Creates a new instance of DateGhostBarsRenderer.
+   * Creates a new instance of TimeChartSelectionBarsRenderer.
    * @param dateChart
    */
   constructor(dateChart) {
@@ -3349,14 +3351,14 @@ class DateGhostBarsRenderer {
 }
 
 /**
- * Injects and presents a tooltip on a time chart.
+ * Injects and presents a tooltip on a date.chart chart.
  *
  * @class DateTooltipRenderer
  */
 class DateTooltipRenderer {
 
   /**
-   * Creates a new instance of DateTooltipRenderer.
+   * Creates a new instance of TimeChartTooltipRenderer.
    *
    * @constructor
    */
@@ -3400,7 +3402,7 @@ class DateTooltipRenderer {
      * Calculates the x offset to position the tooltip on the left side
      * of a bar.
      *
-     * @param date The presented time of selected bar.
+     * @param date The presented date.chart of selected bar.
      * @param factor The size factor of the chart.
      * @param offset The offset of the chart.
      * @param tooltipSize The size of the tooltip.
@@ -3415,7 +3417,7 @@ class DateTooltipRenderer {
      * Calculates the x offset to position the tooltip on the right side
      * of a bar.
      *
-     * @param date The presented time of selected bar.
+     * @param date The presented date.chart of selected bar.
      * @param factor The size factor of the chart.
      * @param offset The offset of the chart.
      * @returns {number} The x offset for the tooltip.
@@ -3428,9 +3430,9 @@ class DateTooltipRenderer {
     }
 
     /**
-     * Returns the HTML content for the given time.
+     * Returns the HTML content for the given date.chart.
      *
-     * @param date The time to get the HTML content for.
+     * @param date The date.chart to get the HTML content for.
      * @returns {string} Return the rendered HTML content.
      */
     function getHTMLForDate(date) {
@@ -3460,10 +3462,10 @@ class DateTooltipRenderer {
     }
 
     /**
-     * Presents the tooltip next to bar presenting the given time.
+     * Presents the tooltip next to bar presenting the given date.chart.
      *
      * @param event The mouse event.
-     * @param date The time which is presented.
+     * @param date The date.chart which is presented.
      */
     this.showTooltip = function (event, date) {
 
@@ -3508,7 +3510,7 @@ class DateTooltipRenderer {
 class DateGridRenderer {
 
   /**
-   * Creates a new instance of DateGridRenderer.
+   * Creates a new instance of TimeChartGridRenderer.
    *
    * @param dateChart
    */
@@ -3719,7 +3721,7 @@ class DateChart extends Chart {
   renderSVG() {
     this.svg = this.element
       .append('svg')
-      .attr('class', 'lotivis-chart-svg lotivis-time-chart')
+      .attr('class', 'lotivis-chart-svg lotivis-date.chart-chart')
       .attr('preserveAspectRatio', 'xMidYMid meet')
       .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`)
       .attr('id', this.svgSelector);
@@ -4051,7 +4053,7 @@ class ChartCard extends Card {
 }
 
 /**
- * A lotivis time chart card.
+ * A lotivis date.chart chart card.
  * @class DateChartCard
  * @extends Card
  */
@@ -4071,7 +4073,7 @@ class DateChartCard extends ChartCard {
   }
 
   /**
-   * Appends the `DateChart` to this card.
+   * Appends the `TimeChart` to this card.
    * @override
    */
   injectChart() {
@@ -4129,7 +4131,7 @@ class DateChartCard extends ChartCard {
    * @override
    */
   screenshotButtonAction() {
-    let filename = this.chart.datasetController.getFilename() || 'time-chart';
+    let filename = this.chart.datasetController.getFilename() || 'date.chart-chart';
     let downloadFilename = createDownloadFilename(filename, `date-chart`);
     downloadImage(this.chart.svgSelector, downloadFilename);
   }
@@ -4198,7 +4200,7 @@ class MapTooltipRenderer {
 
   /**
    * Creates a new instance of MapTooltipRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
     this.mapChart = mapChart;
@@ -4249,7 +4251,7 @@ class MapTooltipRenderer {
     }
 
     /**
-     * Called by map geojson renderer when mouse enters an area drawn on the map.
+     * Called by map.chart geojson renderer when mouse enters an area drawn on the map.chart.
      * @param event The mouse event.
      * @param feature The drawn feature (area).
      */
@@ -4324,12 +4326,12 @@ class MapTooltipRenderer {
     };
 
     /**
-     * Called by map geojson renderer when mouse leaves an area drawn on the map.
+     * Called by map.chart geojson renderer when mouse leaves an area drawn on the map.chart.
      * @param event The mouse event.
      * @param feature The drawn feature (area).
      */
     this.mouseOut = function (event, feature) {
-      let style = styleForCSSClass('.lotivis-map-area');
+      let style = styleForCSSClass('.lotivis-map.chart-area');
       let mapID = featureMapID(feature);
       mapChart.svg.select(`#${mapID}`)
         .style('stroke', style.stroke || 'black')
@@ -4356,7 +4358,7 @@ class MapLegendRenderer {
   /**
    * Creates a new instance of MapLegendRenderer.
    *
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
     let legend;
@@ -4364,7 +4366,7 @@ class MapLegendRenderer {
     function appendLegend() {
       legend = mapChart.svg
         .append('svg')
-        .attr('class', 'lotivis-map-legend')
+        .attr('class', 'lotivis-map.chart-legend')
         .attr('width', mapChart.width)
         .attr('height', 200)
         .attr('x', 0)
@@ -4400,7 +4402,7 @@ class MapLegendRenderer {
 
         legend
           .append('text')
-          .attr('class', 'lotivis-map-legend-title')
+          .attr('class', 'lotivis-map.chart-legend-title')
           .attr('x', offset + 10)
           .attr('y', '20')
           .style('fill', color.rgbString())
@@ -4412,7 +4414,7 @@ class MapLegendRenderer {
           .data(['Keine Daten'])
           .enter()
           .append("text")
-          .attr('class', 'lotivis-map-legend-text')
+          .attr('class', 'lotivis-map.chart-legend-text')
           .attr('x', offset + 35)
           .attr('y', 44)
           .text(d => d);
@@ -4423,7 +4425,7 @@ class MapLegendRenderer {
           .data([0])
           .enter()
           .append("rect")
-          .attr('class', 'lotivis-map-legend-rect')
+          .attr('class', 'lotivis-map.chart-legend-rect')
           .style('fill', 'white')
           .attr('x', offset + 10)
           .attr('y', 30)
@@ -4439,7 +4441,7 @@ class MapLegendRenderer {
           .data([0])
           .enter()
           .append("text")
-          .attr('class', 'lotivis-map-legend-text')
+          .attr('class', 'lotivis-map.chart-legend-text')
           .attr('x', offset + 35)
           .attr('y', 64)
           .text(d => d);
@@ -4450,7 +4452,7 @@ class MapLegendRenderer {
           .data([0])
           .enter()
           .append("rect")
-          .attr('class', 'lotivis-map-legend-rect')
+          .attr('class', 'lotivis-map.chart-legend-rect')
           .style('fill', 'WhiteSmoke')
           .attr('x', offset + 10)
           .attr('y', 50)
@@ -4465,7 +4467,7 @@ class MapLegendRenderer {
           .data(data)
           .enter()
           .append("rect")
-          .attr('class', 'lotivis-map-legend-rect')
+          .attr('class', 'lotivis-map.chart-legend-rect')
           .style('fill', generator)
           .attr('x', offset + 10)
           .attr('y', (d, i) => (i * 20) + 70)
@@ -4480,7 +4482,7 @@ class MapLegendRenderer {
           .data(data)
           .enter()
           .append("text")
-          .attr('class', 'lotivis-map-legend-text')
+          .attr('class', 'lotivis-map.chart-legend-text')
           .attr('x', offset + 35)
           .attr('y', (d, i) => (i * 20) + 84)
           .text(function (d, i) {
@@ -4505,15 +4507,15 @@ class MapLabelRenderer {
 
   /**
    * Creates a new instance of MapLabelRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
     /**
-     * Removes any old labels from the map.
+     * Removes any old labels from the map.chart.
      */
     function removeLabels() {
-      mapChart.svg.selectAll('.lotivis-map-label').remove();
+      mapChart.svg.selectAll('.lotivis-map.chart-label').remove();
     }
 
     /**
@@ -4525,7 +4527,7 @@ class MapLabelRenderer {
       let geoJSON = mapChart.geoJSON;
       if (!mapChart.geoJSON) return lotivis_log('[lotivis]  No GeoJSON to render.');
       let dataview = mapChart.dataview;
-      if (!dataview) return lotivis_log('[lotivis]  No dataview in map.');
+      if (!dataview) return lotivis_log('[lotivis]  No dataview in map.chart.');
       if (!mapChart.config.showLabels) return lotivis_log('[lotivis]  Skip rendering labels due to configuration.');
 
       mapChart.svg
@@ -4533,7 +4535,7 @@ class MapLabelRenderer {
         .data(geoJSON.features)
         .enter()
         .append('text')
-        .attr('class', 'lotivis-map-label')
+        .attr('class', 'lotivis-map.chart-label')
         .text(function (feature) {
           let featureID = mapChart.config.featureIDAccessor(feature);
           let dataset = dataview.combinedData.find(dataset => equals(dataset.location, featureID));
@@ -4558,7 +4560,7 @@ class MapDatasetRenderer {
 
   /**
    * Creates a new instance of MapDatasetRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
@@ -4569,7 +4571,7 @@ class MapDatasetRenderer {
     }
 
     /**
-     * Called by map GeoJSON renderer when mouse enters an area drawn on the map.
+     * Called by map.chart GeoJSON renderer when mouse enters an area drawn on the map.chart.
      * @param event The mouse event.
      * @param feature The drawn feature (area).
      */
@@ -4586,7 +4588,7 @@ class MapDatasetRenderer {
 
       mapChart
         .svg
-        .selectAll('.lotivis-map-label')
+        .selectAll('.lotivis-map.chart-label')
         .raise();
     };
 
@@ -4619,7 +4621,7 @@ class MapDatasetRenderer {
           let opacity = Number(datasetEntry.value / max);
 
           mapChart.svg
-            .selectAll('.lotivis-map-area')
+            .selectAll('.lotivis-map.chart-area')
             .filter((item) => equals(mapChart.config.featureIDAccessor(item), locationID))
             .style('fill', function () {
               if (opacity === 0) {
@@ -4644,12 +4646,12 @@ class MapGeoJSONRenderer {
 
   /**
    * Creates a new instance of MapGeoJSONRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
     /**
-     * To be called when the mouse enters an area drawn on the map.
+     * To be called when the mouse enters an area drawn on the map.chart.
      * @param event The mouse event.
      * @param feature The drawn feature (area).
      */
@@ -4660,7 +4662,7 @@ class MapGeoJSONRenderer {
     }
 
     /**
-     * To be called when the mouse leaves an area drawn on the map.
+     * To be called when the mouse leaves an area drawn on the map.chart.
      * @param event The mouse event.
      * @param feature The drawn feature (area).
      */
@@ -4687,7 +4689,7 @@ class MapGeoJSONRenderer {
         .append('path')
         .attr('d', mapChart.path)
         .attr('id', feature => `lotivis-map-area-${idAccessor(feature)}`)
-        .classed('lotivis-map-area', true)
+        .classed('lotivis-map.chart-area', true)
         .style('stroke-dasharray', (feature) => feature.departmentsData ? '0' : '1,4')
         .style('fill', 'white')
         .style('fill-opacity', 1)
@@ -4744,7 +4746,7 @@ class MapExteriorBorderRenderer {
 
   /**
    * Creates a new instance of MapExteriorBorderRenderer.
-   * @property mapChart The parental map chart.
+   * @property mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
@@ -4773,7 +4775,7 @@ class MapExteriorBorderRenderer {
         .append('path')
         .datum(borders)
         .attr('d', mapChart.path)
-        .attr('class', 'lotivis-map-exterior-borders');
+        .attr('class', 'lotivis-map.chart-exterior-borders');
     };
   }
 }
@@ -4844,7 +4846,7 @@ class MapMinimapRenderer {
   /**
    * Creates a new instance of MapMinimapRenderer.
    *
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
@@ -4863,14 +4865,14 @@ class MapSelectionBoundsRenderer {
 
   /**
    * Creates a new instance of MapSelectionBoundsRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
     this.render = function () {
       this.bounds = mapChart.svg
         .append('rect')
-        .attr('class', 'lotivis-map-selection-rect')
+        .attr('class', 'lotivis-location-chart-selection-rect')
         .style('fill-opacity', 0);
     };
 
@@ -4952,7 +4954,7 @@ class MapBackgroundRenderer {
 
   /**
    * Creates a new instance of MapBackgroundRenderer.
-   * @param mapChart The parental map chart.
+   * @param mapChart The parental map.chart chart.
    */
   constructor(mapChart) {
 
@@ -5123,7 +5125,7 @@ class MapChart extends Chart {
   /**
    * Creates a new instance of MapChart.
    * @param parent The parental component.
-   * @param config The configuration of the map chart.
+   * @param config The configuration of the map.chart chart.
    */
   constructor(parent, config) {
     super(parent, config);
@@ -5206,7 +5208,7 @@ class MapChart extends Chart {
   }
 
   /**
-   * Tells this map chart that the given feature was selected with the mouse.
+   * Tells this map.chart chart that the given feature was selected with the mouse.
    * @param event The mouse event.
    * @param feature The feature.
    */
@@ -5234,7 +5236,7 @@ class MapChart extends Chart {
   }
 
   /**
-   * Tells the receiving map chart that its `geoJSON` property did change.
+   * Tells the receiving map.chart chart that its `geoJSON` property did change.
    */
   geoJSONDidChange() {
     if (!this.geoJSON) return;
@@ -5250,7 +5252,7 @@ class MapChart extends Chart {
 }
 
 /**
- * A popup presenting a settings panel for a map chart.
+ * A popup presenting a settings panel for a map.chart chart.
  *
  * @class MapChartSettingsPopup
  * @extends SettingsPopup
@@ -5269,7 +5271,7 @@ class MapChartSettingsPopup extends SettingsPopup {
     this.showLabelsCheckbox.onClick = function (checked) {
       this.mapChart.config.showLabels = checked;
       this.mapChart.update();
-      UrlParameters.getInstance().setWithoutDeleting('map-show-labels', checked);
+      UrlParameters.getInstance().setWithoutDeleting('map.chart-show-labels', checked);
     }.bind(this);
   }
 
@@ -5292,14 +5294,14 @@ class MapChartCard extends ChartCard {
   /**
    * Creates a new instance of MapChartCard.
    * @param {Component|String} parent The parental component.
-   * @param config The config of the map chart.
+   * @param config The config of the map.chart chart.
    */
   constructor(parent, config) {
-    super(parent || 'map-chart-card', config);
+    super(parent || 'map.chart-chart-card', config);
   }
 
   /**
-   * Creates and injects the map chart.
+   * Creates and injects the map.chart chart.
    */
   injectChart() {
     this.chartID = this.selector + '-chart';
@@ -5333,7 +5335,7 @@ class MapChartCard extends ChartCard {
 }
 
 /**
- * Draws the axis on the plot chart.
+ * Draws the axis on the date.chart.plot.chart chart.
  * @class PlotAxisRenderer
  */
 class PlotAxisRenderer {
@@ -5341,12 +5343,12 @@ class PlotAxisRenderer {
   /**
    * Creates a new instance of PlotAxisRenderer.
    * @constructor
-   * @param plotChart The parental plot chart.
+   * @param plotChart The parental date.chart.plot.chart chart.
    */
   constructor(plotChart) {
 
     /**
-     * Appends axis on the top, left and bottom of the plot chart.
+     * Appends axis on the top, left and bottom of the date.chart.plot.chart chart.
      */
     this.renderAxis = function () {
       let margin = plotChart.config.margin;
@@ -5374,17 +5376,17 @@ class PlotAxisRenderer {
 }
 
 /**
- * Calculates and creates the gradients for the bars of a plot chart.
+ * Calculates and creates the gradients for the bars of a date.chart.plot.chart chart.
  *
  * @class PlotGradientCreator
  */
 class PlotGradientCreator {
 
   /**
-   * Creates a new instance of PlotGradientCreator.
+   * Creates a new instance of PlotBarsGradientCreator.
    *
    * @constructor
-   * @param plotChart The parental plot chart.
+   * @param plotChart The parental date.chart.plot.chart chart.
    */
   constructor(plotChart) {
     this.plotChart = plotChart;
@@ -5400,7 +5402,7 @@ class PlotGradientCreator {
     let max = this.plotChart.dataView.max;
     let gradient = this.plotChart.definitions
       .append("linearGradient")
-      .attr("id", 'lotivis-plot-gradient-' + createIDFromDataset(dataset))
+      .attr("id", 'lotivis-date.chart.plot.chart-gradient-' + createIDFromDataset(dataset))
       .attr("x1", "0%")
       .attr("x2", "100%")
       .attr("y1", "0%")
@@ -5422,7 +5424,7 @@ class PlotGradientCreator {
       gradient
         .append("stop")
         .attr("offset", `100%`)
-        .attr("stop-color", this.colorGenerator(opacity));
+        .attr("stop-shared.color", this.colorGenerator(opacity));
 
     } else {
 
@@ -5439,7 +5441,7 @@ class PlotGradientCreator {
         gradient
           .append("stop")
           .attr("offset", `${datePercentage}%`)
-          .attr("stop-color", this.colorGenerator(opacity));
+          .attr("stop-shared.color", this.colorGenerator(opacity));
 
       }
     }
@@ -5447,7 +5449,7 @@ class PlotGradientCreator {
 }
 
 /**
- * Draws the bar on the plot chart.
+ * Draws the bar on the date.chart.plot.chart chart.
  * @class PlotBarsRenderer
  */
 class PlotBarsRenderer {
@@ -5455,7 +5457,7 @@ class PlotBarsRenderer {
   /**
    * Creates a new instance of PlotAxisRenderer.
    * @constructor
-   * @param plotChart The parental plot chart.
+   * @param plotChart The parental date.chart.plot.chart chart.
    */
   constructor(plotChart) {
 
@@ -5466,7 +5468,7 @@ class PlotBarsRenderer {
     plotChart.definitions = plotChart.svg.append("defs");
 
     /**
-     * To be called when the mouse enters a bar on the plot chart.
+     * To be called when the mouse enters a bar on the date.chart.plot.chart chart.
      * @param event The mouse event.
      * @param dataset The represented dataset.
      */
@@ -5476,7 +5478,7 @@ class PlotBarsRenderer {
     }
 
     /**
-     * To be called when the mouse leaves a bar on the plot chart.
+     * To be called when the mouse leaves a bar on the date.chart.plot.chart chart.
      * @param event The mouse event.
      * @param dataset The represented dataset.
      */
@@ -5505,7 +5507,7 @@ class PlotBarsRenderer {
       plotChart.bars = plotChart.barsData
         .append("rect")
         .attr("fill", (d) => `url(#lotivis-plot-gradient-${createIDFromDataset(d)})`)
-        .attr('class', 'lotivis-plot-bar')
+        .attr('class', 'lotivis-date.chart.plot.chart-bar')
         .attr("rx", radius)
         .attr("ry", radius)
         .attr("x", (d) => plotChart.xChart((d.duration < 0) ? d.lastDate : d.firstDate || 0))
@@ -5523,7 +5525,7 @@ class PlotBarsRenderer {
 }
 
 /**
- * Appends and updates the tooltip of a plot chart.
+ * Appends and updates the tooltip of a date.chart.plot.chart chart.
  * @class PlotTooltipRenderer
  * @see PlotChart
  */
@@ -5647,12 +5649,12 @@ class PlotLabelRenderer {
    * Creates a new instance of PlotLabelRenderer.
    *
    * @constructor
-   * @param plotChart The parental plot chart.
+   * @param plotChart The parental date.chart.plot.chart chart.
    */
   constructor(plotChart) {
 
     /**
-     * Draws the labels on the bars on the plot chart.
+     * Draws the labels on the bars on the date.chart.plot.chart chart.
      */
     this.renderLabels = function () {
       if (!plotChart.config.showLabels) return;
@@ -5663,7 +5665,7 @@ class PlotLabelRenderer {
         .append('g')
         .attr('transform', `translate(0,${(xBandwidth / 2) + 4})`)
         .append('text')
-        .attr('class', 'lotivis-plot-label')
+        .attr('class', 'lotivis-date.chart.plot.chart-label')
         .attr("id", (d) => 'rect-' + hashCode(d.label))
         .attr("x", (d) => xChart(d.firstDate) + (xBandwidth / 2))
         .attr("y", (d) => plotChart.yChart(d.label))
@@ -5678,17 +5680,17 @@ class PlotLabelRenderer {
 }
 
 /**
- * Draws a grid on the plot chart.
+ * Draws a grid on the date.chart.plot.chart chart.
  *
  * @class PlotGridRenderer
  */
 class PlotGridRenderer {
 
   /**
-   * Creates a new instance of PlotGridRenderer.
+   * Creates a new instance of TimePlotGridRenderer.
    *
    * @constructor
-   * @param plotChart The parental plot chart.
+   * @param plotChart The parental date.chart.plot.chart chart.
    */
   constructor(plotChart) {
 
@@ -5700,13 +5702,13 @@ class PlotGridRenderer {
 
       plotChart.svg
         .append('g')
-        .attr('class', 'lotivis-plot-grid lotivis-plot-grid-x')
+        .attr('class', 'lotivis-date.chart.plot.chart-grid lotivis-date.chart.plot.chart-grid-x')
         .attr('transform', 'translate(0,' + (plotChart.preferredHeight - plotChart.config.margin.bottom) + ')')
         .call(plotChart.xAxisGrid);
 
       plotChart.svg
         .append('g')
-        .attr('class', 'lotivis-plot-grid lotivis-plot-grid-y')
+        .attr('class', 'lotivis-date.chart.plot.chart-grid lotivis-date.chart.plot.chart-grid-y')
         .attr('transform', `translate(${plotChart.config.margin.left},0)`)
         .call(plotChart.yAxisGrid);
 
@@ -5723,13 +5725,13 @@ class PlotBackgroundRenderer {
         .append('rect')
         .attr('width', plotChart.width)
         .attr('height', plotChart.height)
-        .attr('class', 'lotivis-plot-background');
+        .attr('class', 'lotivis-date.chart.plot.chart-background');
     };
   }
 }
 
 /**
- * Enumeration of sorts available in the plot chart.
+ * Enumeration of sorts available in the date.chart.plot.chart chart.
  */
 const PlotChartSort = {
   none: 'none',
@@ -5789,17 +5791,17 @@ function createPlotDataset(dataset, dateAccess) {
 }
 
 /**
- * Returns a new generated plot samples view for the current enabled samples of dataset of this controller.
+ * Returns a new generated date.chart.plot.chart samples view for the current enabled samples of dataset of this controller.
  */
 DatasetsController.prototype.getPlotDataview = function () {
 
-  let cachedDataView = this.getCached('plot');
+  let cachedDataView = this.getCached('date.chart.plot.chart');
   if (cachedDataView) {
     return cachedDataView;
   }
 
   this.dateAccess;
-  let enabledDatasets = this.enabledDatasets();
+  let enabledDatasets = this.filteredDatasets();
   let dataview = {datasets: []};
 
   dataview.dates = extractDatesFromDatasets(enabledDatasets).sort();
@@ -5820,13 +5822,13 @@ DatasetsController.prototype.getPlotDataview = function () {
     });
   });
 
-  this.setCached(dataview, 'plot');
+  this.setCached(dataview, 'date.chart.plot.chart');
 
   return dataview;
 };
 
 /**
- * A lotivis plot chart.
+ * A lotivis date.chart.plot.chart chart.
  *
  * @class PlotChart
  * @extends Chart
@@ -5869,7 +5871,7 @@ class PlotChart extends Chart {
   }
 
   /**
-   * Removes any (old) components from the svg.
+   * Removes any (old) shared.components from the svg.
    */
   remove() {
     this.svg.selectAll('*').remove();
@@ -5914,7 +5916,7 @@ class PlotChart extends Chart {
   }
 
   /**
-   * Updates the plot chart.
+   * Updates the date.chart.plot.chart chart.
    */
   update(controller, reason) {
     if (!this.updateSensible) return;
@@ -6044,7 +6046,7 @@ class PlotChartSettingsPopup extends SettingsPopup {
 }
 
 /**
- * A card containing a plot chart.
+ * A card containing a date.chart.plot.chart chart.
  * @class PlotChartCard
  * @extends Card
  */
@@ -6056,7 +6058,7 @@ class PlotChartCard extends ChartCard {
    * @param config
    */
   constructor(selector, config) {
-    let theSelector = selector || 'plot-chart-card';
+    let theSelector = selector || 'date.chart.plot.chart-chart-card';
     super(theSelector, config);
     this.injectRadioGroup();
     this.applyURLParameters();
@@ -6064,7 +6066,7 @@ class PlotChartCard extends ChartCard {
   }
 
   /**
-   * Injects the plot chart in the body of the card.
+   * Injects the date.chart.plot.chart chart in the body of the card.
    */
   injectChart() {
     this.chartID = this.selector + '-chart';
@@ -6219,6 +6221,14 @@ DatasetsController.prototype.toggleDataset = function (label, notifyListeners = 
     if (dataset.label !== label) return;
     dataset.isEnabled = !dataset.isEnabled;
   });
+
+  // let index = this.datasetFilters.indexOf(label);
+  // if (index !== -1) {
+  //   this.datasetFilters.splice(index, 1);
+  // } else {
+  //   this.datasetFilters.push(String(label));
+  // }
+
   if (!notifyListeners) return;
   this.notifyListeners('dataset-toggle');
 };
@@ -6236,7 +6246,7 @@ DatasetsController.prototype.enableAllDatasets = function () {
  * @returns {[]}
  */
 DatasetsController.prototype.enabledFlatData = function () {
-  return flatDatasets(this.enabledDatasets());
+  return flatDatasets(this.filteredDatasets());
 };
 
 /**
@@ -6244,7 +6254,7 @@ DatasetsController.prototype.enabledFlatData = function () {
  * @returns {*[]} The set of labels.
  */
 DatasetsController.prototype.enabledLabels = function () {
-  return extractLabelsFromDatasets(this.enabledDatasets());
+  return extractLabelsFromDatasets(this.filteredDatasets());
 };
 
 /**
@@ -6252,7 +6262,7 @@ DatasetsController.prototype.enabledLabels = function () {
  * @returns {*[]} The set of stacks.
  */
 DatasetsController.prototype.enabledStacks = function () {
-  return extractStacksFromDatasets(this.enabledDatasets());
+  return extractStacksFromDatasets(this.filteredDatasets());
 };
 
 /**
@@ -6260,7 +6270,7 @@ DatasetsController.prototype.enabledStacks = function () {
  * @returns {*[]} The set of dates.
  */
 DatasetsController.prototype.enabledDates = function () {
-  return extractDatesFromDatasets(this.enabledDatasets());
+  return extractDatesFromDatasets(this.filteredDatasets());
 };
 
 /**
@@ -6274,7 +6284,10 @@ DatasetsController.prototype.enabledDatasets = function () {
     .filter(dataset => dataset.isEnabled === true);
 
   if (this.datasetFilters && this.datasetFilters.length > 0) {
-    enabled = enabled.filter(dataset => this.datasetFilters.includes(dataset.label));
+    let datasetFilters = this.datasetFilters;
+    enabled = enabled.filter(function (dataset) {
+      return datasetFilters.includes(String(dataset.label));
+    });
   }
 
   if (this.locationFilters && this.locationFilters.length > 0) {
@@ -6437,7 +6450,7 @@ DatasetsController.prototype.getSelection = function () {
  * Calculates the current selection dependant on the set filters.
  */
 DatasetsController.prototype.calculateSelection = function () {
-  let selectedData = this.enabledDatasets();
+  let selectedData = this.filteredDatasets();
   let flatData = flatDatasets(selectedData);
   this.selection = {
     labels: extractLabelsFromDatasets(selectedData),
@@ -6617,7 +6630,7 @@ DatasetsController.prototype.getDateDataview = function (groupSize) {
 
   this.dateAccess;
   let datasets = copy(this.datasets);
-  let enabledDatasets = copy(this.enabledDatasets() || datasets);
+  let enabledDatasets = copy(this.filteredDatasets() || datasets);
   let dataview = {};
   let saveGroupSize = groupSize || 1;
 
@@ -6656,7 +6669,7 @@ DatasetsController.prototype.getDateDataview = function (groupSize) {
 DatasetsController.prototype.getDateDataviewCombinedStacks = function (groupSize) {
   this.dateAccess;
   let datasets = copy(this.datasets);
-  let enabledDatasets = copy(this.enabledDatasets() || datasets);
+  let enabledDatasets = copy(this.filteredDatasets() || datasets);
   let dataview = {};
   let saveGroupSize = groupSize || 1;
 
@@ -6745,7 +6758,7 @@ exports.createID = createID;
 // colors
 exports.Color = Color$1;
 
-// components
+// shared.components
 exports.Button = Button;
 exports.Card = Card;
 exports.Checkbox = Checkbox;
@@ -6771,15 +6784,15 @@ exports.DataviewDatasetsControllerSelectionCard = DataviewDatasetsControllerSele
 exports.UpdatableDataviewCard = UpdatableDataviewCard;
 exports.EditableDataviewCard = EditableDataviewCard;
 
-// time
+// date.chart
 exports.DateChart = DateChart;
 exports.DateChartCard = DateChartCard;
 
-// map
+// map.chart
 exports.MapChart = MapChart;
 exports.MapChartCard = MapChartCard;
 
-// plot
+// date.chart.plot.chart
 exports.PlotChart = PlotChart;
 exports.PlotChartCard = PlotChartCard;
 
@@ -6794,7 +6807,7 @@ exports.parseCSVDate = parseCSVDate;
 exports.config = LotivisConfig;
 exports.debug = debug;
 
-// time assessors
+// date.chart assessors
 exports.DefaultDateAccess = DefaultDateAccess;
 exports.FormattedDateAccess = FormattedDateAccess;
 exports.GermanDateAccess = DateGermanAssessor;
@@ -6811,4 +6824,4 @@ UrlParameters.getInstance().updateCurrentPageFooter();
 exports.default = exports$1;
 
 })));
-//# sourceMappingURL=lotivis.js.map
+//# sourceMappingURL=lotivis.js.map.chart
