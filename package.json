@@ -8,7 +8,7 @@
     "build:watch": "rollup -c --watch",
     "serve": "node server.js",
     "serve:production": "NODE_ENV=production node server.js production",
-    "generate:assets": "node utils/generate.assets.js",
+    "generate:assets": "node utils/generate.assets.js"
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",

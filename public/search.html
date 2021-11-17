@@ -124,7 +124,13 @@
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {title: 'Variations'});
   let mapChartCard = new lotivis.MapChartCard('map-chart-card', {
     title: 'Departements',
-    excludedFeatureCodes: ['2A', '2B']
+    excludedFeatureCodes: ['2A', '2B'],
+    featureIDAccessor: (feature) => {
+      return feature.properties.code
+    },
+    featureNameAccessor: (feature) => {
+      return feature.properties.nom
+    }
   });
 
   let loadingView = document.getElementById('frcv-loading');

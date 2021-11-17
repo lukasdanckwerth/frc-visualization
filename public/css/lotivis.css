@@ -108,6 +108,7 @@ button.lotivis-button-round:active {
   box-shadow: rgba(0, 0, 0, 0.05) 0 0 30px 0;
   color: #464845;
   margin: 0 0 20px 0;
+  overflow: hidden;
 }
 
 .lotivis-card-header {
@@ -216,6 +217,13 @@ button.lotivis-button-round:active {
   margin: 0 0 5px;
 }
 
+.lotivis-dropdown-label {
+  width: 60px;
+  text-align: right;
+  display: inline-block;
+  margin-right: 6px;
+}
+
 .lotivis-data-status-label {
   font-size: 12px;
 }
@@ -257,27 +265,31 @@ button.lotivis-button-round:active {
   color: white;
 }
 
-.lotivis-date-chart-label {
+.lotivis-time-chart-label {
   pointer-events: none;
   font-size: 20px;
 }
 
-.lotivis-date-chart-legend-label {
+.lotivis-time-chart-legend-label {
   font-size: 13px;
 }
 
-.lotivis-date-chart-legend-circle {
+.lotivis-time-chart-legend-circle {
   cursor: pointer;
   stroke-width: 2;
 }
 
-.lotivis-date-chart-bar {
+.lotivis-time-chart-bar {
   pointer-events: none;
 }
 
-.lotivis-selection-rect {
+.lotivis-date-chart-hover-bar {
   border-radius: 10px;
   fill: dodgerblue;
+}
+
+.lotivis-date-chart-selection-rect {
+  fill: red;
 }
 
 .lotivis-menu li {
@@ -423,7 +435,11 @@ input[type=checkbox] {
   padding: 0 5px;
 }
 
-.lotivis-map-area {
+.lotivis-map-chart-background {
+  cursor: pointer;
+}
+
+.lotivis-map-chart-area {
   fill: white;
   fill-opacity: 0;
   stroke: black;
@@ -431,43 +447,62 @@ input[type=checkbox] {
   cursor: pointer;
 }
 
-.lotivis-map-exterior-borders {
+.lotivis-map-chart-area-hover {
+  stroke: dodgerblue;
+  stroke-width: 4;
+  stroke-dasharray: 0 !important;
+}
+
+.lotivis-map-chart-exterior-borders {
   fill: white;
-  fill-opacity: 0;
-  stroke: green;
-  stroke-width: 3;
+  fill-opacity: 1;
+  stroke: gray;
+  stroke-width: 4;
+  stroke-opacity: 0.4;
   pointer-events: none;
 }
 
-.lotivis-map-label {
+.lotivis-map-chart-label {
   fill: black;
   text-anchor: middle;
   font-size: 12px;
   pointer-events: none;
 }
 
-.lotivis-map-selection-rect {
+.lotivis-map-chart-selection-border {
   pointer-events: none;
-  position: absolute;
-  fill: white;
+  fill: transparent;
   fill-opacity: 0;
-  stroke: red;
-  stroke-width: 1px;
-  stroke-dasharray: 1, 3;
+  stroke: dodgerblue;
+  stroke-width: 3px;
+  stroke-dasharray: 0;
+  pointer-events: none;
 }
 
-.lotivis-map-legend-rect {
+.lotivis-map-chart-legend-rect {
   stroke: black;
   stroke-width: 1;
 }
 
-.lotivis-plot-background {
-  fill: rgba(255, 255, 255, 0);
+.lotivis-plot-chart-background {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.lotivis-plot-chart-hover-bar {
+  border-radius: 10px;
+  fill: dodgerblue;
+}
+
+.lotivis-plot-chart-selection-rect {
+  border-radius: 10px;
+  fill: red;
 }
 
 .lotivis-plot-bar {
   stroke: lightgrey;
   stroke-width: 1;
+  pointer-events: none;
 }
 
 .lotivis-plot-grid {
@@ -610,6 +645,18 @@ input[type=checkbox] {
 .lotivis-modal-underground {
   background-color: white;
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+.lotivis-settings-card-row {
+  margin-bottom: 5px;
+}
+
+svg {
+  overflow: visible;
+}
+
+.lotivis-chart-svg {
+  overflow: visible;
 }
 
 .lotivis-tooltip {

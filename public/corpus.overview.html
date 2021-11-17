@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lotivis@1/dist/lotivis.css"/>
+  <link rel="stylesheet" href="css/lotivis.css"/>
   <link rel="stylesheet" href="css/frc-visualization.css"/>
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -63,7 +63,18 @@
 
   // create lotivis elements
   let dateChartCard = new lotivis.DateChartCard('date-chart-card', {title: ' '});
-  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {title: 'Departements'});
+  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {
+    title: 'Departements',
+    excludedFeatureCodes: ['2A', '2B'],
+    featureIDAccessor: (feature) => {
+      return feature.properties.code
+    },
+    featureNameAccessor: (feature) => {
+      return feature.properties.nom
+    }
+  });
+
+
   let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
   let loadingCard = d3.select('#loading');
 
@@ -93,8 +104,8 @@
         let controller = dateChartCard.chart.datasetController;
         let updater = {
           update: function (controller, reason) {
-            if (reason === 'location-filter') {
-              let locations = controller.locationFilters;
+            if (reason === 'filter-locations') {
+              let locations = controller.filters.locations;
               let artists = corpus.artistsForLocations(locations);
               let datasets = corpus.artistsToDatasets(artists);
               plotChartCard.chart.setDatasets(datasets);

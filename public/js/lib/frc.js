@@ -523,4 +523,4 @@ Corpus.prototype.artistsToDatasets = function (artists) {
 return Corpus;
 
 })));
-//# sourceMappingURL=frc.js.map.chart
+//# sourceMappingURL=frc.js.map
