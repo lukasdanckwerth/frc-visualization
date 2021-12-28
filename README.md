@@ -1,7 +1,5 @@
 # FRC-Visualization
 
-
-
 ## Getting started
 
 ```bash
@@ -25,24 +23,48 @@ make stage
 #### Deploy Production
 
 ```bash
+
 ```
-
-
 
 ### Node.js
 
-
 ### Docker
 
+## Capacitor
 
+```bash
+# add ios platform (in case it is not already)
+npx cap add ios
+
+# syncronize projects (copies the web assets folder in the projects)
+npx cap sync
+
+# open the ios project
+npx cap open ios
+
+# ... alternativly, open Xcode manually
+open ios/App/App.xcworkspace
+
+# run in ios simulator
+npx cap run ios
+```
+
+### Life Reload with Capacitor
+
+```bash
+# install ionic (in case it isn't)
+npm install -g @ionic/cli native-run
+
+# start the live reload process
+ionic cap run ios -l --external
+```
 
 ## Heroku
 
-* ```development``` branch is deployed to Heroku ```stage```
-* ```master``` branch is deployed to Heroku ```production```
+- `development` branch is deployed to Heroku `stage`
+- `master` branch is deployed to Heroku `production`
 
-| Environment | URL                                           | Status |
-| ----------- | --------------------------------------------- | ------ |
-| Stage       | https://frc-visualization-stage.herokuapp.com | [![Deploy Stage](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml) |
+| Environment | URL                                           | Status                                                                                                                                                                                                                       |
+| ----------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage       | https://frc-visualization-stage.herokuapp.com | [![Deploy Stage](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml)                |
 | Production  | https://frc-visualization.herokuapp.com       | [![Deploy Production](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml) |
-
