@@ -32,7 +32,7 @@ make stage
 
 ## Capacitor
 
-```console
+```sh
 # add ios platform (in case it is not already)
 npx cap add ios
 
