@@ -2,7 +2,7 @@
 
 ## Getting started
 
-```bash
+```sh
 # clone repository
 $ git clone git@github.com:lukasdanckwerth/frc-visualization.git
 
@@ -15,14 +15,14 @@ $ git checkout dev
 
 #### Deploy Stage
 
-```bash
+```sh
 # user makefile merge from dev to stage branch which will start an automatic deployment
 make stage
 ```
 
 #### Deploy Production
 
-```bash
+```sh
 
 ```
 
@@ -32,7 +32,7 @@ make stage
 
 ## Capacitor
 
-```bash
+```sh
 # add ios platform (in case it is not already)
 npx cap add ios
 
