@@ -13,6 +13,7 @@
   "author": "Lukas Danckwerth",
   "license": "MIT",
   "devDependencies": {
+    "@capacitor/cli": "^3.3.3",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "d3": "^6.5.0",
@@ -22,6 +23,7 @@
     "rollup-stream": "^1.24.1"
   },
   "dependencies": {
+    "@capacitor/core": "^3.3.3",
     "express": "^4.17.1"
   }
 }
