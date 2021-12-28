@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@capacitor/core": "^3.3.3",
+    "@capacitor/ios": "^3.3.3",
     "express": "^4.17.1"
   }
 }
