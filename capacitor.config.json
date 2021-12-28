@@ -1,6 +1,6 @@
 {
   "appId": "de.danckwerth.FrechRapCorpusVisualization",
   "appName": "French Rap Corpus Visualization",
-  "webDir": "public ",
+  "webDir": "public",
   "bundledWebRuntime": false
 }
