@@ -1,16 +1,17 @@
 class ContentLoadingPopup extends lotivis.Popup {
-
   constructor() {
-    super(d3.select('body'));
+    super(d3.select("body"));
     this.loadingView = this.card.body
-      .append('div')
-      .classed('frc-loading-card', true)
-      .text('Loading...');
-    this.card.content = this.card.body.append('div').classed('frcv-container', true);
+      .append("div")
+      .classed("card", true)
+      .text("Loading...");
+    this.card.content = this.card.body
+      .append("div")
+      .classed("frcv-container", true);
   }
 
   hideLoadingView() {
-    this.loadingView.style('display', 'none');
+    this.loadingView.style("display", "none");
   }
 
   setContent(newContent) {
@@ -24,17 +25,18 @@ class ContentLoadingPopup extends lotivis.Popup {
   }
 
   loadContentFrom(path) {
-    d3
-      .text(path)
-      .then(function (content) {
-        this.setContent(content);
-      }.bind(this))
+    d3.text(path)
+      .then(
+        function (content) {
+          this.setContent(content);
+        }.bind(this)
+      )
       .catch(function (error) {
         console.log(error);
       });
   }
 
   preferredSize() {
-    return {width: 600, height: 400};
+    return { width: 600, height: 400 };
   }
 }

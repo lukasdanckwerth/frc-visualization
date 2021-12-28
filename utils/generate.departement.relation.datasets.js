@@ -1,42 +1,73 @@
-const json = require('./file.access');
-const frcv = require('../public/js/lib/frc');
-const corpusJSON = require('./load-corpus').corpusJSON;
-const corpus = new frcv(corpusJSON);
+const fileAccess = require("./file.access");
+const corpus = fileAccess.corpus;
 
 function createDataset(data, name) {
   return {
     label: name,
     stack: name,
-    data: data
-  }
+    data: data,
+  };
 }
 
 let tracksPerDepartement = corpus.getDepartmentsToTracks();
-let datasetTracks = createDataset(tracksPerDepartement, 'Tracks');
-json.writeAsset(datasetTracks, 'departements.to.tracks.json', false);
+let datasetTracks = createDataset(tracksPerDepartement, "Tracks");
+fileAccess.writeAsset(datasetTracks, "departements.to.tracks.json", false);
 
 let wordsPerDepartement = corpus.getDepartmentsToWords();
-let datasetWords = createDataset(wordsPerDepartement, 'Words');
-json.writeAsset(datasetWords, 'departements.to.words.json');
+let datasetWords = createDataset(wordsPerDepartement, "Words");
+fileAccess.writeAsset(datasetWords, "departements.to.words.json");
 
-let datasetWordsRelative = createDataset(corpus.getDepartmentsToWordsRelative(), 'Words-Relative');
-json.writeAsset(datasetWordsRelative, 'departements.to.words.relative.json');
+let datasetWordsRelative = createDataset(
+  corpus.getDepartmentsToWordsRelative(),
+  "Words-Relative"
+);
+fileAccess.writeAsset(
+  datasetWordsRelative,
+  "departements.to.words.relative.json"
+);
 
 let typesDepartment = corpus.getDepartmentsToTypes();
-let datasetTypes = createDataset(typesDepartment, 'Types');
-json.writeAsset(datasetTypes, 'departements.to.types.json');
+let datasetTypes = createDataset(typesDepartment, "Types");
+fileAccess.writeAsset(datasetTypes, "departements.to.types.json");
 
-let datasetTypesRelative = createDataset(corpus.getDepartmentsToTypesRelative(), 'Types-Relative');
-json.writeAsset(datasetTypesRelative, 'departements.to.types.relative.json');
+let datasetTypesRelative = createDataset(
+  corpus.getDepartmentsToTypesRelative(),
+  "Types-Relative"
+);
+fileAccess.writeAsset(
+  datasetTypesRelative,
+  "departements.to.types.relative.json"
+);
 
-let datasetArtists = createDataset(corpus.getDepartmentsToArtists(), 'Artists');
-json.writeAsset(datasetArtists, 'departements.to.artists.json', false);
+let datasetArtists = createDataset(corpus.getDepartmentsToArtists(), "Artists");
+fileAccess.writeAsset(datasetArtists, "departements.to.artists.json", false);
 
-let datasetMaleArtists = createDataset(corpus.getDepartmentsToMaleArtists(), 'Male Artists');
-json.writeAsset(datasetMaleArtists, 'departements.to.male.artists.json', false);
+let datasetMaleArtists = createDataset(
+  corpus.getDepartmentsToMaleArtists(),
+  "Male Artists"
+);
+fileAccess.writeAsset(
+  datasetMaleArtists,
+  "departements.to.male.artists.json",
+  false
+);
 
-let datasetFemaleArtists = createDataset(corpus.getDepartmentsToFemaleArtists(), 'Female Artists');
-json.writeAsset(datasetFemaleArtists, 'departements.to.female.artists.json', false);
+let datasetFemaleArtists = createDataset(
+  corpus.getDepartmentsToFemaleArtists(),
+  "Female Artists"
+);
+fileAccess.writeAsset(
+  datasetFemaleArtists,
+  "departements.to.female.artists.json",
+  false
+);
 
-let datasetGroupArtists = createDataset(corpus.getDepartmentsToGroupArtists(), 'Group Artists');
-json.writeAsset(datasetGroupArtists, 'departements.to.group.artists.json', false);
+let datasetGroupArtists = createDataset(
+  corpus.getDepartmentsToGroupArtists(),
+  "Group Artists"
+);
+fileAccess.writeAsset(
+  datasetGroupArtists,
+  "departements.to.group.artists.json",
+  false
+);

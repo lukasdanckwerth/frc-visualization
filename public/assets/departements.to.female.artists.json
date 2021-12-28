@@ -3,14 +3,9 @@
   "stack": "Female Artists",
   "data": [
     {
-      "location": 44,
-      "locationName": "loire-atlantique",
-      "value": 3
-    },
-    {
       "location": 93,
       "locationName": "seine-saint-denis",
-      "value": 9
+      "value": 8
     },
     {
       "location": 94,
@@ -20,12 +15,12 @@
     {
       "location": 91,
       "locationName": "essonne",
-      "value": 3
+      "value": 2
     },
     {
       "location": 75,
       "locationName": "paris",
-      "value": 13
+      "value": 9
     },
     {
       "location": 92,
@@ -44,8 +39,13 @@
     },
     {
       "location": 95,
-      "locationName": "val-d’oise",
+      "locationName": "val-d'oise",
       "value": 5
+    },
+    {
+      "location": 44,
+      "locationName": "loire-atlantique",
+      "value": 2
     },
     {
       "location": 6,
@@ -60,7 +60,7 @@
     {
       "location": 13,
       "locationName": "bouches-du-rhône",
-      "value": 5
+      "value": 4
     },
     {
       "location": 69,
@@ -78,18 +78,8 @@
       "value": 1
     },
     {
-      "location": 59,
-      "locationName": "nord",
-      "value": 1
-    },
-    {
       "location": 78,
       "locationName": "yvelines",
-      "value": 1
-    },
-    {
-      "location": 77,
-      "locationName": "seine-et-marne",
       "value": 1
     },
     {
@@ -101,6 +91,11 @@
       "value": 0,
       "location": 31,
       "locationTotal": 509
+    },
+    {
+      "value": 0,
+      "location": 77,
+      "locationTotal": 564
     },
     {
       "value": 0,
@@ -146,6 +141,11 @@
       "value": 0,
       "location": 35,
       "locationTotal": 266
+    },
+    {
+      "value": 0,
+      "location": 59,
+      "locationTotal": 343
     },
     {
       "value": 0,

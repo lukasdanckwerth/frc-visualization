@@ -1,7 +1,5 @@
-const json = require('./file.access');
-const frcv = require('../public/js/lib/frc');
-const corpusJSON = require('./load-corpus').corpusJSON;
-const corpus = new frcv(corpusJSON);
+const fileAccess = require("./file.access");
+const corpus = fileAccess.corpus;
 let tracks = corpus.allTracks();
 
 // tracks = tracks.splice(0, 100);
@@ -14,8 +12,9 @@ function createDataset(valueAccess) {
     track = tracks[index];
     releaseYear = track.releaseYear;
     departmentNumber = track.departmentNumber;
-    candidate = data.find(track =>
-      track.date === releaseYear && track.location === departmentNumber
+    candidate = data.find(
+      (track) =>
+        track.date === releaseYear && track.location === departmentNumber
     );
 
     if (candidate) {
@@ -32,16 +31,14 @@ function createDataset(valueAccess) {
   return data;
 }
 
-let tracksData = createDataset(track => 1);
-let tracksDataset = {label: 'Tracks', stack: 'Tracks', data: tracksData};
-json.writeAsset(tracksDataset, 'corpus.overview.tracks.json');
+let tracksData = createDataset((track) => 1);
+let tracksDataset = { label: "Tracks", stack: "Tracks", data: tracksData };
+fileAccess.writeAsset(tracksDataset, "corpus.overview.tracks.json");
 
-let wordsData = createDataset(track => track.components.length);
-let wordsDataset = {label: 'Words', stack: 'Words', data: wordsData};
-json.writeAsset(wordsDataset, 'corpus.overview.words.json');
+let wordsData = createDataset((track) => track.components.length);
+let wordsDataset = { label: "Words", stack: "Words", data: wordsData };
+fileAccess.writeAsset(wordsDataset, "corpus.overview.words.json");
 
 let wordsPerDepartement = corpus.getDepartmentsToWords();
 let wordsPerYear = corpus.getYearsToWords();
-wordsData.forEach(item =>
-  item.value
-)
+wordsData.forEach((item) => item.value);

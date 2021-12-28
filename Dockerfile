@@ -1,4 +1,4 @@
-FROM node:11-alpine
+FROM node:13
 
 # create working directory
 RUN mkdir -p /usr/src/app
@@ -10,16 +10,9 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
 COPY public ./public
-COPY server.js .
 
 # install dependecies
 RUN npm install
 
-COPY data ./data
-COPY utils ./utils
-RUN npm run generate:assets
-RUN rm -rf ./data
-RUN rm -rf ./src
-
 # run server
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "serve"]

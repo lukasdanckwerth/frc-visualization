@@ -2,18 +2,19 @@
   "name": "frc-visualisation",
   "version": "1.0.41",
   "description": "French Rap Corpus Visualization",
-  "main": "server.js",
+  "main": "npm run serve",
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c --watch",
-    "serve": "node server.js",
+    "serve": "http-server public/",
     "serve:production": "NODE_ENV=production node server.js production",
-    "generate:assets": "node utils/generate.assets.js"
+    "assets": "node utils/generate.assets.js",
+    "ionic:serve": "http-server public/"
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/cli": "^3.3.3",
+    "@capacitor/ios": "^3.3.3",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "d3": "^6.5.0",
@@ -23,8 +24,8 @@
     "rollup-stream": "^1.24.1"
   },
   "dependencies": {
+    "@capacitor/cli": "^3.3.3",
     "@capacitor/core": "^3.3.3",
-    "@capacitor/ios": "^3.3.3",
-    "express": "^4.17.1"
+    "http-server": "^14.0.0"
   }
 }

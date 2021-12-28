@@ -1,140 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="css/lotivis.css"/>
-  <link rel="stylesheet" href="css/frc-visualization.css"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <title>FRCV - Corpus Overview</title>
-</head>
-<body>
-
-<div class="frcv-container">
-  <div class="lotivis-row">
-    <div class="lotivis-col-2">
-      <a href="index.html">
-        <button class="lotivis-button lotivis-button-back">
-          Back
-        </button>
-      </a>
-    </div>
-    <div class="lotivis-col-8 text-center">
-      <h1>Corpus Overview</h1>
-    </div>
-    <div class="lotivis-col-2"></div>
-    <div class="lotivis-col-12" id="loading">
-      <div class="lotivis-card">
-        <div class="frc-loading-card">
-          Loading...
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="css/lotivis.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <title>FRCV - Corpus Overview</title>
+  </head>
+  <body>
+    <div class="container pt-4">
+      <!-- HEADER -->
+      <div class="row">
+        <div class="col-2">
+          <a href="index.html" class="btn">Back</a>
+        </div>
+        <div class="col-8 text-center text-secondary">
+          <h4>Corpus Overview</h4>
+        </div>
+      </div>
+      <!-- CONTENT -->
+      <div class="row">
+        <!-- LOADING INDICATOR -->
+        <div class="col-12 text-center pt-5" id="loading-indicator">
+          <div style="margin: auto">
+            <div class="spinner-grow text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="pt-2">
+              <div class="alert alert-light" role="alert">
+                Loading Corpus ...
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div id="date-chart-card">
+            <!-- Date Chart Here -->
+          </div>
+          <div id="plot-chart-card">
+            <!-- Plot Chart Here -->
+          </div>
+        </div>
+        <div class="col-6">
+          <div id="map-chart-card">
+            <!-- Map Chart Here -->
+          </div>
         </div>
       </div>
     </div>
-    <div class="lotivis-col-6">
-      <div id="date-chart-card">
-        <!-- Date Chart Here -->
-      </div>
-      <div id="plot-chart-card">
-        <!-- Plot Chart Here -->
-      </div>
-    </div>
-    <div class="lotivis-col-6">
-      <div id="map-chart-card">
-        <!-- Map Chart Here -->
-      </div>
-    </div>
 
-  </div><!-- Row -->
-</div><!-- Container -->
+    <script src="js/lib/d3.min.js"></script>
+    <script src="js/lib/topojson-client.min.js"></script>
+    <script src="js/lib/topojson-server.min.js"></script>
+    <script src="js/lib/lotivis.js"></script>
+    <script src="js/lib/frc.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@6.5.0/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-server@3.0.1/dist/topojson-server.min.js"></script>
-<script src="js/lib/lotivis.js"></script>
-<script src="js/lib/frc.js"></script>
+    <script>
+      // enable debug mode
+      lotivis.debug(true);
+      lotivis.config.downloadFilePrefix = "frcv";
 
-<script>
+      // create lotivis elements
+      let dateChartCard = new lotivis.DateChartCard("date-chart-card", {
+        title: " ",
+      });
 
-  // enable debug mode
-  lotivis.debug(true);
-  lotivis.config.downloadFilePrefix = 'frcv';
+      let mapChartCard = new lotivis.MapChartCard("map-chart-card", {
+        title: "Departements",
+        excludedFeatureCodes: ["2A", "2B"],
+        featureIDAccessor: (feature) => {
+          return feature.properties.code;
+        },
+        featureNameAccessor: (feature) => {
+          return feature.properties.nom;
+        },
+      });
 
-  // create lotivis elements
-  let dateChartCard = new lotivis.DateChartCard('date-chart-card', {title: ' '});
-  let mapChartCard = new lotivis.MapChartCard('map-chart-card', {
-    title: 'Departements',
-    excludedFeatureCodes: ['2A', '2B'],
-    featureIDAccessor: (feature) => {
-      return feature.properties.code
-    },
-    featureNameAccessor: (feature) => {
-      return feature.properties.nom
-    }
-  });
+      let plotChartCard = new lotivis.PlotChartCard("plot-chart-card");
 
+      // hide cards during loading corpus
+      dateChartCard.hide();
+      mapChartCard.hide();
+      plotChartCard.hide();
 
-  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card');
-  let loadingCard = d3.select('#loading');
+      Promise.all([
+        d3.json("/assets/corpus.json"),
+        d3.json("/assets/departements.geojson"),
+        d3.json("/assets/corpus.overview.tracks.json"),
+        d3.json("/assets/corpus.overview.words.json"),
+        // d3.json('/assets/corpus.overview.words.relative.json'),
+        // d3.json('/assets/corpus.overview.types.json'),
+        // d3.json('/assets/corpus.overview.types.relative.json')
+      ])
+        .then(function (results) {
+          console.log("results", results);
 
-  Promise.all([
-    d3.json('/corpus'),
-    d3.json('/assets/departements.geojson'),
-    d3.json('/assets/corpus.overview.tracks.json'),
-    d3.json('/assets/corpus.overview.words.json'),
-    // d3.json('/assets/corpus.overview.words.relative.json'),
-    // d3.json('/assets/corpus.overview.types.json'),
-    // d3.json('/assets/corpus.overview.types.relative.json')
-  ])
-    .then(function (results) {
-      console.log('results', results);
+          let rawCorpus = results.shift();
+          let corpus = new frc(rawCorpus);
+          dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
 
-      let rawCorpus = results.shift();
-      let corpus = new frc(rawCorpus);
-      dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
+          let geoJSON = results.shift();
+          mapChartCard.chart.excludedFeatureCodes = ["2A", "2B"];
+          mapChartCard.chart.setGeoJSON(geoJSON);
+          mapChartCard.chart.update();
 
-      let geoJSON = results.shift();
-      mapChartCard.chart.excludedFeatureCodes = ['2A', '2B'];
-      mapChartCard.chart.setGeoJSON(geoJSON);
-      mapChartCard.chart.update();
+          dateChartCard.onSelectedDatasetChanged = function (
+            dataset,
+            index,
+            datasetLabel
+          ) {
+            let controller = dateChartCard.chart.datasetController;
+            let updater = {
+              update: function (controller, reason) {
+                if (reason === "filter-locations") {
+                  let locations = controller.filters.locations;
+                  let artists = corpus.artistsForLocations(locations);
+                  let datasets = corpus.artistsToDatasets(artists);
+                  plotChartCard.chart.setDatasets(datasets);
+                  plotChartCard.chart.update();
+                } else {
+                  plotChartCard.chart.setDatasets([]);
+                  plotChartCard.chart.update();
+                }
+              },
+            };
 
-      dateChartCard.onSelectedDatasetChanged = function (dataset, index, datasetLabel) {
+            controller.addListener(updater);
+            controller.register([mapChartCard.chart]);
+          };
 
-        let controller = dateChartCard.chart.datasetController;
-        let updater = {
-          update: function (controller, reason) {
-            if (reason === 'filter-locations') {
-              let locations = controller.filters.locations;
-              let artists = corpus.artistsForLocations(locations);
-              let datasets = corpus.artistsToDatasets(artists);
-              plotChartCard.chart.setDatasets(datasets);
-              plotChartCard.chart.update();
-            } else {
-              plotChartCard.chart.setDatasets([]);
-              plotChartCard.chart.update();
-            }
-          }
-        };
+          dateChartCard.setDatasets(results);
+          d3.select("#loading-indicator").style("display", "none");
 
-        controller.addListener(updater);
-        controller.register([
-          mapChartCard.chart
-        ]);
-
-        console.log('controller', controller.listeners);
-      };
-
-      dateChartCard.setDatasets(results);
-
-      loadingCard.style('display', 'none');
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert(error);
-    });
-
-</script>
-
-</body>
+          dateChartCard.show();
+          mapChartCard.show();
+          plotChartCard.show();
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert(error);
+        });
+    </script>
+  </body>
 </html>

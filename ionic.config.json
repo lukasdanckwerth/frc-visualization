@@ -1,0 +1,7 @@
+{
+  "name": "French Rap Corpus Visualization",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

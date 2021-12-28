@@ -1,7 +1,5 @@
-const json = require('./file.access');
-const frc = require('../public/js/lib/frc');
-const corpusJSON = require('./load-corpus').corpusJSON;
-const corpus = new frc(corpusJSON);
+const fileAccess = require("./file.access");
+const corpus = fileAccess.corpus;
 
 let artists = corpus.artists;
 let maleArtists = corpus.maleArtists();
@@ -9,29 +7,40 @@ let femaleArtists = corpus.femaleArtists();
 let groupArtists = corpus.groupArtists();
 
 function createDatasets(artists, label) {
-  let dataset = artists.map(function (artist) {
-    let data = artist
-      .allTracks()
-      .map(function (track) {
+  let dataset = artists
+    .map(function (artist) {
+      let data = artist.allTracks().map(function (track) {
         return {
           // label: track.title,
           value: 1,
           date: track.releaseYear,
-          location: track.departmentNumber
+          location: track.departmentNumber,
         };
       });
 
-    return {
-      label: artist.name,
-      data: corpus.combineData(data)
-    };
-
-  }).filter((dataset) => dataset.data.length > 0);
+      return {
+        label: artist.name,
+        data: corpus.combineData(data),
+      };
+    })
+    .filter((dataset) => dataset.data.length > 0);
   dataset.label = label;
   return dataset;
 }
 
-json.writeAsset(createDatasets(artists, 'All'), 'artists.active.range.json');
-json.writeAsset(createDatasets(maleArtists, 'Male'), 'artists.active.range.male.json');
-json.writeAsset(createDatasets(femaleArtists, 'Female'), 'artists.active.range.female.json');
-json.writeAsset(createDatasets(groupArtists, 'Groups'), 'artists.active.range.groups.json');
+fileAccess.writeAsset(
+  createDatasets(artists, "All"),
+  "artists.active.range.json"
+);
+fileAccess.writeAsset(
+  createDatasets(maleArtists, "Male"),
+  "artists.active.range.male.json"
+);
+fileAccess.writeAsset(
+  createDatasets(femaleArtists, "Female"),
+  "artists.active.range.female.json"
+);
+fileAccess.writeAsset(
+  createDatasets(groupArtists, "Groups"),
+  "artists.active.range.groups.json"
+);

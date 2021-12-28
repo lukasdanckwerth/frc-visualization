@@ -1,83 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="css/lotivis.css"/>
-  <link rel="stylesheet" href="css/frc-visualization.css"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <title>FRCV - Years Data</title>
-  <style>
-    .lotivis-card {
-      border: none;
-      background-color: white;
-      box-shadow: none;
-    }
-  </style>
-</head>
-<body>
-
-<div class="frcv-container">
-  <div class="lotivis-row">
-    <div class="lotivis-col-2">
-      <a href="index.html">
-        <button class="lotivis-button lotivis-button-back">
-          Back
-        </button>
-      </a>
-    </div>
-    <div class="lotivis-col-8 frcv-center">
-      <h1>Years Data</h1>
-    </div>
-    <div class="lotivis-col-12">
-      <div id="date-chart-card">
-
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="css/lotivis.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <title>FRCV - Years Data</title>
+  </head>
+  <body>
+    <div class="container pt-4">
+      <div class="row">
+        <div class="col-2">
+          <a href="index.html" class="btn">Back</a>
+        </div>
+        <div class="col-8 text-center text-secondary">
+          <h4>Years Data</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div id="date-chart-card"></div>
+        </div>
       </div>
     </div>
-    <div class="lotivis-col-12">
-      <div id="radio">
 
-      </div>
-    </div>
-  </div>
-</div>
+    <script src="js/lib/d3.min.js"></script>
+    <script src="js/lib/lotivis.js"></script>
 
-<script src="js/lib/d3.min.js"></script>
-<script src="js/lib/lotivis.js"></script>
-<script src="js/lib/frc.js"></script>
+    <script>
+      lotivis.config.downloadFilePrefix = "frcv";
 
-<script>
+      const dateChartCard = new lotivis.DateChartCard("date-chart-card", {
+        title: "Years Data",
+        margin: {
+          top: 20,
+          right: 20,
+          left: 70,
+        },
+      });
 
-  lotivis.config.downloadFilePrefix = 'frcv';
-
-  const dateChartCard = new lotivis.DateChartCard('date-chart-card', {
-    title: 'Years Data',
-    margin: {
-      top: 20,
-      right: 20,
-      left: 70
-    }
-  });
-
-  dateChartCard.onSelectedDatasetChanged = function (data, index, label) {
-    dateChartCard.setTitle(label + ' Years Data');
-  }
-
-  Promise
-    .all([
-      d3.json('assets/year.to.track.json'),
-      d3.json('assets/year.to.words.json'),
-      d3.json('assets/year.to.words.relative.json'),
-      d3.json('assets/year.to.types.json'),
-      d3.json('assets/year.to.types.relative.json'),
-    ])
-    .then(function (datasets) {
-      dateChartCard.setDatasets(datasets);
-    });
-
-</script>
-
-</body>
+      Promise.all([
+        d3.json("assets/year.to.track.json"),
+        d3.json("assets/year.to.words.json"),
+        d3.json("assets/year.to.words.relative.json"),
+        d3.json("assets/year.to.types.json"),
+        d3.json("assets/year.to.types.relative.json"),
+      ]).then(function (datasets) {
+        dateChartCard.setDatasets(datasets);
+      });
+    </script>
+  </body>
 </html>

@@ -1,11 +1,11 @@
 /*!
- * frc.js v1.0.40 Lukas Danckwerth
+ * frc.js v1.0.41 Lukas Danckwerth
  */
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 typeof define === 'function' && define.amd ? define(factory) :
 (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.frc = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
 class Track {
   constructor(trackJSON) {
@@ -76,8 +76,8 @@ class Artist {
       albumJSON.artistID = rawJSON.geniusId;
       albumJSON.artist = rawJSON.name;
       const album = new Album(albumJSON);
-      album.tracks.forEach(track => track.artistID = rawJSON.geniusId);
-      album.tracks.forEach(track => track.artist = rawJSON.name);
+      album.tracks.forEach((track) => (track.artistID = rawJSON.geniusId));
+      album.tracks.forEach((track) => (track.artist = rawJSON.name));
       this.albums.push(album);
     }
     this.tracks = [];
@@ -111,6 +111,9 @@ class Artist {
       allWords.push(...allTracks[i].components);
     }
     return allWords;
+  }
+  hasTracks() {
+    return this.allTracks().length > 0;
   }
 }
 
@@ -337,25 +340,30 @@ function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYe
 class Corpus {
   constructor(parsedCorpus) {
     this.artists = [];
+    this.artistsWithoutTracks = [];
     this.initialize(parsedCorpus);
   }
   initialize(parsedCorpus) {
-    console.log(`frc parse corpus`);
+    console.log(`[FRC] Parse corpus`);
     for (let i = 0; i < parsedCorpus.length; i++) {
       const artistJSON = parsedCorpus[i];
       const artist = new Artist(artistJSON);
-      this.artists.push(artist);
+      if (artist.hasTracks()) {
+        this.artists.push(artist);
+      } else {
+        this.artistsWithoutTracks.push(artist);
+      }
     }
-    console.log(`frc loaded corpus`);
+    console.log(`[FRC] Found ${this.artists.length} artists`);
   }
   femaleArtists() {
-    return this.artists.filter(artist => artist.sex === "F");
+    return this.artists.filter((artist) => artist.sex === "F");
   }
   maleArtists() {
-    return this.artists.filter(artist => artist.sex === "M");
+    return this.artists.filter((artist) => artist.sex === "M");
   }
   groupArtists() {
-    return this.artists.filter(artist => artist.group === "G");
+    return this.artists.filter((artist) => artist.group === "G");
   }
   allTracks() {
     let allTracks = [];
@@ -393,105 +401,169 @@ class Corpus {
   }
   getEarliestYear() {
     let allTracks = this.allTracks();
-    let firstYear = allTracks.find(item => item !== undefined).releaseYear;
-    return this.allTracks().reduce((current, next) => current < next.releaseYear ? current : next.releaseYear, firstYear);
+    let firstYear = allTracks.find((item) => item !== undefined).releaseYear;
+    return this.allTracks().reduce(
+      (current, next) =>
+        current < next.releaseYear ? current : next.releaseYear,
+      firstYear
+    );
   }
   getLatestYear() {
     let allTracks = this.allTracks();
-    let lastYear = allTracks.find(item => item !== undefined).releaseYear;
-    return this.allTracks()
-      .reduce((current, next) => current > next.releaseYear ? current : next.releaseYear, lastYear);
+    let lastYear = allTracks.find((item) => item !== undefined).releaseYear;
+    return this.allTracks().reduce(
+      (current, next) =>
+        current > next.releaseYear ? current : next.releaseYear,
+      lastYear
+    );
   }
   getDateLabels() {
     let firstDate = this.firstYear || this.getEarliestYear();
     let lastDate = this.lastYear || this.getLatestYear();
     let range = lastDate - firstDate + 1;
-    return Array(range).fill(0).map((e, i) => i + firstDate);
+    return Array(range)
+      .fill(0)
+      .map((e, i) => i + firstDate);
   }
   getLocations() {
-    return Array.from(new Set(this.artists.map(artist => artist.departmentNo)));
+    return Array.from(
+      new Set(this.artists.map((artist) => artist.departmentNo))
+    );
   }
   getLocationNames() {
-    return Array.from(new Set(this.artists.map(artist => artist.departmentName)));
+    return Array.from(
+      new Set(this.artists.map((artist) => artist.departmentName))
+    );
   }
   getYearsToTrackNumbers() {
     return getYearsToTracksCollection(this.allTracks(), () => 1);
   }
   getYearsToWords() {
-    return getYearsToTracksCollection(this.allTracks(), (track) => track.components.length);
+    return getYearsToTracksCollection(
+      this.allTracks(),
+      (track) => track.components.length
+    );
   }
   getYearsToWordsRelative() {
-    return getYearsToCollectionRelative(this.getYearsToWords(), this.getYearsToTrackNumbers());
-  };
+    return getYearsToCollectionRelative(
+      this.getYearsToWords(),
+      this.getYearsToTrackNumbers()
+    );
+  }
   getYearsToTypes() {
-    return getYearsToTracksCollection(this.allTracks(), (track) => track.types.length);
-  };
+    return getYearsToTracksCollection(
+      this.allTracks(),
+      (track) => track.types.length
+    );
+  }
   getYearsToTypesRelative() {
-    return getYearsToCollectionRelative(this.getYearsToTypes(), this.getYearsToTrackNumbers());
-  };
+    return getYearsToCollectionRelative(
+      this.getYearsToTypes(),
+      this.getYearsToTrackNumbers()
+    );
+  }
   getDepartmentsToArtists() {
-    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.artists);
+    return getDepartmentsToArtistsCollection(
+      this.getDepartmentsToTracks(),
+      this.artists);
   }
   getDepartmentsToMaleArtists() {
-    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.maleArtists());
+    return getDepartmentsToArtistsCollection(
+      this.getDepartmentsToTracks(),
+      this.maleArtists());
   }
   getDepartmentsToFemaleArtists() {
-    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.femaleArtists());
+    return getDepartmentsToArtistsCollection(
+      this.getDepartmentsToTracks(),
+      this.femaleArtists());
   }
   getDepartmentsToGroupArtists() {
-    return getDepartmentsToArtistsCollection(this.getDepartmentsToTracks(), this.groupArtists());
+    return getDepartmentsToArtistsCollection(
+      this.getDepartmentsToTracks(),
+      this.groupArtists());
   }
   getDepartmentsToTracks() {
     return getDepartmentsToTracksCollection(null, this.allTracks(), () => 1);
   }
   getDepartmentsToWords() {
-    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.components.length);
+    return getDepartmentsToTracksCollection(
+      this.getDepartmentsToTracks(),
+      this.allTracks(),
+      (track) => track.components.length
+    );
   }
   getDepartmentsToWordsRelative() {
     return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToWords(), this.getDepartmentsToTracks()
+      this.getDepartmentsToWords(),
+      this.getDepartmentsToTracks()
     );
-  };
+  }
   getDepartmentsToTypes() {
-    return getDepartmentsToTracksCollection(this.getDepartmentsToTracks(), this.allTracks(), (track) => track.types.length);
-  };
+    return getDepartmentsToTracksCollection(
+      this.getDepartmentsToTracks(),
+      this.allTracks(),
+      (track) => track.types.length
+    );
+  }
   getDepartmentsToTypesRelative() {
     return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToTypes(), this.getDepartmentsToTracks()
+      this.getDepartmentsToTypes(),
+      this.getDepartmentsToTracks()
     );
-  };
+  }
   getTracksForYears(years) {
-    return this.allTracks().filter(track => years.includes(track.releaseYear));
+    return this.allTracks().filter((track) =>
+      years.includes(track.releaseYear)
+    );
   }
   getTracks(firstYear, lastYear) {
-    return this.allTracks().filter(track => track.releaseYear >= firstYear && track.releaseYear <= lastYear);
+    return this.allTracks().filter(
+      (track) => track.releaseYear >= firstYear && track.releaseYear <= lastYear
+    );
   }
   getTracksForYearAndDepartement(year, departmentNumber) {
-    return this.allTracks().filter(track => track.releaseYear === year && track.departmentNumber === departmentNumber);
+    return this.allTracks().filter(
+      (track) =>
+        track.releaseYear === year &&
+        track.departmentNumber === departmentNumber
+    );
   }
   tracksForLocations(departmentNumbers) {
-    this.allTracks().filter(track => departmentNumbers.includes(track.departmentNumber));
+    this.allTracks().filter((track) =>
+      departmentNumbers.includes(track.departmentNumber)
+    );
   }
   artistsForLocations(departmentNumbers) {
-    return this.artists.filter(artist => departmentNumbers.includes(String(artist.departmentNo)));
+    return this.artists.filter((artist) =>
+      departmentNumbers.includes(String(artist.departmentNo))
+    );
   }
   search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
-    return internalSearch(this, searchQuery, firstYear, lastYear, sensitivity, absolute);
+    return internalSearch(
+      this,
+      searchQuery,
+      firstYear,
+      lastYear,
+      sensitivity,
+      absolute
+    );
   }
 }
 
 Corpus.prototype.combineData = function (data) {
   let combined = [];
   data.forEach(function (item) {
-    let candidate = combined.find(dataset =>
-      dataset.location === item.location && dataset.date === item.date);
+    let candidate = combined.find(
+      (dataset) =>
+        dataset.location === item.location && dataset.date === item.date
+    );
     if (candidate) {
       candidate.value += item.value;
     } else {
       combined.push({
         date: item.date,
         location: item.location,
-        value: item.value
+        value: item.value,
       });
     }
   });
@@ -514,7 +586,7 @@ Corpus.prototype.artistsToDatasets = function (artists) {
     datasets.push({
       label: artist.name,
       stack: artist.name,
-      data: data
+      data: data,
     });
   }
   return datasets;
@@ -522,5 +594,5 @@ Corpus.prototype.artistsToDatasets = function (artists) {
 
 return Corpus;
 
-})));
+}));
 //# sourceMappingURL=frc.js.map

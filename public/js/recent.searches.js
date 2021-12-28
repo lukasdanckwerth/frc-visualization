@@ -1,17 +1,16 @@
-const RecentSearchesLocalStorageKey = 'de.beuth.frc-visualization.RecentSearchesLocalStorageKey';
-const MaxItemsCount = 100;
+const RecentSearchesLocalStorageKey =
+  "de.beuth.frc-visualization.RecentSearchesLocalStorageKey";
+const MaxItemsCount = 10000;
 
 /**
  *
  * @class RecentSearches
  */
 class RecentSearches {
-
   /**
    *
    */
   constructor(datalistID) {
-
     /**
      * The collection of recent searches.
      * @type {string[]}
@@ -30,14 +29,13 @@ class RecentSearches {
 
     function refillDatalist() {
       if (!datalist) return;
-      datalist.innerHTML = '';
+      datalist.innerHTML = "";
       values.forEach(function (title) {
-        let option = document.createElement('option');
+        let option = document.createElement("option");
         option.value = title;
         datalist.appendChild(option);
       });
     }
-
 
     // Mark: - Insert / Remove
 
@@ -58,20 +56,19 @@ class RecentSearches {
       values.splice(MaxItemsCount, tooMuch);
     }
 
-
     // MARK: - Local Storage
 
     function loadFromLocalStorage() {
       let wordlist = localStorage.getItem(RecentSearchesLocalStorageKey);
       if (wordlist) {
-        values = wordlist.split('\n');
+        values = wordlist.split("\n");
       } else {
         values = [];
       }
     }
 
     function storeToLocalStorage() {
-      localStorage.setItem(RecentSearchesLocalStorageKey, values.join('\n'));
+      localStorage.setItem(RecentSearchesLocalStorageKey, values.join("\n"));
     }
 
     // MARK: - Public

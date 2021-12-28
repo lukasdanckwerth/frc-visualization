@@ -1,32 +1,44 @@
-const json = require('./file.access');
-const frcv = require('../public/js/lib/frc');
-const corpusJSON = require('./load-corpus').corpusJSON;
-const corpus = new frcv(corpusJSON);
+const fileAccess = require("./file.access");
+const corpus = fileAccess.corpus;
 
 function createDataset(data, name) {
   return {
     label: name,
     stack: name,
-    data: data
-  }
+    data: data,
+  };
 }
 
 let tracksPerYear = corpus.getYearsToTrackNumbers();
-let datasetLyrics = createDataset(tracksPerYear, 'Tracks');
-json.writeAsset(datasetLyrics, 'year.to.track.json', false);
+let datasetLyrics = createDataset(tracksPerYear, "Tracks");
+fileAccess.writeAsset(datasetLyrics, "year.to.track.json", false);
 
 let wordsPerYear = corpus.getYearsToWords();
-let datasetWords = createDataset(wordsPerYear, 'Words');
-json.writeAsset(datasetWords, 'year.to.words.json', false);
+let datasetWords = createDataset(wordsPerYear, "Words");
+fileAccess.writeAsset(datasetWords, "year.to.words.json", false);
 
 let wordsPerYearRelative = corpus.getYearsToWordsRelative();
-let datasetWordsRelative = createDataset(wordsPerYearRelative, 'Words-(Relative)');
-json.writeAsset(datasetWordsRelative, 'year.to.words.relative.json', false);
+let datasetWordsRelative = createDataset(
+  wordsPerYearRelative,
+  "Words-(Relative)"
+);
+fileAccess.writeAsset(
+  datasetWordsRelative,
+  "year.to.words.relative.json",
+  false
+);
 
 let typesPerYear = corpus.getYearsToTypes();
-let datasetTypes = createDataset(typesPerYear, 'Types');
-json.writeAsset(datasetTypes, 'year.to.types.json', false);
+let datasetTypes = createDataset(typesPerYear, "Types");
+fileAccess.writeAsset(datasetTypes, "year.to.types.json", false);
 
 let typesPerYearRelative = corpus.getYearsToTypesRelative();
-let datasetTypesRelative = createDataset(typesPerYearRelative, 'Types-(Relative)');
-json.writeAsset(datasetTypesRelative, 'year.to.types.relative.json', false);
+let datasetTypesRelative = createDataset(
+  typesPerYearRelative,
+  "Types-(Relative)"
+);
+fileAccess.writeAsset(
+  datasetTypesRelative,
+  "year.to.types.relative.json",
+  false
+);

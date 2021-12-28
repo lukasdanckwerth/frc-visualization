@@ -1,83 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-  <link rel="stylesheet" href="css/lotivis.css"/>
-  <link rel="stylesheet" href="css/frc-visualization.css"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <title>FRCV - Artists Activity Range</title>
-  <style>
-    .lotivis-plot-label {
-      fill: gray;
-    }
-  </style>
-</head>
-<body>
-
-<div class="frcv-container">
-  <div class="lotivis-row">
-    <div class="lotivis-col-2">
-      <a href="index.html">
-        <button class="lotivis-button lotivis-button-back">
-          Back
-        </button>
-      </a>
-    </div>
-    <div class="lotivis-col-8 text-center">
-      <h1>Artists Activity Range</h1>
-    </div>
-    <div class="lotivis-col-12" id="frcv-loading-card">
-      <div class="lotivis-card">
-        <div class="frc-loading-card">
-          Loading...
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="css/lotivis.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <title>FRCV - Artists Activity Range</title>
+  </head>
+  <body>
+    <div class="container pt-4">
+      <!-- HEADER -->
+      <div class="row">
+        <div class="col-2">
+          <a href="index.html" class="btn">Back</a>
+        </div>
+        <div class="col-8 text-center text-secondary">
+          <h4>Artists Activity Range</h4>
+        </div>
+      </div>
+      <!-- CONTENT -->
+      <div class="row">
+        <div class="col-12">
+          <div style="max-width: 800px; margin: auto">
+            <div id="plot-chart-card"></div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="lotivis-col-12">
-      <div id="plot-chart-card">
-        <!-- Plot Chart Here -->
-      </div>
-    </div>
-  </div>
-</div>
 
-<script src="js/lib/d3.min.js"></script>
-<script src="js/lib/lotivis.js"></script>
-<script src="js/lib/frc.js"></script>
+    <script src="js/lib/d3.min.js"></script>
+    <script src="js/lib/lotivis.js"></script>
+    <script src="js/lib/frc.js"></script>
 
-<script>
+    <script>
+      lotivis.config.downloadFilePrefix = "frcv";
+      lotivis.debug(true);
 
-  lotivis.config.downloadFilePrefix = 'frcv';
-  lotivis.debug(true);
+      let loadingCard = d3.select("#frcv-loading-card");
+      let plotChartCard = new lotivis.PlotChartCard("plot-chart-card", {
+        title: "Artists Activity Range",
+        margin: { left: 200 },
+      });
 
-  let loadingCard = d3.select('#frcv-loading-card');
-  let plotChartCard = new lotivis.PlotChartCard('plot-chart-card', {
-    title: 'Artists Activity Range',
-    margin: {left: 200}
-  });
+      //plotChartCard.hide();
 
-  plotChartCard.hide();
-
-  Promise.all([
-    d3.json('/assets/artists.active.range.json'),
-    d3.json('/assets/artists.active.range.female.json'),
-    d3.json('/assets/artists.active.range.male.json'),
-    d3.json('/assets/artists.active.range.groups.json')
-  ])
-    .then(function (datasetsCollection) {
-      datasetsCollection[0].label = 'All';
-      datasetsCollection[1].label = 'Female';
-      datasetsCollection[2].label = 'Male';
-      datasetsCollection[3].label = 'Group';
-      plotChartCard.setDatasets(datasetsCollection);
-      plotChartCard.show();
-      loadingCard.style('display', 'none');
-    });
-
-</script>
-
-</body>
+      Promise.all([
+        d3.json("/assets/artists.active.range.json"),
+        d3.json("/assets/artists.active.range.female.json"),
+        d3.json("/assets/artists.active.range.male.json"),
+        d3.json("/assets/artists.active.range.groups.json"),
+      ]).then(function (datasetsCollection) {
+        datasetsCollection[0].label = "All";
+        datasetsCollection[1].label = "Female";
+        datasetsCollection[2].label = "Male";
+        datasetsCollection[3].label = "Group";
+        plotChartCard.setDatasets(datasetsCollection);
+        plotChartCard.show();
+        loadingCard.style("display", "none");
+      });
+    </script>
+  </body>
 </html>
