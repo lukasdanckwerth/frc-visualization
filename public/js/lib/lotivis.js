@@ -53,7 +53,7 @@ class Color$1 {
 
 
   static mapColors(till) {
-    return d3.scaleLinear().domain([0, 1 / 3 * till, 2 / 3 * till, till]).range(['yellow', 'orange', 'red', 'purple']);
+    return d3.scaleLinear().domain([0, 1 / 3 * till, 2 / 3 * till, till]).range(["yellow", "orange", "red", "purple"]);
   }
 
   static plotColor(till) {
@@ -221,7 +221,7 @@ class Component {
    * @param {Component|string|{}} parent The parental component or selector.
    */
   constructor(parent) {
-    if (!parent) throw new LotivisError('No parent or selector specified.');
+    if (!parent) throw new LotivisError("No parent or selector specified.");
 
     if (Object.getPrototypeOf(parent) === String.prototype) {
       this.initializeFromSelector(parent);
@@ -241,7 +241,7 @@ class Component {
 
   initializeFromSelector(selector) {
     this.selector = selector;
-    this.parent = d3.select('#' + selector);
+    this.parent = d3.select("#" + selector);
     if (this.parent.empty()) throw new LotivisElementNotFoundError(selector);
   }
 
@@ -264,25 +264,25 @@ class Component {
 
   show() {
     if (!this.element) return;
-    this.element.style('display', '');
+    this.element.style("display", "");
     return this;
   }
 
   hide() {
     if (!this.element) return;
-    this.element.style('display', 'none');
+    this.element.style("display", "none");
     return this;
   }
 
   get isVisible() {
     if (!this.element) return false;
-    return this.element.style('display') !== 'none';
+    return this.element.style("display") !== "none";
   }
 
   getElementEffectiveSize() {
     if (!this.element) return [0, 0];
-    let width = this.element.style('width').replace('px', '');
-    let height = this.element.style('height').replace('px', '');
+    let width = this.element.style("width").replace("px", "");
+    let height = this.element.style("height").replace("px", "");
     return [Number(width), Number(height)];
   }
 
@@ -303,7 +303,7 @@ class Component {
   toString() {
     let components = [this.constructor.name];
     if (this.selector) components.push(`'${this.selector}'`);
-    return `[${components.join(' ')}]`;
+    return `[${components.join(" ")}]`;
   }
   /**
    * Returns the name of the constructor of this component if present. Will return the result of `typeof` else.
@@ -333,16 +333,16 @@ class Button extends Component {
    * @param {Component} parent The parental component.
    * @param style The style of the button.  One of default|back|forward
    */
-  constructor(parent, style = 'default') {
+  constructor(parent, style = "default") {
     super(parent);
-    this.element = parent.append('button').attr('id', this.selector).attr('class', 'lotivis-button').on('click', function (event) {
+    this.element = parent.append("button").attr("id", this.selector).attr("class", "ltv-button").on("click", function (event) {
       if (!this.onClick) return;
       this.onClick(event);
     }.bind(this));
 
     switch (style) {
-      case 'round':
-        this.element.classed('lotivis-button-round', true);
+      case "round":
+        this.element.classed("ltv-button-round", true);
         break;
     }
   }
@@ -362,119 +362,6 @@ class Button extends Component {
 }
 
 /**
- *
- * @class RadioGroup
- * @extends Component
- */
-
-class RadioGroup extends Component {
-  /**
-   *
-   * @param parent The parental component.
-   */
-  constructor(parent) {
-    super(parent);
-    this.inputElements = [];
-    this.element = this.parent.append('form');
-    this.element.classed('radio-group', true);
-  }
-  /**
-   *
-   * @param optionId
-   * @param optionName
-   * @returns {*}
-   */
-
-
-  addOption(optionId, optionName) {
-    let inputElement = this.element.append('input').attr('type', 'radio').attr('name', this.selector).attr('value', optionId).attr('id', optionId);
-    this.element.append('label').attr('for', optionId).text(optionName || optionId);
-    let thisReference = this;
-    inputElement.on("click", function (event) {
-      thisReference.onClick(event);
-    });
-    return inputElement;
-  }
-  /**
-   *
-   * @param options
-   * @returns {RadioGroup}
-   */
-
-
-  setOptions(options) {
-    this.removeOptions();
-    this.inputElements = [];
-
-    for (let i = 0; i < options.length; i++) {
-      let id = options[i][0] || options[i].id;
-      let name = options[i][1] || options[i].translatedTitle;
-      let inputElement = this.addOption(id, name);
-
-      if (i === 0) {
-        inputElement.attr('checked', 'true');
-      }
-
-      this.inputElements.push(inputElement);
-    }
-
-    return this;
-  }
-  /**
-   *
-   * @param selectedOption
-   * @returns {RadioGroup}
-   */
-
-
-  setSelectedOption(selectedOption) {
-    for (let i = 0; i < this.inputElements.length; i++) {
-      let inputElement = this.inputElements[i];
-      let value = inputElement.attr('value');
-
-      if (value === selectedOption) {
-        inputElement.attr('checked', 'true');
-      }
-    }
-
-    return this;
-  }
-  /**
-   *
-   * @returns {RadioGroup}
-   */
-
-
-  removeOptions() {
-    this.element.selectAll('input').remove();
-    this.element.selectAll('label').remove();
-    this.inputElements = [];
-    return this;
-  }
-  /**
-   *
-   * @param event
-   */
-
-
-  onClick(event) {
-    let element = event.target;
-    if (!element) return;
-    let value = element.value;
-    if (!this.onChange) return;
-    this.onChange(value);
-    return this;
-  } // onChange(newFunction) {
-  //     this.onChange = newFunction;
-  //     return this;
-  // }
-
-
-  onChange(value) {}
-
-}
-
-/**
  * A toast in the top of the page.
  *
  * @class Toast
@@ -489,10 +376,10 @@ class Toast extends Component {
    */
   constructor(parent) {
     super(parent);
-    this.element = this.parent.append('div').attr('class', 'lotivis-data-card-status-tooltip').style('opacity', 0).style('display', `none`);
-    this.row = this.element.append('div').attr('class', 'lotivis-row');
-    this.leftComponnt = this.row.append('div').attr('class', 'lotivis-col-6');
-    this.rightComponent = this.row.append('div').attr('class', 'lotivis-col-6');
+    this.element = this.parent.append("div").attr("class", "lotivis-data-card-status-tooltip").style("opacity", 0).style("display", `none`);
+    this.row = this.element.append("div").attr("class", "row");
+    this.leftComponnt = this.row.append("div").attr("class", "col-6");
+    this.rightComponent = this.row.append("div").attr("class", "col-6");
     this.hideButton = new Button(this.rightComponent).setText(`Hello`);
   }
   /**
@@ -503,7 +390,7 @@ class Toast extends Component {
 
   show() {
     super.show();
-    this.element.style('opacity', 1);
+    this.element.style("opacity", 1);
     return this;
   }
   /**
@@ -514,7 +401,7 @@ class Toast extends Component {
 
   hide() {
     super.hide();
-    this.element.style('opacity', 0);
+    this.element.style("opacity", 0);
   }
   /**
    * Sets the text of the Toast.
@@ -1213,7 +1100,6 @@ class Card extends Component {
     this.injectCard();
     this.injectHeader();
     this.injectBody();
-    this.injectFooter();
   }
   /**
    * Appends the card element.
@@ -1221,7 +1107,7 @@ class Card extends Component {
 
 
   injectCard() {
-    this.element = this.parent.append('div').classed('lotivis-card', true);
+    this.element = this.parent.append("div").classed("ltv-card", true);
   }
   /**
    * Appends the header of the card.
@@ -1229,12 +1115,11 @@ class Card extends Component {
 
 
   injectHeader() {
-    this.header = this.element.append('div').attr('class', 'lotivis-card-header');
-    this.headerRow = this.header.append('div').attr('class', 'lotivis-row');
-    this.headerLeftComponent = this.headerRow.append('div').attr('class', 'lotivis-card-header-left');
-    this.headerCenterComponent = this.headerRow.append('div').attr('class', 'lotivis-card-header-center');
-    this.headerRightComponent = this.headerRow.append('div').attr('class', 'lotivis-card-header-right lotivis-button-group');
-    this.titleLabel = this.headerLeftComponent.append('div').attr('class', 'lotivis-title-label');
+    this.header = this.element.append("div").attr("class", "ltv-card-header");
+    this.headerLeftComponent = this.header.append("div").attr("class", "ltv-left");
+    this.headerCenterComponent = this.header.append("div").attr("class", "ltv-center");
+    this.headerRightComponent = this.header.append("div").attr("class", "ltv-right ltv-button-group");
+    this.titleLabel = this.headerLeftComponent.append("div").attr("class", "ltv-title-label");
   }
   /**
    * Appends the body of the card.
@@ -1242,20 +1127,8 @@ class Card extends Component {
 
 
   injectBody() {
-    this.body = this.element.append('div').attr('class', 'lotivis-card-body');
-    this.content = this.body.append('div').attr('class', 'lotivis-card-body-content');
-  }
-  /**
-   * Appends the footer of the card.
-   */
-
-
-  injectFooter() {
-    this.footer = this.element.append('div').attr('class', 'lotivis-card-footer');
-    this.footerRow = this.footer.append('div').attr('class', 'lotivis-row');
-    this.footerLeftComponent = this.footerRow.append('div').attr('class', 'lotivis-col-6');
-    this.footerRightComponent = this.footerRow.append('div').attr('class', 'lotivis-col-6');
-    this.footer.style('display', 'none');
+    this.body = this.element.append("div").attr("class", "ltv-card-body");
+    this.content = this.body.append("div").attr("class", "ltv-card-body");
   }
   /**
    * Sets the text of the title label.
@@ -1272,7 +1145,7 @@ class Card extends Component {
 
 
   showFooter() {
-    this.footer.style('display', '');
+    this.footer.style("display", "");
   }
   /**
    * Hides the footer by setting its style display value to `none`.
@@ -1280,7 +1153,7 @@ class Card extends Component {
 
 
   hideFooter() {
-    this.footer.style('display', 'none');
+    this.footer.style("display", "none");
   }
 
 }
@@ -1295,7 +1168,7 @@ class Checkbox extends Component {
 
   renderInput() {
     let thisReference = this;
-    this.element = this.parent.classed('radio-group', true).append('input').attr('type', 'checkbox').attr('id', this.selector).on('click', function (event) {
+    this.element = this.parent.classed("radio-group", true).append("input").attr("type", "checkbox").attr("id", this.selector).on("click", function (event) {
       if (!event.target) {
         return;
       }
@@ -1309,7 +1182,7 @@ class Checkbox extends Component {
   }
 
   renderLabel() {
-    this.label = this.parent.append('label').attr('for', this.selector).text('Unknown');
+    this.label = this.parent.append("label").attr("for", this.selector).text("Unknown");
   } // MARK: - Functions
 
 
@@ -1319,26 +1192,165 @@ class Checkbox extends Component {
   }
 
   setChecked(checked) {
-    this.element.attr('checked', checked === true ? checked : null);
+    this.element.attr("checked", checked === true ? checked : null);
     return this;
   }
 
   onClick(checked) {
     // empty
-    console.log('onClick: ' + checked);
+    console.log("onClick: " + checked);
   }
 
   enable() {
-    this.element.attr('disabled', null);
-    this.label.style('color', 'black');
+    this.element.attr("disabled", null);
+    this.label.style("color", "black");
   }
 
   disable() {
-    this.element.attr('disabled', true);
-    this.label.style('color', 'gray');
+    this.element.attr("disabled", true);
+    this.label.style("color", "gray");
   }
 
 }
+
+/**
+ *
+ * @class Dropdown
+ * @extends Component
+ */
+
+class Dropdown extends Component {
+  /**
+   * Creates a new instance of Dropdown.
+   * @param parent The parent or selector.
+   */
+  constructor(parent) {
+    super(parent);
+    this.inputElements = [];
+    this.selector = createID();
+    this.element = parent.append("div").classed("lotivis-dropdown-container", true);
+    this.selectId = createID();
+    this.renderLabel();
+    this.renderSelect();
+    this.hide();
+  }
+
+  renderLabel() {
+    this.label = this.element.append("label").classed("lotivis-dropdown-label", true).attr("for", this.selectId);
+  }
+
+  renderSelect() {
+    let thisReference = this;
+    this.select = this.element.append("select").attr("id", this.selectId).on("change", function (event) {
+      thisReference.onClick(event);
+    });
+  }
+
+  addOption(optionId, optionName) {
+    return this.select.append("option").attr("id", optionId).attr("value", optionId).text(optionName);
+  }
+
+  setOptions(options) {
+    this.removeAllInputs();
+
+    for (let i = 0; i < options.length; i++) {
+      let name;
+
+      if (Array.isArray(options[i])) {
+        options[i][0] || options[i].id;
+        name = options[i][1] || options[i].translatedTitle;
+      } else if (typeof options[i] === "string") {
+        name = options[i];
+      } else {
+        options[i].id;
+        name = options[i].title;
+      }
+
+      let inputElement = this.addOption(name, name);
+      this.inputElements.push(inputElement);
+    }
+
+    if (options.length === 0) {
+      this.hide();
+    } else {
+      this.show();
+    }
+
+    return this;
+  }
+
+  removeAllInputs() {
+    this.element.selectAll("input").remove();
+    return this;
+  }
+
+  onClick(event) {
+    let element = event.target;
+
+    if (!element) {
+      return;
+    }
+
+    let value = element.value;
+
+    if (!this.onChange) {
+      return;
+    }
+
+    this.onChange(value);
+    return this;
+  }
+
+  onChange(argument) {
+    console.log("argument: " + argument);
+
+    if (typeof argument !== "string") {
+      this.onChange = argument;
+    }
+
+    return this;
+  } // MARK: - Chaining Setter
+
+
+  setLabelText(text) {
+    this.label.text(text);
+    return this;
+  }
+
+  setOnChange(callback) {
+    this.onChange = callback;
+    return this;
+  }
+
+  setSelectedOption(optionID) {
+    if (this.inputElements.find(function (item) {
+      return item.attr("value") === optionID;
+    }) !== undefined) {
+      this.value = optionID;
+    }
+
+    return this;
+  }
+
+  set value(optionID) {
+    document.getElementById(this.selectId).value = optionID;
+  }
+
+  get value() {
+    return document.getElementById(this.selectId).value;
+  }
+
+}
+
+Dropdown.create = function (selector, options, selectedOption, onChange) {
+  let div = d3.select(`#${selector}`);
+  let dropdown = new Dropdown(div);
+  dropdown.setLabelText("Group Size");
+  dropdown.setOptions(options);
+  dropdown.setSelectedOption(selectedOption);
+  dropdown.setOnChange(onChange);
+  return dropdown;
+};
 
 /**
  * A lotivis popup.
@@ -1356,7 +1368,7 @@ class Popup extends Component {
    * Creates a new instance of Popup.
    * @param parent The parental component.
    */
-  constructor(parent = d3.select('body')) {
+  constructor(parent = d3.select("body")) {
     super(parent);
     this.injectUnderground(parent);
     this.injectContainer();
@@ -1383,7 +1395,7 @@ class Popup extends Component {
 
   injectUnderground(parent) {
     this.modalBackgroundId = createID();
-    this.modalBackground = parent.append('div').classed('lotivis-popup-underground lotivis-fade-in', true).attr('id', this.modalBackgroundId);
+    this.modalBackground = parent.append("div").classed("ltv-popup-underground ltv-fade-in", true).attr("id", this.modalBackgroundId);
   }
   /**
    *
@@ -1392,7 +1404,7 @@ class Popup extends Component {
 
   injectContainer() {
     this.elementId = createID();
-    this.element = this.modalBackground.append('div').classed('lotivis-popup', true).attr('id', this.elementId);
+    this.element = this.modalBackground.append("div").classed("ltv-popup", true).attr("id", this.elementId);
   }
   /**
    *
@@ -1401,7 +1413,7 @@ class Popup extends Component {
 
   injectCard() {
     this.card = new Card(this.element);
-    this.card.element.classed('lotivis-popup', true);
+    this.card.element.classed("ltv-popup", true);
   }
   /**
    * Appends a close button to the right header component.
@@ -1410,8 +1422,7 @@ class Popup extends Component {
 
   injectCloseButton() {
     this.closeButton = new Button(this.card.headerRightComponent);
-    this.closeButton.element.classed('lotivis-button-small', true);
-    this.closeButton.setText('Close');
+    this.closeButton.setText("Close");
   }
   /**
    * Appends an on click listener to the button.
@@ -1421,7 +1432,7 @@ class Popup extends Component {
   addCloseActionListeners() {
     let validIDs = [this.closeButton.selector, this.modalBackgroundId];
     let popup = this;
-    this.modalBackground.on('click', function (event) {
+    this.modalBackground.on("click", function (event) {
       if (!event || !event.target) return;
       if (!validIDs.includes(event.target.id)) return;
       popup.dismiss();
@@ -1453,7 +1464,7 @@ class Popup extends Component {
 
   show() {
     if (this.willShow) this.willShow();
-    this.getUnderground().style.display = 'block';
+    this.getUnderground().style.display = "block";
     if (this.didShow) this.didShow();
   }
   /**
@@ -1481,7 +1492,7 @@ class Popup extends Component {
 
   dismiss() {
     if (this.willDismiss) this.willDismiss();
-    this.getUnderground().style.display = 'none';
+    this.getUnderground().style.display = "none";
     if (this.willRemoveDOMElement) this.willRemoveDOMElement();
     this.getUnderground().remove();
   }
@@ -1490,14 +1501,14 @@ class Popup extends Component {
     return document.getElementById(this.modalBackgroundId);
   }
 
-  showUnder(sourceElement, position = 'center') {
+  showUnder(sourceElement, position = "center") {
     if (!sourceElement) return;
     let preferredSize = this.preferredSize();
     let origin = this.calculateBottomCenter(sourceElement);
 
-    if (position === 'left') {
+    if (position === "left") {
       origin.x -= origin.width / 2;
-    } else if (position === 'right') {
+    } else if (position === "right") {
       origin.x -= preferredSize.width - origin.width / 2;
     } else {
       // assume center
@@ -1506,11 +1517,11 @@ class Popup extends Component {
 
     let id = this.elementId;
     let popup = document.getElementById(id);
-    popup.style.position = 'absolute';
-    popup.style.width = preferredSize.width + 'px'; // popup.style.height = preferredSize.height + 'px';
+    popup.style.position = "absolute";
+    popup.style.width = preferredSize.width + "px"; // popup.style.height = preferredSize.height + 'px';
 
-    popup.style.left = origin.x + 'px';
-    popup.style.top = origin.y + 'px';
+    popup.style.left = origin.x + "px";
+    popup.style.top = origin.y + "px";
     this.show();
   }
 
@@ -1518,9 +1529,9 @@ class Popup extends Component {
     let id = this.elementId;
     let popup = document.getElementById(id);
     let preferredSize = this.preferredSize();
-    popup.style.position = 'relative';
-    popup.style.margin = '50px auto';
-    popup.style.width = preferredSize.width + 'px';
+    popup.style.position = "relative";
+    popup.style.margin = "50px auto";
+    popup.style.width = preferredSize.width + "px";
     this.show();
   }
   /**
@@ -1565,201 +1576,6 @@ class Popup extends Component {
   }
 
 }
-
-/**
- *
- * @class ModalPopup
- * @extends Popup
- */
-
-class ModalPopup extends Popup {
-  /**
-   *
-   * @param parent
-   */
-  constructor(parent) {
-    super(parent);
-    this.modalBackground.classed('popup-underground', false).classed('modal-underground', true);
-  }
-  /**
-   *
-   */
-
-
-  inject() {
-    super.inject();
-    this.renderRow();
-  }
-  /**
-   *
-   */
-
-
-  renderRow() {
-    this.row = this.card.body.append('div').classed('row', true);
-    this.content = this.row.append('div').classed('col-12 info-box-margin', true);
-  }
-  /**
-   *
-   */
-
-
-  loadContent(url) {
-    if (!url) return;
-    let content = this.content;
-    d3.text(url).then(function (text) {
-      console.log(text);
-      content.html(text);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
-  /**
-   * Returns the preferred size. The default is 800, 600.
-   * @returns {{width: number, height: number}} The preferred size.
-   */
-
-
-  preferredSize() {
-    return {
-      width: 800,
-      height: 600
-    };
-  }
-
-}
-
-/**
- *
- * @class Dropdown
- * @extends Component
- */
-
-class Dropdown extends Component {
-  /**
-   * Creates a new instance of Dropdown.
-   * @param parent The parent or selector.
-   */
-  constructor(parent) {
-    super(parent);
-    this.inputElements = [];
-    this.selector = createID();
-    this.element = parent.append('div').classed('lotivis-dropdown-container', true);
-    this.selectId = createID();
-    this.renderLabel();
-    this.renderSelect();
-  }
-
-  renderLabel() {
-    this.label = this.element.append('label').classed('lotivis-dropdown-label', true).attr('for', this.selectId);
-  }
-
-  renderSelect() {
-    let thisReference = this;
-    this.select = this.element.append('select').attr('id', this.selectId).on('change', function (event) {
-      thisReference.onClick(event);
-    });
-  }
-
-  addOption(optionId, optionName) {
-    return this.select.append('option').attr('id', optionId).attr('value', optionId).text(optionName);
-  }
-
-  setOptions(options) {
-    this.removeAllInputs();
-
-    for (let i = 0; i < options.length; i++) {
-      let name;
-
-      if (Array.isArray(options[i])) {
-        options[i][0] || options[i].id;
-        name = options[i][1] || options[i].translatedTitle;
-      } else if (typeof options[i] === 'string') {
-        name = options[i];
-      } else {
-        options[i].id;
-        name = options[i].title;
-      }
-
-      let inputElement = this.addOption(name, name);
-      this.inputElements.push(inputElement);
-    }
-
-    return this;
-  }
-
-  removeAllInputs() {
-    this.element.selectAll('input').remove();
-    return this;
-  }
-
-  onClick(event) {
-    let element = event.target;
-
-    if (!element) {
-      return;
-    }
-
-    let value = element.value;
-
-    if (!this.onChange) {
-      return;
-    }
-
-    this.onChange(value);
-    return this;
-  }
-
-  onChange(argument) {
-    console.log('argument: ' + argument);
-
-    if (typeof argument !== 'string') {
-      this.onChange = argument;
-    }
-
-    return this;
-  } // MARK: - Chaining Setter
-
-
-  setLabelText(text) {
-    this.label.text(text);
-    return this;
-  }
-
-  setOnChange(callback) {
-    this.onChange = callback;
-    return this;
-  }
-
-  setSelectedOption(optionID) {
-    if (this.inputElements.find(function (item) {
-      return item.attr('value') === optionID;
-    }) !== undefined) {
-      this.value = optionID;
-    }
-
-    return this;
-  }
-
-  set value(optionID) {
-    document.getElementById(this.selectId).value = optionID;
-  }
-
-  get value() {
-    return document.getElementById(this.selectId).value;
-  }
-
-}
-
-Dropdown.create = function (selector, options, selectedOption, onChange) {
-  let div = d3.select(`#${selector}`);
-  let dropdown = new Dropdown(div);
-  dropdown.setLabelText('Group Size');
-  dropdown.setOptions(options);
-  dropdown.setSelectedOption(selectedOption);
-  dropdown.setOnChange(onChange);
-  return dropdown;
-};
 
 /**
  * A lotivis card containing a textarea.
@@ -2339,16 +2155,16 @@ class DatasetsJSONCard extends EditableDataviewCard {
 Following code from:
 https://gist.github.com/Jezternz/c8e9fafc2c114e079829974e3764db75
 
-We use this function to save samples.parse a CSV file.
+We use this function to save parse a CSV file.
  */
 const csvStringToArray = strData => {
-  const objPattern = new RegExp("(\\,|\\r?\\n|\\r|^)(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|([^\\,\\r\\n]*))", "gi");
+  const objPattern = new RegExp('(\\,|\\r?\\n|\\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^\\,\\r\\n]*))', "gi");
   let arrMatches = null,
       arrData = [[]];
 
   while (arrMatches = objPattern.exec(strData)) {
     if (arrMatches[1].length && arrMatches[1] !== ",") arrData.push([]);
-    arrData[arrData.length - 1].push(arrMatches[2] ? arrMatches[2].replace(new RegExp("\"\"", "g"), "\"") : arrMatches[3]);
+    arrData[arrData.length - 1].push(arrMatches[2] ? arrMatches[2].replace(new RegExp('""', "g"), '"') : arrMatches[3]);
   }
 
   return arrData;
@@ -3651,9 +3467,13 @@ class SettingsPopup extends Popup {
 
   inject() {
     super.inject();
-    this.card.setTitle('Settings');
-    this.card.content.classed('lotivis-card-body-settings', true);
-    this.row = this.card.content.append('div').classed('lotivis-row', true);
+    this.card.setTitle("");
+    this.row = this.card.content.append("div").classed("row", true);
+    let container = this.row.append("div");
+    this.screenshotButton = new Button(container);
+    this.screenshotButton.setText("Make Screenshot");
+    this.screenshotButton.element.classed("ltv-button", true);
+    this.screenshotButton.onClick = this.screenshotButtonAction.bind(this);
   }
   /**
    * Returns the preferred size of the popup.
@@ -3667,6 +3487,18 @@ class SettingsPopup extends Popup {
       width: 240,
       height: 600
     };
+  }
+  /**
+   * Triggered when the screenshot button is pushed.
+   *
+   * Should be overridden by subclasses.
+   */
+
+
+  screenshotButtonAction() {
+    let filename = this.chart.datasetController.getFilename() || "unknown";
+    let downloadFilename = createDownloadFilename(filename, `chart`);
+    downloadImage(this.chart.svgSelector, downloadFilename);
   }
 
 }
@@ -3685,9 +3517,9 @@ class DateChartCardSettingsPopup extends SettingsPopup {
   }
 
   injectShowLabelsCheckbox() {
-    let container = this.row.append('div');
+    let container = this.row.append("div");
     this.showLabelsCheckbox = new Checkbox(container);
-    this.showLabelsCheckbox.setText('Labels');
+    this.showLabelsCheckbox.setText("Labels");
 
     this.showLabelsCheckbox.onClick = function (checked) {
       this.chart.config.showLabels = checked;
@@ -3697,9 +3529,9 @@ class DateChartCardSettingsPopup extends SettingsPopup {
   }
 
   injectCombineStacksCheckbox() {
-    let container = this.row.append('div');
+    let container = this.row.append("div");
     this.combineStacksCheckbox = new Checkbox(container);
-    this.combineStacksCheckbox.setText('Combine Stacks');
+    this.combineStacksCheckbox.setText("Combine Stacks");
 
     this.combineStacksCheckbox.onClick = function (checked) {
       this.chart.config.combineStacks = checked;
@@ -3728,7 +3560,7 @@ class ChartCard extends Card {
    * @param config The configuration
    */
   constructor(parent, config) {
-    if (parent && config && typeof parent === 'string') {
+    if (parent && config && typeof parent === "string") {
       config.selector = parent;
       super(config);
     } else {
@@ -3741,7 +3573,7 @@ class ChartCard extends Card {
     this.injectRadioGroup();
     this.injectChart();
     let cardSelector = this.selector;
-    this.setTitle(config && config.title ? config.title : cardSelector || 'No Title');
+    this.setTitle(config && config.title ? config.title : cardSelector || "No Title");
   }
   /**
    * Creates and injects the chart.
@@ -3758,13 +3590,9 @@ class ChartCard extends Card {
 
 
   injectButtons() {
-    this.screenshotButton = new Button(this.headerRightComponent);
-    this.screenshotButton.setText('Screenshot');
-    this.screenshotButton.element.classed('simple-button', true);
-    this.screenshotButton.onClick = this.screenshotButtonAction.bind(this);
     this.moreButton = new Button(this.headerRightComponent);
-    this.moreButton.setText('More');
-    this.moreButton.element.classed('simple-button', true);
+    this.moreButton.setText("More");
+    this.moreButton.element.classed("ltv-button", true);
     this.moreButton.onClick = this.presentSettingsPopupAction.bind(this);
   }
   /**
@@ -3773,13 +3601,14 @@ class ChartCard extends Card {
 
 
   injectRadioGroup() {
-    this.radioGroup = new RadioGroup(this.headerCenterComponent);
+    this.dropdown = new Dropdown(this.headerCenterComponent);
 
-    this.radioGroup.onChange = function (value) {
+    this.dropdown.onChange = function (value) {
       let dataset = this.datasets.find(function (dataset) {
         if (!dataset.label) return false;
         return dataset.label.split(` `).join(`-`) === value;
       });
+      dataset = this.datasets.find(dataset => dataset.label === value);
       if (!dataset) return lotivis_log(`Can't find dataset with label ${value}`);
       this.setDataset(dataset);
     }.bind(this);
@@ -3791,9 +3620,9 @@ class ChartCard extends Card {
 
   updateRadioGroup() {
     if (!this.datasets) return;
-    let names = this.datasets.map(dataset => dataset.label || 'Unknown Label');
+    let names = this.datasets.map(dataset => dataset.label || "Unknown Label");
     let options = names.map(name => new Option(name));
-    this.radioGroup.setOptions(options);
+    this.dropdown.setOptions(options);
   }
   /**
    *
@@ -3814,8 +3643,8 @@ class ChartCard extends Card {
 
 
   setDataset(dataset) {
-    lotivis_log('this.chart: ' + this.chart);
-    lotivis_log('this.chart: ', dataset);
+    lotivis_log("this.chart: " + this.chart);
+    lotivis_log("this.chart: ", dataset);
     if (!this.chart) return;
 
     if (Array.isArray(dataset)) {
@@ -3829,16 +3658,6 @@ class ChartCard extends Card {
       let index = (this.datasets || []).indexOf(dataset);
       this.onSelectedDatasetChanged(dataset, index, datasetLabel);
     }
-  }
-  /**
-   * Triggered when the screenshot button is pushed.
-   *
-   * Should be overridden by subclasses.
-   */
-
-
-  screenshotButtonAction() {
-    return new LotivisUnimplementedMethodError(`screenshotButtonAction()`);
   }
   /**
    * Triggered when the more button is pushed.
@@ -3876,11 +3695,10 @@ class DateChartCard extends ChartCard {
    * @param config
    */
   constructor(selector, config = {}) {
-    let theSelector = selector || config.selector || 'date-chart-card';
+    let theSelector = selector || config.selector || "date-chart-card";
     super(theSelector, config);
     this.selector = theSelector;
     this.datasets = [];
-    this.injectRadioGroup();
   }
   /**
    * Appends the `DateChart` to this card.
@@ -3889,8 +3707,8 @@ class DateChartCard extends ChartCard {
 
 
   injectChart() {
-    this.chartID = this.selector + '-chart';
-    this.body.attr('id', this.chartID);
+    this.chartID = this.selector + "-chart";
+    this.body.attr("id", this.chartID);
     this.chart = new DateChart(this.chartID, this.config);
     this.applyURLParameters();
   }
@@ -3900,9 +3718,9 @@ class DateChartCard extends ChartCard {
 
 
   injectRadioGroup() {
-    this.radioGroup = new RadioGroup(this.headerCenterComponent);
+    this.dropdown = new Dropdown(this.headerCenterComponent);
 
-    this.radioGroup.onChange = function (value) {
+    this.dropdown.onChange = function (value) {
       let dataset = this.datasets.find(dataset => dataset.label === value);
       this.setDataset(dataset);
     }.bind(this);
@@ -3916,7 +3734,7 @@ class DateChartCard extends ChartCard {
     if (!this.datasets) return;
     let names = this.datasets.map(dataset => dataset.label);
     let options = names.map(name => new Option(name));
-    this.radioGroup.setOptions(options);
+    this.dropdown.setOptions(options);
   }
   /**
    *
@@ -3938,7 +3756,7 @@ class DateChartCard extends ChartCard {
     let button = document.getElementById(this.moreButton.selector);
     let settingsPopup = new DateChartCardSettingsPopup();
     settingsPopup.chart = this.chart;
-    settingsPopup.showUnder(button, 'right');
+    settingsPopup.showUnder(button, "right");
   }
   /**
    * Creates and downloads a screenshot from the chart.
@@ -3947,7 +3765,7 @@ class DateChartCard extends ChartCard {
 
 
   screenshotButtonAction() {
-    let filename = this.chart.datasetController.getFilename() || 'date.chart-chart';
+    let filename = this.chart.datasetController.getFilename() || "date.chart-chart";
     let downloadFilename = createDownloadFilename(filename, `date-chart`);
     downloadImage(this.chart.svgSelector, downloadFilename);
   }
@@ -6436,9 +6254,8 @@ class PlotChartCard extends ChartCard {
    * @param config
    */
   constructor(selector, config) {
-    let theSelector = selector || 'plot-chart-card';
+    let theSelector = selector || "plot-chart-card";
     super(theSelector, config);
-    this.injectRadioGroup();
     this.applyURLParameters(); // this.setTitle('Plot');
   }
   /**
@@ -6447,8 +6264,8 @@ class PlotChartCard extends ChartCard {
 
 
   injectChart() {
-    this.chartID = this.selector + '-chart';
-    this.body.attr('id', this.chartID);
+    this.chartID = this.selector + "-chart";
+    this.body.attr("id", this.chartID);
     this.chart = new PlotChart(this.chartID, this.config);
   }
   /**
@@ -6458,7 +6275,7 @@ class PlotChartCard extends ChartCard {
 
   applyURLParameters() {
     let instance = UrlParameters.getInstance();
-    this.chart.type = instance.getString(UrlParameters.chartType, 'bar');
+    this.chart.type = instance.getString(UrlParameters.chartType, "bar");
     this.chart.isShowLabels = instance.getBoolean(UrlParameters.chartShowLabels, false);
     this.chart.isCombineStacks = instance.getBoolean(UrlParameters.chartCombineStacks, false);
   }
@@ -6468,11 +6285,11 @@ class PlotChartCard extends ChartCard {
 
 
   presentSettingsPopupAction() {
-    let bodyElement = d3.select('body');
+    let bodyElement = d3.select("body");
     let button = document.getElementById(this.moreButton.selector);
     let settingsPopup = new PlotChartCardSettingsPopup(bodyElement);
     settingsPopup.chart = this.chart;
-    settingsPopup.showUnder(button, 'right');
+    settingsPopup.showUnder(button, "right");
   }
   /**
    * Creates and downloads a screenshot from the chart.
@@ -7137,9 +6954,7 @@ exports.Card = Card;
 exports.Checkbox = Checkbox;
 exports.Component = Component;
 exports.Dropdown = Dropdown;
-exports.ModalPopup = ModalPopup;
 exports.Popup = Popup;
-exports.RadioGroup = RadioGroup;
 exports.Option = Option;
 exports.Toast = Toast; // datasets / csv cards
 

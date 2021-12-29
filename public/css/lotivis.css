@@ -1,31 +1,44 @@
-@charset "UTF-8";
 body {
   text-decoration: none;
   font-style: normal;
   font-family: sans-serif;
 }
 
-.lotivis-container a, .lotivis-container a:visited, .lotivis-container-full a, .lotivis-container-full a:visited {
-  text-decoration: none;
-  color: #333;
-}
-.lotivis-container a:hover, .lotivis-container a:visited:hover, .lotivis-container a.lotivis-anchor-back:hover, .lotivis-container a.lotivis-anchor-back:visited:hover, .lotivis-container-full a:hover, .lotivis-container-full a:visited:hover, .lotivis-container-full a.lotivis-anchor-back:hover, .lotivis-container-full a.lotivis-anchor-back:visited:hover {
-  color: dodgerblue;
-}
-.lotivis-container a:active, .lotivis-container-full a:active {
-  opacity: 0.6;
-}
-.lotivis-container a.lotivis-anchor-back, .lotivis-container-full a.lotivis-anchor-back {
-  font-size: 25px;
-  color: #999999;
-}
-.lotivis-container a.lotivis-anchor-back::before, .lotivis-container-full a.lotivis-anchor-back::before {
-  content: "←";
-  margin: 0 5px 0 0;
+.ltv-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-/* MARK: - Buttons */
-button.lotivis-button {
+.ltv-card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  line-height: 1;
+}
+
+.ltv-right {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.ltv-center {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: auto;
+}
+
+.ltv-left {
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button.ltv-button {
   text-decoration: none;
   font-size: 12px;
   background-color: #00000000;
@@ -40,184 +53,12 @@ button.lotivis-button {
   border: none;
 }
 
-button.lotivis-button:hover {
+button.ltv-button:hover {
   color: dodgerblue;
 }
 
-button.lotivis-button:active {
+button.ltv-button:active {
   opacity: 0.6;
-}
-
-button.lotivis-button-back::before {
-  content: "←";
-  margin: 0 5px 0 0;
-}
-
-button.lotivis-button-forward::after {
-  content: "→";
-  margin: 0 0 0 5px;
-}
-
-button.lotivis-button-down::after {
-  content: "↓";
-  margin: 0 0 0 5px;
-}
-
-button.lotivis-button-small {
-  font-size: 12px;
-}
-
-button.lotivis-button-round {
-  border-radius: 999px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-button.lotivis-button-round:active {
-  background: rgba(0, 0, 0, 0.1);
-  opacity: 1;
-}
-
-.lotivis-button-group {
-  padding: 0;
-  margin: 0;
-}
-.lotivis-button-group button {
-  padding-top: 0;
-  padding-bottom: 0;
-  margin: 0 8px;
-}
-.lotivis-button-group button:first-of-type {
-  margin-left: 0;
-}
-.lotivis-button-group button:last-of-type {
-  margin-right: 0;
-}
-.lotivis-button-group input {
-  margin: 0 8px;
-}
-.lotivis-button-group label {
-  margin-right: 8px;
-}
-
-.lotivis-card {
-  background-color: #ffffff;
-  margin: 0 0 20px 0;
-  overflow: hidden;
-}
-
-.lotivis-card-header {
-  padding: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  height: 14px;
-}
-.lotivis-card-header .lotivis-card-header-right {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: right;
-}
-.lotivis-card-header .lotivis-card-header-center {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: auto;
-}
-.lotivis-card-header .lotivis-card-header-left {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.lotivis-card-header .lotivis-title-label {
-  font-weight: bold;
-  font-size: 15px;
-}
-
-.lotivis-card-body {
-  width: 100%;
-}
-.lotivis-card-body .lotivis-card-body-settings {
-  margin: 10px;
-}
-.lotivis-card-body .lotivis-card-body-settings div {
-  display: block;
-  line-height: 1.2;
-}
-
-.lotivis-card-body-margin {
-  padding: 20px;
-}
-
-.lotivis-card-footer {
-  padding: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.no-padding {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.lotivis-disabled {
-  opacity: 0.6;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-end {
-  text-align: right;
-}
-
-.margin-top {
-  margin-top: 20px;
-}
-
-.margin-bottom {
-  margin-bottom: 20px;
-}
-
-.margin-left {
-  margin-left: 20px;
-}
-
-.margin-right {
-  margin-right: 20px;
-}
-
-.larger {
-  font-size: larger;
-}
-
-.primary {
-  color: #333;
-}
-
-.secondary {
-  color: #888;
-}
-
-.important {
-  color: red;
-}
-
-.lotivis-headline {
-  text-align: center;
-  margin-bottom: 0.5cm;
-}
-.lotivis-headline h1 {
-  font-size: 26px;
-  font-style: normal;
-  margin: 0 0 5px;
-}
-
-.lotivis-dropdown-label {
-  width: 60px;
-  text-align: right;
-  display: inline-block;
-  margin-right: 6px;
 }
 
 .lotivis-data-status-label {
@@ -286,150 +127,6 @@ button.lotivis-button-round:active {
 
 .lotivis-date-chart-selection-rect {
   fill: red;
-}
-
-.lotivis-menu li {
-  margin-top: 5px;
-}
-.lotivis-menu a, .lotivis-menu a:visited {
-  color: dodgerblue;
-  opacity: 0.8;
-}
-.lotivis-menu a:hover, .lotivis-menu a:visited:hover {
-  color: dodgerblue;
-  opacity: 1;
-}
-.lotivis-menu a:active {
-  opacity: 0.6;
-}
-.lotivis-menu a::after {
-  content: "→";
-  margin: 0 0 0 5px;
-}
-
-input[type=radio] {
-  margin: 0 5px 0 20px;
-  cursor: pointer;
-}
-
-input[type=radio]:first-of-type {
-  margin-left: 0;
-}
-
-input[type=text] {
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 3px 10px;
-}
-
-input[type=checkbox] {
-  margin: 0 5px 0 0;
-  cursor: pointer;
-}
-
-.dropdown-container label {
-  margin-right: 5px;
-}
-.dropdown-container label::after {
-  content: ":";
-}
-
-.radio-group label {
-  color: black;
-  font-weight: normal;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.36s;
-}
-.radio-group label:hover {
-  color: dodgerblue;
-}
-.radio-group label:active {
-  opacity: 0.6;
-}
-
-.lotivis-container {
-  padding: 10px 50px 0 50px;
-  margin: auto;
-  max-width: 1200px;
-  font-size: 14px;
-}
-
-.lotivis-container-full {
-  padding: 10px 0 0;
-  margin: auto;
-  font-size: 14px;
-}
-
-.lotivis-row,
-.lotivis-group {
-  width: 100%;
-  display: inline-flex;
-  flex-wrap: wrap;
-  line-height: 1;
-}
-
-.lotivis-col-12 {
-  width: calc(100% - 10px);
-}
-
-.lotivis-col-11 {
-  width: calc(91.6666% - 10px);
-}
-
-.lotivis-col-10 {
-  width: calc(83.3333% - 10px);
-}
-
-.lotivis-col-9 {
-  width: calc(75% - 10px);
-}
-
-.lotivis-col-8 {
-  width: calc(66.6666% - 10px);
-}
-
-.lotivis-col-7 {
-  width: calc(58.3333% - 10px);
-}
-
-.lotivis-col-6 {
-  width: calc(50% - 10px);
-}
-
-.lotivis-col-5 {
-  width: calc(41.66666% - 10px);
-}
-
-.lotivis-col-4 {
-  width: calc(33.3333% - 10px);
-}
-
-.lotivis-col-3 {
-  width: calc(25% - 10px);
-}
-
-.lotivis-col-2 {
-  width: calc(16.6666% - 10px);
-}
-
-.lotivis-col-1 {
-  width: calc(8.3333% - 10px);
-}
-
-.lotivis-col-12,
-.lotivis-col-11,
-.lotivis-col-10,
-.lotivis-col-9,
-.lotivis-col-8,
-.lotivis-col-7,
-.lotivis-col-6,
-.lotivis-col-5,
-.lotivis-col-4,
-.lotivis-col-3,
-.lotivis-col-2,
-.lotivis-col-1 {
-  padding: 0 5px;
 }
 
 .lotivis-map-chart-background {
@@ -514,7 +211,7 @@ input[type=checkbox] {
   pointer-events: none;
 }
 
-.lotivis-popup-underground {
+.ltv-popup-underground {
   display: none;
   position: fixed;
   z-index: 99991;
@@ -526,12 +223,18 @@ input[type=checkbox] {
   background-color: white;
   background-color: rgba(255, 255, 255, 0.15);
 }
-.lotivis-popup-underground .lotivis-card {
+.ltv-popup-underground .ltv-card {
   background-color: #f0f0f1;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
 }
+.ltv-popup-underground .ltv-card-header {
+  padding: 8px;
+}
+.ltv-popup-underground .ltv-card-body {
+  padding: 8px;
+}
 
-.lotivis-fade-in {
+.ltv-fade-in {
   animation: fadeIn ease 0.3s;
   -webkit-animation: fadeIn ease 0.3s;
   -moz-animation: fadeIn ease 0.3s;
@@ -579,13 +282,13 @@ input[type=checkbox] {
     opacity: 1;
   }
 }
-.lotivis-tooltip {
+.ltv-tooltip {
   position: relative;
   display: inline-block;
   line-height: 1.2;
 }
 
-.lotivis-tooltip .lotivis-tooltiptext {
+.ltv-tooltip .ltv-tooltiptext {
   visibility: hidden;
   width: 220px;
   background-color: #f0f0f1;
@@ -603,7 +306,7 @@ input[type=checkbox] {
   box-shadow: rgba(0, 0, 0, 0.5) 0 0 30px 0;
 }
 
-.lotivis-tooltip .lotivis-tooltiptext::after {
+.ltv-tooltip .ltv-tooltiptext::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -614,12 +317,12 @@ input[type=checkbox] {
   border-color: #f0f0f1 transparent transparent transparent;
 }
 
-.lotivis-tooltip:hover .lotivis-tooltiptext {
+.ltv-tooltip:hover .ltv-tooltiptext {
   visibility: visible;
   opacity: 1;
 }
 
-.lotivis-underground, .lotivis-modal-underground, .lotivis-popup-underground {
+.ltv-underground, .ltv-modal-underground, .ltv-popup-underground {
   display: none;
   position: fixed;
   z-index: 99991;
@@ -629,27 +332,19 @@ input[type=checkbox] {
   height: 100%;
   overflow: scroll;
 }
-.lotivis-underground .lotivis-card, .lotivis-modal-underground .lotivis-card, .lotivis-popup-underground .lotivis-card {
+.ltv-underground .ltv-card, .ltv-modal-underground .ltv-card, .ltv-popup-underground .ltv-card {
   background-color: #f0f0f1;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
 }
 
-.lotivis-popup-underground {
+.ltv-popup-underground {
   background-color: white;
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-.lotivis-modal-underground {
+.ltv-modal-underground {
   background-color: white;
   background-color: rgba(255, 255, 255, 0.9);
-}
-
-.lotivis-settings-card-row {
-  margin-bottom: 5px;
-}
-
-svg {
-  overflow: visible;
 }
 
 .lotivis-chart-svg {
