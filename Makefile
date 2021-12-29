@@ -12,13 +12,13 @@ update:
 	git checkout dev
 
 patch:
-  npm --no-git-tag-version version patch
-  npm run assets
-  git add .
-  THE_VERSION=$(npm pkg get version | xargs)
-  git commit -m "${THE_VERSION}"
-  git tag -a "${THE_VERSION}" -m "${THE_VERSION}"
-  git push --follow-tags
+	npm --no-git-tag-version version patch
+	npm run assets
+	git add .
+	THE_VERSION=$(npm pkg get version | xargs)
+	git commit -m "${THE_VERSION}"
+	git tag -a "${THE_VERSION}" -m "${THE_VERSION}"
+	git push --follow-tags
 
 stage:
 	git checkout stage
