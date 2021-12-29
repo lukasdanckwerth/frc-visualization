@@ -1,6 +1,6 @@
 {
   "name": "frc-visualisation",
-  "version": "1.0.43",
+  "version": "1.0.44",
   "description": "French Rap Corpus Visualization",
   "main": "npm run serve",
   "scripts": {
