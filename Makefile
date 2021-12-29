@@ -14,7 +14,11 @@ update:
 patch:
 	npm --no-git-tag-version version patch
   npm run assets
-	git push --follow-tags
+  git add .
+  THE_VERSION=$(npm pkg get version)
+  git commit -m "${THE_VERSION}"
+  git tag -a "${THE_VERSION}" -m "${THE_VERSION}"
+  git push --follow-tags
 
 stage:
 	git checkout stage
