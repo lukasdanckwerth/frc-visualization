@@ -2,8 +2,6 @@
  Generates all assets.
  */
 require("./generate.about.json");
-return;
-
 require("./generate.corpus.json.js");
 require("./generate.artists.active.range");
 require("./generate.overview.datasets");

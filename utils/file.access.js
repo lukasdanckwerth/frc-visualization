@@ -63,12 +63,12 @@ function readTXT(url) {
 }
 
 function readCorpusJSON() {
-  console.log("Reading corpus");
+  console.log("[file.access.js] Reading corpus");
   return readJSON(sourceFileURL);
 }
 
 function readCorpus() {
-  console.log("Creating corpus model");
+  console.log("[file.access.js] Creating corpus model");
   return new frcv(readCorpusJSON());
 }
 

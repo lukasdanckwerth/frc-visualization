@@ -14,6 +14,7 @@ update:
 patch:
 	npm version patch
 	git push --follow-tags
+  npm run assets
 
 stage:
 	git checkout stage

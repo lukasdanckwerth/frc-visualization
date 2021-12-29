@@ -8,7 +8,7 @@
     "build:watch": "rollup -c --watch",
     "serve": "http-server public/",
     "serve:production": "NODE_ENV=production node server.js production",
-    "assets": "node utils/generate.assets.js",
+    "assets": "npm run build && node utils/generate.assets.js",
     "ionic:serve": "http-server public/"
   },
   "author": "Lukas Danckwerth",
