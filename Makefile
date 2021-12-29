@@ -12,9 +12,9 @@ update:
 	git checkout dev
 
 patch:
-	npm version --no-commit-hooks patch
-	git push --follow-tags
+	npm --no-git-tag-version version patch
   npm run assets
+	git push --follow-tags
 
 stage:
 	git checkout stage
