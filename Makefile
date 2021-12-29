@@ -12,7 +12,7 @@ update:
 	git checkout dev
 
 patch:
-	npm version patch
+	npm version --no-commit-hooks patch
 	git push --follow-tags
   npm run assets
 
