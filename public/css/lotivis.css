@@ -1,139 +1,49 @@
-body {
-  text-decoration: none;
-  font-style: normal;
-  font-family: sans-serif;
+/* sized */
+/* colors */
+.ltv-bar-chart-background {
+  pointer-events: none;
 }
 
-.ltv-card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
+.ltv-bar-chart-grid {
+  color: lightgrey;
+  stroke-width: 1;
 }
 
-.ltv-card-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  width: 100%;
-  display: inline-flex;
-  flex-wrap: wrap;
-  line-height: 1;
-}
-
-.ltv-right {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: right;
-}
-
-.ltv-center {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: auto;
-}
-
-.ltv-left {
-  overflow: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-button.ltv-button {
-  text-decoration: none;
-  font-size: 12px;
-  background-color: #00000000;
-  color: gray;
-  padding: 5px 0;
-  text-align: center;
-  display: inline-block;
-  font-weight: normal;
-  cursor: pointer;
-  opacity: 1;
-  transition: 0.36s;
-  border: none;
-}
-
-button.ltv-button:hover {
-  color: dodgerblue;
-}
-
-button.ltv-button:active {
-  opacity: 0.6;
-}
-
-.lotivis-data-status-label {
-  font-size: 12px;
-}
-
-.lotivis-data-status-text {
-  font-size: 12px;
-}
-
-.lotivis-data-status-success {
-  color: green;
-}
-
-.lotivis-data-status-failure {
-  background-color: tomato;
-  color: white;
-  padding: 10px;
-  animation: fadeIn ease 0.3s;
-}
-
-.lotivis-data-textarea {
-  background-color: rgba(0, 0, 0, 0);
-  border: 0 solid #cccccc;
-  width: 100%;
-  font-family: monospace, sans-serif;
-  outline: none;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.lotivis-data-card-status-tooltip {
-  position: fixed;
-  padding: 20px;
-  top: 0;
-  left: 0;
-  width: 100%;
-  opacity: 0;
-  background-color: tomato;
-  color: white;
-}
-
-.lotivis-time-chart-label {
+.ltv-bar-chart-label {
   pointer-events: none;
   font-size: 20px;
 }
 
-.lotivis-time-chart-legend-label {
+.ltv-bar-chart-legend-label {
+  cursor: pointer;
   font-size: 13px;
 }
 
-.lotivis-time-chart-legend-circle {
+.ltv-bar-chart-legend-circle {
   cursor: pointer;
   stroke-width: 2;
 }
 
-.lotivis-time-chart-bar {
+.ltv-bar-chart-bar {
   pointer-events: none;
+  border-radius: 10px;
 }
 
-.lotivis-date-chart-hover-bar {
+.ltv-bar-chart-hover-bar {
   border-radius: 10px;
   fill: dodgerblue;
 }
 
-.lotivis-date-chart-selection-rect {
+.ltv-bar-chart-selection-rect {
   fill: red;
+  border-radius: 10px;
 }
 
-.lotivis-map-chart-background {
+.ltv-map-chart-background {
   cursor: pointer;
 }
 
-.lotivis-map-chart-area {
+.ltv-map-chart-area {
   fill: white;
   fill-opacity: 0;
   stroke: black;
@@ -141,29 +51,29 @@ button.ltv-button:active {
   cursor: pointer;
 }
 
-.lotivis-map-chart-area-hover {
+.ltv-map-chart-area-hover {
   stroke: dodgerblue;
   stroke-width: 4;
   stroke-dasharray: 0 !important;
 }
 
-.lotivis-map-chart-exterior-borders {
-  fill: white;
-  fill-opacity: 1;
-  stroke: gray;
+.ltv-map-chart-exterior-borders {
+  fill: clear;
+  fill-opacity: 0;
+  stroke: black;
   stroke-width: 4;
   stroke-opacity: 0.4;
   pointer-events: none;
 }
 
-.lotivis-map-chart-label {
+.ltv-map-chart-label {
   fill: black;
   text-anchor: middle;
   font-size: 12px;
   pointer-events: none;
 }
 
-.lotivis-map-chart-selection-border {
+.ltv-map-chart-selection-border {
   pointer-events: none;
   fill: transparent;
   fill-opacity: 0;
@@ -173,65 +83,55 @@ button.ltv-button:active {
   pointer-events: none;
 }
 
-.lotivis-map-chart-legend-rect {
+.ltv-map-chart-legend-rect {
   stroke: black;
   stroke-width: 1;
 }
 
-.lotivis-plot-chart-background {
+.ltv-plot-chart-background {
   fill: transparent;
   cursor: pointer;
 }
 
-.lotivis-plot-chart-hover-bar {
-  border-radius: 10px;
-  fill: dodgerblue;
-}
-
-.lotivis-plot-chart-selection-rect {
-  border-radius: 10px;
-  fill: red;
-}
-
-.lotivis-plot-bar {
+.ltv-plot-bar {
   stroke: lightgrey;
   stroke-width: 1;
   pointer-events: none;
 }
 
-.lotivis-plot-grid {
+.ltv-plot-chart-hover-bar {
+  border-radius: 10px;
+  fill: dodgerblue;
+}
+
+.ltv-plot-chart-selection-rect {
+  border-radius: 10px;
+  fill: red;
+}
+
+.ltv-plot-grid {
   color: lightgrey;
   stroke-width: 1;
 }
 
-.lotivis-plot-label {
+.ltv-plot-label {
   fill: white;
   text-anchor: start;
   font-size: 12px;
   pointer-events: none;
 }
 
-.ltv-popup-underground {
-  display: none;
-  position: fixed;
-  z-index: 99991;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-  background-color: white;
-  background-color: rgba(255, 255, 255, 0.15);
-}
-.ltv-popup-underground .ltv-card {
-  background-color: #f0f0f1;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
-}
-.ltv-popup-underground .ltv-card-header {
-  padding: 8px;
-}
-.ltv-popup-underground .ltv-card-body {
-  padding: 8px;
+.ltv-tooltip {
+  position: absolute;
+  padding: 10px;
+  background: white;
+  font: 12px sans-serif;
+  stroke-width: 2;
+  border-radius: 8px;
+  border: solid 1px dodgerblue;
+  pointer-events: none;
+  line-height: 1.4;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px 0;
 }
 
 .ltv-fade-in {
@@ -282,84 +182,6 @@ button.ltv-button:active {
     opacity: 1;
   }
 }
-.ltv-tooltip {
-  position: relative;
-  display: inline-block;
-  line-height: 1.2;
-}
-
-.ltv-tooltip .ltv-tooltiptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: #f0f0f1;
-  color: #333;
-  text-align: center;
-  border-radius: 6px;
-  padding: 10px 20px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -130px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.5) 0 0 30px 0;
-}
-
-.ltv-tooltip .ltv-tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -10px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: #f0f0f1 transparent transparent transparent;
-}
-
-.ltv-tooltip:hover .ltv-tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-.ltv-underground, .ltv-modal-underground, .ltv-popup-underground {
-  display: none;
-  position: fixed;
-  z-index: 99991;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
-}
-.ltv-underground .ltv-card, .ltv-modal-underground .ltv-card, .ltv-popup-underground .ltv-card {
-  background-color: #f0f0f1;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 0 60px 0;
-}
-
-.ltv-popup-underground {
-  background-color: white;
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-.ltv-modal-underground {
-  background-color: white;
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.lotivis-chart-svg {
+.ltv-chart-svg {
   overflow: visible;
-}
-
-.lotivis-tooltip {
-  position: absolute;
-  padding: 10px;
-  background: white;
-  font: 12px sans-serif;
-  stroke-width: 2;
-  border-radius: 8px;
-  border: solid 1px dodgerblue;
-  pointer-events: none;
-  line-height: 1.4;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px 0;
 }

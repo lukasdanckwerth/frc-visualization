@@ -1,19 +1,14 @@
-/*
- Generates all assets.
- */
-require("./generate.about.json");
-require("./generate.corpus.json.js");
-require("./generate.artists.active.range");
-require("./generate.overview.datasets");
-require("./generate.year.relation.datasets");
-require("./generate.departement.relation.datasets");
+/* generates all assets */
 
-const fileAccess = require("./file.access");
+console.log("generate assets");
 
-const departements = fileAccess.read("data/departements.geojson");
-fileAccess.writeAsset(departements, "departements.geojson");
+// require("./datasets.search.js");
+require("./datasets.artists.activity.range");
+require("./datasets.overview");
+require("./datasets.year");
+require("./datasets.departement.tracks");
+require("./datasets.departement.artists");
+require("./copy.assets.js");
+require("./about.json");
 
-const innovationList = fileAccess.readTXT("data/innovation.list.txt");
-fileAccess.writeTXT(innovationList, "innovation.list.txt");
-
-console.log("Finish.");
+console.log("finish");

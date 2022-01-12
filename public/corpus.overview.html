@@ -32,6 +32,12 @@
         <div class="col-8 text-center text-secondary">
           <h4>Corpus Overview</h4>
         </div>
+        <div class="col-2">
+          <select id="dataSelection" onchange="dataChange()">
+            <option>Tracks</option>
+            <option>Words</option>
+          </select>
+        </div>
       </div>
       <!-- CONTENT -->
       <div class="row">
@@ -57,26 +63,21 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
-          <div id="date-chart-card">
-            <!-- Date Chart Here -->
+          <div id="bar-chart">
+            <!-- Bar Chart Here -->
           </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <div id="map-chart-card">
-            <!-- Map Chart Here -->
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <div id="plot-chart-card">
+          <div id="plot-chart">
             <!-- Plot Chart Here -->
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div id="map-chart">
+            <!-- Map Chart Here -->
           </div>
         </div>
       </div>
     </div>
 
-    <script src="js/lib/d3.min.js"></script>
-    <script src="js/lib/topojson-client.min.js"></script>
-    <script src="js/lib/topojson-server.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
@@ -85,85 +86,79 @@
       lotivis.debug(true);
       lotivis.config.downloadFilePrefix = "frcv";
 
+      let d3 = lotivis.d3;
+      let corpus = null;
+      let datasets = [];
+
       // create lotivis elements
-      let dateChartCard = new lotivis.DateChartCard("date-chart-card", {
-        title: " ",
+      let barChart = new lotivis.BarChart("bar-chart", {
+        labels: true,
+        selectable: false,
       });
 
-      let mapChartCard = new lotivis.MapChartCard("map-chart-card", {
-        title: "Departements",
+      let mapChart = new lotivis.MapChart("map-chart", {
+        labels: true,
         excludedFeatureCodes: ["2A", "2B"],
-        featureIDAccessor: (feature) => {
-          return feature.properties.code;
-        },
-        featureNameAccessor: (feature) => {
-          return feature.properties.nom;
-        },
+        featureIDAccessor: (f) => "" + f.properties.code,
+        featureNameAccessor: (f) => f.properties.nom,
       });
 
-      let plotChartCard = new lotivis.PlotChartCard("plot-chart-card");
+      let plotChart = new lotivis.PlotChart("plot-chart", {
+        type: "fraction",
+        selectable: false,
+      });
 
-      // hide cards during loading corpus
-      dateChartCard.hide();
-      mapChartCard.hide();
-      plotChartCard.hide();
+      function controllerUpdate(controller, reason) {
+        if (reason === "location") {
+          let locations = controller.filters.locations;
+          let artists = corpus.artistsForLocations(locations);
+          let datasets = frc.artistsToDatasets(artists);
+          let artistsController = lotivis.parseDatasets(datasets);
+          plotChart.setController(artistsController);
+        } else {
+          plotChart.setController(new lotivis.DataController([]));
+        }
+      }
+
+      function setDataset(index) {
+        let dataset = datasets[index];
+        let controller = lotivis.parseDataset(dataset);
+
+        barChart.setController(controller);
+        mapChart.setController(controller);
+
+        controller.addListener({ update: controllerUpdate });
+      }
+
+      function dataChange() {
+        setDataset(document.getElementById("dataSelection").selectedIndex);
+      }
 
       Promise.all([
-        d3.json("/assets/corpus.json"),
-        d3.json("/assets/departements.geojson"),
-        d3.json("/assets/corpus.overview.tracks.json"),
-        d3.json("/assets/corpus.overview.words.json"),
+        lotivis.d3.json("./assets/corpus.json"),
+        lotivis.d3.json("./assets/departements.geojson"),
+        lotivis.d3.json("./assets/corpus.overview.tracks.json"),
+        lotivis.d3.json("./assets/corpus.overview.words.json"),
         // d3.json('/assets/corpus.overview.words.relative.json'),
         // d3.json('/assets/corpus.overview.types.json'),
         // d3.json('/assets/corpus.overview.types.relative.json')
       ])
-        .then(function (results) {
-          console.log("results", results);
+        .then((all) => {
+          let rawCorpus = all.shift();
+          corpus = new frc.Corpus(rawCorpus);
+          barChart.config.dates = corpus.dates();
 
-          let rawCorpus = results.shift();
-          let corpus = new frc(rawCorpus);
-          dateChartCard.chart.config.dateLabels = corpus.getDateLabels();
+          let geoJSON = all.shift();
+          mapChart.setGeoJSON(geoJSON);
 
-          let geoJSON = results.shift();
-          mapChartCard.chart.excludedFeatureCodes = ["2A", "2B"];
-          mapChartCard.chart.setGeoJSON(geoJSON);
-          mapChartCard.chart.update();
+          datasets = all;
+          setDataset(0);
 
-          dateChartCard.onSelectedDatasetChanged = function (
-            dataset,
-            index,
-            datasetLabel
-          ) {
-            let controller = dateChartCard.chart.datasetController;
-            let updater = {
-              update: function (controller, reason) {
-                if (reason === "filter-locations") {
-                  let locations = controller.filters.locations;
-                  let artists = corpus.artistsForLocations(locations);
-                  let datasets = corpus.artistsToDatasets(artists);
-                  plotChartCard.chart.setDatasets(datasets);
-                  plotChartCard.chart.update();
-                } else {
-                  plotChartCard.chart.setDatasets([]);
-                  plotChartCard.chart.update();
-                }
-              },
-            };
-
-            controller.addListener(updater);
-            controller.register([mapChartCard.chart]);
-          };
-
-          dateChartCard.setDatasets(results);
-          d3.select("#loading-indicator").style("display", "none");
-
-          dateChartCard.show();
-          mapChartCard.show();
-          plotChartCard.show();
+          lotivis.d3.select("#loading-indicator").style("display", "none");
         })
-        .catch(function (error) {
-          console.log(error);
-          alert(error);
+        .catch((e) => {
+          console.error(e);
+          alert(e);
         });
     </script>
   </body>

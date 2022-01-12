@@ -26,24 +26,34 @@
     <div class="container pt-4">
       <!-- HEADER -->
       <div class="row">
-        <div class="col-2">
+        <div class="col-4">
           <a href="index.html" class="btn">Back</a>
         </div>
-        <div class="col-8 text-center text-secondary">
+        <div class="col-4 text-center text-secondary">
           <h4>Artists Activity Range</h4>
+        </div>
+        <div class="col-4">
+          <button type="button" class="btn btn-sm" onclick="screenshot()">
+            Screenshot
+          </button>
+          <select id="dataSelection" onchange="dataChange()">
+            <option>All</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Groups</option>
+          </select>
         </div>
       </div>
       <!-- CONTENT -->
       <div class="row">
         <div class="col-12">
           <div style="max-width: 800px; margin: auto">
-            <div id="plot-chart-card"></div>
+            <div id="plot-chart"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <script src="js/lib/d3.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
@@ -51,28 +61,33 @@
       lotivis.config.downloadFilePrefix = "frcv";
       lotivis.debug(true);
 
-      let loadingCard = d3.select("#frcv-loading-card");
-      let plotChartCard = new lotivis.PlotChartCard("plot-chart-card", {
-        title: "Artists Activity Range",
-        margin: { left: 200 },
+      let datasets = [];
+      let chart = new lotivis.PlotChart("plot-chart", {
+        margin: { left: 200, right: 10 },
+        type: lotivis.PlotChart.Type.fraction,
+        selectable: false,
       });
 
-      //plotChartCard.hide();
+      function screenshot() {
+        lotivis.screenshot("plot-chart-svg", "screenshot");
+      }
+
+      function setDataset(index) {
+        let set = datasets[index];
+        let controller = lotivis.parseDatasets(set);
+        chart.setController(controller);
+      }
+
+      function dataChange() {
+        setDataset(document.getElementById("dataSelection").selectedIndex);
+      }
 
       Promise.all([
-        d3.json("/assets/artists.active.range.json"),
-        d3.json("/assets/artists.active.range.female.json"),
-        d3.json("/assets/artists.active.range.male.json"),
-        d3.json("/assets/artists.active.range.groups.json"),
-      ]).then(function (datasetsCollection) {
-        datasetsCollection[0].label = "All";
-        datasetsCollection[1].label = "Female";
-        datasetsCollection[2].label = "Male";
-        datasetsCollection[3].label = "Group";
-        plotChartCard.setDatasets(datasetsCollection);
-        plotChartCard.show();
-        loadingCard.style("display", "none");
-      });
+        lotivis.d3.json("./assets/artists.active.range.json"),
+        lotivis.d3.json("./assets/artists.active.range.female.json"),
+        lotivis.d3.json("./assets/artists.active.range.male.json"),
+        lotivis.d3.json("./assets/artists.active.range.groups.json"),
+      ]).then((all) => ((datasets = all), setDataset(0)));
     </script>
   </body>
 </html>

@@ -2,597 +2,352 @@
  * frc.js v1.0.50 Lukas Danckwerth
  */
 (function (global, factory) {
-typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-typeof define === 'function' && define.amd ? define(factory) :
-(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.frc = factory());
-})(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.frc = {}));
+})(this, (function (exports) { 'use strict';
 
-class Track {
-  constructor(trackJSON) {
-    this.title = trackJSON.title;
-    this.fullTitle = trackJSON.fullTitle;
-    this.releaseDate = trackJSON.releaseDate;
-    this.releaseYear = trackJSON.releaseYear;
-    this.departmentNumber = trackJSON.departmentNumber;
-    this.departmentName = trackJSON.departmentName;
-    this.id = trackJSON.id;
-    this.url = trackJSON.url;
-    this.artistID = trackJSON.artistID;
-    this.artist = trackJSON.artist;
-    this.content = trackJSON.content;
-    if (trackJSON.content) {
-      this.components = trackJSON.content
-        .replace(/,/g, ' ')
-        .replace(/\./g, ' ')
-        .replace(/\n/g, ' ')
-        .replace(/\(/g, ' ')
-        .replace(/\)/g, ' ')
-        .replace(/\[/g, ' ')
-        .replace(/]/g, ' ')
-        .split(" ")
-        .filter((word) => word.length > 0);
-    } else if (trackJSON.components) {
-      this.components = trackJSON.components;
-    }
-    this.componentsLowercased = this.components.map(item => item.toLowerCase());
-    let typesSet = new Set(this.components);
-    this.types = Array.from(typesSet);
-  }
-}
+  function parseArtists(json) {
+    console.log(`[FRC] Parse artists`);
+    let artists = [],
+      artist;
+    for (let i = 0; i < json.length; i++) {
+      artist = json[i];
+      Object.assign(artist, {
+        allTracks: function () {
+          let tracks = this.tracks.map((t) => t);
+          this.albums.forEach((album) => tracks.push(...album.tracks));
+          return tracks;
+        },
+        hasTracks: function () {
+          return this.allTracks().length > 0;
+        },
+      });
 
-class Album {
-  constructor(albumJSON) {
-    this.name = albumJSON.name;
-    this.tracks = [];
-    for (let i = 0; i < albumJSON.tracks.length; i++) {
-      const trackJSON = albumJSON.tracks[i];
-      const track = new Track(trackJSON);
-      track.departmentNumber = albumJSON.departmentNo;
-      track.departmentName = albumJSON.departmentName;
-      track.artistID = albumJSON.geniusId;
-      track.artist = albumJSON.name;
-      this.tracks.push(track);
-    }
-  }
-}
+      artist.departementNo = "" + (artist.departementNo || artist.departementNo);
+      artist.departementName = artist.departementName || artist.departement;
 
-class Artist {
-  constructor(rawJSON) {
-    this.name = rawJSON.name;
-    this.geniusId = rawJSON.geniusId;
-    this.sex = rawJSON.sex;
-    this.group = rawJSON.group;
-    this.department = rawJSON.department || rawJSON.departement;
-    this.departmentNo = rawJSON.departmentNo || rawJSON.departementNo;
-    this.departmentName = (rawJSON.department || rawJSON.departement)
-      .split("(")[0]
-      .trim()
-      .toLowerCase();
-    this.albums = [];
-    for (let i = 0; i < rawJSON.albums.length; i++) {
-      const albumJSON = rawJSON.albums[i];
-      albumJSON.departmentNo = this.departmentNo;
-      albumJSON.departmentName = this.departmentName;
-      albumJSON.artistID = rawJSON.geniusId;
-      albumJSON.artist = rawJSON.name;
-      const album = new Album(albumJSON);
-      album.tracks.forEach((track) => (track.artistID = rawJSON.geniusId));
-      album.tracks.forEach((track) => (track.artist = rawJSON.name));
-      this.albums.push(album);
+      if (artist.hasTracks()) artists.push(artist);
     }
-    this.tracks = [];
-    for (let i = 0; i < rawJSON.tracks.length; i++) {
-      const trackJSON = rawJSON.tracks[i];
-      const track = new Track(trackJSON);
-      track.departmentNumber = this.departmentNo;
-      track.departmentName = this.departmentName;
-      track.artistID = rawJSON.geniusId;
-      track.artist = rawJSON.name;
-      this.tracks.push(track);
-    }
+    return artists;
   }
-  allTracks() {
-    let tracks = [];
-    for (let i = 0; i < this.albums.length; i++) {
-      const album = this.albums[i];
-      for (let i = 0; i < album.tracks.length; i++) {
-        tracks.push(album.tracks[i]);
+
+  function parseTracks(json) {
+    console.log(`[FRC] Parse tracks`);
+    let data = [],
+      ids = [];
+    let artist, album, track;
+    for (let i = 0; i < json.length; i++) {
+      artist = json[i];
+
+      if (!(artist.departementName || artist.departement)) {
+        console.log(artist);
+        throw Error("missing departement name");
+      }
+
+      for (let i = 0; i < artist.albums.length; i++) {
+        album = artist.albums[i];
+        for (let j = 0; j < album.tracks.length; j++) {
+          track = album.tracks[j];
+          if (ids.includes(track.id)) continue;
+          ids.push(track.id);
+          data.push(parseTrack(track, artist, album.name));
+        }
+
+        for (let i = 0; i < artist.tracks.length; i++) {
+          track = artist.tracks[i];
+          if (ids.includes(track.id)) continue;
+          ids.push(track.id);
+          data.push(parseTrack(track, artist, undefined));
+        }
       }
     }
-    for (let i = 0; i < this.tracks.length; i++) {
-      tracks.push(this.tracks[i]);
-    }
-    return tracks;
-  }
-  allWords() {
-    const allTracks = this.allTracks();
-    let allWords = [];
-    for (let i = 0; i < allTracks.length; i++) {
-      allWords.push(...allTracks[i].components);
-    }
-    return allWords;
-  }
-  hasTracks() {
-    return this.allTracks().length > 0;
-  }
-}
 
-function createYearData(collection, dateAccess, valueAccess) {
-  let data = [];
-  collection.forEach(function (item) {
-    let date = dateAccess(item);
-    let dataset = data.find(dataset => dataset.date === date);
-    if (dataset) {
-      dataset.value += valueAccess(item);
-    } else {
-      data.push({
-        date: date,
-        value: valueAccess(item)
-      });
-    }
-  });
-  return data;
-}
-function getYearsToTracksCollection(tracks, countFunction) {
-  return createYearData(
-    tracks,
-    track => track.releaseYear,
-    countFunction);
-}
-function getYearsToCollectionRelative(data, tracksPerYear) {
-  data.forEach(function (item) {
-    let itemDate = item.date;
-    let tracksPerYearItem = tracksPerYear.find(item => item.date === itemDate);
-    if (!tracksPerYearItem) return;
-    item.value = item.value / tracksPerYearItem.value;
-  });
-  return data;
-}
+    return data;
+  }
 
-function createDepartementData(tracksPerDepartement, collection, locationAccess, locationNameAccess, valueAccess) {
-  let departmentDatasets = [];
-  for (let i = 0; i < collection.length; i++) {
-    let item = collection[i];
-    let location = locationAccess(item);
-    let departmentName = locationNameAccess(item);
-    let dataset = departmentDatasets.find(dataset => dataset.location === location);
-    if (dataset) {
-      dataset.value += valueAccess(item);
-    } else {
-      departmentDatasets.push({
-        location: location,
-        locationName: departmentName,
-        value: valueAccess(item)
-      });
+  function parseTrack(track, artist, album) {
+    if (!track) {
+      console.log("track", track);
+      console.log("artist", artist);
+      console.log("album", album);
+      throw Error("no track");
     }
-  }
-  if (tracksPerDepartement) {
-    for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
-      let departmentObject = tracksPerDepartement[departementIndex];
-      let location = departmentObject.location;
-      if (departmentDatasets.find(item => item.location === location)) continue;
-      departmentDatasets.push({
-        value: 0,
-        location: location,
-        locationTotal: departmentObject.value,
-      });
-    }
-  }
-  return departmentDatasets;
-}
-function getDepartmentsToTracksCollection(tracksPerDepartement, tracks, countFunction) {
-  return createDepartementData(
-    tracksPerDepartement,
-    tracks,
-    track => track.departmentNumber,
-    track => track.departmentName,
-    countFunction);
-}
-function getDepartmentsToTracksCollectionRelative(data, tracksPerDepartement) {
-  data.forEach(function (item) {
-    let itemLocation = item.location;
-    let tracksPerDepartementItem = tracksPerDepartement.find(item => item.location === itemLocation);
-    if (!tracksPerDepartementItem) return;
-    item.value = item.value / tracksPerDepartementItem.value;
-  });
-  return data;
-}
-function getDepartmentsToArtistsCollection(tracksPerDepartement, artists, countFunction) {
-  return createDepartementData(
-    tracksPerDepartement,
-    artists,
-    artist => artist.departmentNo,
-    artist => artist.departmentName,
-    artist => 1
-  );
-}
+    let content = track.content;
+    let components = content
+      .replace(/,/g, " ")
+      .replace(/\./g, " ")
+      .replace(/\n/g, " ")
+      .replace(/\(/g, " ")
+      .replace(/\)/g, " ")
+      .replace(/\[/g, " ")
+      .replace(/]/g, " ")
+      .split(" ")
+      .filter((word) => word.length > 0);
 
-function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, absolute) {
-  let theFirstYear = firstYear || corpus.getEarliestYear();
-  let theLastYear = lastYear || corpus.getLatestYear();
-  let theSensitivity = sensitivity || 'case-insensitive';
-  let theAbsolute = absolute || 'relative';
-  let groups = searchQuery.split(';').map(value => value.trim());
-  groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
-  groups = groups.map(group => group.trim());
-  let datasets = [];
-  let tracksObject = {};
-  for (let i = 0; i < groups.length; i++) {
-    let group = groups[i];
-    let words = group.split(',').map(value => value.trim());
-    let stack = words.join(", ");
-    for (let j = 0; j < words.length; j++) {
-      let searchWord = words[j];
-      let dataset = datasetFor(
-        corpus,
-        searchWord,
-        stack,
-        theFirstYear,
-        theLastYear,
-        theSensitivity,
-        theAbsolute
-      );
-      tracksObject[searchWord] = dataset.tracks;
-      dataset.tracks = null;
-      datasets.push(dataset);
-    }
+    let componentsLowercased = components.map((item) => item.toLowerCase());
+    let types = Array.from(new Set(components));
+
+    return {
+      artist: artist.name,
+      artistID: artist.geniusId,
+      album: album,
+      departementNo: "" + (artist.departementNo || artist.departementNo),
+      departementName: artist.departementName || artist.departement,
+      title: track.title,
+      fullTitle: track.fullTitle,
+      releaseDate: track.releaseDate,
+      releaseYear: track.releaseYear,
+      id: track.id,
+      url: track.url,
+      content: content,
+      components: components,
+      componentsLowercased: componentsLowercased,
+      types: types,
+    };
   }
-  datasets.tracks = tracksObject;
-  return datasets;
-}
-function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity, absolute) {
-  let tracks = tracksForWord(corpus, searchText, sensitivity);
-  tracks = tracks.filter(function (track) {
-    return track.releaseYear >= firstYear
-      && track.releaseYear <= lastYear;
-  });
-  let chartData = createYearAndDepartmentsDataForTracks(
-    corpus,
-    tracks,
-    firstYear,
-    lastYear,
-    sensitivity,
-    absolute
-  );
-  return {
-    label: searchText,
-    stack: stack || searchText,
-    tracks: tracks,
-    data: chartData
+
+  const SEARCH_TYPES = {
+    sensitive: "case-sensitive",
+    insensitve: "case-insensitive",
+    regex: "regex",
   };
-}
-function tracksForWord(corpus, word, sensitivity = 'case-sensitive') {
-  let tracks = [];
-  const allTracks = corpus.allTracks();
-  if (sensitivity === 'case-sensitive') {
-    for (let i = 0; i < allTracks.length; i++) {
-      if (allTracks[i].components.indexOf(word) !== -1) {
-        tracks.push(new Track(allTracks[i]));
-      }
-    }
-  } else if (sensitivity === 'case-insensitive') {
-    word = word.toLowerCase();
-    for (let i = 0; i < allTracks.length; i++) {
-      if (allTracks[i].componentsLowercased.indexOf(word) !== -1) {
-        tracks.push(new Track(allTracks[i]));
-      }
-    }
-  }
-  return tracks;
-}
-function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYear, sensitivity, absolute) {
-  let items = [];
-  let yearsToTrackNumbers = corpus.getYearsToTrackNumbers();
-  let tracksPerDepartement = corpus.getDepartmentsToTracks();
-  let theFirstYear = firstYear || corpus.getEarliestYear();
-  let theLastYear = lastYear || corpus.getLatestYear();
-  let isAbsolute = absolute === 'absolute';
-  for (let index = 0; index < tracks.length; index++) {
-    let track = tracks[index];
-    let year = track.releaseYear;
-    let yearTotal = yearsToTrackNumbers.find(item => item.date === year).value;
-    let department = track.departmentNumber;
-    let departmentTotal = tracksPerDepartement.find(entry => entry.location === department).value;
-    let entry = items.find(function (item) {
-      return item.location === department && item.date === year;
-    });
-    if (entry) {
-      entry.value += 1;
-    } else {
-      let relative = 1 / yearTotal;
-      items.push({
-        location: department,
-        date: year,
-        value: 1,
-        relativeValue: relative,
-        dateTotal: yearTotal,
-        locationTotal: departmentTotal,
-      });
-    }
-    for (let year = theFirstYear; year <= theLastYear; year++) {
-      if (items.find(item => item.date === theLastYear)) continue;
-      items.push({
-        date: year,
-        value: 0,
-        dateTotal: yearTotal
-      });
-    }
-  }
-  if (!isAbsolute) {
-    for (let index = 0; index < items.length; index++) {
-      let item = items[index];
-      item.value = item.value / item.dateTotal;
-    }
-  }
-  for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
-    let departmentObject = tracksPerDepartement[departementIndex];
-    let location = departmentObject.location;
-    if (items.find(item => item.location === location)) continue;
-    items.push({
-      value: 0,
-      location: location,
-      locationTotal: departmentObject.value,
-    });
-  }
-  return items;
-}
 
-class Corpus {
-  constructor(parsedCorpus) {
-    this.artists = [];
-    this.artistsWithoutTracks = [];
-    this.initialize(parsedCorpus);
-  }
-  initialize(parsedCorpus) {
-    console.log(`[FRC] Parse corpus`);
-    for (let i = 0; i < parsedCorpus.length; i++) {
-      const artistJSON = parsedCorpus[i];
-      const artist = new Artist(artistJSON);
-      if (artist.hasTracks()) {
-        this.artists.push(artist);
-      } else {
-        this.artistsWithoutTracks.push(artist);
-      }
-    }
-    console.log(`[FRC] Found ${this.artists.length} artists`);
-  }
-  femaleArtists() {
-    return this.artists.filter((artist) => artist.sex === "F");
-  }
-  maleArtists() {
-    return this.artists.filter((artist) => artist.sex === "M");
-  }
-  groupArtists() {
-    return this.artists.filter((artist) => artist.group === "G");
-  }
-  allTracks() {
-    let allTracks = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      let artistTracks = this.artists[i].allTracks();
-      for (let i = 0; i < artistTracks.length; i++) {
-        allTracks.push(artistTracks[i]);
-      }
-    }
-    return allTracks;
-  }
-  allWords() {
-    let allWords = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      let wordsOfArtist = this.artists[i].allWords();
-      for (let i = 0; i < wordsOfArtist.length; i++) {
-        allWords.push(wordsOfArtist[i]);
-      }
-    }
-    return allWords;
-  }
-  allAlbums() {
-    let allAlbums = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      allAlbums.push(...this.artists[i].albums);
-    }
-    return allAlbums;
-  }
-  allTracksWithoutAlbum() {
-    let tracksWithoutAlbum = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      tracksWithoutAlbum.push(...this.artists[i].tracks);
-    }
-    return tracksWithoutAlbum;
-  }
-  getEarliestYear() {
-    let allTracks = this.allTracks();
-    let firstYear = allTracks.find((item) => item !== undefined).releaseYear;
-    return this.allTracks().reduce(
-      (current, next) =>
-        current < next.releaseYear ? current : next.releaseYear,
-      firstYear
-    );
-  }
-  getLatestYear() {
-    let allTracks = this.allTracks();
-    let lastYear = allTracks.find((item) => item !== undefined).releaseYear;
-    return this.allTracks().reduce(
-      (current, next) =>
-        current > next.releaseYear ? current : next.releaseYear,
-      lastYear
-    );
-  }
-  getDateLabels() {
-    let firstDate = this.firstYear || this.getEarliestYear();
-    let lastDate = this.lastYear || this.getLatestYear();
-    let range = lastDate - firstDate + 1;
-    return Array(range)
-      .fill(0)
-      .map((e, i) => i + firstDate);
-  }
-  getLocations() {
-    return Array.from(
-      new Set(this.artists.map((artist) => artist.departmentNo))
-    );
-  }
-  getLocationNames() {
-    return Array.from(
-      new Set(this.artists.map((artist) => artist.departmentName))
-    );
-  }
-  getYearsToTrackNumbers() {
-    return getYearsToTracksCollection(this.allTracks(), () => 1);
-  }
-  getYearsToWords() {
-    return getYearsToTracksCollection(
-      this.allTracks(),
-      (track) => track.components.length
-    );
-  }
-  getYearsToWordsRelative() {
-    return getYearsToCollectionRelative(
-      this.getYearsToWords(),
-      this.getYearsToTrackNumbers()
-    );
-  }
-  getYearsToTypes() {
-    return getYearsToTracksCollection(
-      this.allTracks(),
-      (track) => track.types.length
-    );
-  }
-  getYearsToTypesRelative() {
-    return getYearsToCollectionRelative(
-      this.getYearsToTypes(),
-      this.getYearsToTrackNumbers()
-    );
-  }
-  getDepartmentsToArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.artists);
-  }
-  getDepartmentsToMaleArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.maleArtists());
-  }
-  getDepartmentsToFemaleArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.femaleArtists());
-  }
-  getDepartmentsToGroupArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.groupArtists());
-  }
-  getDepartmentsToTracks() {
-    return getDepartmentsToTracksCollection(null, this.allTracks(), () => 1);
-  }
-  getDepartmentsToWords() {
-    return getDepartmentsToTracksCollection(
-      this.getDepartmentsToTracks(),
-      this.allTracks(),
-      (track) => track.components.length
-    );
-  }
-  getDepartmentsToWordsRelative() {
-    return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToWords(),
-      this.getDepartmentsToTracks()
-    );
-  }
-  getDepartmentsToTypes() {
-    return getDepartmentsToTracksCollection(
-      this.getDepartmentsToTracks(),
-      this.allTracks(),
-      (track) => track.types.length
-    );
-  }
-  getDepartmentsToTypesRelative() {
-    return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToTypes(),
-      this.getDepartmentsToTracks()
-    );
-  }
-  getTracksForYears(years) {
-    return this.allTracks().filter((track) =>
-      years.includes(track.releaseYear)
-    );
-  }
-  getTracks(firstYear, lastYear) {
-    return this.allTracks().filter(
-      (track) => track.releaseYear >= firstYear && track.releaseYear <= lastYear
-    );
-  }
-  getTracksForYearAndDepartement(year, departmentNumber) {
-    return this.allTracks().filter(
-      (track) =>
-        track.releaseYear === year &&
-        track.departmentNumber === departmentNumber
-    );
-  }
-  tracksForLocations(departmentNumbers) {
-    this.allTracks().filter((track) =>
-      departmentNumbers.includes(track.departmentNumber)
-    );
-  }
-  artistsForLocations(departmentNumbers) {
-    return this.artists.filter((artist) =>
-      departmentNumbers.includes(String(artist.departmentNo))
-    );
-  }
-  search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
-    return internalSearch(
-      this,
-      searchQuery,
-      firstYear,
-      lastYear,
-      sensitivity,
-      absolute
-    );
-  }
-}
+  const SEARCH_COUNT = {
+    tracks: "tracks",
+    tracksRelativeDate: "tracks-relative-date",
+    tracksRelativeLocation: "tracks-relative-location",
+    words: "words",
+    wordsRelativeDate: "words-relative-date",
+    wordsRelativeLocation: "words-relative-location",
+  };
 
-Corpus.prototype.combineData = function (data) {
-  let combined = [];
-  data.forEach(function (item) {
-    let candidate = combined.find(
-      (dataset) =>
-        dataset.location === item.location && dataset.date === item.date
-    );
-    if (candidate) {
-      candidate.value += item.value;
-    } else {
-      combined.push({
-        date: item.date,
-        location: item.location,
-        value: item.value,
-      });
+  function count(array, element) {
+    let count = 0;
+    for (let i = 0; i < array.length; i++) if (array[i] == element) count++;
+    return count;
+  }
+
+  function internalSearch(
+    corpus,
+    query,
+    sensitivity,
+    searchCount,
+    firstYear,
+    lastYear
+  ) {
+    let tracks = corpus.tracks;
+    corpus.artists;
+    sensitivity = sensitivity || SEARCH_TYPES.insensitve;
+    searchCount = searchCount || SEARCH_COUNT.tracks;
+
+    function findTracks(accessor) {
+      return tracks.filter(accessor);
     }
-  });
-  return combined;
-};
-Corpus.prototype.artistsToDatasets = function (artists) {
-  let datasets = [];
-  for (let index = 0; index < artists.length; index++) {
-    let artist = artists[index];
-    let tracks = artist.allTracks();
-    let data = [];
-    for (let trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
-      let track = tracks[trackIndex];
-      data.push({
-        date: track.releaseYear,
-        location: artist.departmentNo,
-        value: 1,
-      });
+
+    function tracksForWord(word) {
+      switch (sensitivity) {
+        case SEARCH_TYPES.sensitive:
+          return findTracks((t) => t.components.indexOf(word) !== -1);
+        case SEARCH_TYPES.insensitve:
+          let lower = word.toLowerCase();
+          return findTracks((t) => t.componentsLowercased.indexOf(lower) !== -1);
+        case SEARCH_TYPES.regex:
+          let re = new RegExp(word),
+            results;
+          return findTracks((t) => {
+            results = t.content.match(re);
+            return results && results.length > 0;
+          });
+        default:
+          throw new Error("unknown sensitivity: " + sensitivity);
+      }
     }
-    datasets.push({
-      label: artist.name,
-      stack: artist.name,
-      data: data,
+
+    function data(tracks, label) {
+      let data = [],
+        value = 0;
+      for (let t, candidate, i = 0; i < tracks.length; i++) {
+        t = tracks[i];
+        if (!t) throw new Error("track invalid: " + i);
+        if (!t.departementNo) throw new Error("no departement no: " + i);
+        if (!t.releaseYear) throw new Error("no release year: " + i);
+        candidate = data.find(
+          (d) => d.date === t.releaseYear && d.location === t.departementNo
+        );
+
+        switch (searchCount) {
+          case SEARCH_COUNT.tracks:
+            value = 1;
+            break;
+          case SEARCH_COUNT.words:
+            value = count(t.components, label);
+            break;
+          case SEARCH_COUNT.tracksRelativeDate:
+            value = 1 / corpus.datesToTracks.get(t.releaseYear);
+            break;
+          case SEARCH_COUNT.tracksRelativeLocation:
+            value = 1 / corpus.locationsToTracks.get(t.departementNo);
+            break;
+          case SEARCH_COUNT.wordsRelativeDate:
+            value =
+              count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
+            break;
+          case SEARCH_COUNT.wordsRelativeLocation:
+            value =
+              count(t.components, label) /
+              corpus.locationsToWords.get(t.departementNo);
+            break;
+          default:
+            throw new Error("unknown search type: " + searchCount);
+        }
+
+        if (candidate) {
+          candidate.value += value;
+        } else {
+          data.push({
+            date: t.releaseYear,
+            location: t.departementNo,
+            value: value,
+          });
+        }
+      }
+
+      return data;
+    }
+
+    function searchStack(stack) {
+      let labels = stack.split(",").map((l) => l.trim());
+      let datasets = [];
+
+      for (let i = 0; i < labels.length; i++) {
+        let label = labels[i];
+        let tracks = tracksForWord(label);
+        datasets.push({ label, stack, data: data(tracks, label), tracks });
+      }
+
+      return datasets;
+    }
+
+    let stacks = query.split(";").map((value) => value.trim());
+    let datasets = stacks.map((stack) => searchStack(stack)).flat();
+
+    datasets.forEach((d) => {
+      d.data = d.data.filter((d) => d.date >= firstYear && d.date <= lastYear);
+    });
+
+    return datasets;
+  }
+
+  function ArraySet(input) {
+    return Array.from(new Set(input));
+  }
+
+  function load_d3() {
+    return typeof window === "undefined" ? require("d3") : d3 || window.d3;
+  }
+
+  class Corpus {
+    constructor(json) {
+      this.artists = parseArtists(json);
+      this.tracks = parseTracks(json);
+      console.log(`[FRC] Found ${this.artists.length} artists`);
+      console.log(`[FRC] Found ${this.tracks.length} tracks`);
+
+      let d3 = load_d3();
+
+      this.datesToTracks = d3.rollup(
+        this.tracks,
+        (v) => v.length,
+        (d) => d.releaseYear
+      );
+
+      this.datesToWords = d3.rollup(
+        this.tracks,
+        (v) => d3.sum(v, (d) => d.components.length),
+        (d) => d.releaseYear
+      );
+
+      this.locationsToTracks = d3.rollup(
+        this.tracks,
+        (v) => v.length,
+        (d) => d.departementNo
+      );
+
+      this.locationsToWords = d3.rollup(
+        this.tracks,
+        (v) => d3.sum(v, (d) => d.components.length),
+        (d) => d.departementNo
+      );
+    }
+
+    dates() {
+      return Array.from(this.datesToTracks.keys());
+    }
+
+    locations() {
+      return Array.from(this.locationsToTracks.keys());
+    }
+
+    locationNames() {
+      return ArraySet(this.artists.map((a) => a.departementName));
+    }
+
+    tracksForLocationsAndDates(locations, dates) {
+      return this.tracks.filter(
+        (t) =>
+          locations.includes("" + t.departementNo) &&
+          dates.includes(t.releaseYear)
+      );
+    }
+
+    tracksForLocations(locations) {
+      return this.tracks.filter((t) => locations.includes("" + t.departementNo));
+    }
+
+    tracksForDates(dates) {
+      return this.tracks.filter((t) => dates.includes(t.releaseYear));
+    }
+
+    artistsForLocations(locations) {
+      return this.artists.filter((a) => locations.includes("" + a.departementNo));
+    }
+
+    search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
+      return internalSearch(
+        this,
+        searchQuery,
+        sensitivity,
+        absolute,
+        firstYear,
+        lastYear
+      );
+    }
+  }
+
+  function artistsToDatasets(artists) {
+    return artists.map((a) => {
+      return {
+        label: a.name,
+        data: a.allTracks().map((t) => {
+          return {
+            location: a.departementNo,
+            date: t.releaseYear,
+            value: 1,
+          };
+        }),
+      };
     });
   }
-  return datasets;
-};
 
-return Corpus;
+  exports.Corpus = Corpus;
+  exports.SEARCH_COUNT = SEARCH_COUNT;
+  exports.SEARCH_TYPES = SEARCH_TYPES;
+  exports.artistsToDatasets = artistsToDatasets;
+  exports.parseArtists = parseArtists;
+  exports.parseTracks = parseTracks;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
 //# sourceMappingURL=frc.js.map

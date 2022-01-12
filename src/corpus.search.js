@@ -1,195 +1,131 @@
-import {Track} from "./track";
+export const SEARCH_TYPES = {
+  sensitive: "case-sensitive",
+  insensitve: "case-insensitive",
+  regex: "regex",
+};
 
-/**
- *
- * @param corpus
- * @param searchQuery
- * @param firstYear
- * @param lastYear
- * @param sensitivity
- * @param absolute
- * @returns {[]}
- */
-export function internalSearch(corpus, searchQuery, firstYear, lastYear, sensitivity, absolute) {
-  let theFirstYear = firstYear || corpus.getEarliestYear();
-  let theLastYear = lastYear || corpus.getLatestYear();
-  let theSensitivity = sensitivity || 'case-insensitive';
-  let theAbsolute = absolute || 'relative';
+export const SEARCH_COUNT = {
+  tracks: "tracks",
+  tracksRelativeDate: "tracks-relative-date",
+  tracksRelativeLocation: "tracks-relative-location",
+  words: "words",
+  wordsRelativeDate: "words-relative-date",
+  wordsRelativeLocation: "words-relative-location",
+};
 
-  // clean search query
-  let groups = searchQuery.split(';').map(value => value.trim());
-  groups = groups.map(group => group.split(',').map(word => word.trim()).join(','));
-  groups = groups.map(group => group.trim());
+function count(array, element) {
+  let count = 0;
+  for (let i = 0; i < array.length; i++) if (array[i] == element) count++;
+  return count;
+}
 
-  let datasets = [];
-  let tracksObject = {};
-  for (let i = 0; i < groups.length; i++) {
+export function internalSearch(
+  corpus,
+  query,
+  sensitivity,
+  searchCount,
+  firstYear,
+  lastYear
+) {
+  let tracks = corpus.tracks;
+  let artists = corpus.artists;
+  sensitivity = sensitivity || SEARCH_TYPES.insensitve;
+  searchCount = searchCount || SEARCH_COUNT.tracks;
 
-    let group = groups[i];
-    let words = group.split(',').map(value => value.trim());
-    let stack = words.join(", ");
+  function findTracks(accessor) {
+    return tracks.filter(accessor);
+  }
 
-    for (let j = 0; j < words.length; j++) {
-      let searchWord = words[j];
-      let dataset = datasetFor(
-        corpus,
-        searchWord,
-        stack,
-        theFirstYear,
-        theLastYear,
-        theSensitivity,
-        theAbsolute
+  function tracksForWord(word) {
+    switch (sensitivity) {
+      case SEARCH_TYPES.sensitive:
+        return findTracks((t) => t.components.indexOf(word) !== -1);
+      case SEARCH_TYPES.insensitve:
+        let lower = word.toLowerCase();
+        return findTracks((t) => t.componentsLowercased.indexOf(lower) !== -1);
+      case SEARCH_TYPES.regex:
+        let re = new RegExp(word),
+          results;
+        return findTracks((t) => {
+          results = t.content.match(re);
+          return results && results.length > 0;
+        });
+      default:
+        throw new Error("unknown sensitivity: " + sensitivity);
+    }
+  }
+
+  function data(tracks, label) {
+    let data = [],
+      value = 0;
+    for (let t, candidate, i = 0; i < tracks.length; i++) {
+      t = tracks[i];
+      if (!t) throw new Error("track invalid: " + i);
+      if (!t.departementNo) throw new Error("no departement no: " + i);
+      if (!t.releaseYear) throw new Error("no release year: " + i);
+      candidate = data.find(
+        (d) => d.date === t.releaseYear && d.location === t.departementNo
       );
 
-      tracksObject[searchWord] = dataset.tracks;
-      dataset.tracks = null;
-      datasets.push(dataset);
-    }
-  }
-  datasets.tracks = tracksObject;
-  return datasets;
-}
+      switch (searchCount) {
+        case SEARCH_COUNT.tracks:
+          value = 1;
+          break;
+        case SEARCH_COUNT.words:
+          value = count(t.components, label);
+          break;
+        case SEARCH_COUNT.tracksRelativeDate:
+          value = 1 / corpus.datesToTracks.get(t.releaseYear);
+          break;
+        case SEARCH_COUNT.tracksRelativeLocation:
+          value = 1 / corpus.locationsToTracks.get(t.departementNo);
+          break;
+        case SEARCH_COUNT.wordsRelativeDate:
+          value =
+            count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
+          break;
+        case SEARCH_COUNT.wordsRelativeLocation:
+          value =
+            count(t.components, label) /
+            corpus.locationsToWords.get(t.departementNo);
+          break;
+        default:
+          throw new Error("unknown search type: " + searchCount);
+      }
 
-/**
- *
- * @param corpus
- * @param searchText
- * @param stack
- * @param firstYear
- * @param lastYear
- * @param sensitivity
- * @param absolute
- * @returns {{stack: *, data: *[], label}}
- */
-function datasetFor(corpus, searchText, stack, firstYear, lastYear, sensitivity, absolute) {
-  let tracks = tracksForWord(corpus, searchText, sensitivity);
-  tracks = tracks.filter(function (track) {
-    return track.releaseYear >= firstYear
-      && track.releaseYear <= lastYear;
+      if (candidate) {
+        candidate.value += value;
+      } else {
+        data.push({
+          date: t.releaseYear,
+          location: t.departementNo,
+          value: value,
+        });
+      }
+    }
+
+    return data;
+  }
+
+  function searchStack(stack) {
+    let labels = stack.split(",").map((l) => l.trim());
+    let datasets = [];
+
+    for (let i = 0; i < labels.length; i++) {
+      let label = labels[i];
+      let tracks = tracksForWord(label);
+      datasets.push({ label, stack, data: data(tracks, label), tracks });
+    }
+
+    return datasets;
+  }
+
+  let stacks = query.split(";").map((value) => value.trim());
+  let datasets = stacks.map((stack) => searchStack(stack)).flat();
+
+  datasets.forEach((d) => {
+    d.data = d.data.filter((d) => d.date >= firstYear && d.date <= lastYear);
   });
 
-  let chartData = createYearAndDepartmentsDataForTracks(
-    corpus,
-    tracks,
-    firstYear,
-    lastYear,
-    sensitivity,
-    absolute
-  );
-
-  return {
-    label: searchText,
-    stack: stack || searchText,
-    tracks: tracks,
-    data: chartData
-  };
-}
-
-/**
- * Returns an array containing all tracks which contains the given word.
- *
- * @param corpus
- * @param word
- * @param sensitivity
- * @returns {[]}
- */
-export function tracksForWord(corpus, word, sensitivity = 'case-sensitive') {
-  let tracks = [];
-  const allTracks = corpus.allTracks();
-
-  if (sensitivity === 'case-sensitive') {
-    for (let i = 0; i < allTracks.length; i++) {
-      if (allTracks[i].components.indexOf(word) !== -1) {
-        tracks.push(new Track(allTracks[i]));
-      }
-    }
-  } else if (sensitivity === 'case-insensitive') {
-    word = word.toLowerCase();
-    for (let i = 0; i < allTracks.length; i++) {
-      if (allTracks[i].componentsLowercased.indexOf(word) !== -1) {
-        tracks.push(new Track(allTracks[i]));
-      }
-    }
-  }
-
-  return tracks;
-}
-
-
-/**
- *
- * @param corpus
- * @param tracks
- * @param firstYear
- * @param lastYear
- * @param sensitivity
- * @param absolute
- * @returns {[]}
- */
-export function createYearAndDepartmentsDataForTracks(corpus, tracks, firstYear, lastYear, sensitivity, absolute) {
-  let items = [];
-
-  let yearsToTrackNumbers = corpus.getYearsToTrackNumbers();
-  let tracksPerDepartement = corpus.getDepartmentsToTracks();
-
-  let theFirstYear = firstYear || corpus.getEarliestYear();
-  let theLastYear = lastYear || corpus.getLatestYear();
-  let isAbsolute = absolute === 'absolute';
-
-  for (let index = 0; index < tracks.length; index++) {
-
-    let track = tracks[index];
-    let year = track.releaseYear;
-    let yearTotal = yearsToTrackNumbers.find(item => item.date === year).value;
-    let department = track.departmentNumber;
-    let departmentTotal = tracksPerDepartement.find(entry => entry.location === department).value;
-
-    let entry = items.find(function (item) {
-      return item.location === department && item.date === year;
-    });
-
-    if (entry) {
-      entry.value += 1;
-    } else {
-
-      let relative = 1 / yearTotal;
-      items.push({
-        location: department,
-        date: year,
-        value: 1,
-        relativeValue: relative,
-        dateTotal: yearTotal,
-        locationTotal: departmentTotal,
-      });
-    }
-
-    for (let year = theFirstYear; year <= theLastYear; year++) {
-      if (items.find(item => item.date === theLastYear)) continue;
-      items.push({
-        date: year,
-        value: 0,
-        dateTotal: yearTotal
-      });
-    }
-  }
-
-  if (!isAbsolute) {
-    for (let index = 0; index < items.length; index++) {
-      let item = items[index];
-      item.value = item.value / item.dateTotal;
-    }
-  }
-
-  for (let departementIndex = 0; departementIndex < tracksPerDepartement.length; departementIndex++) {
-    let departmentObject = tracksPerDepartement[departementIndex];
-    let location = departmentObject.location;
-    if (items.find(item => item.location === location)) continue;
-    items.push({
-      value: 0,
-      location: location,
-      locationTotal: departmentObject.value,
-    });
-  }
-
-  return items;
+  return datasets;
 }

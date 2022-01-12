@@ -264,15 +264,14 @@
       </div>
     </div>
 
-    <script src="js/lib/d3.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/bootstrap.bundle.min.js"></script>
 
     <script>
-      d3.json("/assets/about.json").then(function (response) {
-        d3.selectAll("#frcv-version").html(response.version);
-        d3.selectAll("#frcv-environment").html(response.environment);
-        d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
+      lotivis.d3.json("./assets/about.json").then(function (response) {
+        lotivis.d3.selectAll("#frcv-version").html(response.version);
+        lotivis.d3.selectAll("#frcv-environment").html(response.environment);
+        lotivis.d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
       });
     </script>
   </body>

@@ -31,22 +31,31 @@
         <div class="col-8 text-center text-secondary">
           <h4>Years Data</h4>
         </div>
+        <div class="col-2">
+          <select id="dataSelection" onchange="dataChange()">
+            <option>Tracks</option>
+            <option>Words</option>
+            <option>Words (Relative)</option>
+            <option>Types</option>
+            <option>Types (Relative)</option>
+          </select>
+        </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <div id="date-chart-card"></div>
+          <div id="bar-chart"></div>
         </div>
       </div>
     </div>
 
-    <script src="js/lib/d3.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
 
     <script>
+      lotivis.debug(true);
       lotivis.config.downloadFilePrefix = "frcv";
 
-      const dateChartCard = new lotivis.DateChartCard("date-chart-card", {
-        title: "Years Data",
+      let datasets = [];
+      let chart = new lotivis.BarChart("bar-chart", {
         margin: {
           top: 20,
           right: 20,
@@ -54,15 +63,24 @@
         },
       });
 
+      function setDataset(index) {
+        let set = datasets[index];
+        let controller = lotivis.parseDataset(set);
+        chart.setController(controller);
+      }
+
+      function dataChange() {
+        let dropdown = document.getElementById("dataSelection");
+        setDataset(dropdown.selectedIndex);
+      }
+
       Promise.all([
-        d3.json("assets/year.to.track.json"),
-        d3.json("assets/year.to.words.json"),
-        d3.json("assets/year.to.words.relative.json"),
-        d3.json("assets/year.to.types.json"),
-        d3.json("assets/year.to.types.relative.json"),
-      ]).then(function (datasets) {
-        dateChartCard.setDatasets(datasets);
-      });
+        lotivis.d3.json("assets/year.to.track.json"),
+        lotivis.d3.json("assets/year.to.words.json"),
+        lotivis.d3.json("assets/year.to.words.relative.json"),
+        lotivis.d3.json("assets/year.to.types.json"),
+        lotivis.d3.json("assets/year.to.types.relative.json"),
+      ]).then((all) => ((datasets = all), setDataset(0)));
     </script>
   </body>
 </html>

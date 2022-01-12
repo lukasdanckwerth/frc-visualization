@@ -1,381 +1,89 @@
-import { Artist } from "./artist";
-import {
-  getYearsToCollectionRelative,
-  getYearsToTracksCollection,
-} from "./corpus.datasets.year";
-import {
-  getDepartmentsToTracksCollection,
-  getDepartmentsToArtistsCollection,
-  getDepartmentsToTracksCollectionRelative,
-} from "./corpus.datasets.departement";
+import { parseArtists } from "./parse.artists.js";
+import { parseTracks } from "./parse.tacks.js";
 import { internalSearch } from "./corpus.search";
 
-/**
- *
- * @class Corpus
- */
+function ArraySet(input) {
+  return Array.from(new Set(input));
+}
+
+function load_d3() {
+  return typeof window === "undefined" ? require("d3") : d3 || window.d3;
+}
+
 export class Corpus {
-  /**
-   * Creates a new instance of Corpus.
-   *
-   * @param parsedCorpus
-   */
-  constructor(parsedCorpus) {
-    this.artists = [];
-    this.artistsWithoutTracks = [];
-    this.initialize(parsedCorpus);
-  }
-
-  /**
-   *
-   * @param parsedCorpus
-   */
-  initialize(parsedCorpus) {
-    console.log(`[FRC] Parse corpus`);
-    for (let i = 0; i < parsedCorpus.length; i++) {
-      const artistJSON = parsedCorpus[i];
-      const artist = new Artist(artistJSON);
-      if (artist.hasTracks()) {
-        this.artists.push(artist);
-      } else {
-        this.artistsWithoutTracks.push(artist);
-      }
-    }
+  constructor(json) {
+    this.artists = parseArtists(json);
+    this.tracks = parseTracks(json);
     console.log(`[FRC] Found ${this.artists.length} artists`);
-  }
+    console.log(`[FRC] Found ${this.tracks.length} tracks`);
 
-  /**
-   * Returns an array containing all female artists.
-   *
-   * @returns {*[]}
-   */
-  femaleArtists() {
-    return this.artists.filter((artist) => artist.sex === "F");
-  }
+    let d3 = load_d3();
 
-  /**
-   * Returns an array containing all male artists.
-   *
-   * @returns {*[]}
-   */
-  maleArtists() {
-    return this.artists.filter((artist) => artist.sex === "M");
-  }
+    this.datesToTracks = d3.rollup(
+      this.tracks,
+      (v) => v.length,
+      (d) => d.releaseYear
+    );
 
-  /**
-   * Returns an array containing all group artists.
-   *
-   * @returns {*[]}
-   */
-  groupArtists() {
-    return this.artists.filter((artist) => artist.group === "G");
-  }
+    this.datesToWords = d3.rollup(
+      this.tracks,
+      (v) => d3.sum(v, (d) => d.components.length),
+      (d) => d.releaseYear
+    );
 
-  /**
-   * Returns an array with all tracks of the corpus.
-   *
-   * @returns {[]}
-   */
-  allTracks() {
-    let allTracks = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      let artistTracks = this.artists[i].allTracks();
-      for (let i = 0; i < artistTracks.length; i++) {
-        allTracks.push(artistTracks[i]);
-      }
-    }
-    return allTracks;
-  }
+    this.locationsToTracks = d3.rollup(
+      this.tracks,
+      (v) => v.length,
+      (d) => d.departementNo
+    );
 
-  /**
-   * Returns an array of all words in the corpus.
-   *
-   * @returns {[]}
-   */
-  allWords() {
-    let allWords = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      let wordsOfArtist = this.artists[i].allWords();
-      for (let i = 0; i < wordsOfArtist.length; i++) {
-        allWords.push(wordsOfArtist[i]);
-      }
-    }
-    return allWords;
-  }
-
-  /**
-   * Returns an array containing all albums in the corpus.
-   *
-   * @returns {[]}
-   */
-  allAlbums() {
-    let allAlbums = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      allAlbums.push(...this.artists[i].albums);
-    }
-    return allAlbums;
-  }
-
-  /**
-   * Returns an array containing all tracks without an album.
-   * @returns {[]}
-   */
-  allTracksWithoutAlbum() {
-    let tracksWithoutAlbum = [];
-    for (let i = 0; i < this.artists.length; i++) {
-      tracksWithoutAlbum.push(...this.artists[i].tracks);
-    }
-    return tracksWithoutAlbum;
-  }
-
-  /**
-   * Returns the earliest year in the corpus.
-   * @returns {*}
-   */
-  getEarliestYear() {
-    let allTracks = this.allTracks();
-    let firstYear = allTracks.find((item) => item !== undefined).releaseYear;
-    return this.allTracks().reduce(
-      (current, next) =>
-        current < next.releaseYear ? current : next.releaseYear,
-      firstYear
+    this.locationsToWords = d3.rollup(
+      this.tracks,
+      (v) => d3.sum(v, (d) => d.components.length),
+      (d) => d.departementNo
     );
   }
 
-  /**
-   * Returns the latest year of the corpus.
-   * @returns {*}
-   */
-  getLatestYear() {
-    let allTracks = this.allTracks();
-    let lastYear = allTracks.find((item) => item !== undefined).releaseYear;
-    return this.allTracks().reduce(
-      (current, next) =>
-        current > next.releaseYear ? current : next.releaseYear,
-      lastYear
+  dates() {
+    return Array.from(this.datesToTracks.keys());
+  }
+
+  locations() {
+    return Array.from(this.locationsToTracks.keys());
+  }
+
+  locationNames() {
+    return ArraySet(this.artists.map((a) => a.departementName));
+  }
+
+  tracksForLocationsAndDates(locations, dates) {
+    return this.tracks.filter(
+      (t) =>
+        locations.includes("" + t.departementNo) &&
+        dates.includes(t.releaseYear)
     );
   }
 
-  getDateLabels() {
-    let firstDate = this.firstYear || this.getEarliestYear();
-    let lastDate = this.lastYear || this.getLatestYear();
-    let range = lastDate - firstDate + 1;
-    return Array(range)
-      .fill(0)
-      .map((e, i) => i + firstDate);
+  tracksForLocations(locations) {
+    return this.tracks.filter((t) => locations.includes("" + t.departementNo));
   }
 
-  getLocations() {
-    return Array.from(
-      new Set(this.artists.map((artist) => artist.departmentNo))
-    );
+  tracksForDates(dates) {
+    return this.tracks.filter((t) => dates.includes(t.releaseYear));
   }
 
-  getLocationNames() {
-    return Array.from(
-      new Set(this.artists.map((artist) => artist.departmentName))
-    );
+  artistsForLocations(locations) {
+    return this.artists.filter((a) => locations.includes("" + a.departementNo));
   }
 
-  /**
-   * Returns a year to track collection.
-   *
-   * @returns {{}}
-   */
-  getYearsToTrackNumbers() {
-    return getYearsToTracksCollection(this.allTracks(), () => 1);
-  }
-
-  /**
-   * Returns a year to word collection.
-   * @returns {{}}
-   */
-  getYearsToWords() {
-    return getYearsToTracksCollection(
-      this.allTracks(),
-      (track) => track.components.length
-    );
-  }
-
-  /**
-   * Returns a year to words collection with relative values.
-   * @returns {{}}
-   */
-  getYearsToWordsRelative() {
-    return getYearsToCollectionRelative(
-      this.getYearsToWords(),
-      this.getYearsToTrackNumbers()
-    );
-  }
-
-  /**
-   * Returns a year to types collection.
-   *
-   * @returns {{}}
-   */
-  getYearsToTypes() {
-    return getYearsToTracksCollection(
-      this.allTracks(),
-      (track) => track.types.length
-    );
-  }
-
-  /**
-   * Returns a year to types collection with relative values.
-   * @returns {{}}
-   */
-  getYearsToTypesRelative() {
-    return getYearsToCollectionRelative(
-      this.getYearsToTypes(),
-      this.getYearsToTrackNumbers()
-    );
-  }
-
-  getDepartmentsToArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.artists,
-      () => 1
-    );
-  }
-
-  getDepartmentsToMaleArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.maleArtists(),
-      () => 1
-    );
-  }
-
-  getDepartmentsToFemaleArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.femaleArtists(),
-      () => 1
-    );
-  }
-
-  getDepartmentsToGroupArtists() {
-    return getDepartmentsToArtistsCollection(
-      this.getDepartmentsToTracks(),
-      this.groupArtists(),
-      () => 1
-    );
-  }
-
-  /**
-   * Returns a departments to year collection.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToTracks() {
-    return getDepartmentsToTracksCollection(null, this.allTracks(), () => 1);
-  }
-
-  /**
-   * Returns a departmen to word collection.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToWords() {
-    return getDepartmentsToTracksCollection(
-      this.getDepartmentsToTracks(),
-      this.allTracks(),
-      (track) => track.components.length
-    );
-  }
-
-  /**
-   * Returns a year to words collection.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToWordsRelative() {
-    return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToWords(),
-      this.getDepartmentsToTracks()
-    );
-  }
-
-  /**
-   * Returns a year to types collection.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToTypes() {
-    return getDepartmentsToTracksCollection(
-      this.getDepartmentsToTracks(),
-      this.allTracks(),
-      (track) => track.types.length
-    );
-  }
-
-  /**
-   * Returns a year to types collection.
-   *
-   * @returns {{}}
-   */
-  getDepartmentsToTypesRelative() {
-    return getDepartmentsToTracksCollectionRelative(
-      this.getDepartmentsToTypes(),
-      this.getDepartmentsToTracks()
-    );
-  }
-
-  /**
-   *
-   * @param years
-   * @returns {*}
-   */
-  getTracksForYears(years) {
-    return this.allTracks().filter((track) =>
-      years.includes(track.releaseYear)
-    );
-  }
-
-  getTracks(firstYear, lastYear) {
-    return this.allTracks().filter(
-      (track) => track.releaseYear >= firstYear && track.releaseYear <= lastYear
-    );
-  }
-
-  getTracksForYearAndDepartement(year, departmentNumber) {
-    return this.allTracks().filter(
-      (track) =>
-        track.releaseYear === year &&
-        track.departmentNumber === departmentNumber
-    );
-  }
-
-  tracksForLocations(departmentNumbers) {
-    this.allTracks().filter((track) =>
-      departmentNumbers.includes(track.departmentNumber)
-    );
-  }
-
-  artistsForLocations(departmentNumbers) {
-    return this.artists.filter((artist) =>
-      departmentNumbers.includes(String(artist.departmentNo))
-    );
-  }
-
-  /**
-   *
-   * @param searchQuery
-   * @param firstYear
-   * @param lastYear
-   * @param sensitivity
-   * @param absolute
-   * @returns {*[]}
-   */
   search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
     return internalSearch(
       this,
       searchQuery,
-      firstYear,
-      lastYear,
       sensitivity,
-      absolute
+      absolute,
+      firstYear,
+      lastYear
     );
   }
 }

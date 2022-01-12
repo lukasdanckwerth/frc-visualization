@@ -3,8 +3,6 @@
   "packageName": "frc-visualisation",
   "packageAuthor": "Lukas Danckwerth",
   "environment": "production",
-  "corpusSize": "61 MB (64404339 bytes)",
-  "artists": 1252,
-  "artistsWithoutTracks": 278,
-  "tracks": 19849
+  "corpusSize": "61 MB (64328409 bytes)",
+  "artists": 1530
 }

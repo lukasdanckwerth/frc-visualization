@@ -1,1 +1,238 @@
-{"label":"Types-Relative","stack":"Types-Relative","data":[{"location":13,"locationName":"bouches-du-rhône","value":263.9170836311651},{"location":31,"locationName":"haute-garonne","value":272.33595284872297},{"location":94,"locationName":"val-de-marne","value":255.15706051873198},{"location":93,"locationName":"seine-saint-denis","value":249.2053798618684},{"location":95,"locationName":"val-d'oise","value":290.0162481536189},{"location":78,"locationName":"yvelines","value":241.94688922610015},{"location":75,"locationName":"paris","value":279.9599047240969},{"location":77,"locationName":"seine-et-marne","value":231.13475177304966},{"location":91,"locationName":"essonne","value":255.47811725846407},{"location":92,"locationName":"hauts-de-seine","value":252.480044345898},{"location":57,"locationName":"moselle","value":348.14},{"location":67,"locationName":"bas-rhin","value":235.14788732394365},{"location":45,"locationName":"loiret","value":189.87012987012986},{"location":21,"locationName":"côte-d'or","value":252.38297872340425},{"location":30,"locationName":"gard","value":239.01098901098902},{"location":76,"locationName":"seine-maritime","value":258.38967136150234},{"location":25,"locationName":"doubs","value":226.73972602739727},{"location":60,"locationName":"oise","value":175.64963503649636},{"location":84,"locationName":"essonne","value":149.32},{"location":44,"locationName":"loire-atlantique","value":245.50553505535055},{"location":42,"locationName":"loire","value":274.2608695652174},{"location":69,"locationName":"rhône","value":238.05925925925925},{"location":35,"locationName":"ille-et-vilaine","value":234.796992481203},{"location":59,"locationName":"nord","value":254.6384839650146},{"location":34,"locationName":"hérault","value":245.1405750798722},{"location":28,"locationName":"eure-et-loir","value":310.9714285714286},{"location":38,"locationName":"isère","value":250.7037037037037},{"location":74,"locationName":"haute-savoie","value":174.7816091954023},{"location":33,"locationName":"gironde","value":257.3322884012539},{"location":49,"locationName":"maine-et-loire","value":206.8695652173913},{"location":14,"locationName":"calvados","value":335.7631578947368},{"location":12,"locationName":"aveyron","value":224.77777777777777},{"location":27,"locationName":"eure","value":219.37313432835822},{"location":6,"locationName":"alpes-maritimes","value":244.94244604316546},{"location":1,"locationName":"ain","value":192.85714285714286},{"location":68,"locationName":"haut-rhin","value":215.01754385964912},{"location":71,"locationName":"saône-et-loire","value":300.06382978723406},{"location":51,"locationName":"marne","value":164.57692307692307},{"location":83,"locationName":"var","value":203.7962962962963},{"location":65,"locationName":"hautes-pyrénées","value":271.6666666666667},{"location":18,"locationName":"cher","value":256.56976744186045},{"location":66,"locationName":"pyrénées-orientales","value":162.859649122807},{"location":54,"locationName":"meurthe-et-moselle","value":270.9},{"location":63,"locationName":"puy-de-dôme","value":318.5},{"location":26,"locationName":"drôme","value":137.38095238095238},{"location":2,"locationName":"aisne","value":239.34375},{"location":29,"locationName":"finistère","value":224.10526315789474},{"location":43,"locationName":"haute-loire","value":211},{"location":37,"locationName":"indre-et-loire","value":175.37037037037038},{"location":85,"locationName":"vendée","value":328.94736842105266},{"location":86,"locationName":"vienne","value":376.9230769230769},{"location":58,"locationName":"nièvre","value":219.96363636363637},{"location":41,"locationName":"loir-et-cher","value":271.6470588235294},{"location":55,"locationName":"meuse","value":355.1818181818182},{"location":61,"locationName":"orne","value":247.75},{"location":90,"locationName":"territoire de belfort","value":227.8181818181818},{"location":9,"locationName":"ariège","value":112.71428571428571},{"location":10,"locationName":"aube","value":248.82608695652175},{"location":50,"locationName":"manche","value":389},{"location":88,"locationName":"vosges","value":276}]}
+{
+  "label": "Types-(Relative)",
+  "stack": "Types-(Relative)",
+  "data": [
+    {
+      "location": "13",
+      "value": 263.8722786647315
+    },
+    {
+      "location": "31",
+      "value": 272.8137651821862
+    },
+    {
+      "location": "94",
+      "value": 255.19161243673173
+    },
+    {
+      "location": "93",
+      "value": 249.79
+    },
+    {
+      "location": "78",
+      "value": 242.29115853658536
+    },
+    {
+      "location": "75",
+      "value": 281.40283687943264
+    },
+    {
+      "location": "77",
+      "value": 232.57818181818183
+    },
+    {
+      "location": "91",
+      "value": 255.4824120603015
+    },
+    {
+      "location": "92",
+      "value": 252.61407491486946
+    },
+    {
+      "location": "95",
+      "value": 290.1358208955224
+    },
+    {
+      "location": "57",
+      "value": 348.14
+    },
+    {
+      "location": "67",
+      "value": 232.9891304347826
+    },
+    {
+      "location": "21",
+      "value": 252.38297872340425
+    },
+    {
+      "location": "30",
+      "value": 239.01098901098902
+    },
+    {
+      "location": "76",
+      "value": 259.25943396226415
+    },
+    {
+      "location": "25",
+      "value": 224.09859154929578
+    },
+    {
+      "location": "60",
+      "value": 175.64963503649636
+    },
+    {
+      "location": "84",
+      "value": 149.32
+    },
+    {
+      "location": "42",
+      "value": 274.2608695652174
+    },
+    {
+      "location": "69",
+      "value": 239.23839009287926
+    },
+    {
+      "location": "35",
+      "value": 238.2941176470588
+    },
+    {
+      "location": "59",
+      "value": 254.11436950146629
+    },
+    {
+      "location": "34",
+      "value": 245.79016393442623
+    },
+    {
+      "location": "28",
+      "value": 310.9714285714286
+    },
+    {
+      "location": "38",
+      "value": 250.7037037037037
+    },
+    {
+      "location": "74",
+      "value": 174.7816091954023
+    },
+    {
+      "location": "33",
+      "value": 257.1261829652997
+    },
+    {
+      "location": "45",
+      "value": 190.96666666666667
+    },
+    {
+      "location": "49",
+      "value": 206.8695652173913
+    },
+    {
+      "location": "14",
+      "value": 335.7631578947368
+    },
+    {
+      "location": "12",
+      "value": 224.77777777777777
+    },
+    {
+      "location": "6",
+      "value": 247.1578947368421
+    },
+    {
+      "location": "1",
+      "value": 192.85714285714286
+    },
+    {
+      "location": "44",
+      "value": 246.16044776119404
+    },
+    {
+      "location": "68",
+      "value": 215.01754385964912
+    },
+    {
+      "location": "27",
+      "value": 228.1904761904762
+    },
+    {
+      "location": "51",
+      "value": 164.57692307692307
+    },
+    {
+      "location": "65",
+      "value": 271.6666666666667
+    },
+    {
+      "location": "71",
+      "value": 305.1304347826087
+    },
+    {
+      "location": "18",
+      "value": 256.56976744186045
+    },
+    {
+      "location": "66",
+      "value": 162.859649122807
+    },
+    {
+      "location": "54",
+      "value": 261.9056603773585
+    },
+    {
+      "location": "83",
+      "value": 211.9111111111111
+    },
+    {
+      "location": "63",
+      "value": 318.5
+    },
+    {
+      "location": "2",
+      "value": 239.34375
+    },
+    {
+      "location": "43",
+      "value": 211
+    },
+    {
+      "location": "29",
+      "value": 224.75
+    },
+    {
+      "location": "26",
+      "value": 159.8125
+    },
+    {
+      "location": "85",
+      "value": 328.94736842105266
+    },
+    {
+      "location": "86",
+      "value": 376.9230769230769
+    },
+    {
+      "location": "58",
+      "value": 219.96363636363637
+    },
+    {
+      "location": "37",
+      "value": 179.64
+    },
+    {
+      "location": "41",
+      "value": 271.6470588235294
+    },
+    {
+      "location": "55",
+      "value": 355.1818181818182
+    },
+    {
+      "location": "61",
+      "value": 247.75
+    },
+    {
+      "location": "90",
+      "value": 227.8181818181818
+    },
+    {
+      "location": "10",
+      "value": 248.82608695652175
+    },
+    {
+      "location": "50",
+      "value": 389
+    }
+  ]
+}

@@ -3,304 +3,160 @@
   "stack": "Group Artists",
   "data": [
     {
-      "location": 13,
-      "locationName": "bouches-du-rhône",
+      "location": "13",
       "value": 30
     },
     {
-      "location": 94,
-      "locationName": "val-de-marne",
+      "location": "94",
       "value": 18
     },
     {
-      "location": 93,
-      "locationName": "seine-saint-denis",
+      "location": "93",
       "value": 33
     },
     {
-      "location": 75,
-      "locationName": "paris",
+      "location": "75",
       "value": 86
     },
     {
-      "location": 31,
-      "locationName": "haute-garonne",
+      "location": "31",
       "value": 12
     },
     {
-      "location": 77,
-      "locationName": "seine-et-marne",
+      "location": "77",
       "value": 10
     },
     {
-      "location": 92,
-      "locationName": "hauts-de-seine",
+      "location": "92",
       "value": 16
     },
     {
-      "location": 78,
-      "locationName": "yvelines",
+      "location": "78",
       "value": 6
     },
     {
-      "location": 45,
-      "locationName": "loiret",
+      "location": "45",
       "value": 2
     },
     {
-      "location": 25,
-      "locationName": "doubs",
+      "location": "25",
       "value": 2
     },
     {
-      "location": 60,
-      "locationName": "oise",
+      "location": "60",
       "value": 1
     },
     {
-      "location": 95,
-      "locationName": "val-d'oise",
+      "location": "95",
       "value": 13
     },
     {
-      "location": 91,
-      "locationName": "essonne",
+      "location": "91",
       "value": 19
     },
     {
-      "location": 69,
-      "locationName": "rhône",
+      "location": "69",
       "value": 11
     },
     {
-      "location": 67,
-      "locationName": "bas-rhin",
+      "location": "67",
       "value": 3
     },
     {
-      "location": 28,
-      "locationName": "eure-et-loir",
+      "location": "28",
       "value": 1
     },
     {
-      "location": 35,
-      "locationName": "ille-et-vilaine",
+      "location": "35",
       "value": 5
     },
     {
-      "location": 76,
-      "locationName": "seine-maritime",
+      "location": "76",
       "value": 2
     },
     {
-      "location": 33,
-      "locationName": "gironde",
+      "location": "33",
       "value": 3
     },
     {
-      "location": 44,
-      "locationName": "loire-atlantique",
+      "location": "44",
       "value": 3
     },
     {
-      "location": 14,
-      "locationName": "calvados",
+      "location": "14",
       "value": 1
     },
     {
-      "location": 27,
-      "locationName": "eure",
+      "location": "27",
       "value": 3
     },
     {
-      "location": 6,
-      "locationName": "alpes-maritimes",
+      "location": "6",
       "value": 1
     },
     {
-      "location": 68,
-      "locationName": "haut-rhin",
+      "location": "68",
       "value": 2
     },
     {
-      "location": 74,
-      "locationName": "haute-savoie",
+      "location": "74",
       "value": 1
     },
     {
-      "location": 38,
-      "locationName": "isère",
+      "location": "38",
       "value": 1
     },
     {
-      "location": 51,
-      "locationName": "marne",
+      "location": "51",
       "value": 1
     },
     {
-      "location": 34,
-      "locationName": "hérault",
+      "location": "34",
       "value": 3
     },
     {
-      "location": 42,
-      "locationName": "loire",
+      "location": "42",
       "value": 1
     },
     {
-      "location": 59,
-      "locationName": "nord",
+      "location": "59",
       "value": 4
     },
     {
-      "location": 43,
-      "locationName": "haute-loire",
+      "location": "43",
       "value": 1
     },
     {
-      "location": 66,
-      "locationName": "pyrénées-orientales",
+      "location": "66",
       "value": 1
     },
     {
-      "location": 29,
-      "locationName": "finistère",
+      "location": "29",
       "value": 1
     },
     {
-      "location": 18,
-      "locationName": "cher",
+      "location": "18",
       "value": 1
     },
     {
-      "location": 54,
-      "locationName": "meurthe-et-moselle",
+      "location": "54",
       "value": 1
     },
     {
-      "location": 57,
-      "locationName": "moselle",
+      "location": "57",
       "value": 1
     },
     {
-      "location": 58,
-      "locationName": "nièvre",
+      "location": "58",
       "value": 1
     },
     {
-      "location": 55,
-      "locationName": "meuse",
+      "location": "55",
       "value": 1
     },
     {
-      "location": 30,
-      "locationName": "gard",
+      "location": "30",
       "value": 1
-    },
-    {
-      "value": 0,
-      "location": 21,
-      "locationTotal": 47
-    },
-    {
-      "value": 0,
-      "location": 84,
-      "locationTotal": 25
-    },
-    {
-      "value": 0,
-      "location": 49,
-      "locationTotal": 92
-    },
-    {
-      "value": 0,
-      "location": 12,
-      "locationTotal": 9
-    },
-    {
-      "value": 0,
-      "location": 1,
-      "locationTotal": 42
-    },
-    {
-      "value": 0,
-      "location": 71,
-      "locationTotal": 47
-    },
-    {
-      "value": 0,
-      "location": 83,
-      "locationTotal": 54
-    },
-    {
-      "value": 0,
-      "location": 65,
-      "locationTotal": 21
-    },
-    {
-      "value": 0,
-      "location": 63,
-      "locationTotal": 2
-    },
-    {
-      "value": 0,
-      "location": 26,
-      "locationTotal": 21
-    },
-    {
-      "value": 0,
-      "location": 2,
-      "locationTotal": 32
-    },
-    {
-      "value": 0,
-      "location": 37,
-      "locationTotal": 27
-    },
-    {
-      "value": 0,
-      "location": 85,
-      "locationTotal": 19
-    },
-    {
-      "value": 0,
-      "location": 86,
-      "locationTotal": 13
-    },
-    {
-      "value": 0,
-      "location": 41,
-      "locationTotal": 34
-    },
-    {
-      "value": 0,
-      "location": 61,
-      "locationTotal": 24
-    },
-    {
-      "value": 0,
-      "location": 90,
-      "locationTotal": 11
-    },
-    {
-      "value": 0,
-      "location": 9,
-      "locationTotal": 7
-    },
-    {
-      "value": 0,
-      "location": 10,
-      "locationTotal": 23
-    },
-    {
-      "value": 0,
-      "location": 50,
-      "locationTotal": 1
-    },
-    {
-      "value": 0,
-      "location": 88,
-      "locationTotal": 1
     }
   ]
 }

@@ -1,306 +1,74 @@
 {
-  "label": "Female Artists",
-  "stack": "Female Artists",
+  "label": "Female Artist",
+  "stack": "Female Artist",
   "data": [
     {
-      "location": 93,
-      "locationName": "seine-saint-denis",
+      "location": "93",
       "value": 8
     },
     {
-      "location": 94,
-      "locationName": "val-de-marne",
+      "location": "94",
       "value": 6
     },
     {
-      "location": 91,
-      "locationName": "essonne",
+      "location": "91",
       "value": 2
     },
     {
-      "location": 75,
-      "locationName": "paris",
+      "location": "75",
       "value": 9
     },
     {
-      "location": 92,
-      "locationName": "hauts-de-seine",
+      "location": "92",
       "value": 3
     },
     {
-      "location": 12,
-      "locationName": "aveyron",
+      "location": "12",
       "value": 1
     },
     {
-      "location": 1,
-      "locationName": "ain",
+      "location": "1",
       "value": 1
     },
     {
-      "location": 95,
-      "locationName": "val-d'oise",
+      "location": "95",
       "value": 5
     },
     {
-      "location": 44,
-      "locationName": "loire-atlantique",
+      "location": "44",
       "value": 2
     },
     {
-      "location": 6,
-      "locationName": "alpes-maritimes",
+      "location": "6",
       "value": 1
     },
     {
-      "location": 60,
-      "locationName": "oise",
+      "location": "60",
       "value": 2
     },
     {
-      "location": 13,
-      "locationName": "bouches-du-rhône",
+      "location": "13",
       "value": 4
     },
     {
-      "location": 69,
-      "locationName": "rhône",
+      "location": "69",
       "value": 3
     },
     {
-      "location": 67,
-      "locationName": "bas-rhin",
+      "location": "67",
       "value": 1
     },
     {
-      "location": 37,
-      "locationName": "indre-et-loire",
+      "location": "37",
       "value": 1
     },
     {
-      "location": 78,
-      "locationName": "yvelines",
+      "location": "78",
       "value": 1
     },
     {
-      "location": 50,
-      "locationName": "manche",
+      "location": "50",
       "value": 1
-    },
-    {
-      "value": 0,
-      "location": 31,
-      "locationTotal": 509
-    },
-    {
-      "value": 0,
-      "location": 77,
-      "locationTotal": 564
-    },
-    {
-      "value": 0,
-      "location": 57,
-      "locationTotal": 100
-    },
-    {
-      "value": 0,
-      "location": 45,
-      "locationTotal": 154
-    },
-    {
-      "value": 0,
-      "location": 21,
-      "locationTotal": 47
-    },
-    {
-      "value": 0,
-      "location": 30,
-      "locationTotal": 91
-    },
-    {
-      "value": 0,
-      "location": 76,
-      "locationTotal": 213
-    },
-    {
-      "value": 0,
-      "location": 25,
-      "locationTotal": 73
-    },
-    {
-      "value": 0,
-      "location": 84,
-      "locationTotal": 25
-    },
-    {
-      "value": 0,
-      "location": 42,
-      "locationTotal": 46
-    },
-    {
-      "value": 0,
-      "location": 35,
-      "locationTotal": 266
-    },
-    {
-      "value": 0,
-      "location": 59,
-      "locationTotal": 343
-    },
-    {
-      "value": 0,
-      "location": 34,
-      "locationTotal": 313
-    },
-    {
-      "value": 0,
-      "location": 28,
-      "locationTotal": 35
-    },
-    {
-      "value": 0,
-      "location": 38,
-      "locationTotal": 108
-    },
-    {
-      "value": 0,
-      "location": 74,
-      "locationTotal": 87
-    },
-    {
-      "value": 0,
-      "location": 33,
-      "locationTotal": 319
-    },
-    {
-      "value": 0,
-      "location": 49,
-      "locationTotal": 92
-    },
-    {
-      "value": 0,
-      "location": 14,
-      "locationTotal": 38
-    },
-    {
-      "value": 0,
-      "location": 27,
-      "locationTotal": 67
-    },
-    {
-      "value": 0,
-      "location": 68,
-      "locationTotal": 57
-    },
-    {
-      "value": 0,
-      "location": 71,
-      "locationTotal": 47
-    },
-    {
-      "value": 0,
-      "location": 51,
-      "locationTotal": 52
-    },
-    {
-      "value": 0,
-      "location": 83,
-      "locationTotal": 54
-    },
-    {
-      "value": 0,
-      "location": 65,
-      "locationTotal": 21
-    },
-    {
-      "value": 0,
-      "location": 18,
-      "locationTotal": 86
-    },
-    {
-      "value": 0,
-      "location": 66,
-      "locationTotal": 57
-    },
-    {
-      "value": 0,
-      "location": 54,
-      "locationTotal": 60
-    },
-    {
-      "value": 0,
-      "location": 63,
-      "locationTotal": 2
-    },
-    {
-      "value": 0,
-      "location": 26,
-      "locationTotal": 21
-    },
-    {
-      "value": 0,
-      "location": 2,
-      "locationTotal": 32
-    },
-    {
-      "value": 0,
-      "location": 29,
-      "locationTotal": 38
-    },
-    {
-      "value": 0,
-      "location": 43,
-      "locationTotal": 2
-    },
-    {
-      "value": 0,
-      "location": 85,
-      "locationTotal": 19
-    },
-    {
-      "value": 0,
-      "location": 86,
-      "locationTotal": 13
-    },
-    {
-      "value": 0,
-      "location": 58,
-      "locationTotal": 55
-    },
-    {
-      "value": 0,
-      "location": 41,
-      "locationTotal": 34
-    },
-    {
-      "value": 0,
-      "location": 55,
-      "locationTotal": 33
-    },
-    {
-      "value": 0,
-      "location": 61,
-      "locationTotal": 24
-    },
-    {
-      "value": 0,
-      "location": 90,
-      "locationTotal": 11
-    },
-    {
-      "value": 0,
-      "location": 9,
-      "locationTotal": 7
-    },
-    {
-      "value": 0,
-      "location": 10,
-      "locationTotal": 23
-    },
-    {
-      "value": 0,
-      "location": 88,
-      "locationTotal": 1
     }
   ]
 }
