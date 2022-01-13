@@ -172,9 +172,6 @@
         if (!t) throw new Error("track invalid: " + i);
         if (!t.departementNo) throw new Error("no departement no: " + i);
         if (!t.releaseYear) throw new Error("no release year: " + i);
-        candidate = data.find(
-          (d) => d.date === t.releaseYear && d.location === t.departementNo
-        );
 
         switch (searchCount) {
           case SEARCH_COUNT.tracks:
@@ -201,6 +198,10 @@
           default:
             throw new Error("unknown search type: " + searchCount);
         }
+
+        candidate = data.find(
+          (d) => d.date === t.releaseYear && d.location === t.departementNo
+        );
 
         if (candidate) {
           candidate.value += value;

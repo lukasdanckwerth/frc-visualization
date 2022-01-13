@@ -8850,12 +8850,12 @@
 
   // https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use
   const a$1 = 1664525;
-  const c$3 = 1013904223;
+  const c$4 = 1013904223;
   const m = 4294967296; // 2^32
 
   function lcg$1() {
     let s = 1;
-    return () => (s = (a$1 * s + c$3) % m) / m;
+    return () => (s = (a$1 * s + c$4) % m) / m;
   }
 
   function x$2(d) {
@@ -17135,28 +17135,28 @@
 
   var cool = cubehelixLong(cubehelix$3(260, 0.75, 0.35), cubehelix$3(80, 1.50, 0.8));
 
-  var c$2 = cubehelix$3();
+  var c$3 = cubehelix$3();
 
   function rainbow(t) {
     if (t < 0 || t > 1) t -= Math.floor(t);
     var ts = Math.abs(t - 0.5);
-    c$2.h = 360 * t - 100;
-    c$2.s = 1.5 - 1.5 * ts;
-    c$2.l = 0.8 - 0.9 * ts;
-    return c$2 + "";
+    c$3.h = 360 * t - 100;
+    c$3.s = 1.5 - 1.5 * ts;
+    c$3.l = 0.8 - 0.9 * ts;
+    return c$3 + "";
   }
 
-  var c$1 = rgb(),
+  var c$2 = rgb(),
       pi_1_3 = Math.PI / 3,
       pi_2_3 = Math.PI * 2 / 3;
 
   function sinebow(t) {
     var x;
     t = (0.5 - t) * Math.PI;
-    c$1.r = 255 * (x = Math.sin(t)) * x;
-    c$1.g = 255 * (x = Math.sin(t + pi_1_3)) * x;
-    c$1.b = 255 * (x = Math.sin(t + pi_2_3)) * x;
-    return c$1 + "";
+    c$2.r = 255 * (x = Math.sin(t)) * x;
+    c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x;
+    c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x;
+    return c$2 + "";
   }
 
   function turbo(t) {
@@ -18002,7 +18002,7 @@
     }
   };
 
-  var c = -0.5,
+  var c$1 = -0.5,
       s$1 = Math.sqrt(3) / 2,
       k = 1 / Math.sqrt(12),
       a = (k / 2 + 1) * 3;
@@ -18019,12 +18019,12 @@
       context.moveTo(x0, y0);
       context.lineTo(x1, y1);
       context.lineTo(x2, y2);
-      context.lineTo(c * x0 - s$1 * y0, s$1 * x0 + c * y0);
-      context.lineTo(c * x1 - s$1 * y1, s$1 * x1 + c * y1);
-      context.lineTo(c * x2 - s$1 * y2, s$1 * x2 + c * y2);
-      context.lineTo(c * x0 + s$1 * y0, c * y0 - s$1 * x0);
-      context.lineTo(c * x1 + s$1 * y1, c * y1 - s$1 * x1);
-      context.lineTo(c * x2 + s$1 * y2, c * y2 - s$1 * x2);
+      context.lineTo(c$1 * x0 - s$1 * y0, s$1 * x0 + c$1 * y0);
+      context.lineTo(c$1 * x1 - s$1 * y1, s$1 * x1 + c$1 * y1);
+      context.lineTo(c$1 * x2 - s$1 * y2, s$1 * x2 + c$1 * y2);
+      context.lineTo(c$1 * x0 + s$1 * y0, c$1 * y0 - s$1 * x0);
+      context.lineTo(c$1 * x1 + s$1 * y1, c$1 * y1 - s$1 * x1);
+      context.lineTo(c$1 * x2 + s$1 * y2, c$1 * y2 - s$1 * x2);
       context.closePath();
     }
   };
@@ -20273,7 +20273,7 @@
       let stacks = Array.from(stacksToLabels.keys());
 
       function stackLabels(stack) {
-        return Array.from(stacksToLabels.get(stack)?.keys() ?? []);
+        return Array.from(stacksToLabels.get(stack).keys() ?? []);
       }
 
       function stackColor(stack) {
@@ -20333,28 +20333,9 @@
       .range(["yellow", "orange", "red", "purple"]);
   }
 
-  function Collection() {
-    let c = [];
-
-    c.add = function (e) {
-      return c.indexOf(e) === -1 ? c.push(e) > 0 : false;
-    };
-
-    c.remove = function (e) {
-      let i = c.indexOf(e);
-      return i !== -1 ? c.splice(i, 1) : false;
-    };
-
-    c.addAll = function (e) {
-      e.forEach(c.add);
-    };
-
-    return c;
-  }
-
   class Listeners {
     constructor() {
-      let listeners = Collection();
+      let ls = [];
 
       function notify(listener, reason, controller) {
         if (!listener.update) throw Error("missing update function of listener");
@@ -20363,12 +20344,13 @@
 
       this.add = function (l, controller) {
         if (!l.update) throw Error("missing update function of listener");
-        if (!listeners.add(l)) return;
+        if (!(ls.indexOf(l) === -1 ? ls.push(l) > 0 : false)) return;
         notify(l, "registration", controller);
       };
 
       this.remove = function (l) {
-        listeners.remove(l);
+        let i = ls.indexOf(l);
+        return i !== -1 ? ls.splice(i, 1) : false;
       };
 
       this.addAll = function (all, controller) {
@@ -20377,57 +20359,58 @@
       };
 
       this.notify = function (reason = "none", controller) {
-        listeners.forEach((l) => notify(l, reason, controller));
+        ls.forEach((l) => notify(l, reason, controller));
       };
 
       this.size = function () {
-        return listeners.length;
+        return ls.length;
       };
+
+      return this;
     }
   }
 
-  function FilterCollection(listener) {
-    let c = [];
-
-    function _nofify(reason, item, notify = true) {
-      if (notify) listener(reason, item);
+  class ObservableArray extends Array {
+    constructor(listener) {
+      super();
+      this.listener = listener;
     }
 
-    c.add = function (item, notify = true) {
-      if (c.indexOf(item) === -1) c.push(item), _nofify("add", item, notify);
-    };
+    notify(reason, item, notify = true) {
+      if (notify) this.listener(reason, item);
+    }
 
-    c.remove = function (item, notify = true) {
-      let i = c.indexOf(item);
-      if (i !== -1) c.splice(i, 1), _nofify("remove", item, notify);
-    };
+    add(item, notify = true) {
+      if (this.indexOf(item) === -1)
+        this.push(item), this.notify("add", item, notify);
+    }
 
-    c.toggle = function (item, notify = true) {
-      let i = c.indexOf(item);
-      i === -1 ? c.push(item) : c.splice(i, 1), _nofify("toggle", item, notify);
-    };
+    remove(item, notify = true) {
+      let i = this.indexOf(item);
+      if (i !== -1) this.splice(i, 1), this.notify("remove", item, notify);
+    }
 
-    c.contains = function (item) {
-      return c.indexOf(item) !== -1;
-    };
+    toggle(item, notify = true) {
+      let i = this.indexOf(item);
+      i === -1 ? this.push(item) : this.splice(i, 1),
+        this.notify("toggle", item, notify);
+    }
 
-    c.clear = function (notify = true) {
-      if (c.length !== 0) (c = []), _nofify("clear", null, notify);
-    };
+    contains(item) {
+      return this.indexOf(item) !== -1;
+    }
 
-    c.get = function () {
-      return c;
-    };
-
-    return c;
+    clear(notify = true) {
+      if (this.length !== 0) (c = []), this.notify("clear", null, notify);
+    }
   }
 
   class Filters {
     constructor(listener) {
-      this.locations = new FilterCollection((r) => listener("location", r));
-      this.dates = new FilterCollection((r) => listener("dates", r));
-      this.labels = new FilterCollection((r) => listener("labels", r));
-      this.stacks = new FilterCollection((r) => listener("stacks", r));
+      this.locations = new ObservableArray((r) => listener("location", r));
+      this.dates = new ObservableArray((r) => listener("dates", r));
+      this.labels = new ObservableArray((r) => listener("labels", r));
+      this.stacks = new ObservableArray((r) => listener("stacks", r));
     }
   }
 
@@ -20853,7 +20836,7 @@
       };
 
       this.update = function (controller, reason) {
-        // console.log("[Chart] update", this, reason, controller);
+        // console.log("[Chart] update", this.constructor.name, reason, controller);
         if (!updateSensible) return;
         if (!this.controller) this.controller = new DataController([]);
         this.dataView = this.createDataView();
@@ -20916,7 +20899,8 @@
 
     setController(dc) {
       this.controller = dc;
-      this.redraw();
+      this.controller.addListener(this);
+      // this.redraw();
     }
 
     fromConfig(name, fallback) {
@@ -21016,50 +21000,64 @@
       let config = chart.config || {};
       let numberFormat = chart.fromConfig("numberFormat", DEFAULT_NUMBER_FORMAT);
       let datasets = dataView.datasets;
-      let datasetNames = controller.labels();
+      let labels = controller.labels();
       let circleRadius = 6;
       let labelMargin = 50;
       let colors = controller.colorGenerator;
 
-      function click(e, d) {
-        controller.filters.labels.toggle(d.label);
-      }
-
       function filter(label) {
-        return controller.filters.labels.contains(label);
+        return (
+          controller.filters.labels.length === 0 ||
+          controller.filters.labels.contains(label)
+        );
       }
 
-      chart.addListener("click-legend", click);
+      function fillColor(d) {
+        return filter(d.label) ? colors.label(d.label) : "white";
+      }
 
       let xLegend = band()
-        .domain(datasetNames)
+        .domain(labels)
         .rangeRound([config.margin.left, config.width - config.margin.right]);
 
-      this.legends = chart.graph.selectAll(".legend").data(datasets).enter();
+      let legends = chart.graph
+        .selectAll(".legend")
+        .append("g")
+        .attr("class", "ltv-bar-chart-legend")
+        .data(datasets)
+        .enter();
 
-      this.legends
+      legends
         .append("text")
         .attr("class", "ltv-bar-chart-legend-label")
-        .attr("x", (item) => xLegend(item.label) - 30)
+        .attr("x", (d) => xLegend(d.label) - 30)
         .attr("y", chart.graphHeight + labelMargin)
         .style("cursor", "pointer")
         .style("fill", (d) => colors.label(d.label))
-        .text(function (item) {
-          let value = controller.sumOfLabel(item.label);
+        .text((d) => {
+          let value = controller.sumOfLabel(d.label);
           let formatted = numberFormat.format(value);
-          return `${item.label} (${formatted})`;
+          return `${d.label} (${formatted})`;
         })
-        .on("click", (e, d) => chart.fire("click-legend", e, d));
+        .on("click", (e, d) => chart.fire("click-legend", e, d))
+        .raise();
 
-      this.legends
+      let circles = legends
         .append("circle")
         .attr("class", "lotivis-bar-chart-legend-circle")
         .attr("r", circleRadius)
         .attr("cx", (d) => xLegend(d.label) - 40)
         .attr("cy", chart.graphHeight + labelMargin - circleRadius + 2)
         .style("stroke", (d) => colors.label(d.label))
-        .style("fill", (d) => (filter(d.label) ? "white" : colors.label(d.label)))
+        .style("fill", (d) => fillColor(d))
         .raise();
+
+      function click(e, d) {
+        controller.filters.labels.toggle(d.label);
+        circles.style("fill", (d) => fillColor(d));
+      }
+
+      chart.addListener("click-legend", click);
     }
   }
 
@@ -21365,38 +21363,33 @@
    * @param value The value to check.
    * @returns {boolean} A Boolean value indicating whether the given value is valid.
    */
-  function isValue$1(value) {
+  function isValue(value) {
     return Boolean(value || value === 0);
   }
 
+  function DataItem(item) {
+    return { date: item.date, location: item.location, value: item.value };
+  }
+
+  function Dataset(item) {
+    let set = { label: item.label, data: [DataItem(item)] };
+    if (isValue(item.stack)) set.stack = item.stack;
+    return set;
+  }
+
   function toDataset(data) {
-    let datasets = {},
+    let datasets = [],
       item,
-      dataset;
+      set;
 
     for (let i = 0; i < data.length; i++) {
       item = data[i];
-      dataset = datasets[item.label];
+      set = datasets.find((d) => d.label === item.label);
 
-      if (dataset) {
-        dataset.data.push({
-          date: item.date,
-          location: item.location,
-          value: item.value,
-          stack: isValue$1(item.stack) ? item.stack : undefined,
-        });
+      if (set) {
+        set.data.push(DataItem(item));
       } else {
-        datasets[item.label] = {
-          label: item.label,
-          stack: isValue$1(item.stack) ? item.stack : undefined,
-          data: [
-            {
-              date: item.date,
-              location: item.location,
-              value: item.value,
-            },
-          ],
-        };
+        datasets.push(Dataset(item));
       }
     }
 
@@ -21527,8 +21520,11 @@
       /*
        * Prefer dates specified by configuration. Fallback to dates of datasets.
        */
-      let dates = config.dateLabels || this.dataView.dates;
+      let dates = config.dates || this.dataView.dates;
       let stacks = this.dataView.enabledStacks;
+
+      let dateAccess = config.dateAccess;
+      dates = dates.sort((a, b) => dateAccess(a) - dateAccess(b));
 
       this.xChartScale = band()
         .domain(dates)
@@ -21572,15 +21568,10 @@
     return hash_str(JSON.stringify(o));
   }
 
-  function isValue(value) {
-    return Boolean(value || value === 0);
-  }
-
   const FEATURE_ID_ACCESSOR = function (f) {
     if (f.id || f.id === 0) return f.id;
     if (f.properties && isValue(f.properties.id)) return f.properties.id;
-    if (f.properties && isValue(f.properties.code))
-      return Number(f.properties.code);
+    if (f.properties && isValue(f.properties.code)) return f.properties.code;
     return f.properties ? hash_obj(f.properties) : hash_obj(f);
   };
 
@@ -21617,105 +21608,12 @@
 
   /* returns a new generated GeoJSON without the feature specified */
   function removeFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
-    if (!Array.isArray(ids)) return json;
-    if (!Array.isArray(json.features)) return json;
+    if (!Array.isArray(ids)) throw new Error("invalid ids. not an array");
+    if (!Array.isArray(json.features))
+      throw new Error("invalid geojson. no features");
     let _json = copy(json);
-    for (let i = 0; i < _json.features.length; i++) {
-      let feature = _json.features[i];
-      let candidate = ids.find((id) => id === idValue(feature));
-      if (!candidate) continue;
-      let candidateIndex = _json.features.indexOf(candidate);
-      if (candidateIndex < 0) continue;
-      _json.features.splice(candidateIndex, 1);
-    }
+    _json.features = _json.features.filter((f) => !ids.includes(idValue(f)));
     return _json;
-  }
-
-  function flat (input) {
-    function flatData(dataset) {
-      return dataset.data.map(function (item) {
-        return {
-          label: dataset.label,
-          stack: dataset.stack || dataset.label,
-          location: item.location,
-          date: item.date,
-          value: item.value,
-        };
-      });
-    }
-
-    function flatDatasets(datasets) {
-      return datasets.reduce((memo, d) => memo.concat(flatData(d)), []);
-    }
-
-    let data = Array.isArray(input) ? flatDatasets(input) : flatData(input);
-    data = data.sort((a, b) => a.date - b.date);
-
-    data.filterValid = function () {
-      return data.filter((d) => d.value);
-    };
-
-    data.byLabel = function () {
-      return group(data, (d) => d.label);
-    };
-
-    data.byStack = function () {
-      return group(data, (d) => d.stack);
-    };
-
-    data.byLocation = function () {
-      return group(data, (d) => d.location);
-    };
-
-    data.byDate = function () {
-      return group(data, (d) => d.date);
-    };
-
-    data.labels = function () {
-      return Array.from(data.byLabel().keys());
-    };
-
-    data.stacks = function () {
-      return Array.from(data.byStack().keys());
-    };
-
-    data.locations = function () {
-      return Array.from(data.byLocation().keys());
-    };
-
-    data.dates = function () {
-      return Array.from(data.byDate().keys());
-    };
-
-    data.earliestDate = function () {
-      return least(data, (a, b) => a.date - b.date).date;
-    };
-
-    data.latestDate = function () {
-      return least(data, (a, b) => b.date - a.date).date;
-    };
-
-    data.earliestValidDate = function () {
-      return least(data.filterValid(), (a, b) => a.date - b.date)?.date;
-    };
-
-    data.latestValidDate = function () {
-      return least(data.filterValid(), (a, b) => b.date - a.date)?.date;
-    };
-
-    data.max = function () {
-      return max$3(data, (i) => i.value);
-    };
-
-    data.min = function () {
-      return min$2(data, (i) => i.value);
-    };
-
-    data.sum = function () {
-      return data.reduce((p, c) => p.value + c.value);
-    };
-
-    return data;
   }
 
   /* returns a GeoJSON FeatureCollection object */
@@ -21726,6 +21624,11 @@
   /* returns a GeoJSON Feature object */
   function Feature(geometry, properties = {}) {
     return { type: "Feature", geometry, properties };
+  }
+
+  /* returns a GeoJSON Geometry object */
+  function Geometry(type, coordinates) {
+    return { type, coordinates };
   }
 
   /* returns a GeoJSON object */
@@ -21819,52 +21722,41 @@
   }
 
   function createGeoJSON(data) {
-    let flatData = data; // flat(datasets);
-    let locations = flatData.locations();
-    let rowsCount = Math.ceil(locations.length / 5);
-    let latSpan = 0.1;
-    let lngSpan = 0.1;
+    // console.log("data", data);
+    // console.log("typeof data", typeof data);
+    // console.log("data instanceof Data", data instanceof Data);
+    // if (!(data instanceof Data)) throw new Error("no data object given");
+    let locations = data.locations();
+    let columns = 5;
+    let rows = Math.ceil(locations.length / columns);
+    let span = 0.1;
     let features = [];
 
-    loop1: for (let rowIndex = 0; rowIndex < rowsCount; rowIndex++) {
-      for (let itemIndex = 0; itemIndex < 5; itemIndex++) {
+    loop1: for (let row = 0; row < rows; row++) {
+      for (let column = 0; column < columns; column++) {
         if (locations.length === 0) break loop1;
 
         let location = locations.shift();
-        let lat = (itemIndex + 1) * latSpan;
-        let lng = (rowIndex + 1) * -lngSpan;
+        let lat = (column + 1) * span;
+        let lng = (row + 1) * -span;
 
         // start down left, counterclockwise
-        let coordinates = [];
-        coordinates.push([lat + latSpan, lng + lngSpan]);
-        coordinates.push([lat + latSpan, lng]);
-        coordinates.push([lat, lng]);
-        coordinates.push([lat, lng + lngSpan]);
-        coordinates.push([lat + latSpan, lng + lngSpan]);
+        let coord = [
+          [lat + span, lng + span],
+          [lat + span, lng],
+          [lat, lng],
+          [lat, lng + span],
+          [lat + span, lng + span],
+        ];
 
-        let feature = {
-          type: "Feature",
-          id: location,
-          properties: {
-            id: location,
-            code: location,
-            location: location,
-          },
-          geometry: {
-            type: "Polygon",
-            coordinates: [coordinates],
-          },
-        };
-
+        let geometry = Geometry("Polygon", [coord]);
+        let feature = Feature(geometry, { id: location, name: location });
+        feature.id = location;
         features.push(feature);
       }
     }
 
-    let result = FeatureCollection(features);
-
-    console.log("geoJSON", result);
-
-    return result;
+    return GeoJSON(FeatureCollection(features));
   }
 
   class MapBackgroundRenderer extends Renderer {
@@ -21913,20 +21805,21 @@
       }
 
       chart.areas = chart.svg
-        .selectAll("path")
+        .selectAll(".ltv-map-chart-area")
         .append("path")
         .data(geoJSON.features)
         .enter()
         .append("path")
         .attr("d", chart.path)
-        .attr("id", (f) => `ltv-map-chart-area-id-${f.lotivisId}`)
         .classed("ltv-map-chart-area", true)
-        .style("stroke-dasharray", (f) => (f.departementsData ? "0" : "1,4"))
+        .attr("id", (f) => `ltv-map-chart-area-id-${f.lotivisId}`)
+        .style("stroke-dasharray", "1,4")
         .style("fill", "white")
         .style("fill-opacity", 1)
         .on("click", mouseClick)
         .on("mouseenter", mouseEnter)
-        .on("mouseout", mouseOut);
+        .on("mouseout", mouseOut)
+        .raise();
     }
   }
 
@@ -23028,7 +22921,7 @@
 
   class MapExteriorBorderRenderer extends Renderer {
     render(chart, controller) {
-      let geoJSON = chart.geoJSON;
+      let geoJSON = chart.presentedGeoJSON;
       if (!geoJSON) return lotivis_log("[lotivis]  No GeoJSON to render.");
 
       let bordersGeoJSON = joinFeatures(geoJSON.features);
@@ -23048,26 +22941,6 @@
   class MapLegendRenderer extends Renderer {
     render(chart, controller, dataView) {
       if (!dataView) return;
-      let legend;
-
-      function appendLegend() {
-        legend = chart.svg
-          .append("svg")
-          .attr("class", "ltv-map-chart-legend")
-          .attr("width", chart.config.width)
-          .attr("height", 200)
-          .attr("x", 0)
-          .attr("y", 0);
-      }
-
-      function removeDatasetLegend() {
-        legend.selectAll("rect").remove();
-        legend.selectAll("text").remove();
-      }
-
-      appendLegend();
-      legend.raise();
-      removeDatasetLegend();
 
       let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
       let stackNames = chart.dataView.stacks;
@@ -23081,6 +22954,17 @@
       let steps = 4;
       let data = [0, (1 / 4) * max, (1 / 2) * max, (3 / 4) * max, max];
       let generator = MapColors(max);
+
+      let legend = chart.svg
+        .append("svg")
+        .attr("class", "ltv-map-chart-legend")
+        .attr("width", chart.config.width)
+        .attr("height", 200)
+        .attr("x", 0)
+        .attr("y", 0);
+
+      chart.addListener("mouseenter", () => legend.raise());
+      chart.addListener("mouseout", () => legend.raise());
 
       legend
         .append("text")
@@ -23219,7 +23103,6 @@
       resetAreas();
 
       let stackNames = chart.dataView.stacks;
-      chart.config.label || stackNames[0];
       let locationToSum = dataView.locationToSum;
       let locations = Array.from(locationToSum.keys());
       let max = max$3(locationToSum, (item) => item[1]);
@@ -23232,9 +23115,9 @@
 
         chart.svg
           .selectAll(".ltv-map-chart-area")
-          // .filter((item) => chart.config.featureIDAccessor(item) === location)
           .filter((item) => item.lotivisId === location)
-          .style("fill", () => color);
+          .style("fill", () => color)
+          .raise();
       }
 
       for (let index = 0; index < stackNames.length; index++) {
@@ -23271,8 +23154,7 @@
           let labels = Array.from(data.keys());
           let values = labels.map((label) => data.get(label));
           let sum = sum$2(values);
-          if (sum === 0) return "";
-          return numberFormat(sum);
+          return sum === 0 ? "" : numberFormat(sum);
         })
         .attr("x", (f) => chart.projection(f.center)[0])
         .attr("y", (f) => chart.projection(f.center)[1]);
@@ -23439,13 +23321,14 @@
   class MapSelectionRenderer extends Renderer {
     render(chart, controller, dataView) {
       function getSelectedFeatures() {
-        if (!chart.geoJSON) return null;
+        if (!chart.presentedGeoJSON) return null;
 
         let allFeatures = chart.presentedGeoJSON.features;
         if (!chart.controller) return null;
 
         let filteredLocations = chart.controller.filters.locations;
-        if (filteredLocations.length === 0) return chart.geoJSON.features;
+        if (filteredLocations.length === 0) return [];
+        // return chart.presentedGeoJSON.features;
         let selectedFeatures = [];
 
         for (let index = 0; index < allFeatures.length; index++) {
@@ -23576,6 +23459,7 @@
       this.svg
         .classed("ltv-map-chart-svg", true)
         .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`);
+
       if (this.geoJSON) return;
       let geoJSON = createGeoJSON(this.controller.data);
       this.setGeoJSON(geoJSON);
@@ -23586,10 +23470,11 @@
     }
 
     zoomTo(geoJSON) {
-      this.projection.fitSize([this.config.width, this.config.height], geoJSON);
+      this.projection.fitSize(
+        [this.config.width - 20, this.config.height - 20],
+        geoJSON
+      );
     }
-
-    onSelectFeature(event, feature) {}
 
     setGeoJSON(newGeoJSON) {
       if (typeof newGeoJSON === "object" && newGeoJSON.prototype === "GeoJSON") {
@@ -23782,25 +23667,26 @@
       if (chart.config.type !== PLOT_CHART_TYPE.gradient) return;
       if (!chart.config.labels) return;
 
+      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
       let xBandwidth = chart.yChart.bandwidth();
       let xChart = chart.xChart;
 
       chart.labels = chart.barsData
-        .append("g")
-        .attr("transform", `translate(0,${xBandwidth / 2 + 4})`)
         .append("text")
+        .attr("transform", `translate(0,${xBandwidth / 2 + 4})`)
         .attr("class", "ltv-plot-label")
         .attr("id", (d) => "rect-" + hash_str(d.label))
         .attr("x", (d) => xChart(d.firstDate) + xBandwidth / 2)
         .attr("y", (d) => chart.yChart(d.label))
+        .attr("height", chart.yChartPadding.bandwidth())
         .attr(
           "width",
           (d) => xChart(d.lastDate) - xChart(d.firstDate) + xBandwidth
         )
         .text(function (dataset) {
           if (dataset.sum === 0) return;
-          let formatted = chart.config.numberFormat.format(dataset.sum);
-          return `${dataset.duration + 1} years, ${formatted} items`;
+          let formatted = numberFormat.format(dataset.sum);
+          return `${formatted} (${dataset.duration + 1} years)`;
         });
     }
   }
@@ -24012,9 +23898,9 @@
         .attr("class", "ltv-plot-bar")
         .attr("rx", radius)
         .attr("ry", radius)
-        .attr("x", (d) => {
-          return chart.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0);
-        })
+        .attr("x", (d) =>
+          chart.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0)
+        )
         .attr("y", (d) => chart.yChartPadding(d.label))
         .attr("height", chart.yChartPadding.bandwidth())
         .attr("id", (d) => "ltv-plot-rect-" + hash_str(d.label))
@@ -24037,6 +23923,7 @@
       if (chart.config.type !== PLOT_CHART_TYPE.fraction) return;
       if (!chart.config.labels) return;
 
+      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
       let xBandwidth = chart.yChart.bandwidth();
 
       chart.labels = chart.barsData
@@ -24047,10 +23934,7 @@
         .attr("id", (d) => "rect-" + hash_str(d.label))
         .attr("x", (d) => chart.xChart(d.date) + 4)
         .attr("y", (d) => chart.yChart(d.label))
-        .text(function (dataset) {
-          if (dataset.sum === 0) return;
-          return chart.config.numberFormat.format(dataset.value);
-        });
+        .text((d) => (d.sum === 0 ? null : numberFormat.format(d.value)));
     }
   }
 
@@ -24061,16 +23945,10 @@
       }
 
       function update() {
-        let selectedLabels = getSelectedLabels();
+        let filter = chart.controller.filters.labels || [];
         chart.svg
           .selectAll(`.ltv-plot-chart-selection-rect`)
-          .attr(`opacity`, (dataset) =>
-            selectedLabels.includes(dataset.label) ? 0.3 : 0
-          );
-      }
-
-      function getSelectedLabels() {
-        return chart.controller.filters.labels || [];
+          .attr(`opacity`, (d) => (filter.includes(d.label) ? 0.3 : 0));
       }
 
       function _render() {
@@ -24092,6 +23970,8 @@
           .attr("y", (d) => chart.yChart(d.label))
           .attr("height", chart.yChart.bandwidth())
           .attr("width", graphWidth);
+
+        update();
       }
 
       chart.addListener("click", update);
@@ -24135,7 +24015,7 @@
 
     return {
       datasets,
-      data: flat(datasets),
+      data: Data(flatDatasets(datasets)),
       dates,
       firstDate: dates[0],
       lastDate: dates[dates.length - 1],
@@ -24202,8 +24082,9 @@
     }
 
     createScales() {
-      const dates = this.dataView.dates || [];
-      const labels = this.dataView.labels || [];
+      let dates =
+        this.config.dateLabels || this.config.dates || this.dataView.dates;
+      let labels = this.dataView.labels || [];
 
       this.xChart = band()
         .domain(dates)
@@ -24477,9 +24358,7 @@
     image.onload = function () {
       context.clearRect(0, 0, width, height);
       context.drawImage(image, 0, 0, width, height);
-
-      let data = canvas.toDataURL("image/png");
-      if (callback) callback(data);
+      if (callback) callback(canvas.toDataURL("image/png"));
     };
 
     image.src = imageSource;
@@ -24519,6 +24398,18 @@
     }
   }
 
+  function downloadJSON(jsonString, filename) {
+    let blob = new Blob([jsonString], { type: "text/json" });
+    let saveFilename = appendExtensionIfNeeded(filename, "json");
+    downloadBlob(blob, saveFilename);
+  }
+
+  function downloadCSV(jsonString, filename) {
+    let blob = new Blob([jsonString], { type: "text/csv" });
+    let saveFilename = appendExtensionIfNeeded(filename, "csv");
+    downloadBlob(blob, saveFilename);
+  }
+
   /**
    * Initiates a download of the PNG image of the SVG with the given selector (id).
    *
@@ -24548,6 +24439,7 @@
   }
 
   exports.BarChart = BarChart;
+  exports.Data = Data;
   exports.DataController = DataController;
   exports.DateOrdinator = date_ordinator;
   exports.MapChart = MapChart;
@@ -24557,6 +24449,8 @@
   exports.csv = csv;
   exports.d3 = index;
   exports.debug = debug;
+  exports.downloadCSV = downloadCSV;
+  exports.downloadJSON = downloadJSON;
   exports.flatDataset = flatDataset;
   exports.flatDatasets = flatDatasets;
   exports.json = json;

@@ -26,13 +26,16 @@
     <div class="container pt-4">
       <!-- HEADER -->
       <div class="row">
-        <div class="col-2">
+        <div class="col-4">
           <a href="index.html" class="btn">Back</a>
         </div>
-        <div class="col-8 text-center text-secondary">
+        <div class="col-4 text-center text-secondary">
           <h4>Departements Data</h4>
         </div>
-        <div class="col-2">
+        <div class="col-4">
+          <button type="button" class="btn btn-sm" onclick="screenshot()">
+            Screenshot
+          </button>
           <select id="dataSelection" onchange="dataChange()">
             <option>Artists</option>
             <option>Female Artists</option>
@@ -72,6 +75,10 @@
         featureIDAccessor: (f) => "" + f.properties.code,
         featureNameAccessor: (f) => f.properties.nom,
       });
+
+      function screenshot() {
+        lotivis.screenshot("map-chart-svg", "screenshot");
+      }
 
       function dataChange() {
         setDataset(document.getElementById("dataSelection").selectedIndex);

@@ -1,3 +1,7 @@
+.frcv-headline {
+  border-bottom: 1px solid gainsboro;
+}
+
 .frcv-innovation-list {
   overflow: scroll;
 }
@@ -5,6 +9,22 @@
 .frcv-innovation-list a {
   display: block;
   cursor: pointer;
+}
+
+.frcv-data-preview {
+  color: gainsboro;
+}
+
+.frcv-tracks-list .index-number {
+  color: gray;
+}
+
+.frcv-tracks-list .title {
+  color: steelblue;
+}
+
+.frcv-tracks-list .artist {
+  color: gray;
 }
 
 /* Popup container */

@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
     <link rel="stylesheet" href="css/lotivis.css" />
+    <link rel="stylesheet" href="css/frcv.css" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link
       rel="icon"
@@ -63,14 +64,56 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Bar</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('bar-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
+          </div>
           <div id="bar-chart">
             <!-- Bar Chart Here -->
+          </div>
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Plot</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('plot-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
           </div>
           <div id="plot-chart">
             <!-- Plot Chart Here -->
           </div>
         </div>
         <div class="col-md-6 col-sm-12">
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Map</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('map-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
+          </div>
           <div id="map-chart">
             <!-- Map Chart Here -->
           </div>
@@ -94,6 +137,7 @@
       let barChart = new lotivis.BarChart("bar-chart", {
         labels: true,
         selectable: false,
+        dates: d3.range(1995, 2021),
       });
 
       let mapChart = new lotivis.MapChart("map-chart", {
@@ -107,6 +151,10 @@
         type: "fraction",
         selectable: false,
       });
+
+      function screenshot(id) {
+        lotivis.screenshot(id, "screenshot");
+      }
 
       function controllerUpdate(controller, reason) {
         if (reason === "location") {

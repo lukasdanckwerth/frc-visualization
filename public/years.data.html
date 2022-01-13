@@ -25,13 +25,16 @@
   <body>
     <div class="container pt-4">
       <div class="row">
-        <div class="col-2">
+        <div class="col-4">
           <a href="index.html" class="btn">Back</a>
         </div>
-        <div class="col-8 text-center text-secondary">
+        <div class="col-4 text-center text-secondary">
           <h4>Years Data</h4>
         </div>
-        <div class="col-2">
+        <div class="col-4">
+          <button type="button" class="btn btn-sm" onclick="screenshot()">
+            Screenshot
+          </button>
           <select id="dataSelection" onchange="dataChange()">
             <option>Tracks</option>
             <option>Words</option>
@@ -62,6 +65,10 @@
           left: 70,
         },
       });
+
+      function screenshot() {
+        lotivis.screenshot("bar-chart-svg", "screenshot");
+      }
 
       function setDataset(index) {
         let set = datasets[index];

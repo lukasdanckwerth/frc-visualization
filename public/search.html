@@ -141,24 +141,76 @@
         </div>
         <!-- COMPONENTS -->
         <div class="col-md-6 col-12">
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Plot</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('bar-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
+          </div>
           <div id="bar-chart">
             <!-- Bar Chart Here -->
+          </div>
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Plot</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('plot-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
           </div>
           <div id="plot-chart">
             <!-- Plot Chart Here -->
           </div>
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Data</h5>
+            </div>
+            <div class="col-6 text-end"></div>
+          </div>
+          <pre id="ltv-data-preview" class="frcv-data-preview">
+            <!-- Data Here -->
+          </pre>
         </div>
         <div class="col-md-6 col-12">
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Map</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="screenshot('map-chart-svg')"
+              >
+                Screenshot
+              </button>
+            </div>
+          </div>
           <div id="map-chart">
             <!-- Map Chart Here -->
           </div>
-          <div id="tracks-card">
-            <div class="lotivis-card">
-              <div class="lotivis-card-header">
-                <label class="lotivis-title-label"> Tracks </label>
-              </div>
-              <div id="tracks-card-content" class="frcv-tracks-list"></div>
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Tracks</h5>
             </div>
+            <div class="col-6 text-end"></div>
+          </div>
+          <div id="tracks-card" class="frcv-tracks-list">
+            <!-- Tracks List Here -->
           </div>
         </div>
       </div>
