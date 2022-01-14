@@ -1,18 +1,27 @@
-let background = lotivis.d3.select("#frcv-track-popup-background");
-let popup = lotivis.d3.select("#frcv-track-popup");
+let content = document.getElementById("frcv-track-modal-content");
+let modal = document.getElementById("trackModal");
+let backdrop = document.getElementById("trackModalBackdrop");
 
-function hidePopup() {
-  background.style("display", "none");
+function closeModal() {
+  backdrop.style.display = "none";
+  modal.style.display = "none";
+  modal.classList.remove("show");
 }
 
-function showPopup() {
-  background.style("display", "block");
+function showModal() {
+  backdrop.style.display = "block";
+  modal.style.display = "block";
+  modal.classList.add("show");
 }
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    closeModal();
+  }
+};
 
 function presentTrackPopup(track, label) {
   console.log("track", track);
-
-  showPopup();
 
   let input = label;
   let lines = track.content.split("\n");
@@ -49,10 +58,7 @@ function presentTrackPopup(track, label) {
   html += "<br>";
   html += `<a href="${track.url}">${track.url}</a>`;
 
-  popup.html(html);
-}
+  content.innerHTML = html;
 
-background.on("click", (e, i) => {
-  if (e.srcElement.id !== "frcv-track-popup-background") return;
-  hidePopup();
-});
+  showModal();
+}

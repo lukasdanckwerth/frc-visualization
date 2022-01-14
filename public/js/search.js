@@ -76,7 +76,9 @@ function search(searchText) {
 
 /* date range */
 function updateYearsRange() {
-  barChart.config.dateLabels = d3.range(firstYear, lastYear + 1);
+  let dates = d3.range(firstYear, lastYear + 1);
+  barChart.config.dates = dates;
+  plotChart.config.dates = dates;
 }
 
 function fromDropdownAction(some) {

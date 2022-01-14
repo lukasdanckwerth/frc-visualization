@@ -27,6 +27,14 @@
   color: gray;
 }
 
+.frcv-modal-dialog {
+  max-width: 800px !important;
+}
+
+.frcv-tracks-modal-content {
+  color: darkslategrey;
+}
+
 /* Popup container */
 .popup {
   position: relative;

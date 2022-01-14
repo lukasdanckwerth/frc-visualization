@@ -258,31 +258,41 @@
       aria-labelledby="innovationListModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog frcv-modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
             <div id="innovation-list" class="frcv-innovation-list">
               <!-- innovation list content here -->
-            </div>
-            <div class="text-end">
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="frcv-track-popup-background" id="frcv-track-popup-background">
-      <div class="frcv-track-popup" id="frcv-track-popup">
-        <div class="frcv-track-popup-content">Hello World</div>
+    <!-- Track Modal -->
+    <div
+      class="modal fade"
+      id="trackModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="trackModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog frcv-modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div id="frcv-track-modal-content" class="frcv-track-modal-content">
+              <!-- track content here -->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <div
+      class="modal-backdrop fade show"
+      id="trackModalBackdrop"
+      style="display: none"
+    ></div>
 
     <script src="js/lib/bootstrap.bundle.min.js"></script>
     <script src="js/lib/lotivis.js"></script>

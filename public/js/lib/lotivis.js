@@ -21159,7 +21159,7 @@
 
       let filter = controller.filters.dates;
       let margin = chart.config.margin;
-      let dates = chart.config.dateLabels || chart.dataView.dates;
+      let dates = chart.config.dates || chart.dataView.dates;
       chart.svg
         .append("g")
         .selectAll("rect")
@@ -21213,7 +21213,7 @@
 
       let config = chart.config;
       let margin = config.margin;
-      let dates = chart.config.dateLabels || chart.dataView.dates;
+      let dates = chart.config.dates || chart.dataView.dates;
 
       chart.svg
         .append("g")
@@ -23838,17 +23838,14 @@
         .attr("y", (d) => chart.yChartPadding(d.label))
         .attr("height", chart.yChartPadding.bandwidth())
         .attr("id", (d) => "ltv-plot-rect-" + hash_str(d.label))
-        .attr(
-          "width",
-          function (data) {
-            if (!data.firstDate || !data.lastDate) return 0;
-            return (
-              chart.xChart(data.lastDate) -
-              chart.xChart(data.firstDate) +
-              chart.xChart.bandwidth()
-            );
-          }.bind(this)
-        );
+        .attr("width", (d) => {
+          if (!d.firstDate || !d.lastDate) return 0;
+          return (
+            chart.xChart(d.lastDate) -
+            chart.xChart(d.firstDate) +
+            chart.xChart.bandwidth()
+          );
+        });
     }
   }
 
@@ -24016,8 +24013,7 @@
     }
 
     createScales() {
-      let dates =
-        this.config.dateLabels || this.config.dates || this.dataView.dates;
+      let dates = this.config.dates || this.config.dates || this.dataView.dates;
       let labels = this.dataView.labels || [];
 
       this.xChart = band()
@@ -24085,17 +24081,10 @@
     }
   }
 
-  const LABELS_CHART_CONFIG = {
-    width: 1000,
-    margin: DEFAULT_MARGIN,
-    lineHeight: 30,
-    selectable: true,
-    numberFormat: DEFAULT_NUMBER_FORMAT,
-  };
-
   class LabelsLabelsRenderer extends Renderer {
     render(chart, controller, dataView) {
       // let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
+      let checkboxSize = "13px";
       let stacks = dataView.stacks;
       let colors = controller.colorGenerator;
 
@@ -24105,6 +24094,16 @@
 
       function labelId(label) {
         return `ltv-legend-stack-id-${safeId(label)}`;
+      }
+
+      function toggle(label) {
+        chart.makeUpdateInsensible();
+        controller.filters.labels.toggle(label);
+        chart.makeUpdateSensible();
+      }
+
+      function filter(label) {
+        return controller.filters.labels.contains(label);
       }
 
       let stackDivs = chart.div
@@ -24127,16 +24126,12 @@
       divs
         .append("input")
         .attr("type", "checkbox")
-        .attr("checked", (d) => controller.filters.labels.contains(d[0]))
+        .attr("checked", (d) => (filter(d[0]) ? null : true))
         .attr("id", (d) => labelId(d[0]))
         .attr("name", (d) => labelId(d[0]))
-        .on("change", (event, d) => {
-          let label = d[0];
-          console.log("label", label);
-          chart.makeUpdateInsensible();
-          controller.filters.labels.toggle(label);
-          chart.makeUpdateSensible();
-        });
+        .style("width", checkboxSize)
+        .style("height", checkboxSize)
+        .on("change", (e, d) => toggle(d[0]));
 
       divs
         .append("label")
@@ -24163,16 +24158,7 @@
   }
 
   class LabelsChart extends Chart {
-    initialize() {
-      this.config;
-      let margin;
-      margin = Object.assign({}, LABELS_CHART_CONFIG.margin);
-      margin = Object.assign(margin, this.config.margin);
-
-      let config = Object.assign({}, LABELS_CHART_CONFIG);
-      this.config = Object.assign(config, this.config);
-      this.config.margin = margin;
-    }
+    initialize() {}
 
     appendRenderers() {
       this.renderers.push(new LabelsLabelsRenderer());
