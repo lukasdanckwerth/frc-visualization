@@ -16,6 +16,8 @@ let mapChart = new lotivis.MapChart("map-chart", {
   featureNameAccessor: (f) => f.properties.nom,
 });
 
+let labelsChart = new lotivis.LabelsChart("labels-chart");
+
 let contentContainer = document.getElementById("content");
 let loadingView = document.getElementById("loading-indicator");
 let searchField = document.getElementById("search-input");
@@ -33,6 +35,10 @@ let firstYear = 2000;
 let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
 let countType = frc.SEARCH_COUNT.tracks;
+
+function screenshot(id) {
+  lotivis.screenshot(id, "screenshot");
+}
 
 /* search */
 function searchFieldAction(input) {
@@ -62,6 +68,7 @@ function search(searchText) {
   barChart.setController(dataController);
   mapChart.setController(dataController);
   plotChart.setController(dataController);
+  labelsChart.setController(dataController);
 
   fillTracksCard(datasets);
   recentSearches.append(searchText);
