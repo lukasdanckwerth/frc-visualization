@@ -29,11 +29,13 @@
 }
 
 .ltv-bar-chart-hover-bar {
+  cursor: pointer;
   fill: dodgerblue;
 }
 
 .ltv-bar-chart-selection-rect {
-  fill: dodgerblue;
+  cursor: pointer;
+  fill: gray;
 }
 
 .ltv-map-chart-background {
@@ -179,6 +181,46 @@
     opacity: 1;
   }
 }
+.ltv-stack-labels-container {
+  display: block;
+  font-size: 10px;
+}
+
+/* Customize the label (the container) */
+.ltv-pill-checkbox {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.ltv-pill-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.ltv-pill-checkbox-span {
+  display: inline-block;
+  padding: 0 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  border-radius: 999999px;
+  color: white;
+  opacity: 0.2;
+}
+
+/* When the checkbox is checked, add a blue background */
+.ltv-pill-checkbox input:checked ~ .ltv-pill-checkbox-span {
+  opacity: 1;
+}
+
 .ltv-chart-svg {
   overflow: visible;
 }

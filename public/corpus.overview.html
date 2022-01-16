@@ -9,18 +9,6 @@
     <link rel="stylesheet" href="css/lotivis.css" />
     <link rel="stylesheet" href="css/frcv.css" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
     <title>FRCV - Corpus Overview</title>
   </head>
   <body>
@@ -156,8 +144,8 @@
         lotivis.screenshot(id, "screenshot");
       }
 
-      function controllerUpdate(controller, reason) {
-        if (reason === "location") {
+      function controllerUpdate(controller, reason, some) {
+        if (reason === "locations") {
           let locations = controller.filters.locations;
           let artists = corpus.artistsForLocations(locations);
           let datasets = frc.artistsToDatasets(artists);
@@ -175,7 +163,7 @@
         barChart.setController(controller);
         mapChart.setController(controller);
 
-        controller.addListener({ update: controllerUpdate });
+        controller.on("change", controllerUpdate);
       }
 
       function dataChange() {
