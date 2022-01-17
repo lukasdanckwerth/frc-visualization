@@ -1,199 +1,278 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="css/lotivis.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <title>French Rap Corpus Visualization</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-  <link rel="stylesheet" href="css/lotivis.css" />
-  <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
-  <title>French Rap Corpus Visualization</title>
-</head>
+  <body>
+    <div class="container">
+      <div class="col-12 mt-5"></div>
+      <div class="col-6-md offset-3-md col-12-sm mt-4">
+        <h1>French Rap Corpus Visualization</h1>
+        <div>
+          <div class="mb-2 secondary text-end">
+            <span id="frcv-version" class="frcv-code"> </span>
+            (<span id="frcv-environment" class="frcv-code"></span>)
+          </div>
+        </div>
+        <div class="list-group pt-4 pb-4">
+          <a
+            class="list-group-item list-group-item-action"
+            href="./corpus.overview.html"
+          >
+            Corpus Overview
+          </a>
+          <a
+            class="list-group-item list-group-item-action"
+            href="./departements.data.html"
+          >
+            Departements Data
+          </a>
+          <a
+            class="list-group-item list-group-item-action"
+            href="./years.data.html"
+          >
+            Years Data
+          </a>
+          <a
+            class="list-group-item list-group-item-action"
+            href="./artists.activity.range.html"
+          >
+            Artists Activity Range
+          </a>
+          <a
+            class="list-group-item list-group-item-action"
+            href="./search.html"
+          >
+            Search in Corpus
+          </a>
+        </div>
+        <footer class="text-center">
+          <div class="container pt-3">
+            <section class="mb-4">
+              <button
+                type="button"
+                class="btn btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#impressModal"
+              >
+                Impressum
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#privacyPolicyModal"
+              >
+                Privacy Policy
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#aboutModal"
+              >
+                About the Project
+              </button>
+            </section>
+          </div>
+        </footer>
+      </div>
+    </div>
 
-<body>
-  <div class="container">
-    <div class="col-12 mt-5"></div>
-    <div class="col-6-md offset-3-md col-12-sm mt-4">
-      <h1>French Rap Corpus Visualization</h1>
-      <div>
-        <div class="mb-2 secondary text-end">
-          <span id="frcv-version" class="frcv-code"> </span>
-          (<span id="frcv-environment" class="frcv-code"></span>)
+    <div id="search-popup-content" style="display: none">
+      <div class="frcv-warn-popup-container">
+        <p>
+          The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
+          You need to load it in order to use the 'Search in Corpus' function.
+        </p>
+        <div style="text-align: center">
+          <button class="lotivis-button lotivis-button-round">
+            <a href="search.html"> Search in Corpus </a>
+          </button>
         </div>
       </div>
-      <div class="list-group pt-4 pb-4">
-        <a class="list-group-item list-group-item-action" href="./corpus.overview.html">
-          Corpus Overview
-        </a>
-        <a class="list-group-item list-group-item-action" href="./departements.data.html">
-          Departements Data
-        </a>
-        <a class="list-group-item list-group-item-action" href="./years.data.html">
-          Years Data
-        </a>
-        <a class="list-group-item list-group-item-action" href="./artists.activity.range.html">
-          Artists Activity Range
-        </a>
-        <a class="list-group-item list-group-item-action" href="./search.html">
-          Search in Corpus
-        </a>
-        <a class="list-group-item list-group-item-action" href="./about.html">
-          About
-        </a>
-      </div>
-      <footer class="text-center">
-        <div class="container pt-3">
-          <section class="mb-4">
-            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#impressModal">
-              Impressum
-            </button>
-            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal">
-              Privacy Policy
-            </button>
-            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#aboutModal">
-              About the Project
-            </button>
-          </section>
+    </div>
+
+    <div id="corpus-overview-popup-content" style="display: none">
+      <div class="frcv-warn-popup-container">
+        <p>
+          The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
+          You need to load it in order to use the 'Corpus Overview' function.
+        </p>
+        <div style="text-align: center">
+          <button class="lotivis-button lotivis-button-round">
+            <a href="corpus.overview.html"> Corpus Overview </a>
+          </button>
         </div>
-      </footer>
-    </div>
-  </div>
-
-  <div id="search-popup-content" style="display: none">
-    <div class="frcv-warn-popup-container">
-      <p>
-        The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
-        You need to load it in order to use the 'Search in Corpus' function.
-      </p>
-      <div style="text-align: center">
-        <button class="lotivis-button lotivis-button-round">
-          <a href="search.html"> Search in Corpus </a>
-        </button>
       </div>
     </div>
-  </div>
 
-  <div id="corpus-overview-popup-content" style="display: none">
-    <div class="frcv-warn-popup-container">
-      <p>
-        The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
-        You need to load it in order to use the 'Corpus Overview' function.
-      </p>
-      <div style="text-align: center">
-        <button class="lotivis-button lotivis-button-round">
-          <a href="corpus.overview.html"> Corpus Overview </a>
-        </button>
+    <!-- Impress Modal -->
+    <div
+      class="modal fade"
+      id="impressModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="impressModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h1>Impress</h1>
+            <p>
+              Lukas Danckwerth
+              <br />
+              Müllerstr. 79B
+              <br />
+              13349 Berlin
+            </p>
+            <div class="text-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Impress Modal -->
-  <div class="modal fade" id="impressModal" tabindex="-1" role="dialog" aria-labelledby="impressModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <h1>Impress</h1>
-          <p>
-            Lukas Danckwerth
+    <!-- Pricacy Policy Modal -->
+    <div
+      class="modal fade"
+      id="privacyPolicyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="pricacyPolicyModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h1>Privacy Policy</h1>
+            <p>
+              This page, the application and us <b>do not</b> store nor collect
+              any of your data. You can convince yourself by checking its open
+              source code
+              <a href="https://github.com/lukasdanckwerth/frc-visualization"
+                >here</a
+              >.
+            </p>
+            <p>
+              The history of your searches in the "Search Corpus" function is
+              stored on your computer with <b>local storage</b> and will never
+              be stored nor requested by us. To learn more about the
+              <b>local storage</b> see
+              <a
+                href="https://medium.com/@psubham94/the-ultimate-guide-to-understanding-local-storage-2a27fdb80544"
+                >this link</a
+              >
+              or
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"
+                >this link</a
+              >.
+            </p>
+            <div class="text-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Modal -->
+    <div
+      class="modal fade"
+      id="aboutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="aboutModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h1>About the Project</h1>
+
+            <h3>GitHub Project</h3>
+            <p>
+              You can visit the Project on GitHub
+              <a href="https://github.com/lukasdanckwerth/frc-visualization"
+                >here</a
+              >.
+            </p>
+
+            <h3>Libraries</h3>
+            <li>D3.js (<a href="https://d3js.org">https://d3js.org</a>)</li>
+            <li>
+              lotivis.js (<a href="https://github.com/lukasdanckwerth/lotivis"
+                >https://github.com/lukasdanckwerth/lotivis</a
+              >)
+            </li>
             <br />
-            Müllerstr. 79B
-            <br />
-            13349 Berlin
-          </p>
-          <div class="text-end">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              Close
-            </button>
+
+            <h3>Authors</h3>
+            <li>
+              Lukas Danckwerth (<a href="https://github.com/lukasdanckwerth"
+                >GitHub</a
+              >)
+            </li>
+            <li>Jan-Nicklas Wilsker</li>
+
+            <div class="text-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Pricacy Policy Modal -->
-  <div class="modal fade" id="privacyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="pricacyPolicyModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <h1>Privacy Policy</h1>
-          <p>
-            This page, the application and us <b>do not</b> store nor collect
-            any of your data. You can convince yourself by checking its open
-            source code
-            <a href="https://github.com/lukasdanckwerth/frc-visualization">here</a>.
-          </p>
-          <p>
-            The history of your searches in the "Search Corpus" function is
-            stored on your computer with <b>local storage</b> and will never
-            be stored nor requested by us. To learn more about the
-            <b>local storage</b> see
-            <a href="https://medium.com/@psubham94/the-ultimate-guide-to-understanding-local-storage-2a27fdb80544">this
-              link</a>
-            or
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">this link</a>.
-          </p>
-          <div class="text-end">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script src="js/lib/lotivis.js"></script>
+    <script src="js/lib/bootstrap.bundle.min.js"></script>
 
-  <!-- About Modal -->
-  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <h1>About the Project</h1>
-
-          <h3>GitHub Project</h3>
-          <p>
-            You can visit the Project on GitHub
-            <a href="https://github.com/lukasdanckwerth/frc-visualization">here</a>.
-          </p>
-
-          <h3>Libraries</h3>
-          <li>D3.js (<a href="https://d3js.org">https://d3js.org</a>)</li>
-          <li>
-            lotivis.js (<a
-              href="https://github.com/lukasdanckwerth/lotivis">https://github.com/lukasdanckwerth/lotivis</a>)
-          </li>
-          <br />
-
-          <h3>Authors</h3>
-          <li>
-            Lukas Danckwerth (<a href="https://github.com/lukasdanckwerth">GitHub</a>)
-          </li>
-          <li>Jan-Nicklas Wilsker</li>
-
-          <div class="text-end">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/lib/lotivis.js"></script>
-  <script src="js/lib/bootstrap.bundle.min.js"></script>
-
-  <script>
-    lotivis.d3.json("./assets/about.json").then(function (response) {
-      lotivis.d3.selectAll("#frcv-version").html(response.version);
-      lotivis.d3.selectAll("#frcv-environment").html(response.environment);
-      lotivis.d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
-    });
-  </script>
-</body>
-
+    <script>
+      lotivis.d3.json("./assets/about.json").then(function (response) {
+        lotivis.d3.selectAll("#frcv-version").html(response.version);
+        lotivis.d3.selectAll("#frcv-environment").html(response.environment);
+        lotivis.d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
+      });
+    </script>
+  </body>
 </html>
