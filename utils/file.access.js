@@ -17,7 +17,11 @@ function bytesToSize(bytes) {
 }
 
 function fileSize(filePath) {
-  return bytesToSize(fs.statSync(filePath).size);
+  return fs.statSync(filePath).size;
+}
+
+function fileSizeFormatted(filePath) {
+  return bytesToSize(fileSize(filePath));
 }
 
 function read(url) {

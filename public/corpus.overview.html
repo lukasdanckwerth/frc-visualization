@@ -1,211 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="css/lotivis.css" />
-    <link rel="stylesheet" href="css/frcv.css" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <title>FRCV - Corpus Overview</title>
-  </head>
-  <body>
-    <div class="container pt-4">
-      <!-- HEADER -->
-      <div class="row">
-        <div class="col-2">
-          <a href="index.html" class="btn">Back</a>
-        </div>
-        <div class="col-8 text-center text-secondary">
-          <h4>Corpus Overview</h4>
-        </div>
-        <div class="col-2">
-          <select id="dataSelection" onchange="dataChange()">
-            <option>Tracks</option>
-            <option>Words</option>
-            <option>Innovation List</option>
-            <option>Innovation List (Rel. Date)</option>
-            <option>Innovation List (Rel. Location)</option>
-          </select>
-        </div>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+  <link rel="stylesheet" href="./css/lotivis.css" />
+  <link rel="stylesheet" href="./css/frcv.css" />
+  <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
+  <title>FRCV - Corpus Overview</title>
+</head>
+
+<body>
+  <div class="container pt-4">
+    <!-- HEADER -->
+    <div class="row">
+      <div class="col-2">
+        <a href="index.html" class="btn">Back</a>
       </div>
-      <!-- CONTENT -->
-      <div class="row">
-        <!-- LOADING INDICATOR -->
-        <div class="col-12 text-center pt-5" id="loading-indicator">
-          <div style="margin: auto">
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="pt-2">
-              <div class="alert alert-light" role="alert">
-                Loading Corpus ...
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-8 text-center text-secondary">
+        <h4>Corpus Overview</h4>
       </div>
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Bar</h5>
-            </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('bar-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
+      <div class="col-2">
+        <select id="dataSelection" onchange="dataChange()">
+          <option>Tracks</option>
+          <option>Words</option>
+          <option>Innovation List</option>
+          <option>Innovation List (Rel. Date)</option>
+          <option>Innovation List (Rel. Location)</option>
+        </select>
+      </div>
+    </div>
+    <!-- CONTENT -->
+    <div class="row">
+      <!-- LOADING INDICATOR -->
+      <div class="col-12 text-center pt-5" id="loading-indicator">
+        <div style="margin: auto">
+          <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <div id="bar-chart">
-            <!-- Bar Chart Here -->
+          <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Plot</h5>
-            </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('plot-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
+          <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <div id="plot-chart">
-            <!-- Plot Chart Here -->
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Map</h5>
+          <div class="pt-2">
+            <div class="alert alert-light" role="alert">
+              Loading Corpus ...
             </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('map-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
-          </div>
-          <div id="map-chart">
-            <!-- Map Chart Here -->
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="row frcv-headline">
+          <div class="col-6">
+            <h5>Bar</h5>
+          </div>
+          <div class="col-6 text-end">
+            <button type="button" class="btn btn-sm" onclick="screenshot('bar-chart-svg')">
+              Screenshot
+            </button>
+          </div>
+        </div>
+        <div id="bar-chart">
+          <!-- Bar Chart Here -->
+        </div>
+        <div class="row frcv-headline">
+          <div class="col-6">
+            <h5>Plot</h5>
+          </div>
+          <div class="col-6 text-end">
+            <button type="button" class="btn btn-sm" onclick="screenshot('plot-chart-svg')">
+              Screenshot
+            </button>
+          </div>
+        </div>
+        <div id="plot-chart">
+          <!-- Plot Chart Here -->
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="row frcv-headline">
+          <div class="col-6">
+            <h5>Map</h5>
+          </div>
+          <div class="col-6 text-end">
+            <button type="button" class="btn btn-sm" onclick="screenshot('map-chart-svg')">
+              Screenshot
+            </button>
+          </div>
+        </div>
+        <div id="map-chart">
+          <!-- Map Chart Here -->
+        </div>
+        <div class="row frcv-headline">
+          <div class="col-6">
+            <h5>Info</h5>
+          </div>
+        </div>
+        <div id="frcv-info">
+          <div>
+            All: <span id="frcv-artists-all"></span>
+          </div>
+          <div>
+            Female: <span id="frcv-artists-female"></span>
+          </div>
+          <div>
+            Male: <span id="frcv-artists-male"></span>
+          </div>
+          <div>
+            Groups: <span id="frcv-artists-groups"></span>
+          </div>
+          <div>
+            Tracks: <span id="frcv-tracks"></span>
+          </div>
+          <div>
+            Words: <span id="frcv-words"></span>
+          </div>
+          <div>
+            Types: <span id="frcv-types"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script src="js/lib/lotivis.js"></script>
-    <script src="js/lib/frc.js"></script>
+  <script src="js/lib/lotivis.js"></script>
+  <script src="js/lib/frc.js"></script>
 
-    <script>
-      // enable debug mode
-      lotivis.debug(true);
-      lotivis.config.downloadFilePrefix = "frcv";
+  <script>
+    // enable debug mode
+    lotivis.debug(true);
+    lotivis.config.downloadFilePrefix = "frcv";
 
-      let d3 = lotivis.d3;
-      let corpus = null;
-      let datasets = [];
+    let d3 = lotivis.d3;
+    let corpus = null;
+    let datasets = [];
 
-      // create lotivis elements
-      let barChart = new lotivis.BarChart("bar-chart", {
-        labels: true,
-        selectable: false,
-        dates: d3.range(1995, 2021),
+    // create lotivis elements
+    let barChart = new lotivis.BarChart("bar-chart", {
+      labels: true,
+      selectable: false,
+      dates: d3.range(1995, 2021),
+    });
+
+    let mapChart = new lotivis.MapChart("map-chart", {
+      labels: true,
+      excludedFeatureCodes: ["2A", "2B"],
+      featureIDAccessor: (f) => "" + f.properties.code,
+      featureNameAccessor: (f) => f.properties.nom,
+    });
+
+    let plotChart = new lotivis.PlotChart("plot-chart", {
+      type: "fraction",
+      selectable: false,
+    });
+
+    function screenshot(id) {
+      lotivis.screenshot(id, "screenshot");
+    }
+
+    function controllerUpdate(controller, reason, some) {
+      if (reason === "locations") {
+        let locations = controller.filters.locations;
+        let artists = corpus.artistsForLocations(locations);
+        let datasets = frc.artistsToDatasets(artists);
+        let artistsController = lotivis.parseDatasets(datasets);
+        plotChart.setController(artistsController);
+      } else {
+        plotChart.setController(new lotivis.DataController([]));
+      }
+    }
+
+    function setDataset(index) {
+      let dataset = datasets[index];
+      let controller = lotivis.parseDataset(dataset);
+
+      barChart.setController(controller);
+      mapChart.setController(controller);
+
+      controller.on("change", controllerUpdate);
+    }
+
+    function dataChange() {
+      setDataset(document.getElementById("dataSelection").selectedIndex);
+    }
+
+    Promise.all([
+      lotivis.d3.json("./assets/corpus.json"),
+      lotivis.d3.json("./assets/departements.geojson"),
+      lotivis.d3.json("./assets/corpus.overview.tracks.json"),
+      lotivis.d3.json("./assets/corpus.overview.words.json"),
+      lotivis.d3.json("./assets/corpus.overview.innovation.list.json"),
+      lotivis.d3.json(
+        "./assets/corpus.overview.innovation.list.relative.date.json"
+      ),
+      lotivis.d3.json(
+        "./assets/corpus.overview.innovation.list.relative.location.json"
+      ),
+      // d3.json('/assets/corpus.overview.words.relative.json'),
+      // d3.json('/assets/corpus.overview.types.json'),
+      // d3.json('/assets/corpus.overview.types.relative.json')
+    ])
+      .then((all) => {
+        let rawCorpus = all.shift();
+        corpus = new frc.Corpus(rawCorpus);
+        barChart.config.dates = corpus.dates();
+
+        let geoJSON = all.shift();
+        mapChart.setGeoJSON(geoJSON);
+
+        datasets = all;
+        setDataset(0);
+
+        lotivis.d3.select("#loading-indicator").style("display", "none");
+      })
+      .catch((e) => {
+        console.error(e);
+        alert(e);
       });
 
-      let mapChart = new lotivis.MapChart("map-chart", {
-        labels: true,
-        excludedFeatureCodes: ["2A", "2B"],
-        featureIDAccessor: (f) => "" + f.properties.code,
-        featureNameAccessor: (f) => f.properties.nom,
-      });
+    function setText(id, text) {
+      document.getElementById(id).innerText = lotivis.config.numberFormat(text);
+    }
 
-      let plotChart = new lotivis.PlotChart("plot-chart", {
-        type: "fraction",
-        selectable: false,
-      });
+    lotivis.d3.json("./assets/about.json").then(about => {
+      setText("frcv-artists-all", about.artists.all);
+      setText("frcv-artists-female", about.artists.female);
+      setText("frcv-artists-male", about.artists.male);
+      setText("frcv-artists-groups", about.artists.groups);
+      setText("frcv-tracks", about.tracks);
+      setText("frcv-words", about.words);
+      setText("frcv-types", about.types);
+    });
+  </script>
+</body>
 
-      function screenshot(id) {
-        lotivis.screenshot(id, "screenshot");
-      }
-
-      function controllerUpdate(controller, reason, some) {
-        if (reason === "locations") {
-          let locations = controller.filters.locations;
-          let artists = corpus.artistsForLocations(locations);
-          let datasets = frc.artistsToDatasets(artists);
-          let artistsController = lotivis.parseDatasets(datasets);
-          plotChart.setController(artistsController);
-        } else {
-          plotChart.setController(new lotivis.DataController([]));
-        }
-      }
-
-      function setDataset(index) {
-        let dataset = datasets[index];
-        let controller = lotivis.parseDataset(dataset);
-
-        barChart.setController(controller);
-        mapChart.setController(controller);
-
-        controller.on("change", controllerUpdate);
-      }
-
-      function dataChange() {
-        setDataset(document.getElementById("dataSelection").selectedIndex);
-      }
-
-      Promise.all([
-        lotivis.d3.json("./assets/corpus.json"),
-        lotivis.d3.json("./assets/departements.geojson"),
-        lotivis.d3.json("./assets/corpus.overview.tracks.json"),
-        lotivis.d3.json("./assets/corpus.overview.words.json"),
-        lotivis.d3.json("./assets/corpus.overview.innovation.list.json"),
-        lotivis.d3.json(
-          "./assets/corpus.overview.innovation.list.relative.date.json"
-        ),
-        lotivis.d3.json(
-          "./assets/corpus.overview.innovation.list.relative.location.json"
-        ),
-        // d3.json('/assets/corpus.overview.words.relative.json'),
-        // d3.json('/assets/corpus.overview.types.json'),
-        // d3.json('/assets/corpus.overview.types.relative.json')
-      ])
-        .then((all) => {
-          let rawCorpus = all.shift();
-          corpus = new frc.Corpus(rawCorpus);
-          barChart.config.dates = corpus.dates();
-
-          let geoJSON = all.shift();
-          mapChart.setGeoJSON(geoJSON);
-
-          datasets = all;
-          setDataset(0);
-
-          lotivis.d3.select("#loading-indicator").style("display", "none");
-        })
-        .catch((e) => {
-          console.error(e);
-          alert(e);
-        });
-    </script>
-  </body>
 </html>

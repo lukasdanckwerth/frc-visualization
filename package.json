@@ -3,6 +3,8 @@
   "version": "1.0.50",
   "description": "French Rap Corpus Visualization",
   "main": "npm run serve",
+  "author": "Lukas Danckwerth",
+  "license": "MIT",
   "scripts": {
     "build": "rollup --config",
     "build:watch": "rollup --config --watch",
@@ -11,8 +13,6 @@
     "assets": "npm run build && node utils/generate.assets.js",
     "assets:search": "node utils/datasets.search.innovation.list.js"
   },
-  "author": "Lukas Danckwerth",
-  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",

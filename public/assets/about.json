@@ -4,5 +4,14 @@
   "packageAuthor": "Lukas Danckwerth",
   "environment": "production",
   "corpusSize": "61 MB (64328409 bytes)",
-  "artists": 1530
+  "originalCorpusArtists": 1530,
+  "artists": {
+    "all": 1252,
+    "female": 51,
+    "male": 898,
+    "groups": 303
+  },
+  "tracks": 19457,
+  "words": 9708173,
+  "types": 5035880
 }
