@@ -21101,6 +21101,51 @@
     });
   }
 
+  /**
+   * Returns `true` if the given value not evaluates to false and is not 0. false else.
+   * @param value The value to check.
+   * @returns {boolean} A Boolean value indicating whether the given value is valid.
+   */
+  function isValue(value) {
+    return Boolean(value || value === 0);
+  }
+
+  function DataItem(item) {
+    return { date: item.date, location: item.location, value: item.value };
+  }
+
+  function Dataset(item) {
+    let set = { label: item.label, data: [DataItem(item)] };
+    if (isValue(item.stack)) set.stack = item.stack;
+    return set;
+  }
+
+  function toDataset(data) {
+    let datasets = [],
+      item,
+      set,
+      datum;
+    for (let i = 0; i < data.length; i++) {
+      item = data[i];
+      set = datasets.find((d) => d.label === item.label);
+
+      if (set) {
+        datum = set.data.find(
+          (d) => d.date === item.date && d.location === item.location
+        );
+        if (datum) {
+          datum.value += item.value;
+        } else {
+          set.data.push(DataItem(item));
+        }
+      } else {
+        datasets.push(Dataset(item));
+      }
+    }
+
+    return datasets;
+  }
+
   class Component extends EventEmitter {
     constructor(selector) {
       if (!selector) throw new Error("no selector specified");
@@ -21675,15 +21720,6 @@
         .attr("cursor", "pointer")
         .on("click", (e, b) => chart.emit("click-background", e, b));
     }
-  }
-
-  /**
-   * Returns `true` if the given value not evaluates to false and is not 0. false else.
-   * @param value The value to check.
-   * @returns {boolean} A Boolean value indicating whether the given value is valid.
-   */
-  function isValue(value) {
-    return Boolean(value || value === 0);
   }
 
   function dataViewBar(dataController) {
@@ -24298,7 +24334,7 @@
   }
 
   function dataViewPlot(dataController) {
-    let dates = dataController.dates();
+    let dates = dataController.dates().sort();
     let data = dataController.snapshot || dataController.data;
 
     console.log("data", data);
@@ -24376,8 +24412,6 @@
         .attr("preserveAspectRatio", "xMidYMid meet")
         .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`);
 
-      this.sortDatasets();
-
       let margin = this.config.margin;
       let barsCount = this.dataView.labels.length || 0;
 
@@ -24391,11 +24425,13 @@
         `0 0 ${this.config.width} ${this.preferredHeight}`
       );
 
+      this.sortDatasets();
       this.createScales();
     }
 
     createScales() {
       let dates = this.config.dates || this.config.dates || this.dataView.dates;
+      dates = dates.sort();
       let labels = this.dataView.labels || [];
 
       this.xChart = band()
@@ -24515,7 +24551,7 @@
         .append("span")
         .attr("class", "ltv-pill-checkbox-span")
         .style("background-color", (d) => colors.label(d[0]))
-        .text((d) => "" + d[0] + "(" + dataView.byLabel.get(d[0]) + ")");
+        .text((d) => "" + d[0] + " (" + dataView.byLabel.get(d[0]) + ")");
 
       // let labelsOfCheckboxes = divs
       //   .append("label")
@@ -24568,314 +24604,26 @@
     }
   }
 
-  /**
-   *
-   * @class UrlParameters
-   */
-  class UrlParameters {
-    /**
-     * Returns the singleton instance.
-     *
-     * @returns {UrlParameters}
-     */
-    static getInstance() {
-      if (!UrlParameters.instance) {
-        UrlParameters.instance = new UrlParameters();
-      }
-      return UrlParameters.instance;
-    }
-
-    /**
-     * Return the current window URL.
-     * @returns {URL}
-     */
-    getURL() {
-      return new URL(window.location.href);
-    }
-
-    getBoolean(parameter, defaultValue = false) {
-      let value = this.getURL().searchParams.get(parameter);
-      return value ? value === "true" : defaultValue;
-    }
-
-    getString(parameter, defaultValue = "") {
-      return this.getURL().searchParams.get(parameter) || defaultValue;
-    }
-
-    set(parameter, newValue) {
-      const url = this.getURL();
-
-      if (newValue === false) {
-        url.searchParams.delete(parameter);
-      } else {
-        url.searchParams.set(parameter, newValue);
-      }
-
-      window.history.replaceState(null, null, url);
-      this.updateCurrentPageFooter();
-    }
-
-    setWithoutDeleting(parameter, newValue) {
-      const url = this.getURL();
-      url.searchParams.set(parameter, newValue);
-      window.history.replaceState(null, null, url);
-      this.updateCurrentPageFooter();
-    }
-
-    clear() {
-      const url = this.getURL();
-      const newPath = url.protocol + url.host;
-      const newURL = new URL(newPath);
-      window.history.replaceState(null, null, newURL);
-      this.updateCurrentPageFooter();
-    }
-
-    updateCurrentPageFooter() {
-      // console.log('window.lotivisApplication: ' + window.lotivisApplication);
-      // window.lotivisApplication.currentPage.updateFooter();
-      const url = this.getURL();
-      select("#lotivis-url-container").text(url);
-    }
-  }
-
-  UrlParameters.language = "language";
-  UrlParameters.page = "page";
-  UrlParameters.query = "query";
-  UrlParameters.searchViewMode = "search-view-mode";
-  UrlParameters.chartType = "chart-type";
-  UrlParameters.chartShowLabels = "chart-show-labels";
-  UrlParameters.chartCombineStacks = "combine-stacks";
-  UrlParameters.contentType = "content-type";
-  UrlParameters.valueType = "value-type";
-  UrlParameters.searchSensitivity = "search-sensitivity";
-  UrlParameters.startYear = "start-year";
-  UrlParameters.endYear = "end-year";
-
-  UrlParameters.showTestData = "show-samples";
-
-  /**
-   * Appends the given string in extension to the given string filename if filename not already ends with this extension.
-   *
-   * @param filename A string with or without an extension.
-   * @param extension The extension the filename will end with.
-   *
-   * @returns {*|string} The filename with the given extension.
-   */
-  function appendExtensionIfNeeded(filename, extension) {
-    if (extension === "" || extension === ".") return filename;
-    extension = extension.startsWith(".") ? extension : `.${extension}`;
-    return filename.endsWith(extension) ? filename : `${filename}${extension}`;
-  }
-
-  // http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
-  /**
-   * Parses a String from the given (D3.js) SVG node.
-   *
-   * @param svgNode The node of the SVG.
-   * @returns {string} The parsed String.
-   */
-  function getSVGString(svgNode) {
-    svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
-    let cssStyleText = getCSSStyles(svgNode);
-    appendCSS(cssStyleText, svgNode);
-
-    let serializer = new XMLSerializer();
-    let svgString = serializer.serializeToString(svgNode);
-
-    // Fix root xlink without namespace
-    svgString = svgString.replace(/(\w+)?:?xlink=/g, "xmlns:xlink=");
-
-    // Safari NS namespace fix
-    svgString = svgString.replace(/NS\d+:href/g, "xlink:href");
-
-    return svgString;
-
-    function getCSSStyles(parentElement) {
-      let selectorTextArr = [];
-
-      // Add Parent element Id and Classes to the list
-      selectorTextArr.push("#" + parentElement.id);
-      for (let c = 0; c < parentElement.classList.length; c++) {
-        if (!contains("." + parentElement.classList[c], selectorTextArr)) {
-          selectorTextArr.push("." + parentElement.classList[c]);
-        }
-      }
-
-      // Add Children element Ids and Classes to the list
-      let nodes = parentElement.getElementsByTagName("*");
-      for (let i = 0; i < nodes.length; i++) {
-        let id = nodes[i].id;
-        if (!contains("#" + id, selectorTextArr)) {
-          selectorTextArr.push("#" + id);
-        }
-
-        let classes = nodes[i].classList;
-        for (let c = 0; c < classes.length; c++) {
-          if (!contains("." + classes[c], selectorTextArr)) {
-            selectorTextArr.push("." + classes[c]);
-          }
-        }
-      }
-
-      // Extract CSS Rules
-      let extractedCSSText = "";
-      for (let i = 0; i < document.styleSheets.length; i++) {
-        let s = document.styleSheets[i];
-
-        try {
-          if (!s.cssRules) continue;
-        } catch (e) {
-          if (e.name !== "SecurityError") throw e; // for Firefox
-          continue;
-        }
-
-        let cssRules = s.cssRules;
-        for (let r = 0; r < cssRules.length; r++) {
-          if (contains(cssRules[r].selectorText, selectorTextArr)) {
-            extractedCSSText += cssRules[r].cssText;
-          }
-        }
-      }
-
-      return extractedCSSText;
-
-      function contains(str, arr) {
-        return arr.indexOf(str) !== -1;
-      }
-    }
-
-    function appendCSS(cssText, element) {
-      let styleElement = document.createElement("style");
-      styleElement.setAttribute("type", "text/css");
-      styleElement.innerHTML = cssText;
-      let refNode = element.hasChildNodes() ? element.children[0] : null;
-      element.insertBefore(styleElement, refNode);
-    }
-  }
-
-  /**
-   *
-   * @param svgString
-   * @param width
-   * @param height
-   * @param callback
-   */
-  function svgString2Image(svgString, width, height, callback) {
-    // Convert SVG string to samples URL
-    let imageSource =
-      "data:image/svg+xml;base64," +
-      btoa(unescape(encodeURIComponent(svgString)));
-
-    let canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
-    let context = canvas.getContext("2d");
-    let image = new Image();
-    image.onload = function () {
-      context.clearRect(0, 0, width, height);
-      context.drawImage(image, 0, 0, width, height);
-      if (callback) callback(canvas.toDataURL("image/png"));
-    };
-
-    image.src = imageSource;
-  }
-
-  /**
-   * Returns the size of the viewBox or the normal size of the given svg element.
-   *
-   * @param svgElement The svg element.
-   * @returns {number[]} The size [width, height].
-   */
-  function getOriginalSizeOfSVG(svgElement) {
-    let viewBoxBaseValue = svgElement.viewBox.baseVal;
-    if (viewBoxBaseValue.width !== 0 && viewBoxBaseValue.height !== 0) {
-      return [viewBoxBaseValue.width, viewBoxBaseValue.height];
-    } else {
-      return [svgElement.width.baseVal.value, svgElement.height.baseVal.value];
-    }
-  }
-
-  /**
-   * Creates and appends an anchor linked to the given samples which is then immediately clicked.
-   *
-   * @param blob The samples to be downloaded.
-   * @param filename The name of the file.
-   */
-  function downloadBlob(blob, filename) {
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(blob, filename);
-    } else {
-      let anchor = document.createElement("a");
-      anchor.href = URL.createObjectURL(blob);
-      anchor.download = filename;
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-    }
-  }
-
-  function downloadJSON(jsonString, filename) {
-    let blob = new Blob([jsonString], { type: "text/json" });
-    let saveFilename = appendExtensionIfNeeded(filename, "json");
-    downloadBlob(blob, saveFilename);
-  }
-
-  function downloadCSV(jsonString, filename) {
-    let blob = new Blob([jsonString], { type: "text/csv" });
-    let saveFilename = appendExtensionIfNeeded(filename, "csv");
-    downloadBlob(blob, saveFilename);
-  }
-
-  /**
-   * Initiates a download of the PNG image of the SVG with the given selector (id).
-   *
-   * @param selector The id of the SVG element to create the image of.
-   * @param filename The name of the file which is been downloaded.
-   */
-  function downloadImage(selector, filename) {
-    console.log("selector:" + selector);
-    console.log("filename:" + filename);
-    let svgElement = select("#" + selector);
-    let node = svgElement.node();
-    let size = getOriginalSizeOfSVG(node);
-    let svgString = getSVGString(node);
-
-    svgString2Image(svgString, 2 * size[0], 2 * size[1], function (dataURL) {
-      // console.log('dataURL:' + dataURL);
-      fetch(dataURL)
-        .then((res) => res.blob())
-        .then(function (dataBlob) {
-          let saveFilename = appendExtensionIfNeeded(filename, "png");
-
-          // console.log('saveFilename:' + saveFilename);
-
-          downloadBlob(dataBlob, saveFilename);
-        });
-    });
-  }
-
   exports.BarChart = BarChart;
   exports.DataController = DataController;
+  exports.DataItem = DataItem;
+  exports.Dataset = Dataset;
   exports.DateOrdinator = date_ordinator;
   exports.LabelsChart = LabelsChart;
   exports.MapChart = MapChart;
   exports.PlotChart = PlotChart;
-  exports.UrlParameters = UrlParameters;
   exports.config = LOTIVIS_CONFIG$1;
   exports.csv = csv;
   exports.csvParse = csvParse;
   exports.csvRender = csvRender;
   exports.d3 = index;
   exports.debug = debug;
-  exports.downloadCSV = downloadCSV;
-  exports.downloadJSON = downloadJSON;
   exports.flatDataset = flatDataset;
   exports.flatDatasets = flatDatasets;
   exports.json = json;
   exports.parseDataset = parseDataset;
   exports.parseDatasets = parseDatasets;
-  exports.screenshot = downloadImage;
+  exports.toDataset = toDataset;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

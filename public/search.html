@@ -46,11 +46,21 @@
     <div class="container pt-4" id="content">
       <!-- HEADER -->
       <div class="row">
-        <div class="col-2">
+        <div class="col-4">
           <a href="index.html" class="btn">Back</a>
         </div>
-        <div class="col-8 text-center text-secondary">
+        <div class="col-4 text-center text-secondary">
           <h4>Search in Corpus</h4>
+        </div>
+        <div class="col-4 text-end">
+          <button
+            type="button"
+            class="btn btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#settingsModal"
+          >
+            Settings
+          </button>
         </div>
       </div>
       <!-- CONTENT -->
@@ -149,17 +159,19 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                onclick="screenshot('bar-chart-svg')"
+                onclick="screenshotBarWithLegend()"
               >
                 Screenshot
               </button>
             </div>
           </div>
-          <div id="bar-chart">
-            <!-- Bar Chart Here -->
-          </div>
-          <div id="labels-chart">
-            <!-- Labels Chart Here -->
+          <div id="bar-chart-legend">
+            <div id="bar-chart">
+              <!-- Bar Chart Here -->
+            </div>
+            <div id="labels-chart">
+              <!-- Labels Chart Here -->
+            </div>
           </div>
           <br />
           <div class="row frcv-headline">
@@ -170,7 +182,7 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                onclick="screenshot('plot-chart-svg')"
+                onclick="screenshot('plot-chart')"
               >
                 Screenshot
               </button>
@@ -198,7 +210,7 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                onclick="screenshot('map-chart-svg')"
+                onclick="screenshot('map-chart')"
               >
                 Screenshot
               </button>
@@ -249,20 +261,47 @@
       </div>
     </div>
 
-    <!-- Innovation List Modal -->
+    <!-- Settings Modal -->
     <div
       class="modal fade"
-      id="innovationListModal"
+      id="settingsModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="innovationListModalLabel"
+      aria-labelledby="settingsModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog frcv-modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <div id="innovation-list" class="frcv-innovation-list">
-              <!-- innovation list content here -->
+            <div id="frcv-settings" class="frcv-settings">
+              Labels:
+              <div>
+                <input
+                  type="checkbox"
+                  id="labelsBar"
+                  name="labelsBar"
+                  checked
+                />
+                <label for="labelsBar">BarChart</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="labelsMap"
+                  name="labelsMap"
+                  checked
+                />
+                <label for="labelsMap">MapChart</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="labelsPlot"
+                  name="labelsPlot"
+                  checked
+                />
+                <label for="labelsPlot">PlotChart</label>
+              </div>
             </div>
           </div>
         </div>
@@ -294,6 +333,7 @@
       style="display: none"
     ></div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/bootstrap.bundle.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>

@@ -4,12 +4,12 @@
   "description": "French Rap Corpus Visualization",
   "main": "npm run serve",
   "scripts": {
-    "build": "rollup -c",
-    "build:watch": "rollup -c --watch",
+    "build": "rollup --config",
+    "build:watch": "rollup --config --watch",
     "serve": "http-server public/",
     "serve:production": "NODE_ENV=production node server.js production",
     "assets": "npm run build && node utils/generate.assets.js",
-    "ionic:serve": "http-server public/"
+    "assets:search": "node utils/datasets.search.innovation.list.js"
   },
   "author": "Lukas Danckwerth",
   "license": "MIT",
@@ -23,6 +23,8 @@
     "rollup-stream": "^1.24.1"
   },
   "dependencies": {
-    "http-server": "^14.0.0"
+    "html2canvas": "^1.4.0",
+    "http-server": "^14.0.0",
+    "puppeteer": "^13.0.1"
   }
 }

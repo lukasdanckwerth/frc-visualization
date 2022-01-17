@@ -36,8 +36,46 @@ let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
 let countType = frc.SEARCH_COUNT.tracks;
 
+function element(id) {
+  return document.getElementById(id).selectedIndex;
+}
+
 function screenshot(id) {
-  lotivis.screenshot(id, "screenshot");
+  let element = document.querySelector("#" + id);
+  html2canvas(element).then((canvas) => {
+    // document.body.appendChild(canvas);
+    var t = canvas.toDataURL().replace("data:image/png;base64,", "");
+    downloadBase64File("image/png", t, "image");
+  });
+}
+
+function downloadBase64File(contentType, base64Data, fileName) {
+  const linkSource = `data:${contentType};base64,${base64Data}`;
+  const downloadLink = document.createElement("a");
+  downloadLink.href = linkSource;
+  downloadLink.download = fileName;
+  downloadLink.click();
+}
+
+function screenshotBarWithLegend() {
+  let element = document.querySelector("#bar-chart-legend");
+  html2canvas(element).then((canvas) => {
+    // document.body.appendChild(canvas);
+    var t = canvas.toDataURL().replace("data:image/png;base64,", "");
+    downloadBase64File("image/png", t, "image");
+  });
+}
+
+function onLabelsBar() {
+  barChart.config.labels = element("labelsBar").checked;
+}
+
+function onLabelsMap() {
+  barChart.config.labels = element("labelsMap").checked;
+}
+
+function onLabelsPlot() {
+  barChart.config.labels = element("labelsPlot").checked;
 }
 
 /* search */

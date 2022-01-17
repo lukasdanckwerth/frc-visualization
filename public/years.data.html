@@ -42,6 +42,11 @@
             <option>Types</option>
             <option>Types (Relative)</option>
           </select>
+          Labels:
+          <select id="labels" onchange="onLabels()">
+            <option>On</option>
+            <option>Off</option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -59,6 +64,8 @@
 
       let datasets = [];
       let chart = new lotivis.BarChart("bar-chart", {
+        labels: true,
+        selectable: false,
         margin: {
           top: 20,
           right: 20,
@@ -79,6 +86,17 @@
       function dataChange() {
         let dropdown = document.getElementById("dataSelection");
         setDataset(dropdown.selectedIndex);
+      }
+
+      function onLabels() {
+        let dropdown = document.getElementById("labels");
+        if (dropdown.selectedIndex === 0) {
+          chart.config.labels = true;
+        } else {
+          chart.config.labels = false;
+        }
+
+        chart.redraw();
       }
 
       Promise.all([

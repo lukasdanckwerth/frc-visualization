@@ -25,6 +25,9 @@
           <select id="dataSelection" onchange="dataChange()">
             <option>Tracks</option>
             <option>Words</option>
+            <option>Innovation List</option>
+            <option>Innovation List (Rel. Date)</option>
+            <option>Innovation List (Rel. Location)</option>
           </select>
         </div>
       </div>
@@ -175,6 +178,13 @@
         lotivis.d3.json("./assets/departements.geojson"),
         lotivis.d3.json("./assets/corpus.overview.tracks.json"),
         lotivis.d3.json("./assets/corpus.overview.words.json"),
+        lotivis.d3.json("./assets/corpus.overview.innovation.list.json"),
+        lotivis.d3.json(
+          "./assets/corpus.overview.innovation.list.relative.date.json"
+        ),
+        lotivis.d3.json(
+          "./assets/corpus.overview.innovation.list.relative.location.json"
+        ),
         // d3.json('/assets/corpus.overview.words.relative.json'),
         // d3.json('/assets/corpus.overview.types.json'),
         // d3.json('/assets/corpus.overview.types.relative.json')
