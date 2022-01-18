@@ -31,11 +31,11 @@ function search(name, countType) {
   });
 
   console.log(name, "datasets", datasets.length);
-  fileAccess.writeJSON(datasets, name + ".json");
+  // fileAccess.writeJSON(datasets, name + ".json");
 
   let flat = lotivis.flatDatasets(datasets);
   console.log(name, "flat", flat.length);
-  fileAccess.writeJSON(flat, name + ".flat.json");
+  // fileAccess.writeJSON(flat, name + ".flat.json");
 
   let combined = lotivis.toDataset(flat);
   console.log("datasets combined", combined.length);
