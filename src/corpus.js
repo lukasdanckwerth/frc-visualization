@@ -1,13 +1,10 @@
 import { parseArtists } from "./parse.artists.js";
 import { parseTracks } from "./parse.tacks.js";
 import { internalSearch } from "./corpus.search";
+import * as d3 from "d3";
 
 function ArraySet(input) {
   return Array.from(new Set(input));
-}
-
-function load_d3() {
-  return typeof window === "undefined" ? require("d3") : d3 || window.d3;
 }
 
 export class Corpus {
@@ -17,7 +14,7 @@ export class Corpus {
     console.log(`[FRC] Found ${this.artists.length} artists`);
     console.log(`[FRC] Found ${this.tracks.length} tracks`);
 
-    let d3 = load_d3();
+    // let d3 = load_d3();
 
     this.datesToTracks = d3.rollup(
       this.tracks,

@@ -9,16 +9,16 @@ module.exports = [
   {
     input: "src/index.js",
     plugins: [
-      resolve({
-        jsnext: true,
-      }),
+      // Allow node_modules resolution, so d3 can be used
+      // inside the resulting module.
+      resolve(),
     ],
     output: {
-      sourcemap: true,
       name: "frc",
       file: "public/js/lib/frc.js",
       banner,
       format: "umd",
+      sourcemap: true,
     },
   },
 ];

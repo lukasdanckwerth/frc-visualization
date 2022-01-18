@@ -48,10 +48,12 @@ function parseTrack(track, artist, album) {
     .replace(/\)/g, " ")
     .replace(/\[/g, " ")
     .replace(/]/g, " ")
+    .replace(/\?/g, " ")
+    .replace(/\!/g, " ")
     .split(" ")
     .filter((word) => word.length > 0);
 
-  let componentsLowercased = components.map((item) => item.toLowerCase());
+  let componentsLower = components.map((item) => item.toLowerCase());
   let types = Array.from(new Set(components));
 
   return {
@@ -68,7 +70,7 @@ function parseTrack(track, artist, album) {
     url: track.url,
     content: content,
     components: components,
-    componentsLowercased: componentsLowercased,
+    componentsLower: componentsLower,
     types: types,
   };
 }

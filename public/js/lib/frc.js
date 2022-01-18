@@ -5,7 +5,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.frc = {}));
-}(this, (function (exports) { 'use strict';
+})(this, (function (exports) { 'use strict';
 
   function parseArtists(json) {
     console.log(`[FRC] Parse artists`);
@@ -82,10 +82,12 @@
       .replace(/\)/g, " ")
       .replace(/\[/g, " ")
       .replace(/]/g, " ")
+      .replace(/\?/g, " ")
+      .replace(/\!/g, " ")
       .split(" ")
       .filter((word) => word.length > 0);
 
-    let componentsLowercased = components.map((item) => item.toLowerCase());
+    let componentsLower = components.map((item) => item.toLowerCase());
     let types = Array.from(new Set(components));
 
     return {
@@ -102,7 +104,7 @@
       url: track.url,
       content: content,
       components: components,
-      componentsLowercased: componentsLowercased,
+      componentsLower: componentsLower,
       types: types,
     };
   }
@@ -151,7 +153,7 @@
           return findTracks((t) => t.components.indexOf(word) !== -1);
         case SEARCH_TYPES.insensitve:
           let lower = word.toLowerCase();
-          return findTracks((t) => t.componentsLowercased.indexOf(lower) !== -1);
+          return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
         case SEARCH_TYPES.regex:
           let re = new RegExp(word),
             results;
@@ -240,12 +242,184 @@
     return datasets;
   }
 
-  function ArraySet(input) {
-    return Array.from(new Set(input));
+  class InternMap extends Map {
+    constructor(entries, key = keyof) {
+      super();
+      Object.defineProperties(this, {_intern: {value: new Map()}, _key: {value: key}});
+      if (entries != null) for (const [key, value] of entries) this.set(key, value);
+    }
+    get(key) {
+      return super.get(intern_get(this, key));
+    }
+    has(key) {
+      return super.has(intern_get(this, key));
+    }
+    set(key, value) {
+      return super.set(intern_set(this, key), value);
+    }
+    delete(key) {
+      return super.delete(intern_delete(this, key));
+    }
   }
 
-  function load_d3() {
-    return typeof window === "undefined" ? require("d3") : d3 || window.d3;
+  function intern_get({_intern, _key}, value) {
+    const key = _key(value);
+    return _intern.has(key) ? _intern.get(key) : value;
+  }
+
+  function intern_set({_intern, _key}, value) {
+    const key = _key(value);
+    if (_intern.has(key)) return _intern.get(key);
+    _intern.set(key, value);
+    return value;
+  }
+
+  function intern_delete({_intern, _key}, value) {
+    const key = _key(value);
+    if (_intern.has(key)) {
+      value = _intern.get(value);
+      _intern.delete(key);
+    }
+    return value;
+  }
+
+  function keyof(value) {
+    return value !== null && typeof value === "object" ? value.valueOf() : value;
+  }
+
+  function identity(x) {
+    return x;
+  }
+
+  function rollup(values, reduce, ...keys) {
+    return nest(values, identity, reduce, keys);
+  }
+
+  function nest(values, map, reduce, keys) {
+    return (function regroup(values, i) {
+      if (i >= keys.length) return reduce(values);
+      const groups = new InternMap();
+      const keyof = keys[i++];
+      let index = -1;
+      for (const value of values) {
+        const key = keyof(value, ++index, values);
+        const group = groups.get(key);
+        if (group) group.push(value);
+        else groups.set(key, [value]);
+      }
+      for (const [key, values] of groups) {
+        groups.set(key, regroup(values, i));
+      }
+      return map(groups);
+    })(values, 0);
+  }
+
+  function sum(values, valueof) {
+    let sum = 0;
+    if (valueof === undefined) {
+      for (let value of values) {
+        if (value = +value) {
+          sum += value;
+        }
+      }
+    } else {
+      let index = -1;
+      for (let value of values) {
+        if (value = +valueof(value, ++index, values)) {
+          sum += value;
+        }
+      }
+    }
+    return sum;
+  }
+
+  var noop = {value: () => {}};
+
+  function dispatch() {
+    for (var i = 0, n = arguments.length, _ = {}, t; i < n; ++i) {
+      if (!(t = arguments[i] + "") || (t in _) || /[\s.]/.test(t)) throw new Error("illegal type: " + t);
+      _[t] = [];
+    }
+    return new Dispatch(_);
+  }
+
+  function Dispatch(_) {
+    this._ = _;
+  }
+
+  function parseTypenames(typenames, types) {
+    return typenames.trim().split(/^|\s+/).map(function(t) {
+      var name = "", i = t.indexOf(".");
+      if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
+      if (t && !types.hasOwnProperty(t)) throw new Error("unknown type: " + t);
+      return {type: t, name: name};
+    });
+  }
+
+  Dispatch.prototype = dispatch.prototype = {
+    constructor: Dispatch,
+    on: function(typename, callback) {
+      var _ = this._,
+          T = parseTypenames(typename + "", _),
+          t,
+          i = -1,
+          n = T.length;
+
+      // If no callback was specified, return the callback of the given type and name.
+      if (arguments.length < 2) {
+        while (++i < n) if ((t = (typename = T[i]).type) && (t = get(_[t], typename.name))) return t;
+        return;
+      }
+
+      // If a type was specified, set the callback for the given type and name.
+      // Otherwise, if a null callback was specified, remove callbacks of the given name.
+      if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
+      while (++i < n) {
+        if (t = (typename = T[i]).type) _[t] = set(_[t], typename.name, callback);
+        else if (callback == null) for (t in _) _[t] = set(_[t], typename.name, null);
+      }
+
+      return this;
+    },
+    copy: function() {
+      var copy = {}, _ = this._;
+      for (var t in _) copy[t] = _[t].slice();
+      return new Dispatch(copy);
+    },
+    call: function(type, that) {
+      if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
+      if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
+      for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
+    },
+    apply: function(type, that, args) {
+      if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
+      for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
+    }
+  };
+
+  function get(type, name) {
+    for (var i = 0, n = type.length, c; i < n; ++i) {
+      if ((c = type[i]).name === name) {
+        return c.value;
+      }
+    }
+  }
+
+  function set(type, name, callback) {
+    for (var i = 0, n = type.length; i < n; ++i) {
+      if (type[i].name === name) {
+        type[i] = noop, type = type.slice(0, i).concat(type.slice(i + 1));
+        break;
+      }
+    }
+    if (callback != null) type.push({name: name, value: callback});
+    return type;
+  }
+
+  dispatch("start", "end", "cancel", "interrupt");
+
+  function ArraySet(input) {
+    return Array.from(new Set(input));
   }
 
   class Corpus {
@@ -255,29 +429,29 @@
       console.log(`[FRC] Found ${this.artists.length} artists`);
       console.log(`[FRC] Found ${this.tracks.length} tracks`);
 
-      let d3 = load_d3();
+      // let d3 = load_d3();
 
-      this.datesToTracks = d3.rollup(
+      this.datesToTracks = rollup(
         this.tracks,
         (v) => v.length,
         (d) => d.releaseYear
       );
 
-      this.datesToWords = d3.rollup(
+      this.datesToWords = rollup(
         this.tracks,
-        (v) => d3.sum(v, (d) => d.components.length),
+        (v) => sum(v, (d) => d.components.length),
         (d) => d.releaseYear
       );
 
-      this.locationsToTracks = d3.rollup(
+      this.locationsToTracks = rollup(
         this.tracks,
         (v) => v.length,
         (d) => d.departementNo
       );
 
-      this.locationsToWords = d3.rollup(
+      this.locationsToWords = rollup(
         this.tracks,
-        (v) => d3.sum(v, (d) => d.components.length),
+        (v) => sum(v, (d) => d.components.length),
         (d) => d.departementNo
       );
     }
@@ -350,5 +524,5 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=frc.js.map

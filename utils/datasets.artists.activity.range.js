@@ -2,8 +2,8 @@ const fileAccess = require("./file.access");
 const frc = require("../public/js/lib/frc.js");
 
 const json = fileAccess.readCorpusJSON();
-const artists = frc.parseArtists(json);
 
+const artists = frc.parseArtists(json);
 const female = artists.filter((a) => a.sex === "F");
 const male = artists.filter((a) => a.sex === "M");
 const groups = artists.filter((a) => a.group === "G");
@@ -12,13 +12,26 @@ function datasets(artists) {
   return artists.map((a) => {
     return {
       label: a.name,
-      data: a.allTracks().map((t) => {
-        return {
-          value: 1,
-          date: t.releaseYear,
-          location: a.departementNo,
-        };
-      }),
+      data: a
+        .allTracks()
+        .map((t) => {
+          return {
+            value: 1,
+            date: t.releaseYear,
+            location: a.departementNo,
+          };
+        })
+        .reduce((p, c) => {
+          let candidate = p.find(
+            (d) => d.date === c.date && d.location === c.location
+          );
+          if (candidate) {
+            candidate.value += c.value;
+          } else {
+            p.push(c);
+          }
+          return p;
+        }, []),
     };
   });
 }

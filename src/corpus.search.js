@@ -42,7 +42,7 @@ export function internalSearch(
         return findTracks((t) => t.components.indexOf(word) !== -1);
       case SEARCH_TYPES.insensitve:
         let lower = word.toLowerCase();
-        return findTracks((t) => t.componentsLowercased.indexOf(lower) !== -1);
+        return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
       case SEARCH_TYPES.regex:
         let re = new RegExp(word),
           results;

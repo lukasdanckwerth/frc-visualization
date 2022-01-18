@@ -1,5 +1,5 @@
-const corpusJSONPath = "data/corpus.json";
-const assetsDirectory = "./public/assets/";
+const corpusJSONPath = "./data/corpus.json";
+const assetsDirectoryPath = "./public/assets";
 const fs = require("fs");
 
 function min(name) {
@@ -45,16 +45,19 @@ function write(content, url) {
 }
 
 function writeAsset(content, name) {
-  write(content, assetsDirectory + name);
+  write(content, assetsDirectoryPath + "/" + name);
 }
 
 function writeJSON(json, name) {
   writeAsset(JSON.stringify(json, null, 2), name);
-  writeAsset(JSON.stringify(json), min(name));
+  // writeAsset(JSON.stringify(json), min(name));
 }
 
+exports.corpusJSONPath = corpusJSONPath;
+exports.assetsDirectoryPath = assetsDirectoryPath;
 exports.bytesToSize = bytesToSize;
 exports.fileSize = fileSize;
+exports.fileSizeFormatted = fileSizeFormatted;
 exports.read = read;
 exports.readJSON = readJSON;
 exports.readCorpusJSON = readCorpusJSON;
