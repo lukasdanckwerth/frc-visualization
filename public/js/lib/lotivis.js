@@ -23952,8 +23952,8 @@
         .sort((a, b) => a.date - b.date);
 
       let sum = sum$2(data, (d) => d.value);
-      let firstDate = data[0]?.date;
-      let lastDate = data[data.length - 1]?.date;
+      let firstDate = (data[0] || {}).date;
+      let lastDate = (data[data.length - 1] || {}).date;
       let duration = dates.indexOf(lastDate) - dates.indexOf(firstDate);
 
       return { label, data, sum, firstDate, lastDate, duration };

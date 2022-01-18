@@ -48,3 +48,13 @@ search(
   "innovation.list.relative.location",
   frc.SEARCH_COUNT.tracksRelativeLocation
 );
+
+search("innovation.list.words", frc.SEARCH_COUNT.words);
+search(
+  "innovation.list.words.relative.date",
+  frc.SEARCH_COUNT.wordsRelativeDate
+);
+search(
+  "innovation.list.words.relative.location",
+  frc.SEARCH_COUNT.wordsRelativeLocation
+);

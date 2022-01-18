@@ -35,3 +35,8 @@ fileAccess.writeJSON(
   { label: "Words", data: data(tracks, (t) => t.components.length) },
   "corpus.overview.words.json"
 );
+
+fileAccess.writeJSON(
+  { label: "Types", data: data(tracks, (t) => t.types.length) },
+  "corpus.overview.types.json"
+);

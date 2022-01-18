@@ -1,4 +1,4 @@
-FROM node:13
+FROM node:16
 
 # create working directory
 RUN mkdir -p /usr/src/app
@@ -7,12 +7,19 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # copy neccessary files
-COPY package.json ./
-COPY package-lock.json ./
+COPY package.json package-lock.json rollup.config.js ./
+COPY src ./src
+COPY utils ./utils
+COPY data ./data
 COPY public ./public
 
 # install dependecies
 RUN npm install
+RUN npm run build
+RUN npm run assets
+
+# remove unused data
+RUN rm -rf rollup.config.js src utils data
 
 # run server
 CMD ["npm", "run", "serve"]
