@@ -1,5 +1,7 @@
 /*!
- * frc.js v1.0.50 Lukas Danckwerth
+ * frc-visualisation 1.0.50
+ * Copyright (c) 2022 Lukas Danckwerth
+ * Released under MIT License
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -109,13 +111,13 @@
     };
   }
 
-  const SEARCH_TYPES = {
+  const SearchType = {
     sensitive: "case-sensitive",
     insensitve: "case-insensitive",
     regex: "regex",
   };
 
-  const SEARCH_COUNT = {
+  const SearchCountType = {
     tracks: "tracks",
     tracksRelativeDate: "tracks-relative-date",
     tracksRelativeLocation: "tracks-relative-location",
@@ -140,8 +142,8 @@
   ) {
     let tracks = corpus.tracks;
     corpus.artists;
-    sensitivity = sensitivity || SEARCH_TYPES.insensitve;
-    searchCount = searchCount || SEARCH_COUNT.tracks;
+    sensitivity = sensitivity || SearchType.insensitve;
+    searchCount = searchCount || SearchCountType.tracks;
 
     function findTracks(accessor) {
       return tracks.filter(accessor);
@@ -149,12 +151,12 @@
 
     function tracksForWord(word) {
       switch (sensitivity) {
-        case SEARCH_TYPES.sensitive:
+        case SearchType.sensitive:
           return findTracks((t) => t.components.indexOf(word) !== -1);
-        case SEARCH_TYPES.insensitve:
+        case SearchType.insensitve:
           let lower = word.toLowerCase();
           return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
-        case SEARCH_TYPES.regex:
+        case SearchType.regex:
           let re = new RegExp(word),
             results;
           return findTracks((t) => {
@@ -176,23 +178,23 @@
         if (!t.releaseYear) throw new Error("no release year: " + i);
 
         switch (searchCount) {
-          case SEARCH_COUNT.tracks:
+          case SearchCountType.tracks:
             value = 1;
             break;
-          case SEARCH_COUNT.words:
+          case SearchCountType.words:
             value = count(t.components, label);
             break;
-          case SEARCH_COUNT.tracksRelativeDate:
+          case SearchCountType.tracksRelativeDate:
             value = 1 / corpus.datesToTracks.get(t.releaseYear);
             break;
-          case SEARCH_COUNT.tracksRelativeLocation:
+          case SearchCountType.tracksRelativeLocation:
             value = 1 / corpus.locationsToTracks.get(t.departementNo);
             break;
-          case SEARCH_COUNT.wordsRelativeDate:
+          case SearchCountType.wordsRelativeDate:
             value =
               count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
             break;
-          case SEARCH_COUNT.wordsRelativeLocation:
+          case SearchCountType.wordsRelativeLocation:
             value =
               count(t.components, label) /
               corpus.locationsToWords.get(t.departementNo);
@@ -516,8 +518,8 @@
   }
 
   exports.Corpus = Corpus;
-  exports.SEARCH_COUNT = SEARCH_COUNT;
-  exports.SEARCH_TYPES = SEARCH_TYPES;
+  exports.SearchCountType = SearchCountType;
+  exports.SearchType = SearchType;
   exports.artistsToDatasets = artistsToDatasets;
   exports.parseArtists = parseArtists;
   exports.parseTracks = parseTracks;

@@ -1,6 +1,6 @@
 const fileAccess = require("./file.access");
-const frc = require("../public/js/lib/frc.js");
-const lotivis = require("../public/js/lib/lotivis.js");
+const frc = require("../../public/js/lib/frc.js");
+const lotivis = require("../../public/js/lib/lotivis.js");
 
 let innovationList = (fileAccess.read("data/innovation.list.txt") + "")
   .replaceAll("\n", ",")
@@ -42,19 +42,19 @@ function search(name, countType) {
   fileAccess.writeJSON(combined[0], "corpus.overview." + name + ".json");
 }
 
-search("innovation.list", frc.SEARCH_COUNT.tracks);
-search("innovation.list.relative.date", frc.SEARCH_COUNT.tracksRelativeDate);
+search("innovation.list", frc.SearchCountType.tracks);
+search("innovation.list.relative.date", frc.SearchCountType.tracksRelativeDate);
 search(
   "innovation.list.relative.location",
-  frc.SEARCH_COUNT.tracksRelativeLocation
+  frc.SearchCountType.tracksRelativeLocation
 );
 
-search("innovation.list.words", frc.SEARCH_COUNT.words);
+search("innovation.list.words", frc.SearchCountType.words);
 search(
   "innovation.list.words.relative.date",
-  frc.SEARCH_COUNT.wordsRelativeDate
+  frc.SearchCountType.wordsRelativeDate
 );
 search(
   "innovation.list.words.relative.location",
-  frc.SEARCH_COUNT.wordsRelativeLocation
+  frc.SearchCountType.wordsRelativeLocation
 );

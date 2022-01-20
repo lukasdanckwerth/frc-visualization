@@ -1,5 +1,5 @@
-import { parseArtists } from "./parse.artists.js";
-import { parseTracks } from "./parse.tacks.js";
+import { parseArtists } from "../parse/parse.artists.js";
+import { parseTracks } from "../parse/parse.tacks.js";
 import { internalSearch } from "./corpus.search";
 import * as d3 from "d3";
 

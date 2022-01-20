@@ -6,8 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
-    <link rel="stylesheet" href="css/lotivis.css" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/lotivis.css" />
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
     <link
       rel="icon"
       type="image/png"
@@ -100,11 +100,11 @@
       }
 
       Promise.all([
-        lotivis.d3.json("assets/year.to.track.json"),
-        lotivis.d3.json("assets/year.to.words.json"),
-        lotivis.d3.json("assets/year.to.words.relative.json"),
-        lotivis.d3.json("assets/year.to.types.json"),
-        lotivis.d3.json("assets/year.to.types.relative.json"),
+        lotivis.d3.json("./assets/year.to.track.json"),
+        lotivis.d3.json("./assets/year.to.words.json"),
+        lotivis.d3.json("./assets/year.to.words.relative.json"),
+        lotivis.d3.json("./assets/year.to.types.json"),
+        lotivis.d3.json("./assets/year.to.types.relative.json"),
       ]).then((all) => ((datasets = all), setDataset(0)));
     </script>
   </body>

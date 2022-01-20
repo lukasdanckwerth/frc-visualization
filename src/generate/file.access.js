@@ -30,12 +30,10 @@ function read(url) {
 }
 
 function readJSON(url) {
-  console.log("[file.access.js] readJSON");
   return JSON.parse(read(url));
 }
 
 function readCorpusJSON() {
-  console.log("[file.access.js] readCorpusJSON");
   return readJSON(corpusJSONPath);
 }
 

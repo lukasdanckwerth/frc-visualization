@@ -1,5 +1,5 @@
 /*!
- * lotivis.js 1.0.94 <https://github.com/lukasdanckwerth/lotivis#readme>
+ * lotivis.js 1.0.94
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -20326,7 +20326,7 @@
       .range(["yellow", "orange", "red", "purple"]);
   }
 
-  function plotColors(till) {
+  function PlotColors(till) {
     return linear()
       .domain([0, (1 / 3) * till, (2 / 3) * till, till])
       .range(["yellow", "orange", "red", "purple"]);
@@ -20391,8 +20391,6 @@
     // The default radius to use for bars drawn on a chart.
     barRadius: 5,
     // A Boolean value indicating whether the debug logging is enabled.
-    debugLog: false,
-    // A Boolean value indicating whether the debug logging is enabled.
     debug: true,
     // A string which is used as prefix for download.
     downloadFilePrefix: "lotivis",
@@ -20411,20 +20409,27 @@
     left: LOTIVIS_CONFIG$1.defaultMargin,
   };
 
-  var lotivis_log = () => null;
+  /** lotivis-wide global variable for enabling debug logging */
+  var D_LOG = false;
 
   /**
    * Sets whether lotivis prints debug log messages to the console.
    * @param enabled A Boolean value indicating whether to enable debug logging.
    * @param printConfig A Boolean value indicating whether to print the global lotivis configuration.  Default is false.
    */
-  function debug(enabled, printConfig = false) {
-    lotivis_log = enabled ? console.log : () => null;
-    lotivis_log(`[lotivis]  ${enabled ? "En" : "Dis"}abled debug mode.`);
-    if (!printConfig) return;
-    lotivis_log(`LOTIVIS_CONFIG = ${JSON.stringify(LOTIVIS_CONFIG$1, null, 2)}`);
+  function debug(enabled) {
+    LOTIVIS_CONFIG$1.debug = enabled;
+    D_LOG = enabled;
+    console.log(`[ltv]  ${enabled ? "En" : "Dis"}abled debug mode.`);
   }
 
+  /**
+   * Return a Boolean value indicating whether the given
+   * value is a string.
+   *
+   * @param {*} v The value to check.
+   * @returns true if given value is a string
+   */
   function isString(v) {
     return typeof v === "string" || v instanceof String;
   }
@@ -20538,7 +20543,7 @@
 
       // this.filters.locations.push(...this.locations());
 
-      console.log("DataController", this);
+      if (LOTIVIS_CONFIG$1.debug) console.log("[ltv] ", this);
       if (this.original) set_data_preview(this.original);
 
       return this;
@@ -20646,7 +20651,7 @@
   const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
 
   function csvParse(text) {
-    return new DataController(csvParse$1(text, d3.autoType));
+    return new DataController(csvParse$1(text, autoType));
   }
 
   async function csv(path) {
@@ -22845,10 +22850,12 @@
   class MapExteriorBorderRenderer extends Renderer {
     render(chart, controller) {
       let geoJSON = chart.presentedGeoJSON;
-      if (!geoJSON) return lotivis_log("[lotivis]  No GeoJSON to render.");
+      if (!geoJSON)
+        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
 
       let bordersGeoJSON = joinFeatures(geoJSON.features);
-      if (!bordersGeoJSON) return lotivis_log("[lotivis]  No borders to render.");
+      if (!bordersGeoJSON)
+        return D_LOG ? console.log("[ltv]  No borders to render.") : null;
 
       chart.svg
         .selectAll(".ltv-map-chart-exterior-borders")
@@ -23028,7 +23035,8 @@
       chart.on("mouseout", resetAreas);
       chart.on("click", mouseEnter);
 
-      if (!chart.geoJSON) return lotivis_log("[lotivis]  No GeoJSON to render.");
+      if (!chart.geoJSON)
+        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
       if (!chart.dataView) return;
 
       resetAreas();
@@ -23059,7 +23067,8 @@
 
   class MapLabelsRenderer extends Renderer {
     render(chart, controller, dataView) {
-      if (!chart.geoJSON) return lotivis_log(`[lotivis]  No GeoJSON to render.`);
+      if (!chart.geoJSON)
+        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
       if (!dataView) return;
       if (!chart.config.labels) return;
 
@@ -23283,7 +23292,9 @@
         chart.selectedFeatures = getSelectedFeatures();
         chart.selectionBorderGeoJSON = joinFeatures(chart.selectedFeatures);
         if (!chart.selectionBorderGeoJSON) {
-          return lotivis_log("[lotivis]  No selected features to render.");
+          return D_LOG
+            ? console.log("[ltv]  No selected features to render.")
+            : null;
         }
         chart.svg.selectAll(".ltv-map-chart-selection-border").remove();
         chart.svg
@@ -23455,7 +23466,7 @@
   };
 
   /**
-   * Enumeration of sorts available in the bar.chart.plot.chart chart.
+   * Enumeration of sorts available in the plot chart.
    */
   const PLOT_CHART_SORT = {
     none: "none",
@@ -23463,6 +23474,14 @@
     duration: "duration",
     intensity: "intensity",
     firstDate: "firstDate",
+  };
+
+  /**
+   * Enumeration of color modes of a plot chart.
+   */
+  const PLOT_COLOR_MODE = {
+    multiple: "multiple",
+    single: "single",
   };
 
   const PLOT_CHART_CONFIG = {
@@ -23476,6 +23495,7 @@
     drawGrid: true,
     showTooltip: true,
     selectable: true,
+    colorMode: PLOT_COLOR_MODE.multiple,
     sort: PLOT_CHART_SORT.none,
     type: PLOT_CHART_TYPE.gradient,
     numberFormat: DEFAULT_NUMBER_FORMAT,
@@ -23731,12 +23751,12 @@
 
       let radius = LOTIVIS_CONFIG$1.barRadius;
       let max = chart.dataView.max;
-      let brush = max / 2;
       let data = chart.dataView.byLabelDate;
-      MapColors(max);
-      let colorGenerator = controller.colorGenerator;
 
-      console.log("max", max);
+      let colors = PlotColors(max);
+      let brush = max / 2;
+      let colorGenerator = controller.colorGenerator;
+      let colorMode = chart.config.colorMode;
 
       chart.barsData = chart.svg.append("g").selectAll("g").data(data).enter();
 
@@ -23745,7 +23765,7 @@
         .attr("transform", (d) => `translate(0,${chart.yChartPadding(d[0])})`)
         .attr("id", (d) => "ltv-plot-rect-" + hash_str(d[0]))
         .attr(`fill`, (d) =>
-          colorGenerator.label(d[0]) 
+          colorMode === PLOT_COLOR_MODE.single ? colorGenerator.label(d[0]) : null
         )
         .selectAll(".rect")
         .data((d) => d[1]) // map to dates data
@@ -23753,9 +23773,13 @@
         .filter((d) => d[1] > 0)
         .append("rect")
         .attr("class", "ltv-plot-bar")
-        .attr(`fill`, (d) => (null ))
+        .attr(`fill`, (d) =>
+          colorMode === PLOT_COLOR_MODE.single ? null : colors(d[1])
+        )
         .attr("opacity", (d) =>
-          (d[1] + brush) / (max + brush) 
+          colorMode === PLOT_COLOR_MODE.single
+            ? (d[1] + brush) / (max + brush)
+            : 1
         )
         .attr("rx", radius)
         .attr("ry", radius)
@@ -23766,9 +23790,11 @@
   }
 
   class PlotBarsGradientCreator {
-    constructor(chart) {
+    constructor(chart, controller, dataView) {
       this.chart = chart;
-      this.colorGenerator = plotColors(1);
+      this.controller = controller;
+      this.dataView = dataView;
+      this.plotColors = PlotColors(dataView.max);
     }
 
     createGradient(dataset) {
@@ -23782,35 +23808,42 @@
         .attr("y2", "0%");
 
       let data = dataset.data;
-      let count = data.length;
-      let latestDate = dataset.lastDate;
-      let duration = dataset.duration;
-
       if (!data || data.length === 0) return;
 
-      if (duration === 0) {
-        let item = data[0];
-        let value = item.value;
-        let opacity = value / max;
+      let count = data.length;
+      let latestDate = dataset.lastDate;
 
+      let plotColors = this.plotColors;
+      let brush = max / 2;
+      let colorGenerator = this.controller.colorGenerator;
+      let colorMode = this.chart.config.colorMode;
+
+      function append(value, percent) {
         gradient
           .append("stop")
-          .attr("offset", `100%`)
-          .attr("stop-color", this.colorGenerator(opacity));
+          .attr("offset", percent + "%")
+          .attr(
+            "stop-color",
+            colorMode === PLOT_COLOR_MODE.single
+              ? colorGenerator.label(dataset.label)
+              : plotColors(value)
+          )
+          .attr(
+            "stop-opacity",
+            colorMode === PLOT_COLOR_MODE.single
+              ? (value + brush) / (max + brush)
+              : 1
+          );
+      }
+
+      if (dataset.duration === 0) {
+        append(data[0].value, 100);
       } else {
-        for (let index = 0; index < count; index++) {
-          let item = data[index];
-          let date = item.date;
-          let opacity = item.value / max;
-
-          let dateDifference = latestDate - date;
-          let value = dateDifference / duration;
-          let datePercentage = (1 - value) * 100;
-
-          gradient
-            .append("stop")
-            .attr("offset", `${datePercentage}%`)
-            .attr("stop-color", this.colorGenerator(opacity));
+        for (let i = 0; i < count; i++) {
+          let diff = latestDate - data[i].date;
+          let opacity = diff / dataset.duration;
+          let percent = (1 - opacity) * 100;
+          append(data[i].value, percent);
         }
       }
     }
@@ -23823,8 +23856,11 @@
       // constant for the radius of the drawn bars.
       let radius = LOTIVIS_CONFIG$1.barRadius;
 
-      this.gradientCreator = new PlotBarsGradientCreator(chart);
-      chart.definitions = chart.svg.append("defs");
+      this.gradientCreator = new PlotBarsGradientCreator(
+        chart,
+        controller,
+        dataView
+      );
 
       let datasets = chart.dataView.datasets;
       chart.definitions = chart.svg.append("defs");
@@ -23932,8 +23968,6 @@
   function dataViewPlot(dataController) {
     let dates = dataController.dates().sort();
     let data = dataController.snapshot || dataController.data;
-
-    console.log("data", data);
 
     let byLabelDate = rollups(
       data,
@@ -24277,6 +24311,10 @@
   exports.DateOrdinator = date_ordinator;
   exports.LabelsChart = LabelsChart;
   exports.MapChart = MapChart;
+  exports.PLOT_CHART_CONFIG = PLOT_CHART_CONFIG;
+  exports.PLOT_CHART_SORT = PLOT_CHART_SORT;
+  exports.PLOT_CHART_TYPE = PLOT_CHART_TYPE;
+  exports.PLOT_COLOR_MODE = PLOT_COLOR_MODE;
   exports.PlotChart = PlotChart;
   exports.UrlParameters = UrlParameters;
   exports.config = LOTIVIS_CONFIG$1;

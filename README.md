@@ -16,7 +16,7 @@ $ git checkout dev
 #### Deploy Stage
 
 ```sh
-# user makefile merge from dev to stage branch which will start an automatic deployment
+# use makefile merge from dev to stage branch which will start an automatic deployment
 make stage
 ```
 
@@ -29,35 +29,6 @@ make stage
 ### Node.js
 
 ### Docker
-
-## Capacitor
-
-```sh
-# add ios platform (in case it is not already)
-npx cap add ios
-
-# syncronize projects (copies the web assets folder in the projects)
-npx cap sync
-
-# open the ios project
-npx cap open ios
-
-# ... alternativly, open Xcode manually
-open ios/App/App.xcworkspace
-
-# run in ios simulator
-npx cap run ios
-```
-
-### Life Reload with Capacitor
-
-```bash
-# install ionic (in case it isn't)
-npm install -g @ionic/cli native-run
-
-# start the live reload process
-ionic cap run ios -l --external
-```
 
 ## Heroku
 

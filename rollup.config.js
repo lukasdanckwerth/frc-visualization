@@ -1,11 +1,13 @@
-const resolve = require("@rollup/plugin-node-resolve").default;
-const pkg = require("./package.json");
+import resolve from "@rollup/plugin-node-resolve";
+import * as pkg from "./package.json";
+
 const banner = `/*!
- * frc.js v${pkg.version} Lukas Danckwerth
+ * ${pkg.name} ${pkg.version}
+ * Copyright (c) ${new Date(new Date().getTime()).getFullYear()} ${pkg.author}
+ * Released under ${pkg.license} License
  */`;
 
 module.exports = [
-  // UMD builds
   {
     input: "src/index.js",
     plugins: [

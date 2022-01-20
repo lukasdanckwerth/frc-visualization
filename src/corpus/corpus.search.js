@@ -1,10 +1,10 @@
-export const SEARCH_TYPES = {
+export const SearchType = {
   sensitive: "case-sensitive",
   insensitve: "case-insensitive",
   regex: "regex",
 };
 
-export const SEARCH_COUNT = {
+export const SearchCountType = {
   tracks: "tracks",
   tracksRelativeDate: "tracks-relative-date",
   tracksRelativeLocation: "tracks-relative-location",
@@ -29,8 +29,8 @@ export function internalSearch(
 ) {
   let tracks = corpus.tracks;
   let artists = corpus.artists;
-  sensitivity = sensitivity || SEARCH_TYPES.insensitve;
-  searchCount = searchCount || SEARCH_COUNT.tracks;
+  sensitivity = sensitivity || SearchType.insensitve;
+  searchCount = searchCount || SearchCountType.tracks;
 
   function findTracks(accessor) {
     return tracks.filter(accessor);
@@ -38,12 +38,12 @@ export function internalSearch(
 
   function tracksForWord(word) {
     switch (sensitivity) {
-      case SEARCH_TYPES.sensitive:
+      case SearchType.sensitive:
         return findTracks((t) => t.components.indexOf(word) !== -1);
-      case SEARCH_TYPES.insensitve:
+      case SearchType.insensitve:
         let lower = word.toLowerCase();
         return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
-      case SEARCH_TYPES.regex:
+      case SearchType.regex:
         let re = new RegExp(word),
           results;
         return findTracks((t) => {
@@ -65,23 +65,23 @@ export function internalSearch(
       if (!t.releaseYear) throw new Error("no release year: " + i);
 
       switch (searchCount) {
-        case SEARCH_COUNT.tracks:
+        case SearchCountType.tracks:
           value = 1;
           break;
-        case SEARCH_COUNT.words:
+        case SearchCountType.words:
           value = count(t.components, label);
           break;
-        case SEARCH_COUNT.tracksRelativeDate:
+        case SearchCountType.tracksRelativeDate:
           value = 1 / corpus.datesToTracks.get(t.releaseYear);
           break;
-        case SEARCH_COUNT.tracksRelativeLocation:
+        case SearchCountType.tracksRelativeLocation:
           value = 1 / corpus.locationsToTracks.get(t.departementNo);
           break;
-        case SEARCH_COUNT.wordsRelativeDate:
+        case SearchCountType.wordsRelativeDate:
           value =
             count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
           break;
-        case SEARCH_COUNT.wordsRelativeLocation:
+        case SearchCountType.wordsRelativeLocation:
           value =
             count(t.components, label) /
             corpus.locationsToWords.get(t.departementNo);

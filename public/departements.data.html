@@ -6,8 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
-    <link rel="stylesheet" href="css/lotivis.css" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/lotivis.css" />
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
     <link
       rel="icon"
       type="image/png"
@@ -43,9 +43,9 @@
             <option>Group Artists</option>
             <option>Tracks</option>
             <option>Words</option>
-            <option>Words Relative</option>
+            <option>Words (Relative)</option>
             <option>Types</option>
-            <option>Types Relative</option>
+            <option>Types (Relative)</option>
           </select>
         </div>
       </div>
@@ -91,16 +91,16 @@
       }
 
       Promise.all([
-        lotivis.d3.json("assets/departements.to.artists.json"),
-        lotivis.d3.json("assets/departements.to.female.artists.json"),
-        lotivis.d3.json("assets/departements.to.male.artists.json"),
-        lotivis.d3.json("assets/departements.to.group.artists.json"),
-        lotivis.d3.json("assets/departements.to.tracks.json"),
-        lotivis.d3.json("assets/departements.to.words.json"),
-        lotivis.d3.json("assets/departements.to.words.relative.json"),
-        lotivis.d3.json("assets/departements.to.types.json"),
-        lotivis.d3.json("assets/departements.to.types.relative.json"),
-        lotivis.d3.json("assets/departements.geojson"),
+        lotivis.d3.json("./assets/departements.to.artists.json"),
+        lotivis.d3.json("./assets/departements.to.female.artists.json"),
+        lotivis.d3.json("./assets/departements.to.male.artists.json"),
+        lotivis.d3.json("./assets/departements.to.group.artists.json"),
+        lotivis.d3.json("./assets/departements.to.tracks.json"),
+        lotivis.d3.json("./assets/departements.to.words.json"),
+        lotivis.d3.json("./assets/departements.to.words.relative.json"),
+        lotivis.d3.json("./assets/departements.to.types.json"),
+        lotivis.d3.json("./assets/departements.to.types.relative.json"),
+        lotivis.d3.json("./assets/departements.geojson"),
       ])
         .then((all) => {
           let geoJSON = all.pop();

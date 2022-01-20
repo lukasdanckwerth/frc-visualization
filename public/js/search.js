@@ -34,7 +34,7 @@ let recentSearches = new RecentSearches("frcv-search-input-data");
 let firstYear = 2000;
 let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
-let countType = frc.SEARCH_COUNT.tracks;
+let countType = frc.SearchCountType.tracks;
 
 function element(id) {
   return document.getElementById(id).selectedIndex;

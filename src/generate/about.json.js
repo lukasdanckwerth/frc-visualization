@@ -1,6 +1,6 @@
 const fileAccess = require("./file.access");
-const package = require("../package.json");
-const frc = require("../public/js/lib/frc.js");
+const package = require("../../package.json");
+const frc = require("../../public/js/lib/frc.js");
 
 let corpusJSONPath = fileAccess.corpusJSONPath;
 let json = fileAccess.readCorpusJSON();
