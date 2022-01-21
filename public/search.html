@@ -157,15 +157,14 @@
             </div>
             <div class="col-6 text-end">
               <button
-                type="button"
                 class="btn btn-sm"
-                onclick="screenshotBarWithLegend()"
+                onclick="screenshot('bar-chart-and-legend')"
               >
-                Screenshot
+                <img src="./screenshot.png" />
               </button>
             </div>
           </div>
-          <div id="bar-chart-legend">
+          <div id="bar-chart-and-legend">
             <div id="bar-chart">
               <!-- Bar Chart Here -->
             </div>
@@ -179,12 +178,8 @@
               <h5>Plot</h5>
             </div>
             <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('plot-chart')"
-              >
-                Screenshot
+              <button class="btn btn-sm" onclick="screenshot('plot-chart')">
+                <img src="./screenshot.png" />
               </button>
             </div>
           </div>
@@ -207,17 +202,31 @@
               <h5>Map</h5>
             </div>
             <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('map-chart')"
-              >
-                Screenshot
+              <button class="btn btn-sm" onclick="screenshot('map-chart')">
+                <img src="./screenshot.png" />
               </button>
             </div>
           </div>
           <div id="map-chart">
             <!-- Map Chart Here -->
+          </div>
+          <div class="row frcv-headline">
+            <div class="col-6">
+              <h5>Metropole</h5>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                class="btn btn-sm"
+                onclick="screenshot('map-chart-metropole')"
+              >
+                <img src="./screenshot.png" />
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div id="map-chart-metropole">
+              <!-- Map Chart Metropole Here -->
+            </div>
           </div>
           <div class="row frcv-headline">
             <div class="col-6">
@@ -339,7 +348,8 @@
     <script src="js/lib/frc.js"></script>
 
     <script src="js/recent.searches.js"></script>
+    <script src="js/search.track.modal.js"></script>
+    <script src="js/search.tracks.panel.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/track.popup.js"></script>
   </body>
 </html>

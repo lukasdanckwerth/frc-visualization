@@ -11,19 +11,32 @@ let plotChart = new lotivis.PlotChart("plot-chart", { type: "fraction" });
 
 let mapChart = new lotivis.MapChart("map-chart", {
   labels: true,
+  legend: true,
   excludedFeatureCodes: ["2A", "2B"],
+  featureIDAccessor: (f) => f.properties.code,
+  featureNameAccessor: (f) => f.properties.nom,
+});
+
+let mapChartMetropole = new lotivis.MapChart("map-chart-metropole", {
+  width: 400,
+  height: 400,
+  labels: true,
+  filter: ["75", "92", "93", "94"],
+  legend: false,
   featureIDAccessor: (f) => f.properties.code,
   featureNameAccessor: (f) => f.properties.nom,
 });
 
 let labelsChart = new lotivis.LabelsChart("labels-chart");
 
-let contentContainer = document.getElementById("content");
-let loadingView = document.getElementById("loading-indicator");
-let searchField = document.getElementById("search-input");
-let searchArea = document.getElementById("frcv-search-field-area");
+function getElement(id) {
+  return document.getElementById(id);
+}
 
-contentContainer.style.display = "none";
+let contentContainer = getElement("content"),
+  loadingView = getElement("loading-indicator"),
+  searchArea = getElement("frcv-search-field-area"),
+  searchField = getElement("search-input");
 
 let corpus = new frc.Corpus("");
 let queryParameter = "q";
@@ -36,46 +49,31 @@ let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
 let countType = frc.SearchCountType.tracks;
 
-function element(id) {
-  return document.getElementById(id).selectedIndex;
-}
+contentContainer.style.display = "none";
 
 function screenshot(id) {
-  let element = document.querySelector("#" + id);
-  html2canvas(element).then((canvas) => {
-    // document.body.appendChild(canvas);
-    var t = canvas.toDataURL().replace("data:image/png;base64,", "");
-    downloadBase64File("image/png", t, "image");
-  });
-}
+  html2canvas(getElement(id), { scale: 10 }).then((canvas) => {
+    // convert canvas to base64
+    const base64Data = canvas.toDataURL().replace("data:image/png;base64,", "");
 
-function downloadBase64File(contentType, base64Data, fileName) {
-  const linkSource = `data:${contentType};base64,${base64Data}`;
-  const downloadLink = document.createElement("a");
-  downloadLink.href = linkSource;
-  downloadLink.download = fileName;
-  downloadLink.click();
-}
-
-function screenshotBarWithLegend() {
-  let element = document.querySelector("#bar-chart-legend");
-  html2canvas(element).then((canvas) => {
-    // document.body.appendChild(canvas);
-    var t = canvas.toDataURL().replace("data:image/png;base64,", "");
-    downloadBase64File("image/png", t, "image");
+    // download as base64 file
+    const downloadLink = document.createElement("a");
+    downloadLink.href = "data:image/png;base64," + base64Data;
+    downloadLink.download = "image"; // filename
+    downloadLink.click();
   });
 }
 
 function onLabelsBar() {
-  barChart.config.labels = element("labelsBar").checked;
+  barChart.config.labels = getElement("labelsBar").checked;
 }
 
 function onLabelsMap() {
-  barChart.config.labels = element("labelsMap").checked;
+  mapChart.config.labels = getElement("labelsMap").checked;
 }
 
 function onLabelsPlot() {
-  barChart.config.labels = element("labelsPlot").checked;
+  plotChart.config.labels = getElement("labelsPlot").checked;
 }
 
 /* search */
@@ -105,6 +103,7 @@ function search(searchText) {
   let dataController = new lotivis.parseDatasets(datasets);
   barChart.setController(dataController);
   mapChart.setController(dataController);
+  mapChartMetropole.setController(dataController);
   plotChart.setController(dataController);
   labelsChart.setController(dataController);
 
@@ -160,49 +159,10 @@ function countTypeAction(some) {
   (countType = some.value), search(searchField.value);
 }
 
-function fillTracksCard(datasets) {
-  // let tracksObject = datasets.tracks;
-  let element = d3.select("#tracks-card");
-
-  console.log("datasets", datasets);
-
-  element.selectAll("div").remove();
-  element
-    .selectAll("div")
-    .data(datasets)
-    .enter()
-    .append("div")
-    .html((dataset, index) => {
-      let tracks = dataset.tracks;
-      return `<b class="larger">${dataset.label} (${tracks.length} Tracks)</b><br>`;
-    })
-    .selectAll("div")
-    .data((dataset) => {
-      let tracks = dataset.tracks;
-      tracks.forEach((item) => (item.label = dataset.label));
-      return tracks
-        .sort((t1, t2) => d3.descending(t1.releaseYear, t2.releaseYear))
-        .map((t) => [t, dataset.label]);
-    })
-    .enter()
-    .append("div")
-    .style("cursor", "pointer")
-    .html((item, index) => {
-      let track = item[0];
-      return [
-        `<div>`,
-        `<span class="index-number">${index + 1}</span>`,
-        `<span class="title">${track.title}</span>`,
-        `<span class="artist">(by ${track.artist}, ${track.releaseYear})</span>`,
-        `</div>`,
-      ].join(" ");
-    })
-    .on("click", (event, item) => presentTrackPopup(item[0], item[1]));
-}
-
-d3.json("./assets/departements.geojson").then((geoJSON) =>
-  mapChart.setGeoJSON(geoJSON)
-);
+d3.json("./assets/departements.geojson").then((geoJSON) => {
+  mapChart.setGeoJSON(geoJSON);
+  mapChartMetropole.setGeoJSON(geoJSON);
+});
 
 d3.json("./assets/corpus.json")
   .then((corpusJSON) => {

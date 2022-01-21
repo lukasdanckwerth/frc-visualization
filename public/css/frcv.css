@@ -1,5 +1,7 @@
 .frcv-headline {
   border-bottom: 1px solid gainsboro;
+  margin-left: 3px !important;
+  margin-right: 3px !important;
 }
 
 .frcv-innovation-list {
