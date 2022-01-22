@@ -8,129 +8,82 @@
     />
     <link rel="stylesheet" href="./css/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
-    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
     <title>FRCV - Corpus Overview</title>
   </head>
 
   <body>
-    <div class="container pt-4">
+    <div class="frcv-container">
       <!-- HEADER -->
-      <div class="row">
-        <div class="col-4">
-          <a href="index.html" class="btn">Back</a>
+      <div class="frcv-col-3">
+        <a href="index.html" class="btn">Back</a>
+      </div>
+      <div class="frcv-col-3 frcv-center">
+        <span>Corpus Overview</span>
+      </div>
+      <div class="frcv-col-3 frcv-end">
+        <select id="data" onchange="dataChange()">
+          <option>Tracks</option>
+          <option>Words</option>
+          <option>Types</option>
+          <option>Innovation List</option>
+          <option>Innovation List (Rel. Date)</option>
+          <option>Innovation List (Rel. Location)</option>
+          <option>Innovation List (Words)</option>
+          <option>Innovation List (Words) (Rel. Date)</option>
+          <option>Innovation List (Words) (Rel. Location)</option>
+        </select>
+      </div>
+      <br />
+      <br />
+      <div class="frcv-col-2">
+        <div class="frcv-headline">
+          <span>Bar</span>
+          <button type="button" onclick="screenshot('bar-chart')">
+            Screenshot
+          </button>
         </div>
-        <div class="col-4 text-center text-secondary">
-          <h4>Corpus Overview</h4>
+        <div id="bar-chart">
+          <!-- Bar Chart Here -->
         </div>
-        <div class="col-4 text-end">
-          <select id="dataSelection" onchange="dataChange()">
-            <option>Tracks</option>
-            <option>Words</option>
-            <option>Types</option>
-            <option>Innovation List</option>
-            <option>Innovation List (Rel. Date)</option>
-            <option>Innovation List (Rel. Location)</option>
-            <option>Innovation List (Words)</option>
-            <option>Innovation List (Words) (Rel. Date)</option>
-            <option>Innovation List (Words) (Rel. Location)</option>
-          </select>
+
+        <div class="frcv-headline">
+          <span>Plot</span>
+          <button type="button" onclick="screenshot('plot-chart')">
+            Screenshot
+          </button>
+        </div>
+        <div id="plot-chart">
+          <!-- Plot Chart Here -->
         </div>
       </div>
-      <!-- CONTENT -->
-      <div class="row">
-        <!-- LOADING INDICATOR -->
-        <div class="col-12 text-center pt-5" id="loading-indicator">
-          <div style="margin: auto">
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-secondary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="pt-2">
-              <div class="alert alert-light" role="alert">
-                Loading Corpus ...
-              </div>
-            </div>
-          </div>
+
+      <div class="frcv-col-2">
+        <div class="frcv-headline">
+          <span>Map</span>
+          <button type="button" onclick="screenshot('map-chart')">
+            Screenshot
+          </button>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Bar</h5>
-            </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('bar-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
-          </div>
-          <div id="bar-chart">
-            <!-- Bar Chart Here -->
-          </div>
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Plot</h5>
-            </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('plot-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
-          </div>
-          <div id="plot-chart">
-            <!-- Plot Chart Here -->
-          </div>
+        <div id="map-chart">
+          <!-- Map Chart Here -->
         </div>
-        <div class="col-md-6 col-sm-12">
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Map</h5>
-            </div>
-            <div class="col-6 text-end">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onclick="screenshot('map-chart-svg')"
-              >
-                Screenshot
-              </button>
-            </div>
-          </div>
-          <div id="map-chart">
-            <!-- Map Chart Here -->
-          </div>
-          <div class="row frcv-headline">
-            <div class="col-6">
-              <h5>Info</h5>
-            </div>
-          </div>
-          <div id="frcv-info">
-            <div>All: <span id="frcv-artists-all"></span></div>
-            <div>Female: <span id="frcv-artists-female"></span></div>
-            <div>Male: <span id="frcv-artists-male"></span></div>
-            <div>Groups: <span id="frcv-artists-groups"></span></div>
-            <div>Tracks: <span id="frcv-tracks"></span></div>
-            <div>Words: <span id="frcv-words"></span></div>
-            <div>Types: <span id="frcv-types"></span></div>
-          </div>
+
+        <div class="row frcv-headline">
+          <span>Info</span>
+        </div>
+        <div class="frcv-info">
+          <div>All: <span id="frcv-artists-all"></span></div>
+          <div>Female: <span id="frcv-artists-female"></span></div>
+          <div>Male: <span id="frcv-artists-male"></span></div>
+          <div>Groups: <span id="frcv-artists-groups"></span></div>
+          <div>Tracks: <span id="frcv-tracks"></span></div>
+          <div>Words: <span id="frcv-words"></span></div>
+          <div>Types: <span id="frcv-types"></span></div>
         </div>
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
@@ -164,7 +117,23 @@
       });
 
       function screenshot(id) {
-        lotivis.screenshot(id, "screenshot");
+        html2canvas(document.getElementById(id), {
+          scale: 4,
+        }).then((canvas) => {
+          // convert canvas to base64
+          let base64Data = canvas
+            .toDataURL()
+            .replace("data:image/png;base64,", "");
+
+          // receive filename
+          let filename = document.getElementById("data").value;
+
+          // download as base64 file
+          let anchor = document.createElement("a");
+          anchor.href = "data:image/png;base64," + base64Data;
+          anchor.download = id + "-" + filename;
+          anchor.click();
+        });
       }
 
       function controllerUpdate(controller, reason, some) {
@@ -190,7 +159,7 @@
       }
 
       function dataChange() {
-        setDataset(document.getElementById("dataSelection").selectedIndex);
+        setDataset(document.getElementById("data").selectedIndex);
       }
 
       Promise.all([

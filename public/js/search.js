@@ -7,7 +7,10 @@ let d3 = lotivis.d3;
 // create lotivis components
 let barChart = new lotivis.BarChart("bar-chart", { labels: true });
 
-let plotChart = new lotivis.PlotChart("plot-chart", { type: "fraction" });
+let plotChart = new lotivis.PlotChart("plot-chart", {
+  type: "fraction",
+  colorMode: "single",
+});
 
 let mapChart = new lotivis.MapChart("map-chart", {
   labels: true,
@@ -27,7 +30,11 @@ let mapChartMetropole = new lotivis.MapChart("map-chart-metropole", {
   featureNameAccessor: (f) => f.properties.nom,
 });
 
-let labelsChart = new lotivis.LabelsChart("labels-chart");
+let labelsChart = new lotivis.LabelsChart("labels-chart", {
+  margin: { left: 40, right: 40 },
+  headlines: false,
+  style: "grouped",
+});
 
 function getElement(id) {
   return document.getElementById(id);
@@ -196,7 +203,15 @@ d3.text("./assets/innovation.list.txt").then((text) => {
     .append("a")
     .html((l, i) => `<nobr>${i + 1}. ${l.split(";").join(`, `)}</nobr>`)
     .on("click", (e, l) => {
-      searchField.value = l.split(";").join(`,`);
-      searchFieldAction(searchField);
+      async function doCloseModal() {
+        closeModal(innovationListModal);
+      }
+      async function doSearch() {
+        searchField.value = l.split(";").join(`,`);
+        search(searchField.value);
+      }
+
+      doCloseModal();
+      doSearch();
     });
 });

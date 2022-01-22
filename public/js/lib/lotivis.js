@@ -20950,7 +20950,7 @@
         .append("g")
         .attr("transform", (date) => `translate(${xChartScale(date)},0)`)
         .selectAll(".text")
-        .data((date) => byDateStack.get(date))
+        .data((date) => byDateStack.get(date) || [])
         .enter()
         .append("text")
         .attr("class", "ltv-bar-chart-label")
@@ -21326,9 +21326,15 @@
   function dataViewBar(dataController) {
     let snapshot = dataController.snapshot;
     let data = snapshot || dataController.data;
-    console.log("data", data);
-    console.log("snapshot", snapshot);
 
+    let byDateStackOriginal = rollup(
+      dataController.data,
+      (v) => sum$2(v, (d) => d.value),
+      (d) => d.date,
+      (d) => d.stack || d.label
+    );
+
+    let maxTotal = max$3(byDateStackOriginal, (d) => max$3(d[1], (d) => d[1]));
     let dates = dataController.dates();
     let stacks = dataController.stacks();
     let labels = dataController.labels();
@@ -21384,6 +21390,7 @@
       byDatesStackSeries,
       labels,
       max,
+      maxTotal,
     };
   }
 
@@ -21474,7 +21481,7 @@
         .padding(0.05);
 
       this.yChart = linear()
-        .domain([0, this.dataView.max])
+        .domain([0, this.dataView.maxTotal])
         .nice()
         .rangeRound([config.height - margin.bottom, margin.top]);
     }
@@ -22896,8 +22903,8 @@
       let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
       let stackNames = chart.dataView.stacks;
       let label = chart.config.label || stackNames[0];
-      let locationToSum = dataView.locationToSum;
-      let max = max$3(locationToSum, (item) => item[1]);
+      let locationToSum = dataView.locationToSum || [];
+      let max = max$3(locationToSum, (item) => item[1]) || 0;
 
       let offset = 0 * 80;
       let labelColor = chart.controller.colorGenerator.stack(label);
@@ -24153,68 +24160,6 @@
     }
   }
 
-  class LabelsLabelsRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      // let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
-      let stacks = dataView.stacks;
-      let colors = controller.colorGenerator;
-
-      function stackId(stack) {
-        return `ltv-legend-stack-id-${safeId(stack)}`;
-      }
-
-      function labelId(label) {
-        return `ltv-legend-stack-id-${safeId(label)}`;
-      }
-
-      function toggle(label) {
-        chart.makeUpdateInsensible();
-        controller.filters.labels.toggle(label);
-        chart.makeUpdateSensible();
-      }
-
-      function filter(label) {
-        return controller.filters.labels.contains(label);
-      }
-
-      let stackDivs = chart.div
-        .selectAll(".div")
-        .data(stacks)
-        .enter()
-        .append("div")
-        .attr("id", (s) => stackId(s))
-        .attr("class", "ltv-stack-labels-container")
-        .style("color", (s) => colors.stack(s))
-        .html((d, i) => "Stack " + (i + 1) + "<br/>");
-
-      let divs = stackDivs
-        .selectAll(".label")
-        .data((d) => dataView.byStackLabel.get(d))
-        .enter()
-        .append("label")
-        .attr("class", "ltv-pill-checkbox");
-
-      divs
-        .append("input")
-        .attr("type", "checkbox")
-        .attr("checked", (d) => (filter(d[0]) ? null : true))
-        .attr("id", (d) => labelId(d[0]))
-        .on("change", (e, d) => toggle(d[0]));
-
-      divs
-        .append("span")
-        .attr("class", "ltv-pill-checkbox-span")
-        .style("background-color", (d) => colors.label(d[0]))
-        .text((d) => "" + d[0] + " (" + dataView.byLabel.get(d[0]) + ")");
-
-      // let labelsOfCheckboxes = divs
-      //   .append("label")
-      //   .style("margin-left", "5px")
-      //   .attr("for", (d) => labelId(d[0]))
-      //   .text((d) => "" + d[0]);
-    }
-  }
-
   function DataViewLabels(dataController) {
     return {
       labels: dataController.labels(),
@@ -24234,11 +24179,162 @@
     };
   }
 
+  const LABELS_CHART_STYLE = {
+    flowing: "flowing",
+    grouped: "grouped",
+  };
+
+  const LABELS_CHART_CONFIG = {
+    margin: {
+      top: 0,
+      right: LOTIVIS_CONFIG$1.defaultMargin,
+      bottom: 0,
+      left: LOTIVIS_CONFIG$1.defaultMargin,
+    },
+    selectable: true,
+    headlines: false,
+    style: LABELS_CHART_STYLE.flowing,
+  };
+
+  class LabelsFlowingRenderer extends Renderer {
+    render(chart, controller, dataView) {
+      if (chart.config.style !== LABELS_CHART_STYLE.flowing) return;
+
+      console.log("chart.config.style", chart.config.style);
+
+      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
+      dataView.stacks;
+      let labels = dataView.labels;
+      let colors = controller.colorGenerator;
+      let config = chart.config;
+
+      function toggle(label) {
+        chart.makeUpdateInsensible();
+        controller.filters.labels.toggle(label);
+        chart.makeUpdateSensible();
+      }
+
+      function filter(label) {
+        return controller.filters.labels.contains(label);
+      }
+
+      // <label class="ltv-pill-checkbox">
+      //   <input type="checkbox" id="ltv-legend-stack-id-{{LABEL}}"></input>
+      //   <span class="ltv-pill-checkbox-span">
+      //     {{LABEL}}
+      //   </span>
+      // </label>
+
+      chart.div
+        .style("padding-left", config.margin.left + "px")
+        .style("padding-top", config.margin.top + "px")
+        .style("padding-right", config.margin.right + "px")
+        .style("padding-bottom", config.margin.bottom + "px");
+
+      let labelContainers = chart.div
+        .selectAll(".label")
+        .data(labels)
+        .enter()
+        .append("label")
+        .attr("class", "ltv-pill-checkbox");
+
+      labelContainers
+        .append("input")
+        .attr("type", "checkbox")
+        .attr("checked", (l) => (filter(l) ? null : true))
+        .attr("id", (l) => `ltv-legend-label-id-${safeId(l)}`)
+        .on("change", (e, l) => toggle(l));
+
+      labelContainers
+        .append("span")
+        .attr("class", "ltv-pill-checkbox-span")
+        .style("background-color", (l) => colors.label(l))
+        .text((l) => "" + l + " (" + numberFormat(dataView.byLabel.get(l)) + ")");
+    }
+  }
+
+  class LabelsGroupedRenderer extends Renderer {
+    render(chart, controller, dataView) {
+      if (chart.config.style !== LABELS_CHART_STYLE.grouped) return;
+
+      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
+      let stacks = dataView.stacks;
+      let colors = controller.colorGenerator;
+      let config = chart.config;
+
+      function toggle(label) {
+        chart.makeUpdateInsensible();
+        controller.filters.labels.toggle(label);
+        chart.makeUpdateSensible();
+      }
+
+      function filter(label) {
+        return controller.filters.labels.contains(label);
+      }
+
+      // <label class="ltv-pill-checkbox">
+      //   <input type="checkbox" id="ltv-legend-stack-id-{{LABEL}}"></input>
+      //   <span class="ltv-pill-checkbox-span">
+      //     {{LABEL}}
+      //   </span>
+      // </label>
+
+      chart.div
+        .style("padding-left", config.margin.left + "px")
+        .style("padding-top", config.margin.top + "px")
+        .style("padding-right", config.margin.right + "px")
+        .style("padding-bottom", config.margin.bottom + "px");
+
+      let stackContainers = chart.div
+        .selectAll(".div")
+        .data(stacks)
+        .enter()
+        .append("div")
+        .attr("id", (s) => `ltv-legend-stack-id-${safeId(s)}`)
+        .attr("class", "ltv-stack-labels-container")
+        .style("display", "inline-block")
+        .style("color", (s) => colors.stack(s))
+        .html((d, i) => (config.headlines ? "Stack " + (i + 1) + "<br/>" : null));
+
+      let labelContainers = stackContainers
+        .selectAll(".label")
+        .data((d) => dataView.byStackLabel.get(d))
+        .enter()
+        .append("label")
+        .attr("class", "ltv-pill-checkbox");
+
+      labelContainers
+        .append("input")
+        .attr("type", "checkbox")
+        .attr("checked", (d) => (filter(d[0]) ? null : true))
+        .attr("id", (d) => `ltv-legend-stack-id-${safeId(d[0])}`)
+        .on("change", (e, d) => toggle(d[0]));
+
+      labelContainers
+        .append("span")
+        .attr("class", "ltv-pill-checkbox-span")
+        .style("background-color", (d) => colors.label(d[0]))
+        .text(
+          (d) => "" + d[0] + " (" + numberFormat(dataView.byLabel.get(d[0])) + ")"
+        );
+    }
+  }
+
   class LabelsChart extends Chart {
-    initialize() {}
+    initialize() {
+      let theConfig = this.config;
+      let margin;
+      margin = Object.assign({}, LABELS_CHART_CONFIG.margin);
+      margin = Object.assign(margin, theConfig.margin || {});
+
+      let config = Object.assign({}, LABELS_CHART_CONFIG);
+      this.config = Object.assign(config, this.config);
+      this.config.margin = margin;
+    }
 
     addRenderers() {
-      this.renderers.push(new LabelsLabelsRenderer());
+      this.renderers.push(new LabelsFlowingRenderer());
+      this.renderers.push(new LabelsGroupedRenderer());
     }
 
     createDataView() {

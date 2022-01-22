@@ -7,42 +7,26 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
     <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
+    <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Artists Activity Range</title>
   </head>
   <body>
-    <div class="container pt-4">
+    <div class="frcv-container">
       <!-- HEADER -->
-      <div class="row">
-        <div class="col-4">
-          <a href="index.html" class="btn">Back</a>
-        </div>
-        <div class="col-4 text-center text-secondary">
-          <h4>Artists Activity Range</h4>
-        </div>
-        <div class="col-4">
-          <button type="button" class="btn btn-sm" onclick="screenshot()">
-            Screenshot
-          </button>
-          <select id="dataSelection" onchange="dataChange()">
-            <option>All</option>
-            <option>Female</option>
-            <option>Male</option>
-            <option>Groups</option>
-          </select>
-        </div>
+      <div class="frcv-col-3">
+        <a href="index.html" class="btn">Back</a>
+      </div>
+      <div class="frcv-col-3 frcv-center">
+        <span>Artists Activity Range</span>
+      </div>
+      <div class="frcv-col-3 frcv-end">
+        <button type="button" onclick="screenshot()">Screenshot</button>
+        <select id="data" onchange="dataChange()">
+          <option>All</option>
+          <option>Female</option>
+          <option>Male</option>
+          <option>Groups</option>
+        </select>
       </div>
       <!-- CONTENT -->
       <div class="row">
@@ -54,6 +38,7 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
@@ -69,17 +54,31 @@
       });
 
       function screenshot() {
-        lotivis.screenshot("plot-chart-svg", "screenshot");
+        html2canvas(document.getElementById("plot-chart"), {
+          scale: 4,
+        }).then((canvas) => {
+          // convert canvas to base64
+          let base64Data = canvas
+            .toDataURL()
+            .replace("data:image/png;base64,", "");
+
+          // receive filename
+          let filename = document.getElementById("data").value;
+
+          // download as base64 file
+          let anchor = document.createElement("a");
+          anchor.href = "data:image/png;base64," + base64Data;
+          anchor.download = filename;
+          anchor.click();
+        });
       }
 
       function setDataset(index) {
-        let set = datasets[index];
-        let controller = lotivis.parseDatasets(set);
-        chart.setController(controller);
+        chart.setController(lotivis.parseDatasets(datasets[index]));
       }
 
       function dataChange() {
-        setDataset(document.getElementById("dataSelection").selectedIndex);
+        setDataset(document.getElementById("data").selectedIndex);
       }
 
       Promise.all([

@@ -7,55 +7,34 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
     <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
+    <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Years Data</title>
   </head>
   <body>
-    <div class="container pt-4">
-      <div class="row">
-        <div class="col-4">
-          <a href="index.html" class="btn">Back</a>
-        </div>
-        <div class="col-4 text-center text-secondary">
-          <h4>Years Data</h4>
-        </div>
-        <div class="col-4">
-          <button type="button" class="btn btn-sm" onclick="screenshot()">
-            Screenshot
-          </button>
-          <select id="dataSelection" onchange="dataChange()">
-            <option>Tracks</option>
-            <option>Words</option>
-            <option>Words (Relative)</option>
-            <option>Types</option>
-            <option>Types (Relative)</option>
-          </select>
-          Labels:
-          <select id="labels" onchange="onLabels()">
-            <option>On</option>
-            <option>Off</option>
-          </select>
-        </div>
+    <div class="frcv-container">
+      <div class="frcv-col-3">
+        <a href="index.html" class="btn">Back</a>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <div id="bar-chart"></div>
-        </div>
+      <div class="frcv-col-3 frcv-center">
+        <span>Years Data</span>
       </div>
+      <div class="frcv-col-3 frcv-end">
+        <button type="button" onclick="screenshot()">Screenshot</button>
+        <select id="data" onchange="dataChange()">
+          <option>Tracks</option>
+          <option>Words</option>
+          <option>Words (Relative)</option>
+          <option>Types</option>
+          <option>Types (Relative)</option>
+        </select>
+        <input type="checkbox" id="labels" onchange="onLabels()" checked />
+        <label for="labels">Labels</label>
+      </div>
+
+      <div id="bar-chart"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
 
     <script>
@@ -67,35 +46,42 @@
         labels: true,
         selectable: false,
         margin: {
-          top: 20,
+          top: 60,
           right: 20,
           left: 70,
         },
       });
 
       function screenshot() {
-        lotivis.screenshot("bar-chart-svg", "screenshot");
+        html2canvas(document.getElementById("bar-chart"), {
+          scale: 4,
+        }).then((canvas) => {
+          // convert canvas to base64
+          let base64Data = canvas
+            .toDataURL()
+            .replace("data:image/png;base64,", "");
+
+          // receive filename
+          let filename = document.getElementById("data").value;
+
+          // download as base64 file
+          let anchor = document.createElement("a");
+          anchor.href = "data:image/png;base64," + base64Data;
+          anchor.download = filename;
+          anchor.click();
+        });
       }
 
       function setDataset(index) {
-        let set = datasets[index];
-        let controller = lotivis.parseDataset(set);
-        chart.setController(controller);
+        chart.setController(lotivis.parseDataset(datasets[index]));
       }
 
       function dataChange() {
-        let dropdown = document.getElementById("dataSelection");
-        setDataset(dropdown.selectedIndex);
+        setDataset(document.getElementById("data").selectedIndex);
       }
 
       function onLabels() {
-        let dropdown = document.getElementById("labels");
-        if (dropdown.selectedIndex === 0) {
-          chart.config.labels = true;
-        } else {
-          chart.config.labels = false;
-        }
-
+        chart.config.labels = document.getElementById("labels").checked;
         chart.redraw();
       }
 
@@ -105,7 +91,10 @@
         lotivis.d3.json("./assets/year.to.words.relative.json"),
         lotivis.d3.json("./assets/year.to.types.json"),
         lotivis.d3.json("./assets/year.to.types.relative.json"),
-      ]).then((all) => ((datasets = all), setDataset(0)));
+      ]).then((all) => {
+        datasets = all;
+        setDataset(0);
+      });
     </script>
   </body>
 </html>

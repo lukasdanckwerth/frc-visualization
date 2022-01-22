@@ -182,8 +182,11 @@
   }
 }
 .ltv-stack-labels-container {
-  display: block;
   font-size: 10px;
+  margin-right: 5px;
+}
+.ltv-stack-labels-container .ltv-pill-checkbox-span {
+  margin-bottom: 5px;
 }
 
 /* Customize the label (the container) */
@@ -207,9 +210,9 @@
 }
 
 .ltv-pill-checkbox-span {
+  font-size: 10px;
   display: inline-block;
   padding: 0 7px;
-  margin-bottom: 5px;
   margin-right: 5px;
   border-radius: 999999px;
   color: white;

@@ -7,66 +7,50 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
     />
     <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="favicon/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="favicon/favicon-32x32.png"
-    />
+    <link rel="stylesheet" href="./css/frcv.css" />
     <title>French Rap Corpus Visualization</title>
   </head>
 
   <body>
-    <div class="container">
-      <div class="col-12 mt-5"></div>
-      <div class="col-6-md offset-3-md col-12-sm mt-4">
-        <h1>French Rap Corpus Visualization</h1>
-        <div>
-          <div class="mb-2 secondary text-end">
-            <span id="frcv-version" class="frcv-code"> </span>
-            (<span id="frcv-environment" class="frcv-code"></span>)
-          </div>
-        </div>
-        <div class="list-group pt-4 pb-4">
-          <a
-            class="list-group-item list-group-item-action"
-            href="./corpus.overview.html"
-          >
-            Corpus Overview
-          </a>
-          <a
-            class="list-group-item list-group-item-action"
-            href="./departements.data.html"
-          >
-            Departements Data
-          </a>
-          <a
-            class="list-group-item list-group-item-action"
-            href="./years.data.html"
-          >
-            Years Data
-          </a>
-          <a
-            class="list-group-item list-group-item-action"
-            href="./artists.activity.range.html"
-          >
-            Artists Activity Range
-          </a>
-          <a
-            class="list-group-item list-group-item-action"
-            href="./search.html"
-          >
-            Search
-          </a>
-        </div>
-        <!-- <footer class="text-center">
+    <div class="frcv-container">
+      <span class="frcv-h1">
+        French Rap Corpus
+        <br />
+        Visualization
+      </span>
+      <span id="frcv-version" class="frcv-code"></span>
+      <span id="frcv-environment" class="frcv-code"></span>
+      <div class="frcv-menu">
+        <a
+          class="list-group-item list-group-item-action"
+          href="./corpus.overview.html"
+        >
+          Corpus Overview
+        </a>
+        <a
+          class="list-group-item list-group-item-action"
+          href="./departements.data.html"
+        >
+          Departements Data
+        </a>
+        <a
+          class="list-group-item list-group-item-action"
+          href="./years.data.html"
+        >
+          Years Data
+        </a>
+        <a
+          class="list-group-item list-group-item-action"
+          href="./artists.activity.range.html"
+        >
+          Artists Activity Range
+        </a>
+        <a class="list-group-item list-group-item-action" href="./search.html">
+          Search
+        </a>
+      </div>
+
+      <!-- <footer class="text-center">
           <div class="container pt-3">
             <section class="mb-4">
               <button
@@ -96,40 +80,11 @@
             </section>
           </div>
         </footer> -->
-      </div>
-    </div>
-
-    <div id="search-popup-content" style="display: none">
-      <div class="frcv-warn-popup-container">
-        <p>
-          The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
-          You need to load it in order to use the 'Search' function.
-        </p>
-        <div style="text-align: center">
-          <button class="lotivis-button lotivis-button-round">
-            <a href="search.html"> Search </a>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="corpus-overview-popup-content" style="display: none">
-      <div class="frcv-warn-popup-container">
-        <p>
-          The corpus' size is <span class="frcv-code frcv-corpus-size"></span>.
-          You need to load it in order to use the 'Corpus Overview' function.
-        </p>
-        <div style="text-align: center">
-          <button class="lotivis-button lotivis-button-round">
-            <a href="corpus.overview.html"> Corpus Overview </a>
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- Impress Modal -->
     <div
-      class="modal fade"
+      class="frcv-modal"
       id="impressModal"
       tabindex="-1"
       role="dialog"
@@ -163,7 +118,7 @@
 
     <!-- Pricacy Policy Modal -->
     <div
-      class="modal fade"
+      class="frcv-modal fade"
       id="privacyPolicyModal"
       tabindex="-1"
       role="dialog"
@@ -213,7 +168,7 @@
 
     <!-- About Modal -->
     <div
-      class="modal fade"
+      class="frcv-modal fade"
       id="aboutModal"
       tabindex="-1"
       role="dialog"
@@ -265,12 +220,13 @@
     </div>
 
     <script src="js/lib/lotivis.js"></script>
-    <script src="js/lib/bootstrap.bundle.min.js"></script>
 
     <script>
       lotivis.d3.json("./assets/about.json").then(function (response) {
         lotivis.d3.selectAll("#frcv-version").html(response.version);
-        lotivis.d3.selectAll("#frcv-environment").html(response.environment);
+        lotivis.d3
+          .selectAll("#frcv-environment")
+          .html("(" + response.environment + ")");
         lotivis.d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
       });
     </script>
