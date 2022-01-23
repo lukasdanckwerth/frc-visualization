@@ -32,6 +32,9 @@
           <option>Innovation List (Words) (Rel. Date)</option>
           <option>Innovation List (Words) (Rel. Location)</option>
         </select>
+        <span> &NonBreakingSpace; </span>
+        <label for="labels">Labels:</label>
+        <input type="checkbox" id="labels" onchange="labelsChange()" checked />
       </div>
       <br />
       <br />
@@ -146,6 +149,16 @@
         } else {
           plotChart.setController(new lotivis.DataController([]));
         }
+      }
+
+      function labelsChange() {
+        let checked = document.getElementById("labels").checked;
+        barChart.config.labels = checked;
+        mapChart.config.labels = checked;
+        plotChart.config.labels = checked;
+        barChart.redraw();
+        mapChart.redraw();
+        plotChart.redraw();
       }
 
       function setDataset(index) {

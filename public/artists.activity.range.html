@@ -19,14 +19,35 @@
       <div class="frcv-col-3 frcv-center">
         <span>Artists Activity Range</span>
       </div>
-      <div class="frcv-col-3 frcv-end">
+      <br />
+      <br />
+      <div class="frcv-center">
         <button type="button" onclick="screenshot()">Screenshot</button>
+        <span> &NonBreakingSpace; </span>
+        <label for="data">Data:</label>
         <select id="data" onchange="dataChange()">
           <option>All</option>
           <option>Female</option>
           <option>Male</option>
           <option>Groups</option>
         </select>
+        <span> &NonBreakingSpace; </span>
+        <label for="type">Type:</label>
+        <select id="type" onchange="typeChange()">
+          <option>gradient</option>
+          <option selected>fraction</option>
+        </select>
+        <span> &NonBreakingSpace; </span>
+        <label for="sort">Sort:</label>
+        <select id="sort" onchange="sortChange()">
+          <option>alphabetically</option>
+          <option>duration</option>
+          <option>intensity</option>
+          <option>firstDate</option>
+        </select>
+        <span> &NonBreakingSpace; </span>
+        <label for="labels">Labels:</label>
+        <input type="checkbox" id="labels" onchange="labelsChange()" checked />
       </div>
       <!-- CONTENT -->
       <div class="row">
@@ -53,7 +74,7 @@
         selectable: false,
       });
 
-      function screenshot() {
+      function screenshot(id) {
         html2canvas(document.getElementById("plot-chart"), {
           scale: 4,
         }).then((canvas) => {
@@ -81,12 +102,27 @@
         setDataset(document.getElementById("data").selectedIndex);
       }
 
+      function typeChange() {
+        chart.config.type = document.getElementById("type").value;
+        chart.redraw();
+      }
+
+      function sortChange() {
+        chart.config.sort = document.getElementById("sort").value;
+        chart.redraw();
+      }
+
+      function labelsChange() {
+        chart.config.labels = document.getElementById("labels").checked;
+        chart.redraw();
+      }
+
       Promise.all([
         lotivis.d3.json("./assets/artists.active.range.json"),
         lotivis.d3.json("./assets/artists.active.range.female.json"),
         lotivis.d3.json("./assets/artists.active.range.male.json"),
         lotivis.d3.json("./assets/artists.active.range.groups.json"),
-      ]).then((all) => ((datasets = all), setDataset(0)));
+      ]).then((all) => ((datasets = all), setDataset(1)));
     </script>
   </body>
 </html>

@@ -32,6 +32,9 @@
           <option>Types</option>
           <option>Types (Relative)</option>
         </select>
+        <span> &NonBreakingSpace; </span>
+        <label for="labels">Labels:</label>
+        <input type="checkbox" id="labels" onchange="labelsChange()" checked />
       </div>
       <!-- CONTENT -->
       <div class="row">
@@ -79,6 +82,11 @@
           anchor.download = filename;
           anchor.click();
         });
+      }
+
+      function labelsChange() {
+        chart.config.labels = document.getElementById("labels").checked;
+        chart.redraw();
       }
 
       function dataChange() {
