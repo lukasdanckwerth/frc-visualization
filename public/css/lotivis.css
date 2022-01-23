@@ -114,7 +114,7 @@
 }
 
 .ltv-plot-label {
-  fill: greenyellow;
+  fill: gray;
   text-anchor: start;
   font-size: 12px;
   pointer-events: none;
