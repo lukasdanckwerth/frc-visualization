@@ -21,7 +21,7 @@ stage:
 	git checkout stage
 	git pull origin stage
 	git merge dev
-	git push origin stage
+	git push origin stage --follow-tags
 	git checkout dev
 
 production:
@@ -29,5 +29,5 @@ production:
 	git pull origin stage
 	git pull origin main
 	git merge stage
-	git push origin main
+	git push origin main --follow-tags
 	git checkout dev
