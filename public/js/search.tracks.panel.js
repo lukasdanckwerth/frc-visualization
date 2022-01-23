@@ -27,9 +27,11 @@ function fillTracksCard(datasets) {
     .html((item, index) => {
       let track = item[0];
       return [
-        `<span class="index-number">${index + 1}</span>`,
+        `<span class="index-number">${index + 1}.</span>`,
         `<span class="title">${track.title}</span>`,
-        `<span class="artist">(by ${track.artist}, ${track.releaseYear})</span>`,
+        `<span class="artist">(${track.artist.trim()}, ${
+          track.releaseYear
+        })</span>`,
       ].join(" ");
     })
     .on("click", (event, item) => presentTrackPopup(item[0], item[1]));

@@ -3,6 +3,11 @@ body {
     Arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: steelblue;
+}
+
 .frcv-container {
   max-width: 1200px;
   padding-top: 10px;
@@ -85,11 +90,16 @@ body {
 }
 
 .frcv-tracks-list .index-number {
+  display: inline-block;
   color: gray;
+  margin-right: 5px;
+  min-width: 20px;
+  /* text-align: end; */
 }
 
 .frcv-tracks-list .title {
   color: steelblue;
+  margin-right: 5px;
 }
 
 .frcv-tracks-list .artist {

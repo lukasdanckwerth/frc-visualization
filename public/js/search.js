@@ -171,7 +171,8 @@ d3.json("./assets/departements.geojson").then((geoJSON) => {
   mapChartMetropole.setGeoJSON(geoJSON);
 });
 
-d3.json("./assets/corpus.json")
+// d3.json("./assets/corpus.json")
+d3.json("./assets/corpus.light.json")
   .then((corpusJSON) => {
     loadingView.innerHTML = `Parsing...`;
     return corpusJSON;

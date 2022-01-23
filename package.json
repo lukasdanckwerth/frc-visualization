@@ -9,7 +9,6 @@
     "build": "rollup --config",
     "build:watch": "rollup --config --watch",
     "serve": "http-server public/",
-    "serve:production": "NODE_ENV=production node server.js production",
     "assets": "npm run build && node src/generate/generate.assets.js",
     "assets:dev": "node src/generate/generate.assets.dev.js"
   },
