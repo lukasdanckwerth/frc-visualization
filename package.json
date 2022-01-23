@@ -1,6 +1,6 @@
 {
   "name": "frc-visualisation",
-  "version": "1.0.53",
+  "version": "1.0.54",
   "description": "French Rap Corpus Visualization",
   "main": "npm run serve",
   "author": "Lukas Danckwerth",
