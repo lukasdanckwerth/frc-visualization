@@ -22,5 +22,5 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           subject: frc-visualization stage update
           to: lukas.danckwerth@gmx.de
-          from: frc-visualization stage ${{ env.RELEASE_VERSION }}
+          from: frc-visualization stage $RELEASE_VERSION
           secure: true
