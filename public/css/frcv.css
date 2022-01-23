@@ -5,7 +5,7 @@ body {
 
 a {
   text-decoration: none;
-  color: steelblue;
+  color: #1f77b4;
 }
 
 .frcv-container {
@@ -118,7 +118,7 @@ a {
 }
 
 .frcv-tracks-list .title {
-  color: steelblue;
+  color: #1f77b4;
   margin-right: 5px;
 }
 
