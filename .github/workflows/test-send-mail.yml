@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
+      - name: Set tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Send email
         uses: dawidd6/action-send-mail@v3.6.0
         with:
@@ -21,10 +22,5 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           subject: frc-visualization stage update
           to: lukas.danckwerth@gmx.de
-          from: Github # <user@example.com>
-          # Optional whether this connection use TLS (default is true if server_port is 465)
+          from: frc-visualization stage ${{ env.RELEASE_VERSION }}
           secure: true
-          # Optional unsigned/invalid certificates allowance:
-          ignore_cert: true
-          # Optional converting Markdown to HTML (set content_type to text/html too):
-          convert_markdown: true
