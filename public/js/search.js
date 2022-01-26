@@ -15,7 +15,7 @@ let plotChart = new lotivis.PlotChart("plot-chart", {
 let mapChart = new lotivis.MapChart("map-chart", {
   labels: true,
   legend: true,
-  excludedFeatureCodes: ["2A", "2B"],
+  exclude: ["2A", "2B"],
   featureIDAccessor: (f) => f.properties.code,
   featureNameAccessor: (f) => f.properties.nom,
 });

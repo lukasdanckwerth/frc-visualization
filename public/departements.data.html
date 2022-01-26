@@ -59,7 +59,7 @@
       let chart = new lotivis.MapChart("map-chart", {
         labels: true,
         selectable: false,
-        excludedFeatureCodes: ["2A", "2B"],
+        exclude: ["2A", "2B"],
         featureIDAccessor: (f) => "" + f.properties.code,
         featureNameAccessor: (f) => f.properties.nom,
       });

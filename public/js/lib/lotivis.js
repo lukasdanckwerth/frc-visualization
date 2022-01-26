@@ -21529,7 +21529,9 @@
     isShowLabels: true,
     geoJSON: null,
     departementsData: [],
-    excludedFeatureCodes: [],
+    exclude: [],
+    // exclude: [],
+    // include: [], || filter: []
     drawRectangleAroundSelection: true,
     selectable: true,
     featureIDAccessor: FEATURE_ID_ACCESSOR,
@@ -23462,15 +23464,17 @@
       // precalculate the center of each feature
       this.geoJSON.features.forEach((f) => (f.center = geoCentroid(f)));
 
-      if (this.config.excludedFeatureCodes) {
-        this.presentedGeoJSON = removeFeatures(
-          this.geoJSON,
-          this.config.excludedFeatureCodes
-        );
+      console.log("this.controller", this.controller);
+      if (!this.controller) {
+        this.controller = new DataController([]);
       }
 
-      if (this.config.filter) {
-        this.presentedGeoJSON = filterFeatures(this.geoJSON, this.config.filter);
+      if (this.config.exclude) {
+        this.presentedGeoJSON = removeFeatures(this.geoJSON, this.config.exclude);
+      }
+
+      if (this.config.include) {
+        this.presentedGeoJSON = filterFeatures(this.geoJSON, this.config.include);
       }
 
       // precalculate lotivis feature ids
@@ -23483,6 +23487,7 @@
 
       this.zoomTo(this.presentedGeoJSON);
       this.update(this.controller, "geojson");
+      this.redraw();
     }
   }
 
