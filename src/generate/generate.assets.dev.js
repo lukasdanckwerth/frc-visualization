@@ -2,6 +2,6 @@
 
 console.log("[DEV] Start generating assets");
 
-require("./about.json");
+require("./datasets.year.js");
 
 console.log("[DEV] Finished assets");

@@ -59,6 +59,7 @@ function parseTrack(track, artist, album) {
   return {
     artist: artist.name,
     artistID: artist.geniusId,
+    sex: artist.sex || artist.group,
     album: album,
     departementNo: "" + (artist.departementNo || artist.departementNo),
     departementName: artist.departementName || artist.departement,

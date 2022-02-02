@@ -68,34 +68,19 @@
       lotivis.debug(true);
 
       let datasets = [];
-      let chart = new lotivis.PlotChart("plot-chart", {
-        margin: { left: 200, right: 10 },
-        type: lotivis.PlotChart.Type.fraction,
-        selectable: false,
-      });
+      let plotChart = lotivis
+        .plot()
+        .selector("#plot-chart")
+        .style("fraction")
+        .marginLeft(200)
+        .marginRight(10);
 
       function screenshot(id) {
-        html2canvas(document.getElementById("plot-chart"), {
-          scale: 4,
-        }).then((canvas) => {
-          // convert canvas to base64
-          let base64Data = canvas
-            .toDataURL()
-            .replace("data:image/png;base64,", "");
-
-          // receive filename
-          let filename = document.getElementById("data").value;
-
-          // download as base64 file
-          let anchor = document.createElement("a");
-          anchor.href = "data:image/png;base64," + base64Data;
-          anchor.download = filename;
-          anchor.click();
-        });
+        plotChart.pngDownload();
       }
 
       function setDataset(index) {
-        chart.setController(lotivis.parseDatasets(datasets[index]));
+        plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();
       }
 
       function dataChange() {
@@ -103,18 +88,15 @@
       }
 
       function typeChange() {
-        chart.config.type = document.getElementById("type").value;
-        chart.redraw();
+        plotChart.style(document.getElementById("type").value).run();
       }
 
       function sortChange() {
-        chart.config.sort = document.getElementById("sort").value;
-        chart.redraw();
+        plotChart.sort(document.getElementById("sort").value).run();
       }
 
       function labelsChange() {
-        chart.config.labels = document.getElementById("labels").checked;
-        chart.redraw();
+        plotChart.labels(document.getElementById("labels").checked).run();
       }
 
       Promise.all([

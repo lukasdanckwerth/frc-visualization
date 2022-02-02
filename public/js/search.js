@@ -1,40 +1,48 @@
 // configure lotivis
-lotivis.config.downloadFilePrefix = "frcv";
 lotivis.debug(true);
+lotivis.config({ downloadFilePrefix: "frcv" });
 
 let d3 = lotivis.d3;
 
 // create lotivis components
-let barChart = new lotivis.BarChart("bar-chart", { labels: true });
+let barChart = lotivis.bar().selector("#bar-chart").labels(true);
 
-let plotChart = new lotivis.PlotChart("plot-chart", {
-  type: "fraction",
-  colorMode: "single",
-});
+let plotChart = lotivis
+  .plot()
+  .selector("#plot-chart")
+  .style("fraction")
+  .colorMode("single")
+  .labels(true);
 
-let mapChart = new lotivis.MapChart("map-chart", {
-  labels: true,
-  legend: true,
-  exclude: ["2A", "2B"],
-  featureIDAccessor: (f) => f.properties.code,
-  featureNameAccessor: (f) => f.properties.nom,
-});
+let mapChart = lotivis
+  .map()
+  .selector("#map-chart")
+  .labels(true)
+  .legend(true)
+  .exclude(["2A", "2B"])
+  .featureIDAccessor((f) => f.properties.code)
+  .featureNameAccessor((f) => f.properties.nom);
 
-let mapChartMetropole = new lotivis.MapChart("map-chart-metropole", {
-  width: 400,
-  height: 400,
-  labels: true,
-  filter: ["75", "92", "93", "94"],
-  legend: false,
-  featureIDAccessor: (f) => f.properties.code,
-  featureNameAccessor: (f) => f.properties.nom,
-});
+let mapChartMetropole = lotivis
+  .map()
+  .selector("#map-chart-metropole")
+  .width(400)
+  .height(400)
+  .labels(true)
+  .legend(false)
+  .include(["75", "92", "93", "94"])
+  .featureIDAccessor((f) => f.properties.code)
+  .featureNameAccessor((f) => f.properties.nom);
 
-let labelsChart = new lotivis.LabelsChart("labels-chart", {
-  margin: { left: 40, right: 40 },
-  headlines: false,
-  style: "grouped",
-});
+let legend = lotivis
+  .legend()
+  .selector("#legend")
+  .marginLeft(barChart.marginLeft())
+  .marginRight(barChart.marginRight())
+  .groupFormat(function (s, v, ls, i) {
+    return `${i + 1}) ${ls[0]} (+ ${ls.length - 1}) (Sum: ${v})`;
+  })
+  .group(true);
 
 function getElement(id) {
   return document.getElementById(id);
@@ -47,7 +55,7 @@ let contentContainer = getElement("content"),
 
 let corpus = new frc.Corpus("");
 let queryParameter = "q";
-let parameters = lotivis.UrlParameters.getInstance();
+// let parameters = lotivis.UrlParameters.getInstance();
 let recentSearches = new RecentSearches("frcv-search-input-data");
 
 // search options;
@@ -59,14 +67,12 @@ let countType = frc.SearchCountType.tracks;
 contentContainer.style.display = "none";
 
 function screenshot(id) {
+  let filename = barChart.dataController().filename(".png", id);
   html2canvas(getElement(id), { scale: 10 }).then((canvas) => {
-    // convert canvas to base64
-    const base64Data = canvas.toDataURL().replace("data:image/png;base64,", "");
-
     // download as base64 file
     const downloadLink = document.createElement("a");
-    downloadLink.href = "data:image/png;base64," + base64Data;
-    downloadLink.download = "image"; // filename
+    downloadLink.href = canvas.toDataURL();
+    downloadLink.download = filename;
     downloadLink.click();
   });
 }
@@ -97,7 +103,7 @@ function search(searchText) {
     return console.log("search text too short");
   }
 
-  parameters.set(queryParameter, searchText);
+  // parameters.set(queryParameter, searchText);
 
   let datasets = corpus.search(
     searchText,
@@ -107,12 +113,12 @@ function search(searchText) {
     countType
   );
 
-  let dataController = new lotivis.parseDatasets(datasets);
-  barChart.setController(dataController);
-  mapChart.setController(dataController);
-  mapChartMetropole.setController(dataController);
-  plotChart.setController(dataController);
-  labelsChart.setController(dataController);
+  let dc = new lotivis.parseDatasets(datasets);
+  barChart.dataController(dc).run();
+  mapChart.dataController(dc).run();
+  mapChartMetropole.dataController(dc).run();
+  plotChart.dataController(dc).run();
+  legend.dataController(dc).run();
 
   fillTracksCard(datasets);
   recentSearches.append(searchText);
@@ -121,8 +127,8 @@ function search(searchText) {
 /* date range */
 function updateYearsRange() {
   let dates = d3.range(firstYear, lastYear + 1);
-  barChart.config.dates = dates;
-  plotChart.config.dates = dates;
+  barChart.dates(dates);
+  plotChart.dates(dates);
 }
 
 function fromDropdownAction(some) {
@@ -167,8 +173,8 @@ function countTypeAction(some) {
 }
 
 d3.json("./assets/departements.geojson").then((geoJSON) => {
-  mapChart.setGeoJSON(geoJSON);
-  mapChartMetropole.setGeoJSON(geoJSON);
+  mapChart.geoJSON(geoJSON);
+  mapChartMetropole.geoJSON(geoJSON);
 });
 
 d3.json("./assets/corpus.json")
@@ -186,7 +192,7 @@ d3.json("./assets/corpus.json")
     contentContainer.style.display = "block";
   })
   .then(() => {
-    let searchString = parameters.getString(queryParameter);
+    let searchString = null; // parameters.getString(queryParameter);
     if (!searchString) return;
     search(searchString);
     searchField.value = searchString;

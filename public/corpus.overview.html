@@ -41,7 +41,7 @@
       <div class="frcv-col-2">
         <div class="frcv-headline">
           <span>Bar</span>
-          <button type="button" onclick="screenshot('bar-chart')">
+          <button type="button" onclick="screenshot(barChart)">
             Screenshot
           </button>
         </div>
@@ -51,19 +51,20 @@
 
         <div class="frcv-headline">
           <span>Plot</span>
-          <button type="button" onclick="screenshot('plot-chart')">
+          <button type="button" onclick="screenshot(plotChart)">
             Screenshot
           </button>
         </div>
         <div id="plot-chart">
           <!-- Plot Chart Here -->
         </div>
+        <!-- <div id="ltv-data"></div> -->
       </div>
 
       <div class="frcv-col-2">
         <div class="frcv-headline">
           <span>Map</span>
-          <button type="button" onclick="screenshot('map-chart')">
+          <button type="button" onclick="screenshot(mapChart)">
             Screenshot
           </button>
         </div>
@@ -83,10 +84,10 @@
           <div>Words: <span id="frcv-words"></span></div>
           <div>Types: <span id="frcv-types"></span></div>
         </div>
+        <!-- <div id="frcv-datatext"></div> -->
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
@@ -99,76 +100,69 @@
       let corpus = null;
       let datasets = [];
 
-      // create lotivis elements
-      let barChart = new lotivis.BarChart("bar-chart", {
-        labels: true,
-        selectable: false,
-        dates: d3.range(1995, 2021),
-      });
+      let barChart = lotivis
+        .bar()
+        .selector("#bar-chart")
+        .labels(true)
+        .enabled(false)
+        .dates(d3.range(1995, 2021));
 
-      let mapChart = new lotivis.MapChart("map-chart", {
-        labels: true,
-        exclude: ["2A", "2B"],
-        featureIDAccessor: (f) => "" + f.properties.code,
-        featureNameAccessor: (f) => f.properties.nom,
-      });
+      let mapChart = lotivis
+        .map()
+        .selector("#map-chart")
+        .labels(true)
+        .exclude(["2A", "2B"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
 
-      let plotChart = new lotivis.PlotChart("plot-chart", {
-        type: "fraction",
-        selectable: false,
-        dates: d3.range(1995, 2021),
-      });
+      let plotChart = lotivis
+        .plot()
+        .selector("#plot-chart")
+        .labels(true)
+        .style("fraction")
+        .dates(d3.range(1995, 2021));
 
-      function screenshot(id) {
-        html2canvas(document.getElementById(id), {
-          scale: 4,
-        }).then((canvas) => {
-          // convert canvas to base64
-          let base64Data = canvas
-            .toDataURL()
-            .replace("data:image/png;base64,", "");
+      // let datatext = lotivis
+      //   .datatext()
+      //   .selector("#frcv-datatext")
+      //   .dataController(new lotivis.DataController([]))
+      //   .height(200)
+      //   .title("Info")
+      //   .content(() => "")
+      //   .run();
 
-          // receive filename
-          let filename = document.getElementById("data").value;
-
-          // download as base64 file
-          let anchor = document.createElement("a");
-          anchor.href = "data:image/png;base64," + base64Data;
-          anchor.download = id + "-" + filename;
-          anchor.click();
-        });
+      function screenshot(chart) {
+        console.log("chart", chart);
       }
 
-      function controllerUpdate(controller, reason, some) {
-        if (reason === "locations") {
-          let locations = controller.filters.locations;
+      function controllerUpdate(chart, filters, action, last) {
+        let dc = this;
+        if (filters === "locations") {
+          let locations = dc.filters("locations");
           let artists = corpus.artistsForLocations(locations);
           let datasets = frc.artistsToDatasets(artists);
           let artistsController = lotivis.parseDatasets(datasets);
-          plotChart.setController(artistsController);
+          plotChart.dataController(artistsController).run();
         } else {
-          plotChart.setController(new lotivis.DataController([]));
+          plotChart.dataController(new lotivis.DataController([])).run();
         }
       }
 
       function labelsChange() {
         let checked = document.getElementById("labels").checked;
-        barChart.config.labels = checked;
-        mapChart.config.labels = checked;
-        plotChart.config.labels = checked;
-        barChart.redraw();
-        mapChart.redraw();
-        plotChart.redraw();
+        barChart.labels(checked).run();
+        mapChart.labels(checked).run();
+        plotChart.labels(checked).run();
       }
 
       function setDataset(index) {
         let dataset = datasets[index];
         let controller = lotivis.parseDataset(dataset);
 
-        barChart.setController(controller);
-        mapChart.setController(controller);
+        barChart.dataController(controller).run();
+        mapChart.dataController(controller).run();
 
-        controller.on("change", controllerUpdate);
+        controller.onFilter("frcv", controllerUpdate);
       }
 
       function dataChange() {
@@ -199,10 +193,10 @@
         .then((all) => {
           let rawCorpus = all.shift();
           corpus = new frc.Corpus(rawCorpus);
-          barChart.config.dates = corpus.dates();
+          // barChart.config.dates = corpus.dates();
 
           let geoJSON = all.shift();
-          mapChart.setGeoJSON(geoJSON);
+          mapChart.geoJSON(geoJSON);
 
           datasets = all;
           setDataset(0);
@@ -215,8 +209,9 @@
         });
 
       function setText(id, text) {
-        document.getElementById(id).innerText =
-          lotivis.config.numberFormat(text);
+        document.getElementById(id).innerText = lotivis
+          .config()
+          .numberFormat(text);
       }
 
       lotivis.d3.json("./assets/about.json").then((about) => {

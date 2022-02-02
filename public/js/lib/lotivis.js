@@ -379,15 +379,15 @@
     return nest(values, Array.from, reduce, keys);
   }
 
-  function index$4(values, ...keys) {
-    return nest(values, identity$a, unique$1, keys);
+  function index$5(values, ...keys) {
+    return nest(values, identity$a, unique, keys);
   }
 
   function indexes(values, ...keys) {
-    return nest(values, Array.from, unique$1, keys);
+    return nest(values, Array.from, unique, keys);
   }
 
-  function unique$1(values) {
+  function unique(values) {
     if (values.length !== 1) throw new Error("duplicate key");
     return values[0];
   }
@@ -1095,7 +1095,7 @@
     return array;
   }
 
-  function map$1(values, mapper) {
+  function map$2(values, mapper) {
     if (typeof values[Symbol.iterator] !== "function") throw new TypeError("values is not iterable");
     if (typeof mapper !== "function") throw new TypeError("mapper is not a function");
     return Array.from(values, (value, index) => mapper(value, index, values));
@@ -2725,8 +2725,8 @@
 
   function Color() {}
 
-  var darker = 0.7;
-  var brighter = 1 / darker;
+  var darker$1 = 0.7;
+  var brighter = 1 / darker$1;
 
   var reI = "\\s*([+-]?\\d+)\\s*",
       reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
@@ -2968,7 +2968,7 @@
       return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
     },
     darker: function(k) {
-      k = k == null ? darker : Math.pow(darker, k);
+      k = k == null ? darker$1 : Math.pow(darker$1, k);
       return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
     },
     rgb: function() {
@@ -3054,7 +3054,7 @@
       return new Hsl(this.h, this.s, this.l * k, this.opacity);
     },
     darker: function(k) {
-      k = k == null ? darker : Math.pow(darker, k);
+      k = k == null ? darker$1 : Math.pow(darker$1, k);
       return new Hsl(this.h, this.s, this.l * k, this.opacity);
     },
     rgb: function() {
@@ -3256,7 +3256,7 @@
       return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
     },
     darker: function(k) {
-      k = k == null ? darker : Math.pow(darker, k);
+      k = k == null ? darker$1 : Math.pow(darker$1, k);
       return new Cubehelix(this.h, this.s, this.l * k, this.opacity);
     },
     rgb: function() {
@@ -8162,7 +8162,7 @@
     return response.json();
   }
 
-  function d3json(input, init) {
+  function json$1(input, init) {
     return fetch(input, init).then(responseJson);
   }
 
@@ -8732,7 +8732,7 @@
     return force;
   }
 
-  function index$3(d) {
+  function index$4(d) {
     return d.index;
   }
 
@@ -8743,7 +8743,7 @@
   }
 
   function link$2(links) {
-    var id = index$3,
+    var id = index$4,
         strength = defaultStrength,
         strengths,
         distance = constant$4(30),
@@ -9415,15 +9415,15 @@
     return x;
   }
 
-  var map = Array.prototype.map,
+  var map$1 = Array.prototype.map,
       prefixes = ["y","z","a","f","p","n","µ","m","","k","M","G","T","P","E","Z","Y"];
 
   function formatLocale$1(locale) {
-    var group = locale.grouping === undefined || locale.thousands === undefined ? identity$7 : formatGroup(map.call(locale.grouping, Number), locale.thousands + ""),
+    var group = locale.grouping === undefined || locale.thousands === undefined ? identity$7 : formatGroup(map$1.call(locale.grouping, Number), locale.thousands + ""),
         currencyPrefix = locale.currency === undefined ? "" : locale.currency[0] + "",
         currencySuffix = locale.currency === undefined ? "" : locale.currency[1] + "",
         decimal = locale.decimal === undefined ? "." : locale.decimal + "",
-        numerals = locale.numerals === undefined ? identity$7 : formatNumerals(map.call(locale.numerals, String)),
+        numerals = locale.numerals === undefined ? identity$7 : formatNumerals(map$1.call(locale.numerals, String)),
         percent = locale.percent === undefined ? "%" : locale.percent + "",
         minus = locale.minus === undefined ? "−" : locale.minus + "",
         nan = locale.nan === undefined ? "NaN" : locale.nan + "";
@@ -9934,7 +9934,7 @@
     return range[0] <= range[1] ? range[0] <= x && x <= range[1] : x < range[0] || range[1] < x;
   }
 
-  function geoBounds(feature) {
+  function bounds$1(feature) {
     var i, n, a, b, merged, deltaMax, delta;
 
     phi1 = lambda1 = -(lambda0$1 = phi0 = Infinity);
@@ -10083,7 +10083,7 @@
     centroidPointCartesian(x0$4, y0$4, z0);
   }
 
-  function geoCentroid(object) {
+  function centroid$1(object) {
     W0 = W1 =
     X0$1 = Y0$1 = Z0$1 =
     X1$1 = Y1$1 = Z1$1 = 0;
@@ -11710,7 +11710,7 @@
         + "z";
   }
 
-  function geoPath(projection, context) {
+  function index$3(projection, context) {
     var pointRadius = 4.5,
         projectionStream,
         contextStream;
@@ -12336,7 +12336,7 @@
     return [x, 2 * atan(exp(y)) - halfPi$1];
   };
 
-  function geoMercator() {
+  function mercator() {
     return mercatorProjection(mercatorRaw)
         .scale(961 / tau$1);
   }
@@ -19661,7 +19661,7 @@
     flatGroup: flatGroup,
     flatRollup: flatRollup,
     groups: groups,
-    index: index$4,
+    index: index$5,
     indexes: indexes,
     rollup: rollup,
     rollups: rollups,
@@ -19704,7 +19704,7 @@
     every: every,
     some: some,
     filter: filter$1,
-    map: map$1,
+    map: map$2,
     reduce: reduce,
     reverse: reverse$3,
     sort: sort,
@@ -19804,7 +19804,7 @@
     csv: csv$1,
     tsv: tsv,
     image: image,
-    json: d3json,
+    json: json$1,
     text: text,
     xml: xml,
     html: html,
@@ -19827,8 +19827,8 @@
     precisionPrefix: precisionPrefix,
     precisionRound: precisionRound,
     geoArea: area$2,
-    geoBounds: geoBounds,
-    geoCentroid: geoCentroid,
+    geoBounds: bounds$1,
+    geoCentroid: centroid$1,
     geoCircle: circle$2,
     geoClipAntimeridian: clipAntimeridian,
     geoClipCircle: clipCircle,
@@ -19840,7 +19840,7 @@
     geoGraticule10: graticule10,
     geoInterpolate: interpolate,
     geoLength: length$1,
-    geoPath: geoPath,
+    geoPath: index$3,
     geoAlbers: albers,
     geoAlbersUsa: albersUsa,
     geoAzimuthalEqualArea: azimuthalEqualArea,
@@ -19862,7 +19862,7 @@
     geoIdentity: identity$5,
     geoProjection: projection,
     geoProjectionMutator: projectionMutator,
-    geoMercator: geoMercator,
+    geoMercator: mercator,
     geoMercatorRaw: mercatorRaw,
     geoNaturalEarth1: naturalEarth1,
     geoNaturalEarth1Raw: naturalEarth1Raw,
@@ -20201,6 +20201,724 @@
     ZoomTransform: Transform
   });
 
+  const DEFAULT_NUMBER_FORMAT = new Intl.NumberFormat("en-EN", {
+    maximumFractionDigits: 3,
+  }).format;
+
+  const GERMAN_NUMBER_FORMAT = new Intl.NumberFormat("de-DE", {
+    maximumFractionDigits: 3,
+  }).format;
+
+  /**
+   * lotivis wide default values
+   */
+  const DEFAULTS = {
+    /**
+     * A string which is used for unknown values
+     */
+    unknown: "LOTIVIS_UNKNOWN",
+
+    /**
+     * The border style
+     */
+    borderStyle: "solid 1px lightgray",
+
+    /**
+     * The default number formatter used by all charts.
+     */
+    numberFormat: GERMAN_NUMBER_FORMAT,
+
+    /**
+     * The default margin to use for charts
+     */
+    margin: 60,
+
+    /**
+     *  The default offset for the space between an object an the toolbar
+     */
+    tooltipOffset: 7,
+
+    /**
+     * The default radius to use for bars drawn on a chart
+     */
+    barRadius: 5,
+
+    /**
+     * A string which is used as prefix for download.
+     */
+    downloadFilePrefix: "ltv",
+
+    /**
+     * The deault filename generator.
+     */
+    // filenameGenerator: FILENAME_GENERATOR,
+  };
+
+  /**
+   * lotivis wide configuration
+   */
+  const CONFIG = {
+    /**
+     * A Boolean value indicating whether the debug logging is enabled
+     */
+    debug: true,
+
+    /**
+     * The default margin to use for charts
+     */
+    defaultMargin: DEFAULTS.margin,
+
+    /**
+     *  The default offset for the space between an object an the toolbar
+     */
+    tooltipOffset: DEFAULTS.tooltipOffset,
+
+    /**
+     * The default radius to use for bars drawn on a chart
+     */
+    barRadius: DEFAULTS.barRadius,
+
+    /**
+     * the border style
+     */
+    defaultBorder: DEFAULTS.borderStyle,
+
+    /**
+     * The opacity to use for selection.
+     */
+    selectionOpacity: 0.1,
+
+    /**
+     * A string which is used as prefix for download.
+     */
+    downloadFilePrefix: DEFAULTS.downloadFilePrefix,
+
+    /**
+     * A string which is used as separator between components when creating a file name.
+     */
+    filenameSeparator: DEFAULTS.filenameSeparator,
+
+    /**
+     * The default number formatter used by all charts.
+     */
+    numberFormat: DEFAULTS.numberFormat,
+
+    /**
+     * The deault filename generator.
+     */
+    // filenameGenerator: DEFAULTS.filenameGenerator,
+  };
+
+  /**
+   * Gets or sets the configuration of lotivis.
+   * @param {*} input
+   */
+  function config(input) {
+    // return config object for no arguments
+    if (!arguments.length) return CONFIG;
+
+    // return the value for the given key if input is string
+    if (arguments.length === 1 && typeof input === "string")
+      return Object.hasOwnProperty.call(CONFIG, input) ? CONFIG[input] : null;
+
+    // iterate values of input, add them to lotivis config
+    for (const key in input) {
+      if (!Object.hasOwnProperty.call(input, key)) continue;
+      if (Object.hasOwnProperty.call(CONFIG, key)) {
+        CONFIG[key] = input[key];
+        ltv_debug("update config", key, " = ", CONFIG[key]);
+      } else {
+        ltv_debug("unknown config key", key);
+      }
+    }
+  }
+
+  function element(selector) {
+    var el = select(selector).node();
+    if (!el) throw new Error("no element for selector: " + selector);
+    return el;
+  }
+
+  function downloadURL(url, fname) {
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = fname;
+    a.click();
+  }
+
+  function downloadBlob(blob, fname) {
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, fname);
+    } else {
+      downloadURL(URL.createObjectURL(blob), fname);
+    }
+  }
+
+  function pngDownload(selector, filename, callback) {
+    html2canvas(element(selector), { scale: 4 }).then((canvas) => {
+      downloadURL(canvas.toDataURL(), filename);
+      if (callback) callback();
+    });
+  }
+
+  // dynamically load html2canvas
+  (function loadHTML2Canvas(comletion = () => ltv_debug("html2canvas loaded")) {
+    if (!runsInBrowser()) return ltv_debug("not running in browser");
+    if (typeof html2canvas !== "undefined") return;
+    var script = document.createElement("script");
+    script.onload = comletion;
+    script.src = "http://html2canvas.hertzen.com/dist/html2canvas.js";
+    document.head.appendChild(script);
+  })();
+
+  /**
+   * Returns `true` if the given value not evaluates to false and is not 0. false else.
+   * @param value The value to check.
+   * @returns {boolean} A Boolean value indicating whether the given value is valid.
+   */
+  function isValue(value) {
+    return Boolean(value || value === 0);
+  }
+
+  function isString(value) {
+    return value && typeof value === "string";
+  }
+
+  function isFunction(value) {
+    return value && typeof value === "function";
+  }
+
+  function isNumber(value) {
+    return typeof value === "number";
+  }
+
+  function copy(object) {
+    return JSON.parse(JSON.stringify(object));
+  }
+
+  /**
+   * Appends the passed value in suffix to the passed value of string if string not
+   * already ends with suffix.
+   *
+   * @param {*} string The source string to be extended
+   * @param {*} suffix The suffix to append
+   * @returns {string} The string with the passed suffix
+   */
+  // export function append(string, suffix) {
+  //   return ("" + string).endsWith(suffix || "") ? string : string + suffix;
+  // }
+
+  function str(src) {
+    return "" + src;
+  }
+
+  function prefix(src, pre) {
+    return (src = str(src)), src.startsWith(pre || "") ? src : pre + src;
+  }
+
+  function postfix(src, post) {
+    return (src = str(src)), src.endsWith(post || "") ? src : src + post;
+  }
+
+  const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
+
+  function csvParse(text) {
+    return new DataController(csvParse$1(text, autoType));
+  }
+
+  async function csv(path) {
+    return fetch(path).then((csv) => csvParse(csv));
+  }
+
+  function csvRender(data, columns = DEFAULT_COLUMNS) {
+    return csvFormat(data.data ? data.data() : data, columns);
+  }
+
+  function baseChart(state) {
+    if (!state) throw new Error("no state passed");
+
+    // Private attributes
+    var chart = {},
+      calc = {},
+      disp = dispatch("sel"),
+      state = state;
+
+    if (!state.id) state.id = uniqueId("chart");
+    if (!state.selector) state.selector = "body";
+    if (!state.debug) state.debug = false;
+
+    // Iterate state keys and create access function for each
+    Object.keys(state).forEach((key) => {
+      // do not override existing functions
+      if (chart[key] && isFunction(chart[key])) return;
+      chart[key] = function (_) {
+        return arguments.length ? ((state[key] = _), this) : state[key];
+      };
+    });
+
+    // public
+
+    /**
+     * Return the property for the given name if it exists, else
+     * the given fallback value.
+     *
+     * @param {string} name The name of the requested property
+     * @param {any} fb The fallback value
+     *
+     * @returns The property for the given name or the fallback.
+     */
+    state.get = function (name, fb) {
+      return state.hasOwnProperty(name) ? state[name] || fb : fb;
+    };
+
+    // private
+
+    function filterUpdate(sender, filterName, action, item) {
+      if (chart === sender) return ltv_debug(chart.id(), "is sender");
+      else if (!chart.handleFilterName(filterName, action, item))
+        return ltv_debug(chart.id(), "skip update", "filter:", filterName);
+      else ltv_debug("filter", "in:", chart.id(), "sender:", sender.id());
+
+      return chart.run();
+
+      // if (!isString(state.selector))
+      //   throw new Error("invalid selector: " + state.selector);
+
+      // var selector = state.selector;
+      // var selection = d3.selectAll(selector);
+
+      // selection.each(function scope() {
+      //   // Receive container
+      //   var container = d3.select(this);
+      //   if (typeof chart.update === "function")
+      //     chart.update(container, state, calc);
+      // });
+    }
+
+    // public
+    chart.on = function (name, callback) {
+      disp.on(name, callback);
+    };
+
+    chart.call = function (name, ...args) {
+      disp.call(name, this, ...args);
+    };
+
+    // Define state getter and setter function
+    chart.state = function (_) {
+      return arguments.length ? (Object.assign(state, _), this) : state;
+    };
+
+    /**
+     * Returns whether this chart should rerender for a change of the
+     * passed filter name.
+     * @param {String} filter The filter that has changed
+     * @param {String} action The filter action
+     * @param {String} action The item that was involed (optional)
+     * @returns {Boolean} Whether to handle the filter change
+     */
+    chart.handleFilterName = function (filter, action, item) {
+      return true;
+    };
+
+    /**
+     * Returns the chart id.
+     * @returns {string} The chart id.
+     * @public
+     */
+    chart.id = function () {
+      return state.id;
+    };
+
+    /**
+     * Generates and downloads a PNG.
+     */
+    chart.pngDownload = function (callback) {
+      if (!state.dataController) throw new Error("no data controller");
+      if (!state.id) throw new Error("no id");
+      if (!state.selector) throw new Error("no selector");
+
+      let type = state.id.split("-")[1];
+      let filename = state.dataController.filename(".png", type);
+
+      pngDownload(state.selector, filename, callback);
+    };
+
+    chart.svgDownload = function (callback) {};
+
+    // getter and setter
+
+    /**
+     * Gets or sets the data controller.
+     *
+     * @param {dataController} _ The data controller
+     * @returns {dataController || this} The data controller or the chart itself
+     */
+    chart.dataController = function (_) {
+      if (!arguments.length) return state.dataController;
+
+      // remove callback from existing controller
+      if (state.dataController) state.dataController.onFilter(chart.id(), null);
+
+      state.dataController = _;
+      state.dataController.onFilter(chart.id(), filterUpdate);
+
+      return chart;
+    };
+
+    /**
+     * Gets or sets a margins object of the chart.
+     *
+     * @param {*} _ The object with margins to set
+     * @returns {margins | this} The margins object or the chart itself
+     */
+    chart.margin = function (_) {
+      if (!arguments.length) {
+        return {
+          left: state.marginLeft,
+          top: state.marginTop,
+          right: state.marginRight,
+          bottom: state.marginBottom,
+        };
+      }
+      if (_ && _["left"]) this.state({ marginLeft: _["left"] });
+      if (_ && _["top"]) this.state({ marginTop: _["top"] });
+      if (_ && _["right"]) this.state({ marginRight: _["right"] });
+      if (_ && _["bottom"]) this.state({ marginBottom: _["bottom"] });
+      return chart;
+    };
+
+    // life cycle
+
+    /**
+     * Calculates and returns the data view for a bar chart from
+     * the passed data controller.
+     *
+     * @param {dc} dc The data controller
+     * @returns {DataView} dv The calculated data view
+     */
+    chart.dataView = function (dc) {
+      return {};
+    };
+
+    /**
+     * Clears the content of the passed container. May be overriden
+     * by extending charts. Default implementation selects and
+     * removes everything from the conainter.
+     *
+     * @param {d3.Selection} container The selected container
+     * @param {*} calc The calc obj
+     * @param {*} dv The data view
+     * @returns {this} The chart itself (chainable)
+     */
+    chart.clear = function (container, calc, dv) {
+      return container.selectAll("*").remove(), this;
+    };
+
+    /**
+     * Renders the chart in the passed container. *Should* be overriden
+     * by extending charts. Default implementation does nothing and only
+     * returns the chart itself.
+     *
+     * @param {d3.Selection} container The selected container
+     * @param {*} calc The calc obj
+     * @param {*} dv The data view
+     * @returns {this} The chart itself (chainable)
+     */
+    chart.render = function (container, calc, dv) {
+      return this;
+    };
+
+    /**
+     * Runs the render chain. For each selected element by the selector
+     * of the chart.
+     *
+     * @param {dc} dc A (optional) data controller
+     * @returns {this} The chart itself (chainable)
+     */
+    chart.run = function (dc) {
+      if (dc) chart.dataController(dc);
+      else dc = state.dataController;
+
+      if (!state.selector) throw new Error("no selector");
+      if (!dc) throw new Error("no data controller");
+
+      let selection = selectAll(state.selector);
+      if (selection.size() === 0)
+        throw new Error("empty selection: " + state.selector);
+
+      let dv = chart.dataView(dc);
+
+      selection.each(function scope() {
+        // receive container
+        let container = select(this);
+
+        chart.clear(container, calc, dv);
+        chart.render(container, calc, dv);
+      });
+
+      return chart;
+    };
+
+    // return generated chart
+    return chart;
+  }
+
+  const DATATEXT_TITLE = function (chart, dv) {
+    return "Data";
+  };
+
+  const JSON_TEXT = function (chart, dv) {
+    return JSON.stringify(dv.data, null, 2);
+  };
+
+  const JSON_TEXT_DATA_VIEW = function (chart, dv) {
+    return JSON.stringify(dv, null, 2);
+  };
+
+  const CSV_TEXT = function (chart, dv) {
+    return csvRender(dv.data);
+  };
+
+  function datatext() {
+    let text;
+    let state = {
+      // the id of the datatext
+      id: uniqueId("datatext"),
+
+      // max height
+      height: 800,
+
+      // margin
+      marginLeft: 0,
+      marginTop: 0,
+      marginRight: 0,
+      marginBottom: 0,
+
+      // whether the datatext is enabled
+      enabled: true,
+
+      // (optional) title of the datatext
+      title: DATATEXT_TITLE,
+
+      // the text to display for the data
+      text: JSON_TEXT_DATA_VIEW,
+
+      // the data controller
+      dataController: null,
+    };
+
+    // expose state
+    let chart = baseChart(state);
+
+    // private
+
+    function inCodeTags(value) {
+      return '<code class="ltv-datatext-code">' + value + "</code>";
+    }
+
+    function html(text) {
+      return text.split("\n").map(inCodeTags).join("");
+    }
+
+    function unwrap(value, ...args) {
+      return typeof value === "function" ? value(...args) : value;
+    }
+
+    // public
+
+    /**
+     * Initiates a download of the displayed text.
+     *
+     * @returns this The chart itself
+     * @public
+     */
+    chart.download = function () {
+      let type;
+
+      if (state.text === CSV_TEXT) {
+        type = "text/csv";
+      } else if (state.text === JSON_TEXT || state.text === JSON_TEXT_DATA_VIEW) {
+        type = "text/json";
+      } else {
+        type = "text/text";
+      }
+
+      let blob = new Blob([text], { type: type });
+      let filename = state.dataController.filename(state.text, "datatext");
+      downloadBlob(blob, filename);
+      return chart;
+    };
+
+    /**
+     * Calculates and returns the data view for the datatext.
+     * @param {*} dc The data controller
+     * @returns dv The generated data view
+     * @public
+     */
+    chart.dataView = function (dc) {
+      let dv = {};
+
+      dv.data = dc.data();
+      dv.labels = dc.labels();
+      dv.stacks = dc.stacks();
+      dv.locations = dc.locations();
+      dv.dates = dc.dates();
+
+      ltv_debug(state.id, "data view", dv);
+      return dv;
+    };
+
+    /**
+     *
+     * @param {*} container The container
+     * @param {*} calc The calc obj
+     * @param {*} dv The data view
+     * @returns this The chart itself
+     * @public
+     */
+    chart.render = function (container, calc, dv) {
+      calc.div = container
+        .append("div")
+        .classed("ltv-datatext", true)
+        .attr("id", state.id)
+        .style("padding-left", state.marginLeft + "px")
+        .style("padding-top", state.marginTop + "px")
+        .style("padding-right", state.marginRight + "px")
+        .style("padding-bottom", state.marginBottom + "px");
+
+      if (state.title) {
+        calc.title = calc.div
+          .append("div")
+          .classed("ltv-datatext-title", true)
+          .text(unwrap(state.title, chart, dv))
+          .style("cursor", state.enabled ? "pointer" : null)
+          .on("click", state.enabled ? chart.download : null);
+      }
+
+      text = unwrap(state.text, chart, dv);
+      calc.pre = calc.div
+        .append("pre")
+        .classed("ltv-datatext-pre", true)
+        .html(html(text));
+
+      if (isString(state.height) || isNumber(state.height)) {
+        calc.pre
+          .style("height", postfix(state.height, "px"))
+          .style("overflow", "scroll");
+      }
+
+      return chart;
+    };
+
+    ltv_debug("datatext", chart.id());
+
+    // return generated chart
+    return chart;
+  }
+
+  function runsInBrowser() {
+    return !(typeof document === "undefined");
+  }
+
+  /**
+   * Gets or sets whethter lotivis is in debug mode.
+   * @param {Boolean} enabled Enable debug logging
+   */
+  function ltv_debug(...args) {
+    if (!arguments.length) return CONFIG.debug;
+
+    if (arguments.length === 1 && typeof args[0] === "boolean") {
+      config({ debug: args[0] });
+    } else if (CONFIG.debug) {
+      console.log("[ltv] ", ...args);
+    }
+  }
+
+  function data_preview(dc) {
+    if (!dc || !CONFIG.debug || !runsInBrowser()) return;
+    if (!document.getElementById("ltv-data")) return;
+    datatext().selector("#ltv-data").dataController(dc).run();
+  }
+
+  // https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
+
+  /**
+   * @param {*} id The id to escape from invalid characters
+   * @returns A safe to use version of the id
+   */
+  function safeId(id) {
+    return id
+      .split(` `)
+      .join(`-`)
+      .split(`/`)
+      .join(`-`)
+      .split(`.`)
+      .join(`-`)
+      .split(`:`)
+      .join(`-`);
+  }
+
+  /**
+   * Creates and returns a unique generated string.
+   */
+  const uniqueId = (function () {
+    var prefix = "ltv";
+    var counter = 0;
+
+    return function (type) {
+      return [prefix, type || "id", ++counter].join("-");
+    };
+  })();
+
+  const MAX_FILENAME_LENGTH = 120;
+
+  const separator = " ";
+
+  const formatTime = timeFormat("%Y-%m-%d" + separator + "%H-%M-%S");
+
+  /**
+   * Removes invalid characters of filenames.
+   * @param {string} filename The filename to make safe
+   * @returns {string} A safe-to-use filename
+   */
+  function safe(name) {
+    return name.split(` `).join(`-`).split(`/`).join(`-`).split(`:`).join(`-`);
+  }
+
+  /**
+   * The default filename creator.
+   * @param {*} dc The data controller
+   * @param {*} data The data
+   * @param {*} extension An optional extension
+   * @param {*} suf An optional suffix
+   * @returns
+   */
+  const FILENAME_GENERATOR = function (dc, data, extension, suf) {
+    let trimmed = data.labels
+      .map(safe)
+      .join(separator)
+      .substring(0, MAX_FILENAME_LENGTH);
+
+    let labelsCount = data.labels.length;
+    let stacksCount = data.stacks.length;
+    let dateString = formatTime(new Date());
+
+    let name = [
+      CONFIG.downloadFilePrefix,
+      trimmed,
+      labelsCount ? labelsCount + "L" : null,
+      stacksCount ? stacksCount + "S" : null,
+      dateString,
+      // Math.random().toString(36).substring(2, 8), // random
+      suf,
+    ].join(separator);
+
+    if (extension) name = name + prefix(extension, ".");
+
+    return name;
+  };
+
   const formatGerman = "%d.%m.%Y";
   const formatIso = "%Y-%m-%d";
 
@@ -20258,316 +20976,375 @@
     WEEKDAY_ORDINATOR: WEEKDAY_ORDINATOR
   });
 
-  const colorScheme = category10;
-  const tintColor = color();
+  function darker(color) {
+    return color.darker().darker();
+  }
 
-  class ColorGenerator {
-    constructor(data) {
-      let stacksToLabels = group(
+  // constants
+
+  /**
+   * The default colors used by lotivis.
+   */
+  const DATA_COLORS = []
+    .concat(Tableau10)
+    .concat(category10)
+    .concat(Dark2);
+
+  /**
+   * The default tint color used by lotivis.
+   */
+  const TINT_COLOR = DATA_COLORS[0];
+
+  /**
+   *
+   * @param {*} data The data to generate colors for
+   * @return {DataColors} A data colors object
+   */
+  function DataColors(data) {
+    let baseColors = DATA_COLORS,
+      stackColors = new Map(),
+      labelColors = new Map(),
+      stacksToLabels = group(
         data,
         (d) => d.stack || d.label,
         (d) => d.label
-      );
+      ),
+      stacks = Array.from(stacksToLabels.keys());
 
-      let stacks = Array.from(stacksToLabels.keys());
-
-      function stackLabels(stack) {
-        return Array.from(stacksToLabels.get(stack).keys() || []);
-      }
-
-      function stackColor(stack) {
-        return colorScheme[stacks.indexOf(stack) % colorScheme.length];
-      }
-
-      // let colorScheme = d3.schemeCategory10;
-
-      let stackToColor = new Map();
-      let labelToColor = new Map();
-      for (let i = 0; i < stacks.length; i++) {
-        let stack = stacks[i];
-        let labels = stackLabels(stack);
-        let c1 = color(stackColor(stack));
-        let c2 = c1.darker().darker();
-        let generator = linear()
-          .domain([0, labels.length])
-          .range([c1, c2]);
-
-        stackToColor.set(stack, c1);
-
-        for (let j = 0; j < labels.length; j++) {
-          let label = labels[j];
-          let color = generator(j);
-          labelToColor.set(label, color);
-        }
-      }
-
-      this.stack = function (stack) {
-        return stackToColor.get(stack) || tintColor;
-      };
-
-      this.label = function (label) {
-        return labelToColor.get(label) || tintColor;
-      };
-
-      this.stackColors = function (stack) {
-        let c1 = color(this.stack(stack));
-        let c2 = c1.darker().darker();
-        let size = stacksToLabels.get(stack).size;
-        let generator = linear().domain([0, size]).range([c1, c2]);
-        let colors = range$2(0, size).map(generator);
-        return colors;
-      };
-    }
-  }
-
-  function MapColors(till) {
-    return linear()
-      .domain([0, (1 / 3) * till, (2 / 3) * till, till])
-      .range(["yellow", "orange", "red", "purple"]);
-  }
-
-  function PlotColors(till) {
-    return linear()
-      .domain([0, (1 / 3) * till, (2 / 3) * till, till])
-      .range(["yellow", "orange", "red", "purple"]);
-  }
-
-  class FilterArray extends Array {
-    constructor(listener) {
-      super();
-      this.listener = listener;
+    function stackLabels(stack) {
+      return Array.from((stacksToLabels.get(stack) || []).keys());
     }
 
-    notify(reason, item, notify = true) {
-      if (notify) this.listener(reason, item);
+    function stackColor(stack) {
+      return baseColors[stacks.indexOf(stack) % baseColors.length];
     }
 
-    add(item, notify = true) {
-      if (this.indexOf(item) === -1)
-        this.push(item), this.notify("add", item, notify);
-    }
+    stacks.forEach((stack) => {
+      let labels = stackLabels(stack);
+      let c1 = color(stackColor(stack));
+      let colors = ColorScale(labels.length, [c1, darker(c1)]);
 
-    addAll(source) {
-      if (!Array.isArray(source)) throw new Error("no array given");
-      this.push(...source), this.notify("add", item, notify);
-    }
+      stackColors.set(stack, c1);
 
-    remove(item, notify = true) {
-      let i = this.indexOf(item);
-      if (i !== -1) this.splice(i, 1), this.notify("remove", item, notify);
-    }
-
-    toggle(item, notify = true) {
-      let i = this.indexOf(item);
-      i === -1 ? this.push(item) : this.splice(i, 1);
-      this.notify("toggle", item, notify);
-    }
-
-    contains(item) {
-      return this.indexOf(item) !== -1;
-    }
-
-    clear(notify = true) {
-      if (this.length !== 0) {
-        this.splice(0, this.length);
-        this.notify("clear", null, notify);
-      }
-    }
-  }
-
-  const DEFAULT_NUMBER_FORMAT = new Intl.NumberFormat("en-EN", {
-    maximumFractionDigits: 3,
-  }).format;
-
-  const GERMAN_NUMBER_FORMAT = new Intl.NumberFormat("de-DE", {
-    maximumFractionDigits: 3,
-  }).format;
-
-  var LOTIVIS_CONFIG$1 = {
-    // The default margin to use for charts.
-    defaultMargin: 60,
-    // The default offset for the space between an object an the toolbar.
-    tooltipOffset: 7,
-    // The default radius to use for bars drawn on a chart.
-    barRadius: 5,
-    // A Boolean value indicating whether the debug logging is enabled.
-    debug: true,
-    // A string which is used as prefix for download.
-    downloadFilePrefix: "lotivis",
-    // A string which is used as separator between components when creating a file name.
-    filenameSeparator: "_",
-    // A string which is used for unknown values.
-    unknown: "LOTIVIS_UNKNOWN",
-    // The default number formatter used by all charts.
-    numberFormat: GERMAN_NUMBER_FORMAT,
-  };
-
-  const DEFAULT_MARGIN = {
-    top: LOTIVIS_CONFIG$1.defaultMargin,
-    right: LOTIVIS_CONFIG$1.defaultMargin,
-    bottom: LOTIVIS_CONFIG$1.defaultMargin,
-    left: LOTIVIS_CONFIG$1.defaultMargin,
-  };
-
-  /** lotivis-wide global variable for enabling debug logging */
-  var D_LOG = false;
-
-  /**
-   * Sets whether lotivis prints debug log messages to the console.
-   * @param enabled A Boolean value indicating whether to enable debug logging.
-   * @param printConfig A Boolean value indicating whether to print the global lotivis configuration.  Default is false.
-   */
-  function debug(enabled) {
-    LOTIVIS_CONFIG$1.debug = enabled;
-    D_LOG = enabled;
-    console.log(`[ltv]  ${enabled ? "En" : "Dis"}abled debug mode.`);
-  }
-
-  /**
-   * Return a Boolean value indicating whether the given
-   * value is a string.
-   *
-   * @param {*} v The value to check.
-   * @returns true if given value is a string
-   */
-  function isString(v) {
-    return typeof v === "string" || v instanceof String;
-  }
-
-  function set_data_preview(v) {
-    if (!v || !LOTIVIS_CONFIG$1.debug) return;
-    if (typeof document === "undefined") return;
-    let s = isString(v) ? v : JSON.stringify(v, null, 2);
-    let e = document.getElementById("ltv-data-preview");
-    if (e) e.textContent = s;
-  }
-
-  function snapshot(controller) {
-    let f = controller.filters;
-    return filter$1(controller.data, (d) => {
-      return !(
-        (d.location && f.locations.contains(d.location)) ||
-        (d.date && f.dates.contains(d.date)) ||
-        (d.label && f.labels.contains(d.label)) ||
-        (d.stack && f.stacks.contains(d.stack))
-      );
-    });
-  }
-
-  // Code from:
-  // https://www.freecodecamp.org/news/how-to-code-your-own-event-emitter-in-node-js-a-step-by-step-guide-e13b7e7908e1/
-
-  class EventEmitter {
-    listeners = {};
-
-    addListener(eventName, fn) {
-      this.listeners[eventName] = this.listeners[eventName] || [];
-      this.listeners[eventName].push(fn);
-      return this;
-    }
-
-    on(eventName, fn) {
-      return this.addListener(eventName, fn);
-    }
-
-    once(eventName, fn) {
-      this.listeners[eventName] = this.listeners[eventName] || [];
-      const onceWrapper = () => {
-        fn();
-        this.off(eventName, onceWrapper);
-      };
-      this.listeners[eventName].push(onceWrapper);
-      return this;
-    }
-
-    off(eventName, fn) {
-      return this.removeListener(eventName, fn);
-    }
-
-    removeListener(eventName, fn) {
-      let lis = this.listeners[eventName];
-      if (!lis) return this;
-      for (let i = lis.length; i > 0; i--) {
-        if (lis[i] === fn) {
-          lis.splice(i, 1);
-          break;
-        }
-      }
-      return this;
-    }
-
-    emit(eventName, ...args) {
-      let fns = this.listeners[eventName];
-      if (!fns) return false;
-      fns.forEach((f) => {
-        f(...args);
+      labels.forEach((label, index) => {
+        labelColors.set(label, colors(index));
       });
-      return true;
-    }
+    });
 
-    listenerCount(eventName) {
-      let fns = this.listeners[eventName] || [];
-      return fns.length;
-    }
+    function main() {}
 
-    rawListeners(eventName) {
-      return this.listeners[eventName];
-    }
+    /**
+     * Returns the color for the given stack.
+     *
+     * @param {stack} stack The stack
+     * @returns The d3.color for the stack
+     * @public
+     */
+    main.stack = function (stack) {
+      return stackColors ? stackColors.get(stack) || TINT_COLOR : TINT_COLOR;
+    };
 
-    removeAllListeners() {
-      this.listeners = {};
+    /**
+     * Returns the color for the given label.
+     *
+     * @param {label} label The label
+     * @returns The d3.color for the label
+     * @public
+     */
+    main.label = function (label) {
+      return labelColors ? labelColors.get(label) || TINT_COLOR : TINT_COLOR;
+    };
+
+    return main;
+  }
+
+  function MapColors(max) {
+    return linear()
+      .domain([0, (1 / 3) * max, (2 / 3) * max, max])
+      .range(["yellow", "orange", "red", "purple"]);
+  }
+
+  function PlotColors(max) {
+    return ColorScale(max, ["yellow", "orange", "red", "purple"]);
+  }
+
+  function ColorScale(max, colors) {
+    return linear()
+      .domain(colors.map((c, i) => (i / (colors.length - 1)) * max))
+      .range(colors);
+  }
+
+  class DataUnqualifiedError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "DataUnqualifiedError";
     }
   }
 
-  class DataController extends EventEmitter {
-    constructor(flat, config) {
-      super();
+  function Data(data) {
+    if (!Array.isArray(data))
+      throw new DataUnqualifiedError("not an array", data);
 
-      if (!Array.isArray(flat)) {
-        throw new Error("Datasets are not an array.");
-      }
+    data.sum = sum$2(data, (d) => d.value);
+    data.max = max$3(data, (d) => d.value);
+    data.min = min$2(data, (d) => d.value);
+    data.byLabel = group(data, (d) => d.label);
+    data.byStack = group(data, (d) => d.stack || d.label);
+    data.byLocation = group(data, (d) => d.location);
+    data.byDate = group(data, (d) => d.date);
+    data.labels = Array.from(data.byLabel.keys());
+    data.stacks = Array.from(data.byStack.keys());
+    data.locations = Array.from(data.byLocation.keys());
+    data.dates = Array.from(data.byDate.keys());
 
-      this.config = config || {};
-      this.data = flat;
-      this.original = this.config.original || flat;
+    return data;
+  }
 
-      this.dateAccess = this.config.dateAccess || DEFAULT_DATE_ORDINATOR;
-      this.colorGenerator = new ColorGenerator(this.data);
+  /**
+   * Adds the item if it not already exists in the array.
+   *
+   * @param {*} item The item to add
+   * @returns Whether the item was added
+   */
+  Array.prototype.add = function (item) {
+    return this.indexOf(item) === -1 ? this.push(item) : false;
+  };
 
-      this.filters = {
-        labels: new FilterArray((r) => this.filterChange("labels", r)),
-        locations: new FilterArray((r) => this.filterChange("locations", r)),
-        dates: new FilterArray((r) => this.filterChange("dates", r)),
-        stacks: new FilterArray((r) => this.filterChange("stacks", r)),
+  /**
+   * Removes the item.
+   *
+   * @param {*} item The item to remove
+   * @returns Whether the given item was removed
+   */
+  Array.prototype.remove = function (item) {
+    let i = this.indexOf(item);
+    return i !== -1 ? this.splice(i, 1) : false;
+  };
+
+  class DataController {
+    constructor(data) {
+      if (!Array.isArray(data)) throw new Error("data not an array.");
+
+      // create data model
+      data = Data(data);
+
+      let disp = dispatch("filter", "data");
+      let attr = {
+        data: data,
+        snapshot: data,
+        filters: { labels: [], locations: [], dates: [], stacks: [] },
+        filenameGenerator: FILENAME_GENERATOR,
+        dataColors: DataColors(data),
+        dateAccess: DEFAULT_DATE_ORDINATOR,
       };
 
-      // this.filters.locations.push(...this.locations());
+      // expose attributes
+      Object.keys(attr).forEach((key) => {
+        // do not override existing functions
+        if (typeof this[key] === "function") return;
+        this[key] = function (_) {
+          return arguments.length ? ((attr[key] = _), this) : attr[key];
+        };
+      });
 
-      if (LOTIVIS_CONFIG$1.debug) console.log("[ltv] ", this);
-      if (this.original) set_data_preview(this.original);
+      // private
+
+      function calculateSnapshot() {
+        if (CONFIG.debug) console.time("calculateSnapshot");
+        let f = attr.filters;
+        attr.snapshot = filter$1(attr.data, (d) => {
+          return !(
+            f.locations.indexOf(d.location) !== -1 ||
+            f.dates.indexOf(d.date) !== -1 ||
+            f.labels.indexOf(d.label) !== -1 ||
+            f.stacks.indexOf(d.stack) !== -1
+          );
+        });
+        if (CONFIG.debug) console.timeEnd("calculateSnapshot");
+        return attr.snapshot;
+      }
+
+      // listeners
+      this.id = uniqueId("data-controller");
+
+      /**
+       * Adds a listener with the passed name for filter changes.
+       * @param {*} name The name of the listener
+       * @param {*} callback The callback handler
+       * @returns {this} The controller iteself
+       */
+      this.onFilter = function (name, callback) {
+        return disp.on(prefix(name, "filter."), callback), this;
+      };
+
+      /**
+       * Adds a listener with the passed name for data changes.
+       * @param {*} name The name of the listener
+       * @param {*} callback The callback handler
+       * @returns {this} The controller iteself
+       */
+      this.onChange = function (name, callback) {
+        return disp.on(prefix(name, "data."), callback), this;
+      };
+
+      /**
+       * Removes all callbacks from the dispatcher.
+       * @returns {this} The chart itself
+       */
+      this.removeAllListeners = function () {
+        return (disp = dispatch("filter", "change")), this;
+      };
+
+      // # FILTERS
+
+      this.callFilterChange = function (name, action, item, sender) {
+        if (!sender) throw new Error("missing sender");
+
+        calculateSnapshot();
+
+        disp.call("filter", this, sender, name, action, item);
+      };
+
+      this.filters = function (name) {
+        if (!attr.filters[name]) throw new Error("invalid filters: " + name);
+        return attr.filters[name];
+      };
+
+      this.hasFilters = function (name) {
+        return this.filters(name).length > 0;
+      };
+
+      this.clear = function (name, sender) {
+        if (this.filters(name).length === 0)
+          return ltv_debug("filter already empty", name);
+        attr.filters[name] = [];
+        return this.callFilterChange(name, "clear", null, sender);
+      };
+
+      this.clearAll = function (sender) {
+        if (
+          this.hasFilters("labels") ||
+          this.hasFilters("stacks") ||
+          this.hasFilters("dates") ||
+          this.hasFilters("locations")
+        ) {
+          attr.filters = { labels: [], locations: [], dates: [], stacks: [] };
+          this.callFilterChange("all", "clear", null, sender);
+        }
+      };
+
+      /**
+       * Returns true if the filters with the passed name contains the passed item.
+       * @param {String} name The name of the filter
+       * @param {String} item The item to check if it is filtered.
+       * @returns {Boolean} Whether the item is filtered
+       */
+      this.isFilter = function (name, item) {
+        return this.filters(name).indexOf(item) !== -1;
+      };
+
+      /**
+       * Adds the passed item to the collection of filters with the passed name.
+       * @param {*} name The name of the filter
+       * @param {*} item The item to check if it is filtered
+       * @param {*} sender The sender who made this action
+       */
+      this.addFilter = function (name, item, sender) {
+        if (this.filters(name).add(item))
+          this.callFilterChange(name, "add", item, sender);
+      };
+
+      /**
+       * Removes the passed item from the collection of filters with the passed name.
+       * @param {*} name The name of the filter
+       * @param {*} item The item to remove
+       * @param {*} sender The sender who made this action
+       */
+      this.removeFilter = function (name, item, sender) {
+        if (this.filters(name).remove(item))
+          this.callFilterChange(name, "remove", item, sender);
+      };
+
+      /**
+       * Toggles the filtered state of the passed item in the collection of filters
+       * with the passed name.
+       * @param {*} name The name of the filter
+       * @param {*} item The item to toggle
+       * @param {*} sender The sender who made this action
+       */
+      this.toggleFilter = function (name, item, sender) {
+        this.isFilter(name, item)
+          ? this.removeFilter(name, item, sender)
+          : this.addFilter(name, item, sender);
+      };
+
+      /**
+       * Gets or sets the snapshot attribute. When getting and snapshot is null
+       * will fallback on data attribute.
+       * @param {*} _
+       * @returns {snapshot|this}
+       */
+      this.snapshot = function (_) {
+        return arguments.length
+          ? ((attr.snapshot = _), this)
+          : attr.snapshot ?? attr.data;
+      };
+
+      this.labelColor = function (label) {
+        return attr.dataColors.label(label);
+      };
+
+      this.stackColor = function (stack) {
+        return attr.dataColors.stack(stack);
+      };
+
+      /**
+       * Generates and returns a filename from the data with the passed
+       * extension and prefix.
+       * @param {string} ext The extension of the filename
+       * @param {string} prefix An optional prefix for the filename
+       * @returns The generated filename
+       */
+      this.filename = function (extension, prefix) {
+        return this.filenameGenerator()(this, this.data(), extension, prefix);
+      };
+
+      this.datatext = function (id = "ltv-data") {
+        if (!document.getElementById(id)) return null;
+        return datatext()
+          .selector("#" + id)
+          .dataController(this)
+          .run();
+      };
+
+      calculateSnapshot();
+
+      // debug
+      ltv_debug("data controller", this.id, this);
+      data_preview(this);
 
       return this;
     }
 
     /** Returns entries with valid value. */
     filterValid() {
-      return this.data.filter((d) => d.value);
+      return this.data().filter((d) => d.value);
     }
 
     byLabel() {
-      return group(this.data, (d) => d.label);
+      return group(this.data(), (d) => d.label);
     }
 
     byStack() {
-      return group(this.data, (d) => d.stack || d.label);
+      return group(this.data(), (d) => d.stack || d.label);
     }
 
     byLocation() {
-      return group(this.data, (d) => d.location);
+      return group(this.data(), (d) => d.location);
     }
 
     byDate() {
-      return group(this.data, (d) => d.date);
+      return group(this.data(), (d) => d.date);
     }
 
     labels() {
@@ -20587,19 +21364,19 @@
     }
 
     dataStack(s) {
-      return this.data.filter((d) => d.stack === s);
+      return this.data().filter((d) => d.stack === s);
     }
 
     dataLabel(l) {
-      return this.data.filter((d) => d.label === l);
+      return this.data().filter((d) => d.label === l);
     }
 
     dataLocation(l) {
-      return this.data.filter((d) => d.location === l);
+      return this.data().filter((d) => d.location === l);
     }
 
     dataDate(d) {
-      return this.data.filter((d) => d.date === d);
+      return this.data().filter((d) => d.date === d);
     }
 
     sumOfStack(s) {
@@ -20618,66 +21395,22 @@
       return sum$2(this.dataDate(s), (d) => d.value);
     }
 
-    sum() {
-      return sum$2(this.data, (d) => d.value);
-    }
+    // sum() {
+    //   return d3.sum(this.data, (d) => d.value);
+    // }
 
-    max() {
-      return max$3(this.data, (item) => item.value);
-    }
+    // max() {
+    //   return d3.max(this.data, (item) => item.value);
+    // }
 
-    min() {
-      return min$2(this.data, (item) => item.value);
-    }
-
-    /** Returns a string that can be used as filename for downloads. */
-    getFilename() {
-      if (!this.labels) return "Unknown";
-      let labels = this.labels.map((label) => label.split(` `).join(`-`));
-      if (labels.length > 10) {
-        labels = labels.splice(0, 10);
-      }
-      return labels.join(",");
-    }
-
-    // filters
-
-    filterChange(name, reason) {
-      this.snapshot = snapshot(this);
-      this.emit("change", this, name, reason);
-    }
-  }
-
-  const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
-
-  function csvParse(text) {
-    return new DataController(csvParse$1(text, autoType));
-  }
-
-  async function csv(path) {
-    return fetch(path).then((csv) => csvParse(csv));
-  }
-
-  function csvRender(data, columns = DEFAULT_COLUMNS) {
-    return csvFormat(data.data ? data.data : data, columns);
-  }
-
-  class DataUnqualifiedError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = "DataUnqualifiedError";
-    }
-  }
-
-  function parseDataset(d) {
-    return new DataController(flatDataset(d));
-  }
-
-  function parseDatasets(d) {
-    return new DataController(flatDatasets(d));
+    // min() {
+    //   return d3.min(this.data, (item) => item.value);
+    // }
   }
 
   function flatDataset(d) {
+    if (Array.isArray(d)) throw new Error("expecting object. found array");
+    if (!d || !d.data) throw new Error("dataset has no data");
     return d.data.map(function (i) {
       return {
         label: d.label,
@@ -20689,12 +21422,25 @@
     });
   }
 
+  /**
+   * Flattens the given datasets.
+   * @param {*} ds
+   * @returns {Array} The flat version
+   */
   function flatDatasets(ds) {
     return ds.reduce((memo, d) => memo.concat(flatDataset(d)), []);
   }
 
+  function parseDataset(d) {
+    return parseDatasets([d]);
+  }
+
+  function parseDatasets(d) {
+    return new DataController(flatDatasets(d));
+  }
+
   function json(path) {
-    return d3json(path).then((json) => {
+    return json$1(path).then((json) => {
       if (!Array.isArray(json)) throw new DataUnqualifiedError();
       let flat = flatDatasets(json);
       let controller = new DataController(flat, { original: json });
@@ -20702,13 +21448,12 @@
     });
   }
 
-  /**
-   * Returns `true` if the given value not evaluates to false and is not 0. false else.
-   * @param value The value to check.
-   * @returns {boolean} A Boolean value indicating whether the given value is valid.
-   */
-  function isValue(value) {
-    return Boolean(value || value === 0);
+  function jsonFlat(path) {
+    return json$1(path).then((json) => {
+      if (!Array.isArray(json)) throw new DataUnqualifiedError();
+      let controller = new DataController(json, { original: json });
+      return controller;
+    });
   }
 
   function DataItem(item) {
@@ -20747,825 +21492,99 @@
     return datasets;
   }
 
-  class Component extends EventEmitter {
-    constructor(selector) {
-      if (!selector) throw new Error("no selector specified");
-      super();
-      this.selector = selector;
-      this.element = select("#" + selector);
-      if (this.element.empty())
-        throw new Error('invalid selector "' + selector + '"');
-      this.element.attr("id", this.selector);
+  /**
+   * Reusable Tooltip API class that renders a
+   * simple and configurable tooltip.
+   *
+   * @requires d3
+   *
+   * @example
+   *
+   * var tooltip = tooltip()
+   *    .container(chart)
+   *    .html("Hello World")
+   *    .run();
+   *
+   */
+  function tooltip() {
+    let state = {
+      // the id of the tooltip
+      id: uniqueId("tooltip"),
+
+      // the tooltips margin
+      marginLeft: 0,
+      marginTop: 0,
+      marginRight: 0,
+      marginBottom: 0,
+    };
+
+    let main = baseChart(state),
+      container,
+      div;
+
+    // private
+    function withPixels(value) {
+      return typeof value === "string" && value.endsWith("px")
+        ? value
+        : value + "px";
     }
 
-    // MARK: - Functions
+    // public api
 
-    show() {
-      if (this.element) this.element.style("display", "");
-    }
+    main.container = function (_container) {
+      return arguments.length ? ((container = _container), main) : container;
+    };
 
-    hide() {
-      if (this.element) this.element.style("display", "none");
-    }
+    main.html = function (_html) {
+      if (!div) throw new Error("no div of tooltip");
+      return arguments.length ? (div.html(_html), main) : div.attr("x");
+    };
 
-    get isVisible() {
-      return !this.element ? this.element.style("display") !== "none" : false;
-    }
+    main.show = function (html) {
+      if (!div) throw new Error("no div of tooltip");
+      return div.style("opacity", 1), main;
+    };
 
-    getElementEffectiveSize() {
-      if (!this.element) return [0, 0];
-      let width = this.element.style("width").replace("px", "");
-      let height = this.element.style("height").replace("px", "");
-      return [Number(width), Number(height)];
-    }
+    main.hide = function () {
+      if (!div) throw new Error("no div of tooltip");
+      return div.style("opacity", 0), main;
+    };
 
-    getElementPosition() {
-      let element = document.getElementById(this.selector);
-      if (!element) return [0, 0];
-      let rect = element.getBoundingClientRect();
-      let xPosition = rect.x + window.scrollX;
-      let yPosition = rect.y + window.scrollY;
-      return [xPosition, yPosition];
-    }
+    main.top = function (_top) {
+      if (!div) throw new Error("no div of tooltip");
+      if (!arguments.length) return div.style("top");
+      div.style("top", withPixels(_top));
+      return main;
+    };
 
-    toString() {
-      return "[" + getClassname() + ", id: " + this.selector + "]";
-    }
+    main.left = function (_left) {
+      if (!div) throw new Error("no div of tooltip");
+      if (!arguments.length) return div.style("left");
+      div.style("left", withPixels(_left));
+      return main;
+    };
 
-    getClassname() {
-      return !this.constructor || !this.constructor.name
-        ? typeof this
-        : this.constructor.name;
-    }
-  }
+    main.size = function () {
+      if (!div) throw new Error("no div of tooltip");
+      let domRect = div.node().getBoundingClientRect();
+      return [domRect.width, domRect.height];
+    };
 
-  let unique = 0;
+    main.run = function () {
+      // remove any previous rendered tooltip
+      // if (div) div.remove();
 
-  function next() {
-    return "ltv-id-" + unique++;
-  }
-
-  function create_id() {
-    return next();
-  }
-
-  class Chart extends Component {
-    constructor(selector, config) {
-      super(selector);
-
-      this.svgSelector = (this.selector || create_id()) + "-svg";
-      this.config = config || {};
-      this.renderers = [];
-      this.updateSensible = true;
-
-      this.createSVG();
-      this.initialize();
-      this.addRenderers();
-
-      // check for data controller in config
-      if (this.config.dataController instanceof DataController) {
-        this.setController(this.config.dataController);
-        delete this.config.dataController;
-      }
-    }
-
-    initialize() {}
-
-    addRenderers() {}
-
-    dataView() {}
-
-    createSVG() {
-      this.svg = this.element
-        .append("svg")
-        .attr("id", this.svgSelector)
-        .attr("class", "ltv-chart-svg");
-    }
-
-    remove(c) {
-      this.removeAllListeners();
-      this.svg.selectAll("*").remove();
-    }
-
-    prepare(c) {
-      // empty
-    }
-
-    draw() {
-      this.renderers.forEach((r) =>
-        r.render(this, this.controller, this.dataView)
-      );
-    }
-
-    redraw() {
-      if (this.controller) this.update(this.controller, "redraw");
-    }
-
-    makeUpdateInsensible() {
-      this.updateSensible = false;
-    }
-
-    makeUpdateSensible() {
-      this.updateSensible = true;
-    }
-
-    update(controller, filter, reason) {
-      if (!this.updateSensible) return;
-      if (!this.controller) return;
-      this.dataView = this.createDataView();
-      this.remove();
-      this.prepare();
-      this.draw();
-    }
-
-    setController(dc) {
-      this.controller = dc;
-      this.controller.on("change", (d, f, r) => this.update(d, r, f));
-      this.update(dc, "registration");
-    }
-  }
-
-  const BAR_CHART_TYPE = {
-    stacks: "stacks",
-    combine: "combine",
-  };
-
-  const DATE_ACCESS = function (d) {
-    return d;
-  };
-
-  const BAR_CHART_CONFIG = {
-    width: 1000,
-    height: 600,
-    margin: DEFAULT_MARGIN,
-    type: "stacks",
-    labels: false,
-    selectable: true,
-    dateAccess: DATE_ACCESS,
-  };
-
-  class Renderer {
-    render() {}
-  }
-
-  class BarAxisRender extends Renderer {
-    render(chart, controller) {
-      let height = chart.config.height;
-      let margin = chart.config.margin;
-
-      // left axis
-      chart.svg
-        .append("g")
-        .call(axisLeft(chart.yChart))
-        .attr("transform", () => `translate(${margin.left},0)`);
-
-      // bottom axis
-      chart.svg
-        .append("g")
-        .call(axisBottom(chart.xChartScale))
-        .attr("transform", () => `translate(0,${height - margin.bottom})`);
-    }
-  }
-
-  class BarLabelsRenderer extends Renderer {
-    render(chart, controller) {
-      if (!chart.config.labels) return;
-
-      function translate(x, y) {
-        return `translate(${x},${y})rotate(-60)`;
-      }
-
-      let dates = chart.dataView.dates;
-      let byDateStack = chart.dataView.byDateStack;
-
-      let xChartScale = chart.xChartScale;
-      let yChart = chart.yChart;
-      let xStack = chart.xStack;
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-      let width = chart.xStack.bandwidth() / 2;
-
-      let labels = chart.svg.append("g").selectAll("g").data(dates).enter();
-
-      labels
-        .append("g")
-        .attr("transform", (date) => `translate(${xChartScale(date)},0)`)
-        .selectAll(".text")
-        .data((date) => byDateStack.get(date) || [])
-        .enter()
-        .append("text")
-        .attr("class", "ltv-bar-chart-label")
-        .attr("transform", (d) => {
-          let stack = d[0];
-          let value = d[1];
-          return translate((xStack(stack) || 0) + width, yChart(value) - 5);
-        })
-        .text((d) => (d[1] === 0 ? "" : numberFormat(d[1])))
-        .raise();
-    }
-  }
-
-  class BarLegendRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      return;
-    }
-  }
-
-  class BarBarsRenderer extends Renderer {
-    render(chart, controller) {
-      let radius = chart.config.barRadius || LOTIVIS_CONFIG$1.barRadius;
-      let colors = controller.colorGenerator;
-      let barWidth = chart.xStack.bandwidth();
-      let yChart = chart.yChart;
-      let height = chart.yChart(0);
-      let selectionOpacity = 0.3;
-
-      function opacity(date) {
-        return controller.filters.dates.contains(date) ? selectionOpacity : 1;
-      }
-
-      function redraw() {
-        chart.svg
-          .selectAll(`.ltv-bar-chart-dates-area`)
-          .attr(`opacity`, (d) => opacity(d[0]))
-          .raise();
-      }
-
-      chart.on("click-date", redraw);
-
-      function combined() {
-        chart.svg
-          .append("g")
-          .selectAll("g")
-          .data(chart.dataView.byDateStack)
-          .enter()
-          .append("g")
-          .attr("transform", (d) => `translate(${chart.xChartScale(d[0])},0)`)
-          .attr("opacity", (d) => opacity(d[0]))
-          .attr("class", "ltv-bar-chart-dates-area")
-          .selectAll("rect")
-          .data((d) => d[1]) // map to by stack
-          .enter()
-          .append("rect")
-          .attr("class", "ltv-bar-chart-bar")
-          .attr("fill", (d) => colors.stack(d[0]))
-          .attr("x", (d) => chart.xStack(d[0]))
-          .attr("y", (d) => chart.yChart(d[1]))
-          .attr("width", barWidth)
-          .attr("height", (d) => height - chart.yChart(d[1]))
-          .attr("rx", radius)
-          .attr("ry", radius)
-          .raise();
-      }
-
-      function stacked() {
-        chart.svg
-          .append("g")
-          .selectAll("g")
-          .data(chart.dataView.byDatesStackSeries)
-          .enter()
-          .append("g")
-          .attr("transform", (d) => `translate(${chart.xChartScale(d[0])},0)`)
-          .attr("opacity", (d) => opacity(d[0]))
-          .attr("class", "ltv-bar-chart-dates-area")
-          .selectAll("rect")
-          .data((d) => d[1]) // map to by stack
-          .enter()
-          .append("g")
-          .attr("transform", (d) => `translate(${chart.xStack(d[0])},0)`)
-          .selectAll("rect")
-          .data((d) => d[1]) // map to series
-          .enter()
-          .append("rect")
-          .attr("y", (d) => yChart(d[1]))
-          .attr("width", barWidth)
-          .attr("height", (d) => (!d[1] ? 0 : yChart(d[0]) - yChart(d[1])))
-          .attr("class", "ltv-bar-chart-bar")
-          .attr("fill", (d) => colors.label(d[2]))
-          .attr("rx", radius)
-          .attr("ry", radius)
-          .raise();
-      }
-
-      if (chart.config.type === BAR_CHART_TYPE.combine) {
-        combined();
-      } else {
-        stacked();
-      }
-    }
-  }
-
-  class BarTooltipRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-
-      chart.element.select(".ltv-tooltip").remove();
-      const tooltip = chart.element
+      // render the div of the tooltip
+      div = container
         .append("div")
         .attr("class", "ltv-tooltip")
-        .attr("rx", 5) // corner radius
-        .attr("ry", 5)
         .style("opacity", 0);
 
-      function getTooltipSize() {
-        let tooltipWidth = Number(tooltip.style("width").replace("px", ""));
-        let tooltipHeight = Number(tooltip.style("height").replace("px", ""));
-        return [tooltipWidth, tooltipHeight];
-      }
-
-      function getTop(factor, offset, tooltipSize) {
-        let top = chart.config.margin.top * factor;
-        top += (chart.graphHeight * factor - tooltipSize[1]) / 2;
-        top += offset[1] - 10;
-        return top;
-      }
-
-      function getXLeft(date, factor, offset, tooltipSize) {
-        let x = chart.xChartScalePadding(date) * factor;
-        return x + offset[0] - tooltipSize[0] - 22 - LOTIVIS_CONFIG$1.tooltipOffset;
-      }
-
-      function getXRight(date, factor, offset) {
-        let x =
-          chart.xChartScalePadding(date) + chart.xChartScalePadding.bandwidth();
-        x *= factor;
-        x += offset[0] + LOTIVIS_CONFIG$1.tooltipOffset;
-        return x;
-      }
-
-      function getHTMLForDate(date) {
-        let byDateLabel = dataView.byDateLabel;
-        let filtered = byDateLabel.get(date);
-        if (!filtered) return "No Data";
-
-        let title = `${date}`;
-        let sum = 0;
-        let dataHTML = Array.from(filtered.keys())
-          .map(function (label) {
-            let value = filtered.get(label);
-            if (!value) return undefined;
-            let colorGenerator = chart.controller.colorGenerator;
-            let color = colorGenerator.label(label);
-            let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-            let valueFormatted = numberFormat(value);
-            sum += value;
-            return `${divHTML} ${label}: <b>${valueFormatted}</b>`;
-          })
-          .filter((d) => d)
-          .join("<br>");
-
-        let sumFormatted = numberFormat(sum);
-        return `<b>${title}</b><br>${dataHTML}<br><br>Sum: <b>${sumFormatted}</b>`;
-      }
-
-      function showTooltip(event, date) {
-        // set examples content before positioning the tooltip cause the size is
-        // calculated based on the size
-        const html = getHTMLForDate(date);
-        tooltip.html(html);
-
-        // position tooltip
-        let tooltipSize = getTooltipSize();
-        let factor = chart.getElementEffectiveSize()[0] / chart.config.width;
-        let offset = chart.getElementPosition();
-        let top = getTop(factor, offset, tooltipSize);
-        let left = chart.xChartScalePadding(date);
-
-        // differ tooltip position on bar position
-        if (left > chart.config.width / 2) {
-          left = getXLeft(date, factor, offset, tooltipSize);
-        } else {
-          left = getXRight(date, factor, offset);
-        }
-
-        // update position and opacity of tooltip
-        tooltip
-          .style("left", `${left}px`)
-          .style("top", `${top}px`)
-          .style("opacity", 1);
-      }
-
-      function hideTooltip() {
-        if (+tooltip.style("opacity") === 0) return;
-        tooltip.style("opacity", 0);
-      }
-
-      chart.on("mouseenter", showTooltip);
-      chart.on("mouseout", hideTooltip);
-    }
-  }
-
-  // https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
-  // ids must not contain whitespaces
-  // ids should avoid ".", ":" and "/"
-
-  function safeId(id) {
-    return id
-      .split(` `)
-      .join(`-`)
-      .split(`/`)
-      .join(`-`)
-      .split(`.`)
-      .join(`-`)
-      .split(`:`)
-      .join(`-`);
-  }
-
-  class BarSelectionRenderer extends Renderer {
-    render(chart, controller) {
-      let selectionOpacity = 0.1;
-
-      function opacity(date) {
-        return controller.filters.dates.contains(date) ? selectionOpacity : 0;
-      }
-
-      function createID(date) {
-        return `ltv-bar-chart-selection-rect-id-${safeId(String(date))}`;
-      }
-
-      function redraw() {
-        chart.svg
-          .selectAll(`.ltv-bar-chart-selection-rect`)
-          .attr(`opacity`, (date) => opacity(date))
-          .raise();
-      }
-
-      chart.on("click-date", redraw);
-
-      let margin = chart.config.margin;
-      let dates = chart.config.dates || chart.dataView.dates;
-      chart.svg
-        .append("g")
-        .selectAll("rect")
-        .data(dates)
-        .enter()
-        .append("rect")
-        .attr("class", "ltv-bar-chart-selection-rect")
-        .attr("id", (date) => createID(date))
-        .attr("x", (date) => chart.xChartScale(date))
-        .attr("y", margin.top)
-        .attr("opacity", (date) => opacity(date))
-        .attr("width", chart.xChartScale.bandwidth())
-        .attr("height", chart.config.height - margin.bottom - margin.top)
-        .raise();
-    }
-  }
-
-  class BarHoverRenderer extends Renderer {
-    render(chart, controller) {
-      let selectionOpacity = 0.3;
-
-      function createID(date) {
-        return `ltv-bar-chart-hover-bar-id-${safeId(String(date))}`;
-      }
-
-      function hideAll() {
-        chart.svg
-          .selectAll(`.ltv-bar-chart-hover-bar`)
-          .attr("opacity", 0)
-          .raise();
-      }
-
-      function onMouseEnter(event, date) {
-        hideAll();
-        chart.svg.select(`#${createID(date)}`).attr("opacity", selectionOpacity);
-        chart.emit("mouseenter", event, date);
-      }
-
-      function onMouserOut(event, date) {
-        hideAll();
-        chart.emit("mouseout", event, date);
-
-        // check for mouse down
-        if (event.buttons === 1) {
-          onMouseClick(event, date);
-        }
-      }
-
-      function onMouseClick(event, date) {
-        if (chart.config.selectable) {
-          chart.makeUpdateInsensible();
-          controller.filters.dates.toggle(date);
-          chart.makeUpdateSensible();
-        }
-        chart.emit("click-date", event, date);
-      }
-
-      let config = chart.config;
-      let margin = config.margin;
-      let dates = chart.config.dates || chart.dataView.dates;
-
-      chart.svg
-        .append("g")
-        .selectAll("rect")
-        .data(dates)
-        .enter()
-        .append("rect")
-        .attr("class", "ltv-bar-chart-hover-bar")
-        .attr("id", (date) => createID(date))
-        .attr("opacity", 0)
-        .attr("x", (d) => chart.xChartScale(d))
-        .attr("y", margin.top)
-        .attr("width", chart.xChartScale.bandwidth())
-        .attr("height", config.height - margin.bottom - margin.top)
-        .on("mouseenter", onMouseEnter)
-        .on("mouseout", onMouserOut)
-        .on("mousedrag", onMouserOut)
-        .on("click", onMouseClick)
-        .raise();
-    }
-  }
-
-  class BarGridRenderer extends Renderer {
-    render(chart, controller) {
-      let xAxisGrid = axisBottom(chart.xChartScale)
-        .tickSize(-chart.graphHeight)
-        .tickFormat("");
-
-      let yAxisGrid = axisLeft(chart.yChart)
-        .tickSize(-chart.graphWidth)
-        .tickFormat("")
-        .ticks(20);
-
-      let config = chart.config;
-      let marginBottom = config.height - config.margin.bottom;
-
-      chart.svg
-        .append("g")
-        .attr("class", "ltv-bar-chart-grid ltv-bar-chart-grid-x")
-        .attr("transform", "translate(0," + marginBottom + ")")
-        .call(xAxisGrid);
-
-      chart.svg
-        .append("g")
-        .attr("class", "ltv-bar-chart-grid ltv-bar-chart-grid-y")
-        .attr("transform", `translate(${config.margin.left},0)`)
-        .call(yAxisGrid);
-    }
-  }
-
-  class BarBackgroundRenderer extends Renderer {
-    render(chart, controller) {
-      function click(e, b) {
-        if (controller) controller.filters.dates.clear();
-      }
-
-      chart.on("click-background", click);
-
-      chart.svg
-        .append("g")
-        .append("rect")
-        .attr("width", chart.config.width)
-        .attr("height", chart.config.height)
-        .attr("fill", "white")
-        .attr("opacity", 0)
-        .attr("cursor", "pointer")
-        .on("click", (e, b) => chart.emit("click-background", e, b));
-    }
-  }
-
-  function dataViewBar(dataController) {
-    let snapshot = dataController.snapshot;
-    let data = snapshot || dataController.data;
-
-    let byDateStackOriginal = rollup(
-      dataController.data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.date,
-      (d) => d.stack || d.label
-    );
-
-    let maxTotal = max$3(byDateStackOriginal, (d) => max$3(d[1], (d) => d[1]));
-    let dates = dataController.dates();
-    let stacks = dataController.stacks();
-    let labels = dataController.labels();
-    let enabledStacks = dataController.stacks();
-
-    let byDateLabel = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.date,
-      (d) => d.label
-    );
-
-    let byDateStack = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.date,
-      (d) => d.stack || d.label
-    );
-
-    let byDateStackLabel = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.date,
-      (d) => d.stack || d.label,
-      (d) => d.label
-    );
-
-    let byDatesStackSeries = new InternMap();
-    dates.forEach((date) => {
-      let byStackLabel = byDateStackLabel.get(date);
-      if (!byStackLabel) return;
-      byDatesStackSeries.set(date, new InternMap());
-
-      stacks.forEach((stack) => {
-        let byLabel = byStackLabel.get(stack);
-        if (!byLabel) return;
-        let value = 0;
-        let series = Array.from(byLabel)
-          .reverse()
-          .map((item) => [value, (value += item[1]), item[0]]);
-        byDatesStackSeries.get(date).set(stack, series);
-      });
-    });
-
-    let max = max$3(byDateStack, (d) => max$3(d[1], (d) => d[1]));
-
-    return {
-      dates,
-      stacks,
-      enabledStacks,
-      byDateLabel,
-      byDateStack,
-      byDatesStackSeries,
-      labels,
-      max,
-      maxTotal,
+      return main;
     };
-  }
 
-  class BarChart extends Chart {
-    static Type = BAR_CHART_TYPE;
-
-    initialize() {
-      let margin, config;
-      margin = Object.assign({}, BAR_CHART_CONFIG.margin);
-      margin = Object.assign(margin, this.config.margin);
-      config = Object.assign({}, BAR_CHART_CONFIG);
-      this.config = Object.assign(config, this.config);
-      this.config.margin = margin;
-    }
-
-    addRenderers() {
-      this.renderers.push(new BarBackgroundRenderer());
-      this.renderers.push(new BarAxisRender());
-      this.renderers.push(new BarGridRenderer());
-      this.renderers.push(new BarSelectionRenderer());
-      this.renderers.push(new BarHoverRenderer());
-      this.renderers.push(new BarBarsRenderer());
-      this.renderers.push(new BarLabelsRenderer());
-      this.renderers.push(new BarTooltipRenderer());
-      this.renderers.push(new BarLegendRenderer());
-    }
-
-    createDataView() {
-      return dataViewBar(this.controller);
-    }
-
-    prepare() {
-      this.svg
-        .attr("class", "ltv-bar-chart-svg")
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`);
-
-      let config = this.config;
-      let margin = config.margin;
-      this.graphWidth = config.width - margin.left - margin.right;
-      this.graphHeight = config.height - margin.top - margin.bottom;
-
-      this.dataView = this.createDataView();
-      this.createScales();
-    }
-
-    draw() {
-      this.graph = this.svg
-        .append("g")
-        .attr("width", this.graphWidth)
-        .attr("height", this.graphHeight)
-        .attr(
-          "transform",
-          `translate(${this.config.margin.left},${this.config.margin.top})`
-        );
-      this.renderers.forEach((r) =>
-        r.render(this, this.controller, this.dataView)
-      );
-    }
-
-    createScales() {
-      if (!this.dataView) return;
-
-      let config = this.config;
-      let margin = config.margin;
-
-      /*
-       * Prefer dates specified by configuration. Fallback to dates of datasets.
-       */
-      let dates = config.dates || this.dataView.dates;
-      let stacks = this.dataView.enabledStacks;
-
-      let dateAccess = config.dateAccess;
-      dates = dates.sort((a, b) => dateAccess(a) - dateAccess(b));
-
-      this.xChartScale = band()
-        .domain(dates)
-        .rangeRound([margin.left, config.width - margin.right]);
-
-      this.xChartScalePadding = band()
-        .domain(dates)
-        .rangeRound([margin.left, config.width - margin.right])
-        .paddingInner(0.2);
-
-      this.xStack = band()
-        .domain(stacks)
-        .rangeRound([0, this.xChartScale.bandwidth()])
-        .padding(0.05);
-
-      this.yChart = linear()
-        .domain([0, this.dataView.maxTotal])
-        .nice()
-        .rangeRound([config.height - margin.bottom, margin.top]);
-    }
-  }
-
-  /**
-   * Returns the hash of the given string.
-   * @param aString The string to create the hash of.
-   * @returns {number} The hash of the given string.
-   */
-  function hash_str(s) {
-    let hash = 0,
-      i,
-      chr;
-    for (i = 0; i < s.length; i++) {
-      chr = s.charCodeAt(i);
-      hash = (hash << 5) - hash + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  }
-
-  function hash_obj(o) {
-    return hash_str(JSON.stringify(o));
-  }
-
-  const FEATURE_ID_ACCESSOR = function (f) {
-    if (f.id || f.id === 0) return f.id;
-    if (f.properties && isValue(f.properties.id)) return f.properties.id;
-    if (f.properties && isValue(f.properties.code)) return f.properties.code;
-    return f.properties ? hash_obj(f.properties) : hash_obj(f);
-  };
-
-  const FEATURE_NAME_ACCESSOR = function (f) {
-    if (isValue(f.name)) return f.name;
-    if (f.properties && isValue(f.properties.name)) return f.properties.name;
-    if (f.properties && isValue(f.properties.nom)) return f.properties.nom;
-    return FEATURE_ID_ACCESSOR(f);
-  };
-
-  const MAP_CHART_CONFIG = {
-    width: 1000,
-    height: 1000,
-    margin: DEFAULT_MARGIN,
-    isShowLabels: true,
-    geoJSON: null,
-    departementsData: [],
-    exclude: [],
-    // exclude: [],
-    // include: [], || filter: []
-    drawRectangleAroundSelection: true,
-    selectable: true,
-    featureIDAccessor: FEATURE_ID_ACCESSOR,
-    featureNameAccessor: FEATURE_NAME_ACCESSOR,
-  };
-
-  /**
-   * Returns a copy of the passed object.  The copy is created by using the
-   * JSON's `parse` and `stringify` functions.
-   * @param object The java script object to copy.
-   * @returns {any} The copy of the object.
-   */
-  function copy(object) {
-    return JSON.parse(JSON.stringify(object));
-  }
-
-  /* returns a new generated GeoJSON without the feature specified */
-  function removeFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
-    if (!Array.isArray(ids)) throw new Error("invalid ids. not an array");
-    if (!Array.isArray(json.features))
-      throw new Error("invalid geojson. no features");
-    let _json = copy(json);
-    _json.features = _json.features.filter((f) => !ids.includes(idValue(f)));
-    return _json;
-  }
-
-  /* returns a new generated GeoJSON without the feature specified */
-  function filterFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
-    if (!Array.isArray(ids)) throw new Error("invalid ids. not an array");
-    if (!Array.isArray(json.features))
-      throw new Error("invalid geojson. no features");
-    let _json = copy(json);
-    _json.features = _json.features.filter((f) => ids.includes(idValue(f)));
-    return _json;
+    // return generated chart
+    return main;
   }
 
   /* returns a GeoJSON FeatureCollection object */
@@ -21586,9 +21605,9 @@
   /* returns a GeoJSON object */
   function GeoJSON(source) {
     let geoJSON = copy(source);
+
     geoJSON.getCenter = function () {
       let allCoordinates = this.extractAllCoordinates();
-      console.log("allCoordinates.length: " + allCoordinates.length);
       let latitudeSum = 0;
       let longitudeSum = 0;
 
@@ -21704,70 +21723,6 @@
     }
 
     return GeoJSON(FeatureCollection(features));
-  }
-
-  class MapBackgroundRenderer extends Renderer {
-    render(chart, controller) {
-      chart.svg
-        .append("rect")
-        .attr("class", "ltv-map-chart-background")
-        .attr("width", chart.config.width)
-        .attr("height", chart.config.height)
-        .attr("fill", "white")
-        .on("click", (e) => {
-          chart.makeUpdateInsensible();
-          controller.filters.locations.clear();
-          chart.makeUpdateSensible();
-          chart.emit("click", event, null);
-        });
-    }
-  }
-
-  class MapGeojsonRenderer extends Renderer {
-    render(chart, controller) {
-      let geoJSON = chart.presentedGeoJSON;
-      if (!geoJSON) return;
-
-      function mouseEnter(event, feature) {
-        chart.emit("mouseenter", event, feature);
-      }
-
-      function mouseOut(event, feature) {
-        chart.emit("mouseout", event, feature);
-        // dragged
-        if (event.buttons === 1) mouseClick(event, feature);
-      }
-
-      function mouseClick(event, feature) {
-        if (!feature || !feature.properties) return;
-        if (!chart.controller) return;
-
-        if (chart.config.selectable) {
-          let locationID = feature.lotivisId;
-          chart.makeUpdateInsensible();
-          controller.filters.locations.toggle(locationID);
-          chart.makeUpdateSensible();
-        }
-        chart.emit("click", event, feature);
-      }
-
-      chart.areas = chart.svg
-        .selectAll(".ltv-map-chart-area")
-        .append("path")
-        .data(geoJSON.features)
-        .enter()
-        .append("path")
-        .attr("d", chart.path)
-        .classed("ltv-map-chart-area", true)
-        .attr("id", (f) => `ltv-map-chart-area-id-${f.lotivisId}`)
-        .style("stroke-dasharray", "1,4")
-        .style("fill", "white")
-        .style("fill-opacity", 1)
-        .on("click", mouseClick)
-        .on("mouseenter", mouseEnter)
-        .on("mouseout", mouseOut)
-        .raise();
-    }
   }
 
   var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -22850,21 +22805,28 @@
   }
 
   /**
-   * Return a newly created GeoJSON with one Feature merging
-   * the border of all containing features of the given
-   * collection of features.
-   *
-   * @param {*} input GeoJSON or array of features
-   *
-   * @returns A new created GeoJSON
+   * Default accessor for the id of a feature.
+   * @param {*} f The feature to get an id for
+   * @returns The id of the feature
    */
-  function joinFeatures(input) {
-    let features = Array.isArray(input) ? input : input.features;
-    let topology$1 = topology(features);
-    let objects = extractObjects(topology$1);
-    let geometry = merge(topology$1, objects);
-    return FeatureCollection([Feature(geometry)]);
-  }
+  const FEATURE_ID_ACCESSOR = function (f) {
+    if (f.id || f.id === 0) return f.id;
+    if (f.properties && isValue(f.properties.id)) return f.properties.id;
+    if (f.properties && isValue(f.properties.code)) return f.properties.code;
+    return f.properties ? hash(f.properties) : hash(f);
+  };
+
+  /**
+   * Default accessor for the name of a feature.
+   * @param {*} f The feature to get an name for
+   * @returns The name of the feature
+   */
+  const FEATURE_NAME_ACCESSOR = function (f) {
+    if (isValue(f.name)) return f.name;
+    if (f.properties && isValue(f.properties.name)) return f.properties.name;
+    if (f.properties && isValue(f.properties.nom)) return f.properties.nom;
+    return FEATURE_ID_ACCESSOR(f);
+  };
 
   function extractObjects(topology) {
     let objects = [];
@@ -22876,1773 +22838,1892 @@
     return objects;
   }
 
-  class MapExteriorBorderRenderer extends Renderer {
-    render(chart, controller) {
-      let geoJSON = chart.presentedGeoJSON;
-      if (!geoJSON)
-        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
-
-      let bordersGeoJSON = joinFeatures(geoJSON.features);
-      if (!bordersGeoJSON)
-        return D_LOG ? console.log("[ltv]  No borders to render.") : null;
-
-      chart.svg
-        .selectAll(".ltv-map-chart-exterior-borders")
-        .append("path")
-        .data(bordersGeoJSON.features)
-        .enter()
-        .append("path")
-        .attr("d", chart.path)
-        .attr("class", "ltv-map-chart-exterior-borders");
-    }
+  /**
+   * Returns a newly created GeoJSON with exactly one Feature
+   * merging the border of all containing features of the given
+   * collection of features.
+   *
+   * @param {GeoJSON | Array<Feature>} input GeoJSON or array of features
+   * @returns A new created GeoJSON
+   */
+  function joinFeatures(input) {
+    let features = Array.isArray(input) ? input : input.features;
+    let topology$1 = topology(features);
+    let objects = extractObjects(topology$1);
+    let geometry = merge(topology$1, objects);
+    return FeatureCollection([Feature(geometry)]);
   }
 
-  class MapLegendRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      if (!dataView) return;
-      if (!chart.config.legend) return;
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-      let stackNames = chart.dataView.stacks;
-      let label = chart.config.label || stackNames[0];
-      let locationToSum = dataView.locationToSum || [];
-      let max = max$3(locationToSum, (item) => item[1]) || 0;
-
-      let offset = 0 * 80;
-      let labelColor = chart.controller.colorGenerator.stack(label);
-
-      let steps = 4;
-      let data = [0, (1 / 4) * max, (1 / 2) * max, (3 / 4) * max, max];
-      let generator = MapColors(max);
-
-      let legend = chart.svg
-        .append("svg")
-        .attr("class", "ltv-map-chart-legend")
-        .attr("width", chart.config.width)
-        .attr("height", 200)
-        .attr("x", 0)
-        .attr("y", 0);
-
-      chart.on("mouseenter", () => legend.raise());
-      chart.on("mouseout", () => legend.raise());
-
-      legend
-        .append("text")
-        .attr("class", "ltv-map-chart-legend-title")
-        .attr("x", offset + 10)
-        .attr("y", "20")
-        .style("fill", labelColor)
-        .text(label);
-
-      legend
-        .append("g")
-        .selectAll("text")
-        .data(["No Data"])
-        .enter()
-        .append("text")
-        .attr("class", "ltv-map-chart-legend-text")
-        .attr("x", offset + 35)
-        .attr("y", 44)
-        .text((d) => d);
-
-      legend
-        .append("g")
-        .selectAll("rect")
-        .data([0])
-        .enter()
-        .append("rect")
-        .attr("class", "ltv-map-chart-legend-rect")
-        .style("fill", "white")
-        .attr("x", offset + 10)
-        .attr("y", 30)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("stroke-dasharray", "1,3")
-        .style("stroke", "black")
-        .style("stroke-width", 1);
-
-      legend
-        .append("g")
-        .selectAll("text")
-        .data([0])
-        .enter()
-        .append("text")
-        .attr("class", "lotivis-location-chart-legend-text")
-        .attr("x", offset + 35)
-        .attr("y", 64)
-        .text((d) => d);
-
-      legend
-        .append("g")
-        .selectAll("rect")
-        .data([0])
-        .enter()
-        .append("rect")
-        .attr("class", "ltv-map-chart-legend-rect")
-        .style("fill", "WhiteSmoke")
-        .attr("x", offset + 10)
-        .attr("y", 50)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("stroke", "black")
-        .style("stroke-width", 1);
-
-      legend
-        .append("g")
-        .selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "ltv-map-chart-legend-rect")
-        .style("fill", generator)
-        .attr("x", offset + 10)
-        .attr("y", (d, i) => i * 20 + 70)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("stroke", "black")
-        .style("stroke-width", 1);
-
-      legend
-        .append("g")
-        .selectAll("text")
-        .data(data)
-        .enter()
-        .append("text")
-        .attr("class", "ltv-map-chart-legend-text")
-        .attr("x", offset + 35)
-        .attr("y", (d, i) => i * 20 + 84)
-        .text(function (d, i) {
-          if (d === 0) {
-            return "> 0";
-          } else {
-            return numberFormat((i / steps) * max);
-          }
-        });
-
-      for (let index = 0; index < stackNames.length; index++) {
-        return;
-      }
-    }
-  }
-
-  class MapDatasetRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      let generator = MapColors(1);
-      let selectionOpacity = 0.1;
-
-      function opacity(location) {
-        return controller.filters.locations.contains(location)
-          ? selectionOpacity
-          : 1;
-      }
-
-      function resetAreas() {
-        chart.svg
-          .selectAll(".ltv-map-chart-area")
-          .classed("ltv-map-chart-area-hover", false)
-          .attr("opacity", (item) => opacity(item.lotivisId));
-      }
-
-      function featureMapID(feature) {
-        return `ltv-map-chart-area-id-${feature.lotivisId}`;
-      }
-
-      function mouseEnter(event, feature) {
-        resetAreas();
-        if (!feature) return;
-
-        let mapID = featureMapID(feature);
-
-        chart.svg
-          .selectAll(`#${mapID}`)
-          .raise()
-          .classed("ltv-map-chart-area-hover", true);
-
-        chart.svg.selectAll(".ltv-location-chart-label").raise();
-      }
-
-      chart.on("mouseenter", mouseEnter);
-      chart.on("mouseout", resetAreas);
-      chart.on("click", mouseEnter);
-
-      if (!chart.geoJSON)
-        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
-      if (!chart.dataView) return;
-
-      resetAreas();
-
-      let locationToSum = dataView.locationToSum;
-      let locations = Array.from(locationToSum.keys());
-      let max = max$3(locationToSum, (item) => item[1]);
-
-      for (let i = 0; i < locations.length; i++) {
-        let location = locations[i];
-        let value = locationToSum.get(location);
-        // console.log("value", value);
-
-        let opacity = Number(value / max);
-        let color = opacity === 0 ? "WhiteSmoke" : generator(opacity);
-
-        chart.svg
-          .selectAll(".ltv-map-chart-area")
-          .filter((item) => item.lotivisId === location)
-          .style("fill", () => color)
-          .raise();
-      }
-    }
-  }
-
-  class MapLabelsRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      if (!chart.presentedGeoJSON)
-        return D_LOG ? console.log("[ltv]  No GeoJSON to render.") : null;
-      if (!dataView) return;
-      if (!chart.config.labels) return;
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-
-      function raise() {
-        chart.svg.selectAll(".ltv-map-chart-label").raise();
-      }
-
-      chart.on("mouseenter", raise);
-      chart.on("click", raise);
-
-      chart.svg.selectAll(".ltv-map-chart-label").remove();
-      chart.svg
-        .selectAll("text")
-        .data(chart.presentedGeoJSON.features)
-        .enter()
-        .append("text")
-        .attr("class", "ltv-map-chart-label")
-        .text((f) => {
-          let featureID = chart.config.featureIDAccessor(f);
-          let data = dataView.byLocationLabel.get(featureID);
-          if (!data) return "";
-          let labels = Array.from(data.keys());
-          let values = labels.map((label) => data.get(label));
-          let sum = sum$2(values);
-          return sum === 0 ? "" : numberFormat(sum);
-        })
-        .attr("x", (f) => chart.projection(f.center)[0])
-        .attr("y", (f) => chart.projection(f.center)[1]);
-    }
-  }
-
-  class MapTooltipRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      chart.element.select(".ltv-tooltip").remove();
-      let tooltip = chart.element
-        .append("div")
-        .attr("class", "ltv-tooltip")
-        .style("opacity", 0);
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-
-      function htmlTitle(features) {
-        if (features.length > 3) {
-          let featuresSlice = features.slice(0, 3);
-          let ids = featuresSlice
-            .map((feature) => `${feature.lotivisId}`)
-            .join(", ");
-          let names = featuresSlice
-            .map(chart.config.featureNameAccessor)
-            .join(", ");
-          let moreCount = features.length - 3;
-          return `IDs: ${ids} (+${moreCount})<br>Names: ${names} (+${moreCount})`;
-        } else {
-          let ids = features.map((feature) => `${feature.lotivisId}`).join(", ");
-          let names = features.map(chart.config.featureNameAccessor).join(", ");
-          return `IDs: ${ids}<br>Names: ${names}`;
-        }
-      }
-
-      function htmlValues(features) {
-        if (!chart.controller) return "";
-
-        let combinedByLabel = {};
-        for (let i = 0; i < features.length; i++) {
-          let feature = features[i];
-          let data = dataView.byLocationLabel.get(feature.lotivisId);
-          if (!data) continue;
-          let keys = Array.from(data.keys());
-
-          for (let j = 0; j < keys.length; j++) {
-            let label = keys[j];
-            if (combinedByLabel[label]) {
-              combinedByLabel[label] += data.get(label);
-            } else {
-              combinedByLabel[label] = data.get(label);
-            }
-          }
-        }
-
-        let components = [""];
-        let sum = 0;
-        for (const label in combinedByLabel) {
-          let color = controller.colorGenerator.label(label);
-          let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-          sum += combinedByLabel[label];
-          let value = numberFormat(combinedByLabel[label]);
-          components.push(`${divHTML} ${label}: <b>${value}</b>`);
-        }
-
-        components.push("");
-        components.push(`Sum: <b>${numberFormat(sum)}</b>`);
-
-        return components.length === 0 ? "No Data" : components.join("<br>");
-      }
-
-      function getTooltipSize() {
-        let tooltipWidth = Number(
-          tooltip.style("width").replace("px", "") || 200
-        );
-        let tooltipHeight = Number(tooltip.style("height").replace("px", ""));
-        return [tooltipWidth + 20, tooltipHeight + 20];
-      }
-
-      function positionTooltip(event, feature) {
-        // position tooltip
-        let tooltipSize = getTooltipSize();
-        let projection = chart.projection;
-        let featureBounds = geoBounds(feature);
-        let featureLowerLeft = projection(featureBounds[0]);
-        let featureUpperRight = projection(featureBounds[1]);
-        let featureBoundsWidth = featureUpperRight[0] - featureLowerLeft[0];
-
-        // svg is presented in dynamic sized view box so we need to get the actual size
-        // of the element in order to calculate a scale for the position of the tooltip.
-        let effectiveSize = chart.getElementEffectiveSize();
-        let factor = effectiveSize[0] / chart.config.width;
-        let positionOffset = chart.getElementPosition();
-
-        function getTooltipLeft() {
-          let left = featureLowerLeft[0];
-          left += featureBoundsWidth / 2;
-          left *= factor;
-          left -= tooltipSize[0] / 2;
-          left += positionOffset[0];
-          return left;
-        }
-
-        function getTooltipLocationAbove() {
-          let top = featureUpperRight[1] * factor;
-          top -= tooltipSize[1];
-          top += positionOffset[1];
-          top -= LOTIVIS_CONFIG$1.tooltipOffset;
-          return top;
-        }
-
-        function getTooltipLocationUnder() {
-          let top = featureLowerLeft[1] * factor;
-          top += positionOffset[1];
-          top += LOTIVIS_CONFIG$1.tooltipOffset;
-          return top;
-        }
-
-        let top = 0;
-        if (featureLowerLeft[1] > chart.config.height / 2) {
-          top = getTooltipLocationAbove();
-        } else {
-          top = getTooltipLocationUnder();
-        }
-
-        let left = getTooltipLeft();
-        tooltip
-          .style("left", left + "px")
-          .style("top", top + "px")
-          .style("opacity", 1)
-          .raise();
-      }
-
-      function mouseEnter(event, feature) {
-        if (!feature) return;
-        if (
-          chart.controller &&
-          chart.controller.filters.locations.includes(feature.lotivisId)
-        ) {
-          tooltip.html(
-            [
-              htmlTitle(chart.selectedFeatures),
-              htmlValues(chart.selectedFeatures),
-            ].join("<br>")
-          );
-          positionTooltip(event, chart.selectionBorderGeoJSON.features[0]);
-        } else {
-          tooltip.html(
-            [htmlTitle([feature]), htmlValues([feature])].join("<br>")
-          );
-          positionTooltip(event, feature);
-        }
-      }
-
-      function mouseOut(event, feature) {
-        tooltip.style("opacity", 0);
-      }
-
-      chart.on("mouseenter", mouseEnter);
-      chart.on("mouseout", mouseOut);
-      chart.on("click", mouseEnter);
-    }
-  }
-
-  class MapSelectionRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      function getSelectedFeatures() {
-        if (!chart.presentedGeoJSON) return null;
-
-        let allFeatures = chart.presentedGeoJSON.features;
-        if (!chart.controller) return null;
-
-        let filteredLocations = chart.controller.filters.locations;
-        if (filteredLocations.length === 0) return [];
-        // return chart.presentedGeoJSON.features;
-        let selectedFeatures = [];
-
-        for (let index = 0; index < allFeatures.length; index++) {
-          let feature = allFeatures[index];
-          let featureID = feature.lotivisId;
-
-          if (filteredLocations.contains(featureID)) {
-            selectedFeatures.push(feature);
-          }
-        }
-
-        return selectedFeatures;
-      }
-
-      function raise() {
-        chart.svg.selectAll(".ltv-map-chart-selection-border").raise();
-      }
-
-      function _render() {
-        chart.selectedFeatures = getSelectedFeatures();
-        chart.selectionBorderGeoJSON = joinFeatures(chart.selectedFeatures);
-        if (!chart.selectionBorderGeoJSON) {
-          return D_LOG
-            ? console.log("[ltv]  No selected features to render.")
-            : null;
-        }
-        chart.svg.selectAll(".ltv-map-chart-selection-border").remove();
-        chart.svg
-          .selectAll(".ltv-map-chart-selection-border")
-          .append("path")
-          .attr("class", "ltv-map-chart-selection-border")
-          .data(chart.selectionBorderGeoJSON.features)
-          .enter()
-          .append("path")
-          .attr("d", chart.path)
-          .attr("class", "ltv-map-chart-selection-border")
-          .raise();
-      }
-
-      chart.on("mouseout", raise);
-      chart.on("click", _render);
-
-      _render();
-    }
+  function geojsonCopy(json, ids, featuresFilter) {
+    if (!Array.isArray(ids)) throw new Error("invalid ids. not an array");
+    if (!Array.isArray(json.features))
+      throw new Error("invalid geojson. no features");
+    let theCopy = copy(json);
+    theCopy.features = theCopy.features.filter(featuresFilter);
+    return theCopy;
   }
 
   /**
-   * Returns a new generated location data view for the current selected datasets.controller of datasets of this controller.
+   * Returns a new generated GeoJSON without the Feature having the ids
+   * specified.
    *
-   * A location dataView has the following form:
-   * ```
-   * {
-   *   stacks: [String],
-   *   items: [
-   *     {
-   *       dataset: String,
-   *       stack: String,
-   *       location: Any,
-   *       value: Number
-   *     }
-   *   ]
-   * }
-   * ```
+   * @param {GeoJSON} json The GeoJSON with Features to remove
+   * @param {Array} ids The ids of Features to remove
+   * @param {*} idValue An id accessor for the Features
+   * @returns {GeoJSON} The new generated GeoJSON
    */
-  function dataViewMap(dataController) {
-    let data = dataController.snapshot || dataController.data;
-    // console.log("data", data);
-
-    let byLocationLabel = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.location,
-      (d) => d.label
-    );
-
-    let byLocationStack = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.location,
-      (d) => d.stack
-    );
-
-    let locationToSum = rollup(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.location
-    );
-
-    let maxLocation = max$3(locationToSum, (item) => item[1]);
-    let maxLabel = max$3(byLocationLabel, (i) => max$3(i[1], (d) => d[1]));
-    let maxStack = max$3(byLocationStack, (i) => max$3(i[1], (d) => d[1]));
-
-    return {
-      labels: dataController.labels(),
-      stacks: dataController.stacks(),
-      locations: dataController.locations(),
-      max: maxLocation,
-      maxLabel,
-      maxStack,
-      byLocationLabel,
-      byLocationStack,
-      locationToSum,
-    };
+  function removeFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
+    return geojsonCopy(json, ids, (f) => !ids.includes(idValue(f)));
   }
 
-  class MapChart extends Chart {
-    initialize() {
-      let theConfig = this.config;
-      let margin;
-      margin = Object.assign({}, MAP_CHART_CONFIG.margin);
-      margin = Object.assign(margin, theConfig.margin || {});
+  /**
+   * Returns a new generated GeoJSON containing only the Features having the
+   * ids specified.
+   *
+   * @param {GeoJSON} json The GeoJSON with Features to remove
+   * @param {Array} ids The ids of Features to remove
+   * @param {*} idValue An id accessor for the Features
+   * @returns {GeoJSON} The new generated GeoJSON
+   */
+  function filterFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
+    return geojsonCopy(json, ids, (f) => ids.includes(idValue(f)));
+  }
 
-      let config = Object.assign({}, MAP_CHART_CONFIG);
-      this.config = Object.assign(config, this.config);
-      this.config.margin = margin;
+  /**
+   * Reusable Map Chart API class that renders a
+   * simple and configurable map chart.
+   *
+   * @requires d3
+   *
+   * @example
+   * var chart = lotivis
+   *    .map()
+   *    .selector(".css-selector")
+   *    .dataController(dc)
+   *    .run();
+   *
+   */
+  function map() {
+    let state = {
+      id: uniqueId("map"),
 
-      this.projection = geoMercator();
-      this.path = geoPath().projection(this.projection);
+      width: 1000,
+      height: 1000,
+
+      // margin
+      marginLeft: 20,
+      marginTop: 20,
+      marginRight: 20,
+      marginBottom: 20,
+
+      // Whether the chart is enabled.
+      enabled: true,
+
+      // whether to draw labels
+      labels: false,
+
+      // whether to draw a legend on the map
+      legend: true,
+
+      // whether to display a tooltip.
+      tooltip: true,
+
+      exclude: null,
+
+      include: null,
+
+      // the geojson wich is drawn
+      geoJSON: null,
+
+      // The data controller.
+      dataController: null,
+
+      // the number format
+      numberFormat: DEFAULT_NUMBER_FORMAT,
+
+      featureIDAccessor: FEATURE_ID_ACCESSOR,
+
+      featureNameAccessor: FEATURE_NAME_ACCESSOR,
+    };
+
+    // Create new underlying chart with the specified state.
+    let chart = baseChart(state);
+    state.projection = mercator();
+    state.path = index$3().projection(state.projection);
+
+    function colors() {
+      return state.dataController.dataColors();
     }
 
-    addRenderers() {
-      this.renderers.push(new MapBackgroundRenderer());
-      this.renderers.push(new MapExteriorBorderRenderer());
-      this.renderers.push(new MapGeojsonRenderer());
-      this.renderers.push(new MapDatasetRenderer());
-      this.renderers.push(new MapLegendRenderer());
-      this.renderers.push(new MapLabelsRenderer());
-      this.renderers.push(new MapTooltipRenderer());
-      this.renderers.push(new MapSelectionRenderer());
-    }
+    /**
+     * Tells the map chart that the GeoJSON has changed.
+     * @private
+     */
+    function geoJSONDidChange() {
+      let geoJSON = state.geoJSON;
+      if (!geoJSON) return;
 
-    prepare() {
-      this.svg
-        .classed("ltv-map-chart-svg", true)
-        .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`);
+      state.workGeoJSON = geoJSON;
 
-      if (this.geoJSON) return;
-      let geoJSON = createGeoJSON(this.controller.locations());
-      this.setGeoJSON(geoJSON);
-    }
-
-    createDataView() {
-      return dataViewMap(this.controller);
-    }
-
-    zoomTo(geoJSON) {
-      this.projection.fitSize(
-        [this.config.width - 20, this.config.height - 20],
-        geoJSON
-      );
-    }
-
-    setGeoJSON(newGeoJSON) {
-      if (typeof newGeoJSON === "object" && newGeoJSON.prototype === "GeoJSON") {
-        this.geoJSON = newGeoJSON;
-      } else {
-        this.geoJSON = new GeoJSON(newGeoJSON);
-      }
-      this.presentedGeoJSON = this.geoJSON;
-      this.geoJSONDidChange();
-    }
-
-    geoJSONDidChange() {
-      if (!this.geoJSON) return;
       // precalculate the center of each feature
-      this.geoJSON.features.forEach((f) => (f.center = geoCentroid(f)));
+      state.workGeoJSON.features.forEach((f) => (f.center = centroid$1(f)));
 
-      console.log("this.controller", this.controller);
-      if (!this.controller) {
-        this.controller = new DataController([]);
+      if (Array.isArray(state.exclude)) {
+        state.workGeoJSON = removeFeatures(state.workGeoJSON, state.exclude);
       }
 
-      if (this.config.exclude) {
-        this.presentedGeoJSON = removeFeatures(this.geoJSON, this.config.exclude);
-      }
-
-      if (this.config.include) {
-        this.presentedGeoJSON = filterFeatures(this.geoJSON, this.config.include);
+      if (Array.isArray(state.include)) {
+        state.workGeoJSON = filterFeatures(state.workGeoJSON, state.include);
       }
 
       // precalculate lotivis feature ids
       let feature, id;
-      for (let i = 0; i < this.presentedGeoJSON.features.length; i++) {
-        feature = this.presentedGeoJSON.features[i];
-        id = this.config.featureIDAccessor(feature);
-        this.presentedGeoJSON.features[i].lotivisId = id;
+      for (let i = 0; i < state.workGeoJSON.features.length; i++) {
+        feature = state.workGeoJSON.features[i];
+        id = state.featureIDAccessor(feature);
+        state.workGeoJSON.features[i].lotivisId = id;
       }
 
-      this.zoomTo(this.presentedGeoJSON);
-      this.update(this.controller, "geojson");
-      this.redraw();
+      chart.zoomTo(state.workGeoJSON);
+
+      if (chart.dataController() === null) {
+        chart.dataController(new DataController([]));
+      }
     }
-  }
 
-  /**
-   * Enumeration of available style types of a plot chart.
-   */
-  const PLOT_CHART_TYPE = {
-    gradient: "gradient",
-    fraction: "fraction",
-  };
+    /**
+     * Returns the collection of selected features.
+     * @returns {Array<feature>} The collection of selected features
+     * @private
+     */
+    function getSelectedFeatures() {
+      if (!state.workGeoJSON) return null;
 
-  /**
-   * Enumeration of sorts available in the plot chart.
-   */
-  const PLOT_CHART_SORT = {
-    none: "none",
-    alphabetically: "alphabetically",
-    duration: "duration",
-    intensity: "intensity",
-    firstDate: "firstDate",
-  };
+      let filtered = state.dataController.filters("locations");
+      if (filtered.length === 0) return [];
 
-  /**
-   * Enumeration of color modes of a plot chart.
-   */
-  const PLOT_COLOR_MODE = {
-    multiple: "multiple",
-    single: "single",
-  };
+      let selectedFeatures = state.workGeoJSON.features.filter(
+        (f) => filtered.indexOf(f.lotivisId) !== -1
+      );
 
-  const PLOT_CHART_CONFIG = {
-    width: 1000,
-    height: 600,
-    margin: DEFAULT_MARGIN,
-    lineHeight: 28,
-    barHeight: 30,
-    radius: 23,
-    labels: true,
-    drawGrid: true,
-    showTooltip: true,
-    selectable: true,
-    colorMode: PLOT_COLOR_MODE.multiple,
-    sort: PLOT_CHART_SORT.none,
-    type: PLOT_CHART_TYPE.gradient,
-    numberFormat: DEFAULT_NUMBER_FORMAT,
-  };
-
-  class PlotAxisRenderer extends Renderer {
-    render(chart, conttroller) {
-      let margin = chart.config.margin;
-
-      // top
-      chart.svg
-        .append("g")
-        .call(axisTop(chart.xChart))
-        .attr("transform", () => `translate(0,${margin.top})`);
-
-      // left
-      chart.svg
-        .append("g")
-        .call(axisLeft(chart.yChart))
-        .attr("transform", () => `translate(${margin.left},0)`);
-
-      // bottom
-      chart.svg
-        .append("g")
-        .call(axisBottom(chart.xChart))
-        .attr("transform", () => `translate(0,${chart.height - margin.bottom})`);
+      return selectedFeatures;
     }
-  }
 
-  class PlotTooltipRenderer extends Renderer {
-    render(chart, controller) {
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-      chart.element.select(".ltv-tooltip").remove();
-      const tooltip = chart.element
-        .append("div")
-        .attr("class", "ltv-tooltip")
-        .attr("rx", 5) // corner radius
-        .attr("ry", 5)
-        .style("opacity", 0);
+    function htmlTitle(features) {
+      if (features.length > 3) {
+        let featuresSlice = features.slice(0, 3);
+        let ids = featuresSlice
+          .map((feature) => `${feature.lotivisId}`)
+          .join(", ");
+        let names = featuresSlice.map(state.featureNameAccessor).join(", ");
+        let moreCount = features.length - 3;
+        return `IDs: ${ids} (+${moreCount})<br>Names: ${names} (+${moreCount})`;
+      } else {
+        let ids = features.map((feature) => `${feature.lotivisId}`).join(", ");
+        let names = features.map(state.featureNameAccessor).join(", ");
+        return `IDs: ${ids}<br>Names: ${names}`;
+      }
+    }
 
-      function getHTMLContentForDataset(dataset) {
-        // console.log("dataset", dataset);
+    function htmlValues(features, dv) {
+      if (!chart.controller) return "";
 
-        let components = [];
+      let combinedByLabel = {};
+      for (let i = 0; i < features.length; i++) {
+        let feature = features[i];
+        let data = dv.byLocationLabel.get(feature.lotivisId);
+        if (!data) continue;
+        let keys = Array.from(data.keys());
 
-        let sum = dataset.data
-          .map((item) => item.value)
-          .reduce((acc, next) => +acc + +next, 0);
-        let formatted = numberFormat(sum);
-
-        components.push("Label: " + dataset.label);
-        components.push("");
-        components.push("Start: " + dataset.firstDate);
-        components.push("End: " + dataset.lastDate);
-        components.push("");
-        components.push("Items: " + formatted);
-        components.push("");
-
-        let filtered = dataset.data.filter((item) => item.value !== 0);
-        for (let index = 0; index < filtered.length; index++) {
-          let entry = filtered[index];
-          let formatted = numberFormat(entry.value);
-          components.push(`${entry.date}: ${formatted}`);
+        for (let j = 0; j < keys.length; j++) {
+          let label = keys[j];
+          if (combinedByLabel[label]) {
+            combinedByLabel[label] += data.get(label);
+          } else {
+            combinedByLabel[label] = data.get(label);
+          }
         }
-
-        return components.join("<br/>");
       }
 
-      function getTooltipLeftForDataset(dataset, factor, offset) {
-        let left = chart.xChart(dataset.firstDate);
-        left *= factor;
-        left += offset[0];
-        return left;
+      let components = [""];
+      let sum = 0;
+      for (const label in combinedByLabel) {
+        let color = colors.label(label);
+        let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
+        sum += combinedByLabel[label];
+        let value = numberFormat(combinedByLabel[label]);
+        components.push(`${divHTML} ${label}: <b>${value}</b>`);
       }
 
-      function showTooltip(event, dataset) {
-        if (!chart.config.showTooltip) return;
-        tooltip.html(getHTMLContentForDataset(dataset));
+      components.push("");
+      components.push(`Sum: <b>${numberFormat(sum)}</b>`);
 
-        // position tooltip
-        let tooltipHeight = Number(tooltip.style("height").replace("px", ""));
-        let factor = chart.getElementEffectiveSize()[0] / chart.config.width;
-        let offset = chart.getElementPosition();
+      return components.length === 0 ? "No Data" : components.join("<br>");
+    }
 
-        let top = chart.yChart(dataset.label) * factor;
-        top += offset[1];
+    function positionTooltip(event, feature, calc) {
+      // position tooltip
+      let size = calc.tooltip.size();
+      let tOff = CONFIG.tooltipOffset;
+      let projection = state.projection;
 
-        if (
-          chart.yChart(dataset.label) - chart.config.margin.top <=
-          chart.graphHeight / 2
-        ) {
-          top += chart.config.lineHeight * factor + LOTIVIS_CONFIG$1.tooltipOffset;
+      let fBounds = bounds$1(feature);
+      let fLowerLeft = projection(fBounds[0]);
+      let fUpperRight = projection(fBounds[1]);
+      let fWidth = fUpperRight[0] - fLowerLeft[0];
+
+      // svg is presented in dynamic sized view box so we need to get the actual size
+      // of the element in order to calculate a scale for the position of the tooltip.
+      let domRect = calc.svg.node().getBoundingClientRect();
+      let factor = domRect.width / state.width;
+      let offset = [domRect.x + window.scrollX, domRect.y + window.scrollY];
+
+      function getTooltipLeft() {
+        return (fLowerLeft[0] + fWidth / 2) * factor - size[0] / 2 + offset[0];
+      }
+
+      function tooltipTop() {
+        return fLowerLeft[1] > state.height / 2
+          ? fUpperRight[1] * factor - size[1] + offset[1] - tOff
+          : fLowerLeft[1] * factor + offset[1] + tOff;
+      }
+
+      calc.tooltip.left(getTooltipLeft()).top(tooltipTop()).show();
+    }
+
+    /**
+     *
+     * @param {*} container
+     * @param {*} calc
+     */
+    function renderSVG(container, calc) {
+      calc.svg = container
+        .append("svg")
+        .attr("class", "ltv-chart-svg ltv-map-svg")
+        .attr("viewBox", `0 0 ${state.width} ${state.height}`);
+    }
+
+    function renderBackground(calc, dv) {
+      calc.svg
+        .append("rect")
+        .attr("class", "ltv-map-background")
+        .attr("width", state.width)
+        .attr("height", state.height)
+        .on("click", () => state.dataController.clear("locations", chart));
+    }
+
+    function renderExteriorBorders(calc, dv) {
+      let geoJSON = state.workGeoJSON;
+      if (!geoJSON) return console.log("[ltv]  No GeoJSON to render");
+
+      let bordersGeoJSON = joinFeatures(geoJSON.features);
+      if (!bordersGeoJSON) return console.log("[ltv]  No borders to render.");
+
+      calc.borders = calc.svg
+        .selectAll(".ltv-map-exterior-borders")
+        .append("path")
+        .data(bordersGeoJSON.features)
+        .enter()
+        .append("path")
+        .attr("d", state.path)
+        .attr("class", "ltv-map-exterior-borders");
+    }
+
+    function filterLocation(location) {
+      return state.dataController.isFilter("locations", location);
+    }
+
+    function renderFeatures(calc, dv) {
+      function opacity(location) {
+        return filterLocation(location) ? CONFIG.selectionOpacity : 1;
+      }
+
+      function featureMapID(f) {
+        return `ltv-map-area-id-${f.lotivisId}`;
+      }
+
+      function resetHover() {
+        calc.svg
+          .selectAll(".ltv-map-area")
+          .classed("ltv-map-area-hover", false)
+          .attr("opacity", (f) => opacity(f.lotivisId));
+      }
+
+      function mouseEnter(event, feature) {
+        calc.svg
+          .selectAll(`#${featureMapID(feature)}`)
+          .raise()
+          .classed("ltv-map-area-hover", true);
+
+        calc.svg.selectAll(".ltv-map-label").raise();
+
+        calc.tooltip.show();
+
+        if (filterLocation(feature.lotivisId)) {
+          calc.tooltip.html(
+            [
+              htmlTitle(calc.selectedFeatures),
+              htmlValues(calc.selectedFeatures),
+            ].join("<br>")
+          );
+          positionTooltip(event, calc.selectionBorderGeoJSON.features[0], calc);
         } else {
-          top -= tooltipHeight + 20; // subtract padding
-          top -= LOTIVIS_CONFIG$1.tooltipOffset;
+          calc.tooltip.html(
+            [htmlTitle([feature]), htmlValues([feature])].join("<br>")
+          );
+          positionTooltip(event, feature, calc);
         }
-
-        let left = getTooltipLeftForDataset(dataset, factor, offset);
-
-        tooltip
-          .style("left", left + "px")
-          .style("top", top + "px")
-          .style("opacity", 1);
       }
 
-      function hideTooltip() {
-        let controller = chart.controller;
-        let filters = controller.datasetFilters;
-
-        if (filters && filters.length !== 0) {
-          controller.resetFilters();
-        }
-
-        if (+tooltip.style("opacity") === 0) return;
-        tooltip.style("opacity", 0);
+      function mouseOut(event, feature) {
+        resetHover();
+        calc.tooltip.hide();
+        // chart.emit("mouseout", event, feature);
+        // dragged
+        if (event.buttons === 1) mouseClick(event, feature);
       }
 
-      chart.on("mouseenter", showTooltip);
-      chart.on("mouseout", hideTooltip);
-    }
-  }
-
-  class PlotLabelRenderer extends Renderer {
-    render(chart, controller) {
-      if (chart.config.type !== PLOT_CHART_TYPE.gradient) return;
-      if (!chart.config.labels) return;
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
-      let xBandwidth = chart.yChart.bandwidth();
-      let xChart = chart.xChart;
-
-      chart.labels = chart.barsData
-        .append("text")
-        .attr("transform", `translate(0,${xBandwidth / 2 + 4})`)
-        .attr("class", "ltv-plot-label")
-        .attr("id", (d) => "rect-" + hash_str(d.label))
-        .attr("x", (d) => xChart(d.firstDate) + xBandwidth / 2)
-        .attr("y", (d) => chart.yChart(d.label))
-        .attr("height", chart.yChartPadding.bandwidth())
-        .attr(
-          "width",
-          (d) => xChart(d.lastDate) - xChart(d.firstDate) + xBandwidth
-        )
-        .text(function (dataset) {
-          if (dataset.sum === 0) return;
-          return `${numberFormat(dataset.sum)} (${dataset.duration + 1} years)`;
-        });
-    }
-  }
-
-  class PlotGridRenderer extends Renderer {
-    render(chart, controller) {
-      if (!chart) return;
-      if (!chart.config.drawGrid) return;
-
-      chart.svg
-        .append("g")
-        .attr("class", "ltv-plot-grid ltv-plot-grid-x")
-        .attr(
-          "transform",
-          "translate(0," +
-            (chart.preferredHeight - chart.config.margin.bottom) +
-            ")"
-        )
-        .call(chart.xAxisGrid);
-
-      chart.svg
-        .append("g")
-        .attr("class", "ltv-plot-grid ltv-plot-grid-y")
-        .attr("transform", `translate(${chart.config.margin.left},0)`)
-        .call(chart.yAxisGrid);
-    }
-  }
-
-  class PlotBackgroundRenderer extends Renderer {
-    render(chart, controller) {
-      chart.svg
-        .append("rect")
-        .attr("width", chart.width || chart.config.width)
-        .attr("height", chart.height)
-        .attr("class", `ltv-plot-chart-background`)
-        .on("click", (e, b) => {
-          chart.controller.filters.labels.clear();
-          chart.emit("click", e, null);
-        });
-    }
-  }
-
-  class PlotHoverBarsRenderer extends Renderer {
-    render(chart, controller) {
-      function createID(dataset) {
-        return `ltv-plot-chart-hover-bar-id-${hash_str(dataset.label)}`;
+      function mouseClick(event, feature) {
+        if (!state.enabled) return;
+        if (!feature || !feature.properties) return;
+        state.dataController.toggleFilter("locations", feature.lotivisId, chart);
+        // chart.emit("click", event, feature);
       }
 
-      function hideAll() {
-        chart.svg.selectAll(".ltv-plot-chart-hover-bar").attr("opacity", 0);
-      }
+      let locationToSum = dv.locationToSum;
+      let max = max$3(locationToSum, (item) => item[1]);
+      let generator = MapColors(1);
 
-      function mouseEnter(event, dataset) {
-        hideAll();
-
-        let id = createID(dataset);
-        chart.svg.select(`#${id}`).attr("opacity", 0.3);
-
-        chart.emit("mouseenter", event, dataset);
-      }
-
-      function mouseOut(event, dataset) {
-        hideAll();
-
-        if (event.buttons === 1) {
-          mouseClick(event, dataset);
-        }
-        chart.emit("mouseout", event, dataset);
-      }
-
-      function mouseClick(event, dataset) {
-        if (chart.config.selectable) {
-          chart.makeUpdateInsensible();
-          chart.controller.filters.labels.toggle(dataset.label);
-          chart.makeUpdateSensible();
-        }
-        chart.emit("click", event, dataset);
-      }
-
-      let datasets = chart.dataView.datasets;
-      let graphWidth = chart.graphWidth;
-
-      chart.backgrounBarsData = chart.svg
-        .append("g")
-        .selectAll("g")
-        .data(datasets)
-        .enter();
-
-      chart.backgrounBars = chart.backgrounBarsData
-        .append("rect")
-        .attr("id", (d) => createID(d))
-        .attr("class", "ltv-plot-chart-hover-bar")
-        .attr(`opacity`, 0)
-        .attr("x", chart.config.margin.left)
-        .attr("y", (d) => chart.yChart(d.label))
-        .attr("height", chart.yChart.bandwidth())
-        .attr("width", graphWidth)
+      calc.areas = calc.svg
+        .selectAll(".ltv-map-area")
+        .append("path")
+        .data(state.workGeoJSON.features)
+        .enter()
+        .append("path")
+        .attr("d", state.path)
+        .classed("ltv-map-area", true)
+        .attr("id", (f) => featureMapID(f))
+        .style("stroke-dasharray", "1,4")
+        .style("fill", (f) => {
+          let value = locationToSum.get(f.lotivisId);
+          let opacity = Number(value / max);
+          return opacity === 0 ? "WhiteSmoke" : generator(opacity);
+        })
+        .style("fill-opacity", 1)
+        .on("click", mouseClick)
         .on("mouseenter", mouseEnter)
         .on("mouseout", mouseOut)
-        .on("click", mouseClick);
+        .raise();
     }
+
+    function renderLabels(calc, dv) {
+      // calc.svg.selectAll(".ltv-map-label").remove();
+      calc.svg
+        .selectAll("text")
+        .data(state.workGeoJSON.features)
+        .enter()
+        .append("text")
+        .attr("class", "ltv-map-label")
+        .text((f) => {
+          let featureID = state.featureIDAccessor(f);
+          let data = dv.byLocationLabel.get(featureID);
+          if (!data) return "";
+          let labels = Array.from(data.keys());
+          let values = labels.map((label) => data.get(label));
+          let sum = sum$2(values);
+          return sum === 0 ? "" : state.numberFormat(sum);
+        })
+        .attr("x", (f) => state.projection(f.center)[0])
+        .attr("y", (f) => state.projection(f.center)[1]);
+    }
+
+    function renderSelection(calc, dv) {
+      calc.selectedFeatures = getSelectedFeatures();
+      calc.selectionBorderGeoJSON = joinFeatures(calc.selectedFeatures);
+      if (!calc.selectionBorderGeoJSON)
+        return ltv_debug("no features selected", chart.id());
+
+      calc.svg.selectAll(".ltv-map-selection-border").remove();
+      calc.svg
+        .selectAll(".ltv-map-selection-border")
+        .append("path")
+        .attr("class", "ltv-map-selection-border")
+        .data(calc.selectionBorderGeoJSON.features)
+        .enter()
+        .append("path")
+        .attr("d", state.path)
+        .attr("class", "ltv-map-selection-border")
+        .raise();
+    }
+
+    // public
+
+    chart.zoomTo = function (geoJSON) {
+      if (state.projection)
+        state.projection.fitSize([state.width - 20, state.height - 20], geoJSON);
+    };
+
+    chart.geoJSON = function (_) {
+      return arguments.length
+        ? (((state.geoJSON = _), geoJSONDidChange()), this)
+        : state.geoJSON;
+    };
+
+    /**
+     * Calculates the data view for the bar chart.
+     *
+     * @param {*} calc
+     * @returns
+     */
+    chart.dataView = function (dc) {
+      var dv = {};
+
+      dv.snapshot = dc.snapshot();
+      dv.data = dc.snapshot();
+      dv.labels = dc.data().labels;
+      dv.stacks = dc.data().stacks;
+      dv.locations = dc.data().locations;
+
+      dv.byLocationLabel = rollup(
+        dv.data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.location,
+        (d) => d.label
+      );
+
+      dv.byLocationStack = rollup(
+        dv.data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.location,
+        (d) => d.stack
+      );
+
+      dv.locationToSum = rollup(
+        dv.data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.location
+      );
+
+      dv.maxLocation = max$3(dv.locationToSum, (item) => item[1]);
+      dv.maxLabel = max$3(dv.byLocationLabel, (i) => max$3(i[1], (d) => d[1]));
+      dv.maxStack = max$3(dv.byLocationStack, (i) => max$3(i[1], (d) => d[1]));
+
+      return dv;
+    };
+
+    /**
+     *
+     * @param {*} container
+     * @param {*} state
+     * @param {*} calc
+     * @param {*} dv
+     */
+    chart.render = function (container, calc, dv) {
+      calc.graphWidth = state.width - state.marginLeft - state.marginRight;
+      calc.graphHeight = state.height - state.marginTop - state.marginBottom;
+      calc.graphBottom = state.height - state.marginBottom;
+      calc.graphRight = state.width - state.marginRight;
+
+      if (!state.geoJSON) {
+        chart.geoJSON(createGeoJSON(dv.locations));
+      }
+
+      renderSVG(container, calc);
+      renderBackground(calc);
+      renderExteriorBorders(calc);
+      renderFeatures(calc, dv);
+      renderSelection(calc);
+      renderLabels(calc, dv);
+
+      if (state.labels) {
+        renderLabels(calc, dv);
+      }
+
+      if (state.tooltip) {
+        calc.tooltip = tooltip().container(container).run();
+      }
+    };
+
+    // return generated chart
+    return chart;
   }
 
-  class PlotBarsFractionsRenderer extends Renderer {
-    render(chart, controller) {
-      if (chart.config.type !== PLOT_CHART_TYPE.fraction) return;
+  const LABEL_FORMAT = function (l, v, i) {
+    return `${l} (${v})`;
+  };
 
-      let radius = LOTIVIS_CONFIG$1.barRadius;
-      let max = chart.dataView.max;
-      let data = chart.dataView.byLabelDate;
+  const STACK_FORMAT = function (s, v, ls, i) {
+    return `${s}`;
+  };
 
-      let colors = PlotColors(max);
-      let brush = max / 2;
-      let colorGenerator = controller.colorGenerator;
-      let colorMode = chart.config.colorMode;
+  const GROUP_TITLE_FORMAT = function (s, v, ls, i) {
+    return `${i + 1}) ${s} (Sum: ${v})`;
+  };
 
-      chart.barsData = chart.svg.append("g").selectAll("g").data(data).enter();
+  // export const GROUP_TITLE_FORMAT = function (s, v, ls, i) {
+  //   return `${i}) ${s} (Labels: ${ls.length}, Sum: ${v})`;
+  // };
 
-      chart.bars = chart.barsData
+  function legend() {
+    let state = {
+      // the id of the legend
+      id: uniqueId("legend"),
+
+      // margin
+      marginLeft: 0,
+      marginTop: 10,
+      marginRight: 0,
+      marginBottom: 20,
+
+      // whether the legend is enabled
+      enabled: true,
+
+      // the number formatter vor values displayed
+      numberFormat: CONFIG.numberFormat,
+
+      // the format of displaying a datasets label
+      labelFormat: LABEL_FORMAT,
+
+      // the format of displaying a datasets stack
+      stackFormat: STACK_FORMAT,
+
+      // the format of displaying a group
+      groupFormat: GROUP_TITLE_FORMAT,
+
+      // (optional) title of the legend
+      title: "Legend",
+
+      // whether to display stacks instead of labels
+      stacks: false,
+
+      // whether group the legend (by stacks)
+      group: false,
+
+      // the data controller
+      dataController: null,
+    };
+
+    var chart = baseChart(state);
+
+    /**
+     * Toggles the filtered state of the passed label.
+     *
+     * @param {Event} event The event of the checkbox
+     * @param {String} label The label to be toggled
+     * @private
+     */
+    function toggleLabel(event, label) {
+      event.target.checked
+        ? state.dataController.removeFilter("labels", label, chart)
+        : state.dataController.addFilter("labels", label, chart);
+    }
+
+    /**
+     * Toggles the filtered state of the passed stack.
+     *
+     * @param {Event} event The event of the checkbox
+     * @param {String} stack The stack to be toggled
+     * @private
+     */
+    function toggleStack(event, stack) {
+      event.target.checked
+        ? state.dataController.removeFilter("stacks", stack, chart)
+        : state.dataController.addFilter("stacks", stack, chart);
+    }
+
+    /**
+     * Returns the value for the "checked" attribute dependant on whether
+     * given label is filtered by the data controller.
+     *
+     * @param {*} label The label to be checked
+     * @returns {null | boolean}
+     * @private
+     */
+    function labelChecked(label) {
+      return state.dataController.isFilter("labels", label) ? null : true;
+    }
+
+    /**
+     * Returns the value for the "checked" attribute dependant on whether
+     * given stack is filtered by the data controller.
+     *
+     * @param {*} stack The stack to be checked
+     * @returns {null | boolean}
+     * @private
+     */
+    function stackChecked(stack) {
+      return state.dataController.isFilter("stacks", stack) ? null : true;
+    }
+
+    /**
+     * Formattes the given number.
+     *
+     * @param {Number} value The number to be formatted
+     * @returns The formatted value
+     * @private
+     */
+    function format(value) {
+      return state.numberFormat(value);
+    }
+
+    /**
+     *
+     * @param {*} label
+     * @param {*} index
+     * @param {*} dv
+     * @returns
+     */
+    function labelText(label, index, dv) {
+      if (typeof state.labelFormat !== "function") return label;
+      return state.labelFormat(label, format(dv.byLabel.get(label)), index);
+    }
+
+    function stackText(stack, index, dv) {
+      if (typeof state.stackFormat !== "function") return stack;
+      var value = format(dv.byStack.get(stack));
+      var labelsToValue = dv.byStackLabel.get(stack);
+      var labels = Array.from(labelsToValue ? labelsToValue.keys() : []);
+      return state.stackFormat(stack, value, labels, index);
+    }
+
+    function dataColors() {
+      return state.dataController.dataColors();
+    }
+
+    function disabled() {
+      return unwrap(state.enabled) ? null : true;
+    }
+
+    function isGroups() {
+      return unwrap(state.group) === true;
+    }
+
+    function isStacks() {
+      return unwrap(state.stacks) === true;
+    }
+
+    function unwrap(value) {
+      return typeof value === "function" ? value(chart) : value;
+    }
+
+    selection.prototype.div = function (aClass) {
+      return this.append("div").classed(aClass, true);
+    };
+
+    selection.prototype.error = function (text) {
+      return this.append("div").text(text);
+    };
+
+    /**
+     * Calculates the data view for the bar chart.
+     *
+     * @param {*} calc The calc object
+     * @returns The generated data view
+     *
+     * @public
+     */
+    chart.dataView = function (dc) {
+      var dv = {};
+      dv.labels = dc.labels();
+      dv.stacks = dc.stacks();
+      dv.locations = dc.locations();
+      dv.dates = dc.dates();
+
+      dv.byLabel = rollup(
+        dc.data(),
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.label
+      );
+
+      dv.byStack = rollup(
+        dc.data(),
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.stack || d.label
+      );
+
+      dv.byStackLabel = rollup(
+        dc.data(),
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.stack || d.label,
+        (d) => d.label
+      );
+
+      return dv;
+    };
+
+    /**
+     * Renders all components of the plot chart.
+     *
+     * @param {*} container The d3 container
+     * @param {*} calc The calc objct of the chart
+     * @param {*} dv The data view
+     * @returns The chart itself
+     *
+     * @public
+     */
+    chart.render = function (container, calc, dv) {
+      calc.div = container
+        .div("ltv-legend")
+        .attr("id", state.id)
+        .style("padding-left", state.marginLeft + "px")
+        .style("padding-top", state.marginTop + "px")
+        .style("padding-right", state.marginRight + "px")
+        .style("padding-bottom", state.marginBottom + "px");
+
+      // if a title is given render div with title inside
+      if (state.title) {
+        calc.titleDiv = calc.div
+          .append("div")
+          .classed("ltv-legend-title", true)
+          .text(unwrap(state.title));
+      }
+
+      var colorFn = isStacks() ? dataColors().stack : dataColors().label;
+      var changeFn = isStacks() ? toggleStack : toggleLabel;
+      var textFn = isStacks() ? stackText : labelText;
+
+      calc.groups = calc.div
+        .selectAll(".div")
+        .data(isGroups() ? dv.stacks : [""]) // use single group when mode is not "groups"
+        .enter()
+        .div("ltv-legend-group")
+        .style("color", (s) => dataColors().stack(s));
+
+      // draw titles only in "groups" mode
+      if (isGroups()) {
+        calc.titles = calc.groups.append("div").text((stack, index) => {
+          var labelsToValue = dv.byStackLabel.get(stack);
+          return state.groupFormat(
+            stack,
+            format(dv.byStack.get(stack)),
+            Array.from(labelsToValue ? labelsToValue.keys() : []),
+            index
+          );
+        });
+      }
+
+      var pillsData = isGroups()
+        ? (d) => (isStacks() ? [d] : dv.byStackLabel.get(d))
+        : isStacks()
+        ? dv.stacks
+        : dv.labels;
+
+      calc.pills = calc.groups
+        .selectAll(".label")
+        .data(pillsData)
+        .enter()
+        .append("label")
+        .classed("ltv-legend-pill", true)
+        .datum((d) => (isGroups() && !isStacks() ? d[0] : d));
+
+      calc.checkboxes = calc.pills
+        .append("input")
+        .classed("ltv-legend-checkbox", true)
+        .attr("type", "checkbox")
+        .attr("checked", isStacks() ? stackChecked : labelChecked)
+        .attr("disabled", disabled())
+        .on("change", (e, d) => changeFn(e, d));
+
+      calc.spans = calc.pills
+        .append("span")
+        .classed("ltv-legend-pill-span", true)
+        .style("background-color", colorFn)
+        .text((d, i) => textFn(d, i, dv));
+
+      if (CONFIG.debug && state.debug) console.log(this);
+
+      return chart;
+    };
+
+    // Return generated chart
+    return chart;
+  }
+
+  /**
+   * Reusable Bar Chart API class that renders a
+   * simple and configurable bar chart.
+   *
+   * @requires d3
+   *
+   * @example
+   * var chart = lotivis
+   *    .bar()
+   *    .selector(".css-selector")
+   *    .dataController(dc)
+   *    .run();
+   *
+   */
+  function bar() {
+    let state = {
+      // a unique id for this chart
+      id: uniqueId("bar"),
+
+      // the width of the chart's svg
+      width: 1000,
+
+      // the height of the chart's svg
+      height: 600,
+
+      // margin
+      marginLeft: 20,
+      marginTop: 20,
+      marginRight: 20,
+      marginBottom: 20,
+
+      // corner radius of bars
+      radius: 5,
+
+      // whether the chart is enabled.
+      enabled: true,
+
+      // whether to draw labels
+      labels: false,
+
+      // whether to display a tooltip.
+      tooltip: true,
+
+      style: "stacks",
+
+      // the data controller.
+      dataController: null,
+
+      // transformes a given date t a numeric value.
+      dateAccess: DEFAULT_DATE_ORDINATOR,
+
+      // the number format
+      numberFormat: DEFAULT_NUMBER_FORMAT,
+
+      // displayed dates
+      dates: null,
+    };
+
+    // Create new underlying chart with the specified state.
+    let chart = baseChart(state);
+
+    function colors() {
+      return state.dataController.dataColors();
+    }
+
+    /**
+     *
+     * @param {*} calc
+     * @param {*} dv
+     */
+    function createScales(calc, dv) {
+      // preferre dates from state if specified. fallback to
+      // dates of data view
+      let dates = Array.isArray(state.dates) ? state.dates : dv.dates;
+
+      // Sort date according to access function
+      dates = dates.sort((a, b) => state.dateAccess(a) - state.dateAccess(b));
+
+      calc.xChartScale = band()
+        .domain(dates)
+        .rangeRound([state.marginLeft, calc.graphRight]);
+
+      calc.xChartScalePadding = band()
+        .domain(dates)
+        .rangeRound([state.marginLeft, calc.graphRight])
+        .paddingInner(0.2);
+
+      calc.xStack = band()
+        .domain(dv.stacks)
+        .rangeRound([0, calc.xChartScale.bandwidth()])
+        .padding(0.05);
+
+      calc.yChart = linear()
+        .domain([0, dv.maxTotal])
+        .nice()
+        .rangeRound([state.height - state.marginBottom, state.marginTop]);
+    }
+
+    function renderSVG(container, calc) {
+      calc.svg = container
+        .append("svg")
+        .attr("class", "ltv-chart-svg ltv-bar-chart-svg")
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("viewBox", `0 0 ${state.width} ${state.height}`);
+    }
+
+    /**
+     * Renders the axis of the chart.
+     * @param {*} calc The calc obj
+     * @private
+     */
+    function renderAxis(calc) {
+      calc.svg
         .append("g")
-        .attr("transform", (d) => `translate(0,${chart.yChartPadding(d[0])})`)
-        .attr("id", (d) => "ltv-plot-rect-" + hash_str(d[0]))
-        .attr(`fill`, (d) =>
-          colorMode === PLOT_COLOR_MODE.single ? colorGenerator.label(d[0]) : null
+        .call(axisLeft(calc.yChart))
+        .attr("transform", () => `translate(${state.marginLeft},0)`);
+
+      // bottom axis
+      calc.svg
+        .append("g")
+        .call(axisBottom(calc.xChartScale))
+        .attr("transform", `translate(0,${state.height - state.marginBottom})`);
+    }
+
+    /**
+     * Renders the grid of the chart.
+     * @param {*} calc The calc obj
+     * @private
+     */
+    function renderGrid(calc) {
+      let xAxisGrid = axisBottom(calc.xChartScale)
+        .tickSize(-calc.graphHeight)
+        .tickFormat("");
+
+      let yAxisGrid = axisLeft(calc.yChart)
+        .tickSize(-calc.graphWidth)
+        .tickFormat("")
+        .ticks(20);
+
+      calc.svg
+        .append("g")
+        .attr("class", "ltv-bar-chart-grid ltv-bar-chart-grid-x")
+        .attr("transform", "translate(0," + calc.graphBottom + ")")
+        .call(xAxisGrid);
+
+      calc.svg
+        .append("g")
+        .attr("class", "ltv-bar-chart-grid ltv-bar-chart-grid-y")
+        .attr("transform", `translate(${state.marginLeft},0)`)
+        .call(yAxisGrid);
+    }
+
+    function renderSelection(calc, dv) {
+      calc.selection = calc.svg
+        .append("g")
+        .selectAll("rect")
+        .data(dv.dates)
+        .enter()
+        .append("rect")
+        .attr("class", "ltv-bar-chart-selection-rect")
+        .attr("id", (d) => `ltv-bar-chart-selection-rect-${safeId(String(d))}`)
+        .attr("width", calc.xChartScale.bandwidth())
+        .attr("height", calc.graphHeight)
+        .attr("x", (d) => calc.xChartScale(d))
+        .attr("y", state.marginTop)
+        .attr("opacity", (d) =>
+          state.dataController.isFilter("dates", d) ? 0.3 : 0
         )
+        .on("mouseenter", mouseEnter)
+        .on("mouseout", mouseOut)
+        .on("mousedrag", mouseDrag)
+        .on("click", click)
+        .raise();
+
+      // #  HANDLERS  ##############################################################
+
+      function mouseEnter(event, date) {
+        calc.svg
+          .select(`ltv-bar-chart-selection-rect-${safeId(String(date))}`)
+          .attr("opacity", 0.3);
+
+        // position tooltip
+        let tooltipSize = calc.tip.size();
+        let domRect = calc.svg.node().getBoundingClientRect();
+        let factor = domRect.width / state.width;
+        let offset = [domRect.x + window.scrollX, domRect.y + window.scrollY];
+        let top = getTop(factor, offset, tooltipSize, calc);
+        let left = calc.xChartScalePadding(date);
+
+        // differ tooltip position on bar position
+        if (left > state.width / 2) {
+          left = getXLeft(date, factor, offset, tooltipSize, calc);
+        } else {
+          left = getXRight(date, factor, offset, calc);
+        }
+
+        calc.tip
+          .html(getHTMLForDate(date, dv))
+          .top(`${top}px`)
+          .left(`${left}px`)
+          .show();
+      }
+
+      function mouseOut(event, date) {
+        calc.tip.hide();
+      }
+
+      function mouseDrag(event, date) {
+        // check for mouse down
+        if (event.buttons === 1) onMouseClick(event, date);
+      }
+
+      function click(event, date) {
+        if (!state.enabled) return;
+        var dc = state.dataController;
+        dc.toggleFilter("dates", date, chart);
+
+        calc.svg
+          .select(`#ltv-bar-chart-selection-rect-${safeId(String(date))}`)
+          .attr(`opacity`, (d) => (dc.isFilter("dates", d) ? 0.3 : 0));
+
+        // calc.svg
+        //   .selectAll(`.ltv-bar-chart-dates-area`)
+        //   .attr(`opacity`, (d) => (dc.isFilterDate(d[0]) ? 1 : 0.3))
+        //   .raise();
+      }
+    }
+
+    function renderCombined(calc, dv) {
+      calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.byDateStack)
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${calc.xChartScale(d[0])},0)`)
+        // .attr("opacity", (d) => opacity(d[0]))
+        .attr("class", "ltv-bar-chart-dates-area")
+        .selectAll("rect")
+        .data((d) => d[1]) // map to by stack
+        .enter()
+        .append("rect")
+        .attr("class", "ltv-bar-chart-bar")
+        .attr("fill", (d) => colors().stack(d[0]))
+        .attr("x", (d) => calc.xStack(d[0]))
+        .attr("y", (d) => calc.yChart(d[1]))
+        .attr("width", calc.xStack.bandwidth())
+        .attr("height", (d) => state.height - calc.yChart(d[1]))
+        .attr("rx", state.radius)
+        .attr("ry", state.radius)
+        .raise();
+    }
+
+    function renderStacked(calc, dv) {
+      calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.byDatesStackSeries)
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${calc.xChartScale(d[0])},0)`) // translate to x of date
+        .attr("class", "ltv-bar-chart-dates-area")
+        .selectAll("rect")
+        .data((d) => d[1]) // map to by stack
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${calc.xStack(d[0])},0)`)
+        .selectAll("rect")
+        .data((d) => d[1]) // map to series
+        .enter()
+        .append("rect")
+        .attr("class", "ltv-bar-chart-bar")
+        .attr("fill", (d) => colors().label(d[2]))
+        .attr("width", calc.xStack.bandwidth())
+        .attr("height", (d) =>
+          !d[1] ? 0 : calc.yChart(d[0]) - calc.yChart(d[1])
+        )
+        .attr("y", (d) => calc.yChart(d[1]))
+        .attr("rx", state.radius)
+        .attr("ry", state.radius)
+        .raise();
+    }
+
+    function renderLabels(calc, dv) {
+      calc.labels = calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.dates)
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${calc.xChartScale(d)},0)`) // translate to x of date
+        .selectAll(".text")
+        .data((date) => dv.byDateStack.get(date) || [])
+        .enter()
+        .append("text")
+        .attr("class", "ltv-bar-chart-label")
+        .attr("transform", (d) => {
+          let stack = d[0];
+          let value = d[1];
+          let width = calc.xStack.bandwidth() / 2;
+          let x = (calc.xStack(stack) || 0) + width;
+          let y = calc.yChart(value) - 5;
+          return `translate(${x},${y})rotate(-60)`;
+        })
+        .text((d) => (d[1] === 0 ? "" : state.numberFormat(d[1])))
+        .raise();
+    }
+
+    function getTop(factor, offset, tooltipSize, calc) {
+      let top = state.marginTop * factor;
+      top += (calc.graphHeight * factor - tooltipSize[1]) / 2;
+      top += offset[1] - 10;
+      return top;
+    }
+
+    function getXLeft(date, factor, offset, tooltipSize, calc) {
+      return (
+        calc.xChartScalePadding(date) * factor +
+        offset[0] -
+        tooltipSize[0] -
+        22 -
+        CONFIG.tooltipOffset
+      );
+    }
+
+    function getXRight(date, factor, offset, calc) {
+      return (
+        (calc.xChartScalePadding(date) + calc.xChartScalePadding.bandwidth()) *
+          factor +
+        offset[0] +
+        CONFIG.tooltipOffset
+      );
+    }
+
+    function getHTMLForDate(date, dv) {
+      let filtered = dv.byDateLabel.get(date);
+      if (!filtered) return "No Data";
+
+      let title = `${date}`;
+      let sum = 0;
+      let dataHTML = Array.from(filtered.keys())
+        .map(function (label) {
+          let value = filtered.get(label);
+          if (!value) return undefined;
+          let color = colors().label(label);
+          let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
+          let valueFormatted = state.numberFormat(value);
+          sum += value;
+          return `${divHTML} ${label}: <b>${valueFormatted}</b>`;
+        })
+        .filter((d) => d)
+        .join("<br>");
+
+      let sumFormatted = state.numberFormat(sum);
+      return `<b>${title}</b><br>${dataHTML}<br><br>Sum: <b>${sumFormatted}</b>`;
+    }
+
+    /**
+     * Calculates the data view for the bar chart.
+     *
+     * @param {*} calc
+     * @returns
+     */
+    chart.dataView = function (dc) {
+      var dv = {};
+      dv.snapshot = dc.snapshot();
+      let data = dc.snapshot();
+
+      dv.byDateStackOriginal = rollup(
+        dc.data(),
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.date,
+        (d) => d.stack || d.label
+      );
+
+      dv.maxTotal = max$3(dv.byDateStackOriginal, (d) =>
+        max$3(d[1], (d) => d[1])
+      );
+      dv.dates = dc.dates();
+      dv.stacks = dc.stacks();
+      dv.labels = dc.labels();
+      dv.enabledStacks = dc.stacks();
+
+      dv.byDateLabel = rollup(
+        data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.date,
+        (d) => d.label
+      );
+
+      dv.byDateStack = rollup(
+        data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.date,
+        (d) => d.stack || d.label
+      );
+
+      dv.byDateStackLabel = rollup(
+        data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.date,
+        (d) => d.stack || d.label,
+        (d) => d.label
+      );
+
+      dv.byDatesStackSeries = new InternMap();
+      dv.dates.forEach((date) => {
+        let byStackLabel = dv.byDateStackLabel.get(date);
+        if (!byStackLabel) return;
+        dv.byDatesStackSeries.set(date, new InternMap());
+
+        dv.stacks.forEach((stack) => {
+          let byLabel = byStackLabel.get(stack);
+          if (!byLabel) return;
+          let value = 0;
+          let series = Array.from(byLabel)
+            .reverse()
+            .map((item) => [value, (value += item[1]), item[0]]);
+          dv.byDatesStackSeries.get(date).set(stack, series);
+        });
+      });
+
+      dv.max = max$3(dv.byDateStack, (d) => max$3(d[1], (d) => d[1]));
+
+      return dv;
+    };
+
+    /**
+     *
+     * @param {*} container
+     * @param {*} state
+     * @param {*} calc
+     * @param {*} dv
+     */
+    chart.render = function (container, calc, dv) {
+      calc.graphWidth = state.width - state.marginLeft - state.marginRight;
+      calc.graphHeight = state.height - state.marginTop - state.marginBottom;
+      calc.graphBottom = state.height - state.marginBottom;
+      calc.graphRight = state.width - state.marginRight;
+
+      createScales(calc, dv);
+
+      renderSVG(container, calc);
+      renderAxis(calc);
+      renderGrid(calc);
+      renderSelection(calc, dv);
+
+      if (state.style === "combine") {
+        renderCombined(calc, dv);
+      } else {
+        renderStacked(calc, dv);
+      }
+
+      if (state.labels) renderLabels(calc, dv);
+
+      if (state.tooltip) calc.tip = tooltip().container(container).run();
+    };
+
+    // return generated chart
+    return chart;
+  }
+
+  function hashString(s) {
+    let hash = 0,
+      i,
+      chr;
+    for (i = 0; i < s.length; i++) {
+      chr = s.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  /**
+   * Generates a hash from the given value.
+   *
+   * @param {string | *} input An input value to hash
+   * @returns {number} The generated hash
+   * @public
+   */
+  function hash$1(input) {
+    return hashString(isString(input) ? input : JSON.stringify(input));
+  }
+
+  function transX(x) {
+    return "translate(" + x + ",0)";
+  }
+
+  function transY(y) {
+    return "translate(0," + y + ")";
+  }
+
+  const DATE_ACCESS = function (d) {
+    return d;
+  };
+
+  const PLOT_SORT = {
+    /**
+     * Sorts datasets alphabetically.
+     */
+    alphabetically: (left, right) => left.label < right.label,
+
+    /**
+     * Sorts datasets by duration.
+     */
+    duration: (left, right) => left.duration - right.duration,
+
+    /**
+     * Sorts datasets by intensity.
+     */
+    intensity: (left, right) => left.sum - right.sum,
+
+    /**
+     * Sorts datasets by first date.
+     */
+    firstDate: (left, right) => left.firstDate - right.firstDate,
+  };
+
+  /**
+   * Reusable Plot Chart API class that renders a
+   * simple and configurable plot chart.
+   *
+   * @requires d3
+   *
+   * @example
+   * var chart = lotivis
+   *    .plot()
+   *    .selector(".css-selector")
+   *    .dataController(dc)
+   *    .run();
+   *
+   */
+  function plot() {
+    let state = {
+      id: uniqueId("plot"),
+
+      // width of the svg
+      width: 1000,
+
+      // height of a bar
+      barHeight: 30,
+
+      // margin
+      marginLeft: 20,
+      marginTop: 20,
+      marginRight: 20,
+      marginBottom: 20,
+
+      // bar radius
+      radius: 5,
+
+      // the plot's style, "gradient" or "fraction"
+      style: "gradient",
+
+      // the plot's color mode, "single" or "multi"
+      colorMode: "multi",
+
+      // Whether the chart is selectable.
+      selectable: true,
+
+      // the border style of the data preview
+      border: CONFIG.defaultBorder,
+
+      // transformes a given date into a numeric value.
+      dateAccess: DATE_ACCESS,
+
+      // format for displayed numbers
+      numberFormat: DEFAULT_NUMBER_FORMAT,
+
+      // sort, "alphabetically"
+      sort: null,
+
+      // displayed dates
+      dates: null,
+
+      // whether to draw the bottom axis
+      drawBottomAxis: false,
+
+      // whether to draw labels on chart
+      labels: true,
+
+      // whether to show the tooltip
+      tooltip: true,
+
+      // the data controller.
+      dataController: null,
+
+      // the data view.
+      dataView: null,
+    };
+
+    // create new underlying chart with the specified state
+    let chart = baseChart(state);
+
+    // private
+
+    /**
+     * Creates the scales used by the plot chart.
+     *
+     * @param {calc} calc The calc object
+     * @param {dataView} dv The data view
+     * @private
+     */
+    function createScales(calc, dv) {
+      // preferre dates from state if specified. fallback to
+      // dates of data view
+      let dates = Array.isArray(state.dates) ? state.dates : dv.dates;
+
+      // Sort date according to access function
+      dates = dates.sort((a, b) => state.dateAccess(a) - state.dateAccess(b));
+
+      calc.xChart = band()
+        .domain(dates)
+        .rangeRound([state.marginLeft, calc.graphRight])
+        .paddingInner(0.1);
+
+      calc.yChartPadding = band()
+        .domain(dv.labels)
+        .rangeRound([calc.graphBottom, state.marginTop])
+        .paddingInner(0.1);
+
+      calc.yChart = band()
+        .domain(dv.labels)
+        .rangeRound([calc.graphBottom, state.marginTop]);
+
+      calc.xAxisGrid = axisBottom(calc.xChart)
+        .tickSize(-calc.graphHeight)
+        .tickFormat("");
+
+      calc.yAxisGrid = axisLeft(calc.yChart)
+        .tickSize(-calc.graphWidth)
+        .tickFormat("");
+
+      calc.yBandwidth = calc.yChart.bandwidth();
+    }
+
+    /**
+     * Renders the main svg of the chart.
+     *
+     * @param {calc} calc The calc object.
+     * @private
+     */
+    function renderSVG(calc) {
+      calc.svg = calc.container
+        .append("svg")
+        .attr("class", "ltv-chart-svg ltv-bar-chart-svg")
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("viewBox", `0 0 ${state.width} ${calc.height}`);
+    }
+
+    /**
+     * Renders the axis of the chart.
+     *
+     * @param {calc} calc The calc object.
+     * @private
+     */
+    function renderAxis(calc) {
+      // top
+      calc.svg
+        .append("g")
+        .call(axisTop(calc.xChart))
+        .attr("transform", transY(state.marginTop));
+
+      // left
+      calc.svg
+        .append("g")
+        .call(axisLeft(calc.yChart))
+        .attr("transform", transX(state.marginLeft));
+
+      // bottom
+      if (state.drawBottomAxis) {
+        calc.svg
+          .append("g")
+          .call(axisBottom(calc.xChart))
+          .attr("transform", transY(calc.height - state.marginBottom));
+      }
+    }
+
+    /**
+     * Renders the grid of the plot chart.
+     *
+     * @param {calc} calc The calc object.
+     * @private
+     */
+    function renderGrid(calc) {
+      calc.svg
+        .append("g")
+        .classed("ltv-plot-grid ltv-plot-grid-x", true)
+        .attr("transform", transY(calc.height - state.marginBottom))
+        .call(calc.xAxisGrid);
+
+      calc.svg
+        .append("g")
+        .classed("ltv-plot-grid ltv-plot-grid-y", true)
+        .attr("transform", transX(state.marginLeft))
+        .call(calc.yAxisGrid);
+    }
+
+    /**
+     * Renders the selction bars of the plot chart.
+     *
+     * @param {calc} calc The calc object.
+     * @param {*} dv The data view
+     * @private
+     */
+    function renderSelection(calc, dv) {
+      calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.datasets)
+        .enter()
+        .append("rect")
+        .attr("class", "ltv-plot-chart-selection-rect")
+        .attr(`opacity`, 0)
+        .attr("x", state.marginLeft)
+        .attr("y", (d) => calc.yChart(d.label))
+        .attr("width", calc.graphWidth)
+        .attr("height", calc.yChart.bandwidth())
+        .on("mouseenter", (e, d) => showTooltip(calc, d))
+        .on("mouseout", (e, d) => calc.tooltip.hide())
+        .on("click", (e, d) => {
+          state.dataController.toggleLabel(d.label, chart);
+          calc.svg
+            .selectAll(".ltv-plot-chart-selection-rect")
+            .classed("ltv-selected", (d) =>
+              state.dataController.isFilter("labels", d.label)
+            );
+        });
+    }
+
+    /**
+     * Renders the bars of of the chart for style "fraction".
+     *
+     * @param {calc} calc The calc object.
+     * @param {*} dv The data view
+     */
+    function renderBarsFraction(calc, dv) {
+      let colors = PlotColors(dv.max);
+      let brush = dv.max / 2;
+      let dataColors = state.dataController.dataColors();
+      let isSingle = state.colorMode === "single";
+
+      calc.barsData = calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.byLabelDate)
+        .enter();
+
+      calc.bars = calc.barsData
+        .append("g")
+        .attr("transform", (d) => transY(calc.yChartPadding(d[0])))
+        .attr("id", (d) => "ltv-plot-rect-" + hash$1(d[0]))
+        .attr(`fill`, (d) => (isSingle ? dataColors.label(d[0]) : null))
         .selectAll(".rect")
         .data((d) => d[1]) // map to dates data
         .enter()
         .filter((d) => d[1] > 0)
         .append("rect")
         .attr("class", "ltv-plot-bar")
-        .attr(`fill`, (d) =>
-          colorMode === PLOT_COLOR_MODE.single ? null : colors(d[1])
-        )
+        .attr("x", (d) => calc.xChart(d[0]))
+        .attr("y", 0)
+        .attr("width", calc.xChart.bandwidth())
+        .attr("height", calc.yChartPadding.bandwidth())
+        .attr(`fill`, (d) => (isSingle ? null : colors(d[1])))
         .attr("opacity", (d) =>
-          colorMode === PLOT_COLOR_MODE.single
-            ? (d[1] + brush) / (max + brush)
-            : 1
+          isSingle ? (d[1] + brush) / (dv.max + brush) : 1
         )
-        .attr("rx", radius)
-        .attr("ry", radius)
-        .attr("x", (d) => chart.xChart(d[0]))
-        .attr("width", chart.xChart.bandwidth())
-        .attr("height", chart.yChartPadding.bandwidth());
-    }
-  }
+        .attr("rx", state.radius)
+        .attr("ry", state.radius);
 
-  class PlotBarsGradientCreator {
-    constructor(chart, controller, dataView) {
-      this.chart = chart;
-      this.controller = controller;
-      this.dataView = dataView;
-      this.plotColors = PlotColors(dataView.max);
+      if (state.labels === true) {
+        calc.labels = calc.barsData
+          .append("g")
+          .attr("transform", (d) => `translate(0,${calc.yChartPadding(d[0])})`)
+          .attr("id", (d) => "rect-" + hash$1(d[0]))
+          .selectAll(".text")
+          .data((d) => d[1]) // map to dates data
+          .enter()
+          .filter((d) => d[1] > 0)
+          .append("text")
+          .attr("class", "ltv-plot-label")
+          .attr("y", (d) => calc.yBandwidth / 2)
+          .attr("x", (d) => calc.xChart(d[0]) + 4)
+          .text((d) => (d.sum === 0 ? null : state.numberFormat(d[1])));
+      }
     }
 
-    createGradient(dataset) {
-      let max = this.chart.dataView.max;
-      let gradient = this.chart.definitions
+    /**
+     *
+     * @param {calc} calc The calc object.
+     * @param {*} dv
+     * @param {*} dc
+     */
+    function renderBarsGradient(calc, dv, dc) {
+      let plotColors = PlotColors(dv.max);
+      calc.definitions = calc.svg.append("defs");
+
+      for (let index = 0; index < dv.datasets.length; index++) {
+        createGradient(dv.datasets[index], dv, calc, plotColors);
+      }
+
+      calc.barsData = calc.svg
+        .append("g")
+        .selectAll("g")
+        .data(dv.datasets)
+        .enter();
+
+      calc.bars = calc.barsData
+        .append("rect")
+        .attr("transform", (d) => `translate(0,${calc.yChartPadding(d.label)})`)
+        .attr("fill", (d) => `url(#${state.id}-${hash$1(d.label)})`)
+        .attr("class", "ltv-plot-bar")
+        .attr("rx", state.radius)
+        .attr("ry", state.radius)
+        .attr("x", (d) =>
+          calc.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0)
+        )
+        .attr("height", calc.yChartPadding.bandwidth())
+        .attr("width", (d) => {
+          if (!d.firstDate || !d.lastDate) return 0;
+          return (
+            calc.xChart(d.lastDate) -
+            calc.xChart(d.firstDate) +
+            calc.xChart.bandwidth()
+          );
+        });
+
+      if (state.labels === true) {
+        calc.labels = calc.barsData
+          .append("text")
+          .attr("transform", `translate(0,${calc.yBandwidth / 2 + 4})`)
+          .attr("class", "ltv-plot-label")
+          .attr("id", (d) => "rect-" + hash$1(d.label))
+          .attr("x", (d) => calc.xChart(d.firstDate) + calc.yBandwidth / 2)
+          .attr("y", (d) => calc.yChart(d.label))
+          .attr("height", calc.yChartPadding.bandwidth())
+          .attr(
+            "width",
+            (d) =>
+              calc.xChart(d.lastDate) - calc.xChart(d.firstDate) + calc.yBandwidth
+          )
+          .text(function (dataset) {
+            if (dataset.sum === 0) return;
+            return `${state.numberFormat(
+            dataset.sum
+          )} (${dataset.duration + 1} years)`;
+          });
+      }
+    }
+
+    /**
+     *
+     * @param {*} ds
+     * @param {*} dv
+     * @param {*} calc
+     * @param {*} plotColors
+     * @returns
+     */
+    function createGradient(ds, dv, calc, plotColors) {
+      let gradient = calc.definitions
         .append("linearGradient")
-        .attr("id", "ltv-plot-gradient-" + hash_str(dataset.label))
+        .attr("id", state.id + "-" + hash$1(ds.label))
         .attr("x1", "0%")
         .attr("x2", "100%")
         .attr("y1", "0%")
         .attr("y2", "0%");
 
-      let data = dataset.data;
-      if (!data || data.length === 0) return;
+      if (!ds.data || ds.data.length === 0) return;
 
-      let count = data.length;
-      let latestDate = dataset.lastDate;
+      let count = ds.data.length;
+      let latestDate = ds.lastDate;
 
-      let plotColors = this.plotColors;
-      let brush = max / 2;
-      let colorGenerator = this.controller.colorGenerator;
-      let colorMode = this.chart.config.colorMode;
+      let dataController = chart.dataController();
+      let dataColors = dataController.dataColors();
+      let isSingle = state.colorMode === "single";
+      let colors = isSingle ? dataColors.label : plotColors;
 
       function append(value, percent) {
         gradient
           .append("stop")
           .attr("offset", percent + "%")
-          .attr(
-            "stop-color",
-            colorMode === PLOT_COLOR_MODE.single
-              ? colorGenerator.label(dataset.label)
-              : plotColors(value)
-          )
-          .attr(
-            "stop-opacity",
-            colorMode === PLOT_COLOR_MODE.single
-              ? (value + brush) / (max + brush)
-              : 1
-          );
+          .attr("stop-color", colors(isSingle ? ds.label : value))
+          .attr("stop-opacity", isSingle ? value / dv.max : 1);
       }
 
-      if (dataset.duration === 0) {
-        append(data[0].value, 100);
+      if (ds.duration === 0) {
+        append(ds.data[0].value, 100);
       } else {
         for (let i = 0; i < count; i++) {
-          let diff = latestDate - data[i].date;
-          let opacity = diff / dataset.duration;
+          let diff = latestDate - ds.data[i].date;
+          let opacity = diff / ds.duration;
           let percent = (1 - opacity) * 100;
-          append(data[i].value, percent);
+          append(ds.data[i].value, percent);
         }
       }
     }
-  }
 
-  class PlotBarsGradientRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      if (chart.config.type !== PLOT_CHART_TYPE.gradient) return;
+    /**
+     *
+     * @param {*} calc
+     * @param {*} ds
+     */
+    function showTooltip(calc, ds) {
+      if (!state.tooltip) return;
+      calc.tooltip.html(tooltipHTML(ds));
 
-      // constant for the radius of the drawn bars.
-      let radius = LOTIVIS_CONFIG$1.barRadius;
+      // position tooltip
+      let domRect = calc.svg.node().getBoundingClientRect();
+      let factor = domRect.width / state.width;
+      let offset = [domRect.x + window.scrollX, domRect.y + window.scrollY];
 
-      this.gradientCreator = new PlotBarsGradientCreator(
-        chart,
-        controller,
-        dataView
-      );
+      let top =
+        calc.yChart(ds.label) * factor +
+        offset[1] +
+        state.barHeight * factor +
+        CONFIG.tooltipOffset;
 
-      let datasets = chart.dataView.datasets;
-      chart.definitions = chart.svg.append("defs");
-
-      for (let index = 0; index < datasets.length; index++) {
-        this.gradientCreator.createGradient(datasets[index]);
-      }
-
-      chart.barsData = chart.svg
-        .append("g")
-        .selectAll("g")
-        .data(datasets)
-        .enter();
-
-      chart.bars = chart.barsData
-        .append("rect")
-        .attr("transform", (d) => `translate(0,${chart.yChartPadding(d.label)})`)
-        .attr("fill", (d) => `url(#ltv-plot-gradient-${hash_str(d.label)})`)
-        .attr("class", "ltv-plot-bar")
-        .attr("rx", radius)
-        .attr("ry", radius)
-        .attr("x", (d) =>
-          chart.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0)
-        )
-        // .attr("y", (d) => chart.yChartPadding(d.label))
-        .attr("height", chart.yChartPadding.bandwidth())
-        .attr("id", (d) => "ltv-plot-rect-" + hash_str(d.label))
-        .attr("width", (d) => {
-          if (!d.firstDate || !d.lastDate) return 0;
-          return (
-            chart.xChart(d.lastDate) -
-            chart.xChart(d.firstDate) +
-            chart.xChart.bandwidth()
-          );
-        });
+      calc.tooltip
+        .left(calc.xChart(ds.firstDate) * factor + offset[0])
+        .top(top)
+        .show();
     }
-  }
 
-  class PlotLabelsFractionsRenderer extends Renderer {
-    render(chart, controller) {
-      if (chart.config.type !== PLOT_CHART_TYPE.fraction) return;
-      if (!chart.config.labels) return;
+    // Auxiliary
 
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG.numberFormat;
-      let yBandwidth = chart.yChart.bandwidth() / 2;
+    /**
+     * Returns the tooltip text for the given dataset.
+     *
+     * @param {*} ds The dataset
+     * @returns The generated HTML as string
+     * @private
+     */
+    function tooltipHTML(ds) {
+      let filtered = ds.data.filter((item) => item.value !== 0);
+      let sum = sum$2(ds.data, (d) => d.value);
+      let comps = [
+        "Label: " + ds.label,
+        "",
+        "Start: " + ds.firstDate,
+        "End: " + ds.lastDate,
+        "",
+        "Sum: " + state.numberFormat(sum),
+        "",
+      ];
 
-      chart.labels = chart.barsData
-        .append("g")
-        .attr("transform", (d) => `translate(0,${chart.yChartPadding(d[0])})`)
-        .attr("id", (d) => "rect-" + hash_str(d[0]))
-        .selectAll(".text")
-        .data((d) => d[1]) // map to dates data
-        .enter()
-        .filter((d) => d[1] > 0)
-        .append("text")
-        .attr("class", "ltv-plot-label")
-        .attr("y", (d) => yBandwidth)
-        .attr("x", (d) => chart.xChart(d[0]) + 4)
-        .text((d) => (d.sum === 0 ? null : numberFormat(d[1])));
+      for (let i = 0; i < filtered.length; i++) {
+        let entry = filtered[i];
+        let frmt = state.numberFormat(entry.value);
+        comps.push(`${entry.date}: ${frmt}`);
+      }
+
+      return comps.join("<br/>");
     }
-  }
 
-  class PlotChartSelectionRenderer extends Renderer {
-    render(chart, controller) {
-      function createID(dataset) {
-        return `ltv-plot-chart-selection-rect-id-${hash_str(dataset.label)}`;
-      }
-
-      function update() {
-        let filter = chart.controller.filters.labels || [];
-        chart.svg
-          .selectAll(`.ltv-plot-chart-selection-rect`)
-          .attr(`opacity`, (d) => (filter.includes(d.label) ? 0.3 : 0));
-      }
-
-      function _render() {
-        let datasets = chart.dataView.datasets;
-        let graphWidth = chart.graphWidth;
-
-        chart.selectionBarsData = chart.svg
-          .append("g")
-          .selectAll("g")
-          .data(datasets)
-          .enter();
-
-        chart.selectionBars = chart.selectionBarsData
-          .append("rect")
-          .attr("id", (d) => createID(d))
-          .attr("class", "ltv-plot-chart-selection-rect")
-          .attr(`opacity`, 0)
-          .attr("x", chart.config.margin.left)
-          .attr("y", (d) => chart.yChart(d.label))
-          .attr("height", chart.yChart.bandwidth())
-          .attr("width", graphWidth);
-
-        update();
-      }
-
-      chart.on("click", update);
-
-      _render();
-    }
-  }
-
-  function dataViewPlot(dataController) {
-    let dates = dataController.dates().sort();
-    let data = dataController.snapshot || dataController.data;
-
-    let byLabelDate = rollups(
-      data,
-      (v) => sum$2(v, (d) => d.value),
-      (d) => d.label,
-      (d) => d.date
-    );
-
-    let datasets = byLabelDate.map((d) => {
-      let label = d[0];
-      let data = d[1]
-        .filter((d) => d[1] > 0)
-        .map((d) => {
-          return { date: d[0], value: d[1] };
-        })
-        .sort((a, b) => a.date - b.date);
-
-      let sum = sum$2(data, (d) => d.value);
-      let firstDate = (data[0] || {}).date;
-      let lastDate = (data[data.length - 1] || {}).date;
-      let duration = dates.indexOf(lastDate) - dates.indexOf(firstDate);
-
-      return { label, data, sum, firstDate, lastDate, duration };
-    });
-
-    return {
-      datasets,
-      dates,
-      byLabelDate,
-      firstDate: dates[0],
-      lastDate: dates[dates.length - 1],
-      labels: dataController.labels(),
-      max: max$3(datasets, (d) => max$3(d.data, (i) => i.value)),
+    chart.handleFilterName = function (filter) {
+      return filter !== "label";
     };
-  }
 
-  class PlotChart extends Chart {
-    static Type = PLOT_CHART_TYPE;
-    static Sort = PLOT_CHART_SORT;
-
-    initialize() {
-      this.config;
-      let margin;
-      margin = Object.assign({}, PLOT_CHART_CONFIG.margin);
-      margin = Object.assign(margin, this.config.margin);
-
-      let config = Object.assign({}, PLOT_CHART_CONFIG);
-      this.config = Object.assign(config, this.config);
-      this.config.margin = margin;
-    }
-
-    addRenderers() {
-      this.renderers.push(new PlotBackgroundRenderer());
-      this.renderers.push(new PlotAxisRenderer());
-      this.renderers.push(new PlotGridRenderer());
-      this.renderers.push(new PlotChartSelectionRenderer());
-      this.renderers.push(new PlotHoverBarsRenderer());
-      this.renderers.push(new PlotBarsFractionsRenderer());
-      this.renderers.push(new PlotBarsGradientRenderer());
-      this.renderers.push(new PlotLabelRenderer());
-      this.renderers.push(new PlotLabelsFractionsRenderer());
-      this.renderers.push(new PlotTooltipRenderer());
-    }
-
-    createDataView() {
-      return dataViewPlot(this.controller);
-    }
-
-    prepare() {
-      this.svg
-        .classed("ltv-plot-chart-svg", true)
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("viewBox", `0 0 ${this.config.width} ${this.config.height}`);
-
-      let margin = this.config.margin;
-      let barsCount = this.dataView.labels.length || 0;
-
-      this.graphWidth = this.config.width - margin.left - margin.right;
-      this.graphHeight = barsCount * this.config.lineHeight;
-      this.height = this.graphHeight + margin.top + margin.bottom;
-      this.preferredHeight = this.height;
-
-      this.svg.attr(
-        "viewBox",
-        `0 0 ${this.config.width} ${this.preferredHeight}`
+    /**
+     * Calculates the data view for the bar chart.
+     *
+     * @param {*} calc The calc object
+     * @returns The generated data view
+     *
+     * @public
+     */
+    chart.dataView = function (dc) {
+      var dv = {};
+      dv.dates = dc.dates().sort();
+      dv.data = dc.snapshot();
+      dv.byLabelDate = rollups(
+        dv.data,
+        (v) => sum$2(v, (d) => d.value),
+        (d) => d.label,
+        (d) => d.date
       );
 
-      this.sortDatasets();
-      this.createScales();
-    }
+      dv.datasets = dv.byLabelDate.map((d) => {
+        let label = d[0];
+        let data = d[1]
+          .filter((d) => d[1] > 0)
+          .map((d) => {
+            return { date: d[0], value: d[1] };
+          })
+          .sort((a, b) => a.date - b.date);
 
-    createScales() {
-      let dates = this.config.dates || this.config.dates || this.dataView.dates;
-      dates = dates.sort();
-      let labels = this.dataView.labels || [];
+        let sum = sum$2(data, (d) => d.value);
+        let firstDate = (data[0] || {}).date;
+        let lastDate = (data[data.length - 1] || {}).date;
+        let duration = dv.dates.indexOf(lastDate) - dv.dates.indexOf(firstDate);
 
-      this.xChart = band()
-        .domain(dates)
-        .rangeRound([
-          this.config.margin.left,
-          this.config.width - this.config.margin.right,
-        ])
-        .paddingInner(0.1);
+        return { label, data, sum, firstDate, lastDate, duration };
+      });
 
-      this.yChartPadding = band()
-        .domain(labels)
-        .rangeRound([
-          this.height - this.config.margin.bottom,
-          this.config.margin.top,
-        ])
-        .paddingInner(0.1);
-
-      this.yChart = band()
-        .domain(labels)
-        .rangeRound([
-          this.height - this.config.margin.bottom,
-          this.config.margin.top,
-        ]);
-
-      this.xAxisGrid = axisBottom(this.xChart)
-        .tickSize(-this.graphHeight)
-        .tickFormat("");
-
-      this.yAxisGrid = axisLeft(this.yChart)
-        .tickSize(-this.graphWidth)
-        .tickFormat("");
-    }
-
-    sortDatasets() {
-      // console.log("this.dataView", this.dataView);
-      let datasets = this.dataView.datasets;
-      let sortedDatasets = [];
-      switch (this.config.sort) {
-        case PLOT_CHART_SORT.alphabetically:
-          sortedDatasets = datasets.sort((set1, set2) => set1.label > set2.label);
+      switch (state.sort) {
+        case "alphabetically":
+          dv.datasets = dv.datasets.sort(PLOT_SORT.alphabetically);
           break;
-        case PLOT_CHART_SORT.duration:
-          sortedDatasets = datasets.sort(
-            (set1, set2) => set1.duration < set2.duration
-          );
+        case "duration":
+          dv.datasets = dv.datasets.sort(PLOT_SORT.duration);
           break;
-        case PLOT_CHART_SORT.intensity:
-          sortedDatasets = datasets.sort((set1, set2) => set1.sum < set2.sum);
+        case "intensity":
+          dv.datasets = dv.datasets.sort(PLOT_SORT.intensity);
           break;
-        case PLOT_CHART_SORT.firstDate:
-          sortedDatasets = datasets.sort(
-            (set1, set2) => set1.firstDate > set2.firstDate
-          );
+        case "firstDate":
+          dv.datasets = dv.datasets.sort(PLOT_SORT.firstDate);
           break;
         default:
-          sortedDatasets = datasets;
+          dv.datasets = dv.datasets.reverse();
           break;
       }
 
-      this.dataView.labels = sortedDatasets
-        .map((dataset) => String(dataset.label))
-        .reverse();
-      this.dataView.datasetsSorted = this.dataView.labels;
-    }
-  }
+      dv.labels = dv.datasets.map((d) => d.label);
+      dv.firstDate = dv.dates[0];
+      dv.lastDate = dv.dates[dv.dates.length - 1];
+      dv.max = max$3(dv.datasets, (d) => max$3(d.data, (i) => i.value));
 
-  function DataViewLabels(dataController) {
-    return {
-      labels: dataController.labels(),
-      stacks: dataController.stacks(),
-      locations: dataController.locations(),
-      byLabel: rollup(
-        dataController.data,
-        (v) => sum$2(v, (d) => d.value),
-        (d) => d.label
-      ),
-      byStackLabel: rollup(
-        dataController.data,
-        (v) => sum$2(v, (d) => d.value),
-        (d) => d.stack || d.label,
-        (d) => d.label
-      ),
+      return dv;
     };
-  }
 
-  const LABELS_CHART_STYLE = {
-    flowing: "flowing",
-    grouped: "grouped",
-  };
+    /**
+     * Renders all components of the plot chart.
+     *
+     * @param {*} container The d3 container
+     * @param {*} calc The calc objct of the chart
+     * @param {*} dv The data view
+     * @returns The chart itself
+     *
+     * @public
+     */
+    chart.render = function (container, calc, dv) {
+      // calculations
+      calc.container = container;
+      calc.graphWidth = state.width - state.marginLeft - state.marginRight;
+      calc.graphHeight = dv.labels.length * state.barHeight;
+      calc.height = calc.graphHeight + state.marginTop + state.marginBottom;
+      calc.graphLeft = state.width - state.marginLeft;
+      calc.graphTop = calc.height - state.marginTop;
+      calc.graphRight = state.width - state.marginRight;
+      calc.graphBottom = calc.height - state.marginBottom;
 
-  const LABELS_CHART_CONFIG = {
-    margin: {
-      top: 0,
-      right: LOTIVIS_CONFIG$1.defaultMargin,
-      bottom: 0,
-      left: LOTIVIS_CONFIG$1.defaultMargin,
-    },
-    selectable: true,
-    headlines: false,
-    style: LABELS_CHART_STYLE.flowing,
-  };
+      // scales
+      createScales(calc, dv);
 
-  class LabelsFlowingRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      if (chart.config.style !== LABELS_CHART_STYLE.flowing) return;
+      // render
+      renderSVG(calc);
+      renderAxis(calc);
+      renderGrid(calc);
+      renderSelection(calc, dv);
 
-      console.log("chart.config.style", chart.config.style);
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-      dataView.stacks;
-      let labels = dataView.labels;
-      let colors = controller.colorGenerator;
-      let config = chart.config;
-
-      function toggle(label) {
-        chart.makeUpdateInsensible();
-        controller.filters.labels.toggle(label);
-        chart.makeUpdateSensible();
-      }
-
-      function filter(label) {
-        return controller.filters.labels.contains(label);
-      }
-
-      // <label class="ltv-pill-checkbox">
-      //   <input type="checkbox" id="ltv-legend-stack-id-{{LABEL}}"></input>
-      //   <span class="ltv-pill-checkbox-span">
-      //     {{LABEL}}
-      //   </span>
-      // </label>
-
-      chart.div
-        .style("padding-left", config.margin.left + "px")
-        .style("padding-top", config.margin.top + "px")
-        .style("padding-right", config.margin.right + "px")
-        .style("padding-bottom", config.margin.bottom + "px");
-
-      let labelContainers = chart.div
-        .selectAll(".label")
-        .data(labels)
-        .enter()
-        .append("label")
-        .attr("class", "ltv-pill-checkbox");
-
-      labelContainers
-        .append("input")
-        .attr("type", "checkbox")
-        .attr("checked", (l) => (filter(l) ? null : true))
-        .attr("id", (l) => `ltv-legend-label-id-${safeId(l)}`)
-        .on("change", (e, l) => toggle(l));
-
-      labelContainers
-        .append("span")
-        .attr("class", "ltv-pill-checkbox-span")
-        .style("background-color", (l) => colors.label(l))
-        .text((l) => "" + l + " (" + numberFormat(dataView.byLabel.get(l)) + ")");
-    }
-  }
-
-  class LabelsGroupedRenderer extends Renderer {
-    render(chart, controller, dataView) {
-      if (chart.config.style !== LABELS_CHART_STYLE.grouped) return;
-
-      let numberFormat = chart.config.numberFormat || LOTIVIS_CONFIG$1.numberFormat;
-      let stacks = dataView.stacks;
-      let colors = controller.colorGenerator;
-      let config = chart.config;
-
-      function toggle(label) {
-        chart.makeUpdateInsensible();
-        controller.filters.labels.toggle(label);
-        chart.makeUpdateSensible();
-      }
-
-      function filter(label) {
-        return controller.filters.labels.contains(label);
-      }
-
-      // <label class="ltv-pill-checkbox">
-      //   <input type="checkbox" id="ltv-legend-stack-id-{{LABEL}}"></input>
-      //   <span class="ltv-pill-checkbox-span">
-      //     {{LABEL}}
-      //   </span>
-      // </label>
-
-      chart.div
-        .style("padding-left", config.margin.left + "px")
-        .style("padding-top", config.margin.top + "px")
-        .style("padding-right", config.margin.right + "px")
-        .style("padding-bottom", config.margin.bottom + "px");
-
-      let stackContainers = chart.div
-        .selectAll(".div")
-        .data(stacks)
-        .enter()
-        .append("div")
-        .attr("id", (s) => `ltv-legend-stack-id-${safeId(s)}`)
-        .attr("class", "ltv-stack-labels-container")
-        .style("display", "inline-block")
-        .style("color", (s) => colors.stack(s))
-        .html((d, i) => (config.headlines ? "Stack " + (i + 1) + "<br/>" : null));
-
-      let labelContainers = stackContainers
-        .selectAll(".label")
-        .data((d) => dataView.byStackLabel.get(d))
-        .enter()
-        .append("label")
-        .attr("class", "ltv-pill-checkbox");
-
-      labelContainers
-        .append("input")
-        .attr("type", "checkbox")
-        .attr("checked", (d) => (filter(d[0]) ? null : true))
-        .attr("id", (d) => `ltv-legend-stack-id-${safeId(d[0])}`)
-        .on("change", (e, d) => toggle(d[0]));
-
-      labelContainers
-        .append("span")
-        .attr("class", "ltv-pill-checkbox-span")
-        .style("background-color", (d) => colors.label(d[0]))
-        .text(
-          (d) => "" + d[0] + " (" + numberFormat(dataView.byLabel.get(d[0])) + ")"
-        );
-    }
-  }
-
-  class LabelsChart extends Chart {
-    initialize() {
-      let theConfig = this.config;
-      let margin;
-      margin = Object.assign({}, LABELS_CHART_CONFIG.margin);
-      margin = Object.assign(margin, theConfig.margin || {});
-
-      let config = Object.assign({}, LABELS_CHART_CONFIG);
-      this.config = Object.assign(config, this.config);
-      this.config.margin = margin;
-    }
-
-    addRenderers() {
-      this.renderers.push(new LabelsFlowingRenderer());
-      this.renderers.push(new LabelsGroupedRenderer());
-    }
-
-    createDataView() {
-      return DataViewLabels(this.controller);
-    }
-
-    createSVG() {
-      this.div = this.element
-        .append("div")
-        .attr("id", this.svgSelector)
-        .attr("class", "ltv-chart-div");
-    }
-
-    remove() {
-      this.listeners = {};
-      this.div.selectAll("*").remove();
-    }
-  }
-
-  class UrlParameters {
-    static getInstance() {
-      if (!UrlParameters.instance) {
-        UrlParameters.instance = new UrlParameters();
-      }
-      return UrlParameters.instance;
-    }
-
-    getURL() {
-      return new URL(window.location.href);
-    }
-
-    getBoolean(parameter, defaultValue = false) {
-      let value = this.getURL().searchParams.get(parameter);
-      return value ? value === "true" : defaultValue;
-    }
-
-    getString(parameter, defaultValue = "") {
-      return this.getURL().searchParams.get(parameter) || defaultValue;
-    }
-
-    set(parameter, newValue) {
-      const url = this.getURL();
-
-      if (newValue === false) {
-        url.searchParams.delete(parameter);
+      if (state.style === "fraction") {
+        renderBarsFraction(calc, dv, state.dataController);
       } else {
-        url.searchParams.set(parameter, newValue);
+        renderBarsGradient(calc, dv, state.dataController);
       }
 
-      window.history.replaceState(null, null, url);
-      this.updateCurrentPageFooter();
-    }
+      calc.tooltip = tooltip().container(container).run();
 
-    setWithoutDeleting(parameter, newValue) {
-      const url = this.getURL();
-      url.searchParams.set(parameter, newValue);
-      window.history.replaceState(null, null, url);
-      this.updateCurrentPageFooter();
-    }
-
-    clear() {
-      const url = this.getURL();
-      const newPath = url.protocol + url.host;
-      const newURL = new URL(newPath);
-      window.history.replaceState(null, null, newURL);
-      this.updateCurrentPageFooter();
-    }
-
-    updateCurrentPageFooter() {
-      if (typeof document === "undefined") return;
-      let urlContainer = document.getElementById("lotivis-url-container");
-      if (urlContainer) urlContainer.innerText = this.getURL();
-    }
-  }
-
-  UrlParameters.language = "language";
-  UrlParameters.page = "page";
-  UrlParameters.query = "query";
-  UrlParameters.searchViewMode = "search-view-mode";
-  UrlParameters.chartType = "chart-type";
-  UrlParameters.chartShowLabels = "chart-show-labels";
-  UrlParameters.chartCombineStacks = "combine-stacks";
-  UrlParameters.contentType = "content-type";
-  UrlParameters.valueType = "value-type";
-  UrlParameters.searchSensitivity = "search-sensitivity";
-  UrlParameters.startYear = "start-year";
-  UrlParameters.endYear = "end-year";
-  UrlParameters.showTestData = "show-samples";
-
-  /**
-   * Appends the given string in extension to the given string filename if filename not already ends with this extension.
-   *
-   * @param filename A string with or without an extension.
-   * @param extension The extension the filename will end with.
-   *
-   * @returns {*|string} The filename with the given extension.
-   */
-  function appendExtensionIfNeeded(filename, extension) {
-    if (extension === "" || extension === ".") return filename;
-    extension = extension.startsWith(".") ? extension : `.${extension}`;
-    return filename.endsWith(extension) ? filename : `${filename}${extension}`;
-  }
-
-  // http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
-  /**
-   * Parses a String from the given (D3.js) SVG node.
-   *
-   * @param svgNode The node of the SVG.
-   * @returns {string} The parsed String.
-   */
-  function getSVGString(svgNode) {
-    svgNode.setAttribute("xlink", "http://www.w3.org/1999/xlink");
-    let cssStyleText = getCSSStyles(svgNode);
-    appendCSS(cssStyleText, svgNode);
-
-    let serializer = new XMLSerializer();
-    let svgString = serializer.serializeToString(svgNode);
-
-    // Fix root xlink without namespace
-    svgString = svgString.replace(/(\w+)?:?xlink=/g, "xmlns:xlink=");
-
-    // Safari NS namespace fix
-    svgString = svgString.replace(/NS\d+:href/g, "xlink:href");
-
-    return svgString;
-
-    function getCSSStyles(parentElement) {
-      let selectorTextArr = [];
-
-      // Add Parent element Id and Classes to the list
-      selectorTextArr.push("#" + parentElement.id);
-      for (let c = 0; c < parentElement.classList.length; c++) {
-        if (!contains("." + parentElement.classList[c], selectorTextArr)) {
-          selectorTextArr.push("." + parentElement.classList[c]);
-        }
-      }
-
-      // Add Children element Ids and Classes to the list
-      let nodes = parentElement.getElementsByTagName("*");
-      for (let i = 0; i < nodes.length; i++) {
-        let id = nodes[i].id;
-        if (!contains("#" + id, selectorTextArr)) {
-          selectorTextArr.push("#" + id);
-        }
-
-        let classes = nodes[i].classList;
-        for (let c = 0; c < classes.length; c++) {
-          if (!contains("." + classes[c], selectorTextArr)) {
-            selectorTextArr.push("." + classes[c]);
-          }
-        }
-      }
-
-      // Extract CSS Rules
-      let extractedCSSText = "";
-      for (let i = 0; i < document.styleSheets.length; i++) {
-        let s = document.styleSheets[i];
-
-        try {
-          if (!s.cssRules) continue;
-        } catch (e) {
-          if (e.name !== "SecurityError") throw e; // for Firefox
-          continue;
-        }
-
-        let cssRules = s.cssRules;
-        for (let r = 0; r < cssRules.length; r++) {
-          if (contains(cssRules[r].selectorText, selectorTextArr)) {
-            extractedCSSText += cssRules[r].cssText;
-          }
-        }
-      }
-
-      return extractedCSSText;
-
-      function contains(str, arr) {
-        return arr.indexOf(str) !== -1;
-      }
-    }
-
-    function appendCSS(cssText, element) {
-      let styleElement = document.createElement("style");
-      styleElement.setAttribute("type", "text/css");
-      styleElement.innerHTML = cssText;
-      let refNode = element.hasChildNodes() ? element.children[0] : null;
-      element.insertBefore(styleElement, refNode);
-    }
-  }
-
-  /**
-   *
-   * @param svgString
-   * @param width
-   * @param height
-   * @param callback
-   */
-  function svgString2Image(svgString, width, height, callback) {
-    // Convert SVG string to samples URL
-    let imageSource =
-      "data:image/svg+xml;base64," +
-      btoa(unescape(encodeURIComponent(svgString)));
-
-    let canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
-    let context = canvas.getContext("2d");
-    let image = new Image();
-    image.onload = function () {
-      context.clearRect(0, 0, width, height);
-      context.drawImage(image, 0, 0, width, height);
-
-      let data = canvas.toDataURL("image/png");
-      if (callback) callback(data);
+      return chart;
     };
 
-    image.src = imageSource;
+    // return generated chart
+    return chart;
   }
 
-  /**
-   * Returns the size of the viewBox or the normal size of the given svg element.
-   *
-   * @param svgElement The svg element.
-   * @returns {number[]} The size [width, height].
-   */
-  function getOriginalSizeOfSVG(svgElement) {
-    let viewBoxBaseValue = svgElement.viewBox.baseVal;
-    if (viewBoxBaseValue.width !== 0 && viewBoxBaseValue.height !== 0) {
-      return [viewBoxBaseValue.width, viewBoxBaseValue.height];
-    } else {
-      return [svgElement.width.baseVal.value, svgElement.height.baseVal.value];
-    }
-  }
-
-  /**
-   * Creates and appends an anchor linked to the given samples which is then immediately clicked.
-   *
-   * @param blob The samples to be downloaded.
-   * @param filename The name of the file.
-   */
-  function downloadBlob(blob, filename) {
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(blob, filename);
-    } else {
-      let anchor = document.createElement("a");
-      anchor.href = URL.createObjectURL(blob);
-      anchor.download = filename;
-      anchor.click();
-    }
-  }
-
-  /**
-   * Initiates a download of the PNG image of the SVG with the given selector (id).
-   *
-   * @param selector The id of the SVG element to create the image of.
-   * @param filename The name of the file which is been downloaded.
-   */
-  function downloadImage(selector, filename) {
-    // console.log('selector:' + selector);
-    // console.log('filename:' + filename);
-    let svgElement = select("#" + selector);
-    let node = svgElement.node();
-    let size = getOriginalSizeOfSVG(node);
-    let svgString = getSVGString(node);
-    let _filename = filename || "image";
-
-    svgString2Image(svgString, 2 * size[0], 2 * size[1], function (dataURL) {
-      // console.log('dataURL:' + dataURL);
-      fetch(dataURL)
-        .then((res) => res.blob())
-        .then(function (dataBlob) {
-          let saveFilename = appendExtensionIfNeeded(_filename, "png");
-
-          // console.log('saveFilename:' + saveFilename);
-
-          downloadBlob(dataBlob, saveFilename);
-        });
-    });
-  }
-
-  exports.BarChart = BarChart;
   exports.DataController = DataController;
   exports.DataItem = DataItem;
   exports.Dataset = Dataset;
   exports.DateOrdinator = date_ordinator;
-  exports.LabelsChart = LabelsChart;
-  exports.MapChart = MapChart;
-  exports.PLOT_CHART_CONFIG = PLOT_CHART_CONFIG;
-  exports.PLOT_CHART_SORT = PLOT_CHART_SORT;
-  exports.PLOT_CHART_TYPE = PLOT_CHART_TYPE;
-  exports.PLOT_COLOR_MODE = PLOT_COLOR_MODE;
-  exports.PlotChart = PlotChart;
-  exports.UrlParameters = UrlParameters;
-  exports.config = LOTIVIS_CONFIG$1;
+  exports.bar = bar;
+  exports.config = config;
   exports.csv = csv;
   exports.csvParse = csvParse;
   exports.csvRender = csvRender;
   exports.d3 = index;
-  exports.debug = debug;
-  exports.flatDataset = flatDataset;
-  exports.flatDatasets = flatDatasets;
+  exports.datatext = datatext;
+  exports.debug = ltv_debug;
   exports.json = json;
+  exports.jsonFlat = jsonFlat;
+  exports.legend = legend;
+  exports.map = map;
   exports.parseDataset = parseDataset;
   exports.parseDatasets = parseDatasets;
-  exports.svgDownload = downloadImage;
+  exports.plot = plot;
   exports.toDataset = toDataset;
 
   Object.defineProperty(exports, '__esModule', { value: true });

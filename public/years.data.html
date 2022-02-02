@@ -26,15 +26,19 @@
           <option>Words (Relative)</option>
           <option>Types</option>
           <option>Types (Relative)</option>
+          <option>Female</option>
+          <option>Male</option>
+          <option>Group</option>
+          <option>All Artists</option>
         </select>
         <input type="checkbox" id="labels" onchange="onLabels()" checked />
         <label for="labels">Labels</label>
       </div>
 
       <div id="bar-chart"></div>
+      <div id="legend"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
 
     <script>
@@ -42,38 +46,24 @@
       lotivis.config.downloadFilePrefix = "frcv";
 
       let datasets = [];
-      let chart = new lotivis.BarChart("bar-chart", {
-        labels: true,
-        selectable: false,
-        margin: {
-          top: 60,
-          right: 20,
-          left: 70,
-        },
-      });
+      let barChart = lotivis
+        .bar()
+        .selector("#bar-chart")
+        .marginTop(80)
+        .labels(true)
+        .enabled(false)
+        .dates(lotivis.d3.range(1995, 2021));
+
+      let legend = lotivis.legend().selector("#legend");
 
       function screenshot() {
-        html2canvas(document.getElementById("bar-chart"), {
-          scale: 4,
-        }).then((canvas) => {
-          // convert canvas to base64
-          let base64Data = canvas
-            .toDataURL()
-            .replace("data:image/png;base64,", "");
-
-          // receive filename
-          let filename = document.getElementById("data").value;
-
-          // download as base64 file
-          let anchor = document.createElement("a");
-          anchor.href = "data:image/png;base64," + base64Data;
-          anchor.download = filename;
-          anchor.click();
-        });
+        barChart.pngDownload();
       }
 
       function setDataset(index) {
-        chart.setController(lotivis.parseDataset(datasets[index]));
+        let dc = lotivis.parseDatasets(datasets[index]);
+        barChart.dataController(dc).run();
+        legend.dataController(dc).run();
       }
 
       function dataChange() {
@@ -81,8 +71,7 @@
       }
 
       function onLabels() {
-        chart.config.labels = document.getElementById("labels").checked;
-        chart.redraw();
+        barChart.labels(document.getElementById("labels").checked).run();
       }
 
       Promise.all([
@@ -91,6 +80,10 @@
         lotivis.d3.json("./assets/year.to.words.relative.json"),
         lotivis.d3.json("./assets/year.to.types.json"),
         lotivis.d3.json("./assets/year.to.types.relative.json"),
+        lotivis.d3.json("./assets/year.to.female.json"),
+        lotivis.d3.json("./assets/year.to.male.json"),
+        lotivis.d3.json("./assets/year.to.group.json"),
+        lotivis.d3.json("./assets/year.to.artists.json"),
       ]).then((all) => {
         datasets = all;
         setDataset(0);

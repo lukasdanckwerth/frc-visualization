@@ -35,18 +35,32 @@ function dataset(name, value) {
 }
 
 let tracksDataset = dataset("Tracks", (t) => 1);
-fileAccess.writeJSON(tracksDataset, "year.to.track.json");
+fileAccess.writeJSON([tracksDataset], "year.to.track.json");
 
 let wordsDataset = dataset("Words", (t) => t.components.length);
-fileAccess.writeJSON(wordsDataset, "year.to.words.json");
+fileAccess.writeJSON([wordsDataset], "year.to.words.json");
 
 let typesDataset = dataset("Types", (t) => t.types.length);
-fileAccess.writeJSON(typesDataset, "year.to.types.json");
+fileAccess.writeJSON([typesDataset], "year.to.types.json");
 
 wordsDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
 wordsDataset.label = "Words-(Relative)";
-fileAccess.writeJSON(wordsDataset, "year.to.words.relative.json");
+fileAccess.writeJSON([wordsDataset], "year.to.words.relative.json");
 
 typesDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
 typesDataset.label = "Types-(Relative)";
-fileAccess.writeJSON(typesDataset, "year.to.types.relative.json");
+fileAccess.writeJSON([typesDataset], "year.to.types.relative.json");
+
+let datasetFemale = dataset("Female", (t) => (t.sex === "F" ? 1 : 0));
+fileAccess.writeJSON([datasetFemale], "year.to.female.json");
+
+let datasetMale = dataset("Male", (t) => (t.sex === "M" ? 1 : 0));
+fileAccess.writeJSON([datasetMale], "year.to.male.json");
+
+let datasetGroup = dataset("Group", (t) => (t.sex === "G" ? 1 : 0));
+fileAccess.writeJSON([datasetGroup], "year.to.group.json");
+
+fileAccess.writeJSON(
+  [datasetFemale, datasetMale, datasetGroup],
+  "year.to.artists.json"
+);

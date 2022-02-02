@@ -37,12 +37,9 @@
         <input type="checkbox" id="labels" onchange="labelsChange()" checked />
       </div>
       <!-- CONTENT -->
-      <div class="row">
-        <div class="col-12">
-          <div style="max-width: 800px; margin: auto">
-            <div id="map-chart"></div>
-          </div>
-        </div>
+      <div style="max-width: 800px; margin: auto">
+        <div id="map-chart"></div>
+        <div id="ltv-data"></div>
       </div>
     </div>
 
@@ -56,13 +53,13 @@
 
       let datasets = [];
 
-      let chart = new lotivis.MapChart("map-chart", {
-        labels: true,
-        selectable: false,
-        exclude: ["2A", "2B"],
-        featureIDAccessor: (f) => "" + f.properties.code,
-        featureNameAccessor: (f) => f.properties.nom,
-      });
+      let mapChart = lotivis
+        .map()
+        .selector("#map-chart")
+        .labels(true)
+        .exclude(["2A", "2B"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
 
       function screenshot() {
         html2canvas(document.getElementById("map-chart"), {
@@ -74,7 +71,10 @@
             .replace("data:image/png;base64,", "");
 
           // receive filename
-          let filename = document.getElementById("data").value;
+          let dc = mapChart.dataController();
+          let filename = dc.filename(".png", "map");
+
+          console.log("filename", filename);
 
           // download as base64 file
           let anchor = document.createElement("a");
@@ -85,8 +85,7 @@
       }
 
       function labelsChange() {
-        chart.config.labels = document.getElementById("labels").checked;
-        chart.redraw();
+        mapChart.labels(document.getElementById("labels").checked).run();
       }
 
       function dataChange() {
@@ -96,7 +95,7 @@
       function setDataset(index) {
         let dataset = datasets[index];
         let dataController = lotivis.parseDataset(dataset);
-        chart.setController(dataController);
+        mapChart.dataController(dataController).run();
       }
 
       Promise.all([
@@ -113,7 +112,7 @@
       ])
         .then((all) => {
           let geoJSON = all.pop();
-          chart.setGeoJSON(geoJSON);
+          mapChart.geoJSON(geoJSON);
 
           datasets = all;
           setDataset(0);
