@@ -1,5 +1,5 @@
 const fileAccess = require("./file.access");
-const frc = require("../../public/js/lib/frc.js");
+const frc = require("../public/js/lib/frc.js");
 const d3 = require("d3");
 
 const json = fileAccess.readCorpusJSON();
@@ -37,7 +37,7 @@ function dataset(name, value) {
 let tracksDataset = dataset("Tracks", (t) => 1);
 fileAccess.writeJSON(tracksDataset, "departements.to.tracks.json");
 
-let wordsDataset = dataset("Words", (t) => t.components.length);
+let wordsDataset = dataset("Words", (t) => t.tokens.length);
 fileAccess.writeJSON(wordsDataset, "departements.to.words.json");
 
 let typesDataset = dataset("Types", (t) => t.types.length);

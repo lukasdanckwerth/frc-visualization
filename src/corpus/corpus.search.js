@@ -39,10 +39,10 @@ export function internalSearch(
   function tracksForWord(word) {
     switch (sensitivity) {
       case SearchType.sensitive:
-        return findTracks((t) => t.components.indexOf(word) !== -1);
+        return findTracks((t) => t.tokens.indexOf(word) !== -1);
       case SearchType.insensitve:
         let lower = word.toLowerCase();
-        return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
+        return findTracks((t) => t.tokensLower.indexOf(lower) !== -1);
       case SearchType.regex:
         let re = new RegExp(word),
           results;
@@ -69,7 +69,7 @@ export function internalSearch(
           value = 1;
           break;
         case SearchCountType.words:
-          value = count(t.components, label);
+          value = count(t.tokens, label);
           break;
         case SearchCountType.tracksRelativeDate:
           value = 1 / corpus.datesToTracks.get(t.releaseYear);
@@ -79,11 +79,11 @@ export function internalSearch(
           break;
         case SearchCountType.wordsRelativeDate:
           value =
-            count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
+            count(t.tokens, label) / corpus.datesToWords.get(t.releaseYear);
           break;
         case SearchCountType.wordsRelativeLocation:
           value =
-            count(t.components, label) /
+            count(t.tokens, label) /
             corpus.locationsToWords.get(t.departementNo);
           break;
         default:

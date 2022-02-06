@@ -1,5 +1,5 @@
 const fileAccess = require("./file.access");
-const frc = require("../../public/js/lib/frc.js");
+const frc = require("../public/js/lib/frc.js");
 
 const json = fileAccess.readCorpusJSON();
 const tracks = frc.parseTracks(json);
@@ -32,7 +32,7 @@ fileAccess.writeJSON(
 );
 
 fileAccess.writeJSON(
-  { label: "Words", data: data(tracks, (t) => t.components.length) },
+  { label: "Words", data: data(tracks, (t) => t.tokens.length) },
   "corpus.overview.words.json"
 );
 
