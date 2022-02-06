@@ -1,5 +1,5 @@
 /*!
- * frc-visualisation 1.0.56
+ * frc-visualisation 1.0.57
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
