@@ -1,5 +1,5 @@
 const fileAccess = require("./file.access");
-const frc = require("../../public/js/lib/frc.js");
+const frc = require("../public/js/lib/frc.js");
 const d3 = require("d3");
 
 const json = fileAccess.readCorpusJSON();

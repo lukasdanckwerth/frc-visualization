@@ -1,6 +1,6 @@
 const fileAccess = require("./file.access");
-const frc = require("../../public/js/lib/frc.js");
-const lotivis = require("../../public/js/lib/lotivis.js");
+const frc = require("../public/js/lib/frc.js");
+const lotivis = require("../public/js/lib/lotivis.js");
 
 let innovationList = (fileAccess.read("data/innovation.list.txt") + "")
   .replaceAll("\n", ",")

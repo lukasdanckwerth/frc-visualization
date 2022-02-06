@@ -18,7 +18,7 @@ RUN npm install
 RUN npm run build
 RUN npm run assets
 
-# remove unused data
+# remove unused datad
 RUN rm -rf rollup.config.js src data
 
 # run server
