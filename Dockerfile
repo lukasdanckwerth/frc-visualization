@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 # copy neccessary files
 COPY package.json package-lock.json rollup.config.js ./
 COPY src ./src
+COPY generate ./generate
 COPY data ./data
 COPY public ./public
 
