@@ -37,22 +37,26 @@
         <input type="checkbox" id="labels" onchange="labelsChange()" checked />
       </div>
       <!-- CONTENT -->
-      <div style="max-width: 800px; margin: auto">
+      <div class="frcv-col-3">
+        <div id="map-chart-paris"></div>
+      </div>
+      <div style="display: inline-block; width: 66%">
         <div id="map-chart"></div>
+      </div>
+      <div style="max-width: 800px; margin: auto">
+        <!-- <div id="map-chart"></div> -->
+
         <div id="ltv-data"></div>
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
     <script>
-      lotivis.config.downloadFilePrefix = "frcv";
       lotivis.debug(true);
 
       let datasets = [];
-
       let mapChart = lotivis
         .map()
         .selector("#map-chart")
@@ -61,26 +65,20 @@
         .featureIDAccessor((f) => "" + f.properties.code)
         .featureNameAccessor((f) => f.properties.nom);
 
+      let mapChartParis = lotivis
+        .map()
+        .selector("#map-chart-paris")
+        .width(400)
+        .height(400)
+        .labels(true)
+        .legend(false)
+        .include(["75", "92", "93", "94"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
+
       function screenshot() {
-        html2canvas(document.getElementById("map-chart"), {
-          scale: 4,
-        }).then((canvas) => {
-          // convert canvas to base64
-          let base64Data = canvas
-            .toDataURL()
-            .replace("data:image/png;base64,", "");
-
-          // receive filename
-          let dc = mapChart.dataController();
-          let filename = dc.filename(".png", "map");
-
-          console.log("filename", filename);
-
-          // download as base64 file
-          let anchor = document.createElement("a");
-          anchor.href = "data:image/png;base64," + base64Data;
-          anchor.download = filename;
-          anchor.click();
+        mapChart.pngDownload(() => {
+          mapChartParis.pngDownload();
         });
       }
 
@@ -96,6 +94,7 @@
         let dataset = datasets[index];
         let dataController = lotivis.parseDataset(dataset);
         mapChart.dataController(dataController).run();
+        mapChartParis.dataController(dataController).run();
       }
 
       Promise.all([
@@ -113,6 +112,7 @@
         .then((all) => {
           let geoJSON = all.pop();
           mapChart.geoJSON(geoJSON);
+          mapChartParis.geoJSON(geoJSON);
 
           datasets = all;
           setDataset(0);

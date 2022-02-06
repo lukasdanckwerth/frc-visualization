@@ -7,9 +7,18 @@ let d3 = lotivis.d3;
 // create lotivis components
 let barChart = lotivis.bar().selector("#bar-chart").labels(true);
 
+barChart
+  .legend()
+  .title(null)
+  .group(true)
+  .groupFormat(function (s, v, ls, i) {
+    return `${i + 1}) ${ls[0]} (+ ${ls.length - 1}) (Sum: ${v})`;
+  });
+
 let plotChart = lotivis
   .plot()
   .selector("#plot-chart")
+  .marginLeft(80)
   .style("fraction")
   .colorMode("single")
   .labels(true);
@@ -33,16 +42,6 @@ let mapChartMetropole = lotivis
   .include(["75", "92", "93", "94"])
   .featureIDAccessor((f) => f.properties.code)
   .featureNameAccessor((f) => f.properties.nom);
-
-let legend = lotivis
-  .legend()
-  .selector("#legend")
-  .marginLeft(barChart.marginLeft())
-  .marginRight(barChart.marginRight())
-  .groupFormat(function (s, v, ls, i) {
-    return `${i + 1}) ${ls[0]} (+ ${ls.length - 1}) (Sum: ${v})`;
-  })
-  .group(true);
 
 function getElement(id) {
   return document.getElementById(id);
@@ -118,7 +117,7 @@ function search(searchText) {
   mapChart.dataController(dc).run();
   mapChartMetropole.dataController(dc).run();
   plotChart.dataController(dc).run();
-  legend.dataController(dc).run();
+  // legend.dataController(dc).run();
 
   fillTracksCard(datasets);
   recentSearches.append(searchText);

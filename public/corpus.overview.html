@@ -71,7 +71,15 @@
         <div id="map-chart">
           <!-- Map Chart Here -->
         </div>
-
+        <div class="frcv-headline">
+          <span>Paris</span>
+          <button type="button" onclick="screenshot(mapChartParis)">
+            Screenshot
+          </button>
+        </div>
+        <div id="map-chart-paris">
+          <!-- Map Chart Here -->
+        </div>
         <div class="row frcv-headline">
           <span>Info</span>
         </div>
@@ -115,6 +123,17 @@
         .featureIDAccessor((f) => "" + f.properties.code)
         .featureNameAccessor((f) => f.properties.nom);
 
+      let mapChartParis = lotivis
+        .map()
+        .selector("#map-chart-paris")
+        .width(400)
+        .height(400)
+        .labels(true)
+        .legend(false)
+        .include(["75", "92", "93", "94"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
+
       let plotChart = lotivis
         .plot()
         .selector("#plot-chart")
@@ -132,7 +151,7 @@
       //   .run();
 
       function screenshot(chart) {
-        console.log("chart", chart);
+        if (typeof chart.pngDownload === "function") chart.pngDownload();
       }
 
       function controllerUpdate(chart, filters, action, last) {
@@ -152,6 +171,7 @@
         let checked = document.getElementById("labels").checked;
         barChart.labels(checked).run();
         mapChart.labels(checked).run();
+        mapChartParis.labels(checked).run();
         plotChart.labels(checked).run();
       }
 
@@ -161,6 +181,7 @@
 
         barChart.dataController(controller).run();
         mapChart.dataController(controller).run();
+        mapChartParis.dataController(controller).run();
 
         controller.onFilter("frcv", controllerUpdate);
       }
@@ -197,6 +218,7 @@
 
           let geoJSON = all.shift();
           mapChart.geoJSON(geoJSON);
+          mapChartParis.geoJSON(geoJSON);
 
           datasets = all;
           setDataset(0);

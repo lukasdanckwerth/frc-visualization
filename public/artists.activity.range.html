@@ -22,21 +22,27 @@
       <br />
       <br />
       <div class="frcv-center">
-        <button type="button" onclick="screenshot()">Screenshot</button>
+        <!-- SCREENSHOT BUTTON -->
+        <button type="button" onclick="plotChart.pngDownload()">
+          Screenshot
+        </button>
+        <!-- DATA SOURCE -->
         <span> &NonBreakingSpace; </span>
         <label for="data">Data:</label>
         <select id="data" onchange="dataChange()">
           <option>All</option>
-          <option>Female</option>
+          <option selected>Female</option>
           <option>Male</option>
           <option>Groups</option>
         </select>
+        <!-- PLOT TYPE -->
         <span> &NonBreakingSpace; </span>
         <label for="type">Type:</label>
         <select id="type" onchange="typeChange()">
           <option>gradient</option>
           <option selected>fraction</option>
         </select>
+        <!-- SORT -->
         <span> &NonBreakingSpace; </span>
         <label for="sort">Sort:</label>
         <select id="sort" onchange="sortChange()">
@@ -45,6 +51,7 @@
           <option>intensity</option>
           <option>firstDate</option>
         </select>
+        <!-- LABELS -->
         <span> &NonBreakingSpace; </span>
         <label for="labels">Labels:</label>
         <input type="checkbox" id="labels" onchange="labelsChange()" checked />
@@ -59,12 +66,10 @@
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
     <script>
-      lotivis.config.downloadFilePrefix = "frcv";
       lotivis.debug(true);
 
       let datasets = [];
@@ -74,10 +79,6 @@
         .style("fraction")
         .marginLeft(200)
         .marginRight(10);
-
-      function screenshot(id) {
-        plotChart.pngDownload();
-      }
 
       function setDataset(index) {
         plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();
