@@ -40,7 +40,7 @@ function parseTrack(track, artist, album) {
     throw Error("no track");
   }
   let content = track.content;
-  let components = content
+  let tokens = content
     .replace(/,/g, " ")
     .replace(/\./g, " ")
     .replace(/\n/g, " ")
@@ -53,8 +53,8 @@ function parseTrack(track, artist, album) {
     .split(" ")
     .filter((word) => word.length > 0);
 
-  let componentsLower = components.map((item) => item.toLowerCase());
-  let types = Array.from(new Set(components));
+  let tokensLower = tokens.map((item) => item.toLowerCase());
+  let types = Array.from(new Set(tokens));
 
   return {
     artist: artist.name,
@@ -70,8 +70,8 @@ function parseTrack(track, artist, album) {
     id: track.id,
     url: track.url,
     content: content,
-    components: components,
-    componentsLower: componentsLower,
+    tokens: tokens,
+    tokensLower: tokensLower,
     types: types,
   };
 }

@@ -24,7 +24,7 @@ export class Corpus {
 
     this.datesToWords = d3.rollup(
       this.tracks,
-      (v) => d3.sum(v, (d) => d.components.length),
+      (v) => d3.sum(v, (d) => d.tokens.length),
       (d) => d.releaseYear
     );
 
@@ -36,7 +36,7 @@ export class Corpus {
 
     this.locationsToWords = d3.rollup(
       this.tracks,
-      (v) => d3.sum(v, (d) => d.components.length),
+      (v) => d3.sum(v, (d) => d.tokens.length),
       (d) => d.departementNo
     );
   }

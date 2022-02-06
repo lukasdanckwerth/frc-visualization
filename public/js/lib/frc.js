@@ -1,5 +1,5 @@
 /*!
- * frc-visualisation 1.0.56
+ * frc-visualisation 1.0.57
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -76,7 +76,7 @@
       throw Error("no track");
     }
     let content = track.content;
-    let components = content
+    let tokens = content
       .replace(/,/g, " ")
       .replace(/\./g, " ")
       .replace(/\n/g, " ")
@@ -89,8 +89,8 @@
       .split(" ")
       .filter((word) => word.length > 0);
 
-    let componentsLower = components.map((item) => item.toLowerCase());
-    let types = Array.from(new Set(components));
+    let tokensLower = tokens.map((item) => item.toLowerCase());
+    let types = Array.from(new Set(tokens));
 
     return {
       artist: artist.name,
@@ -106,8 +106,8 @@
       id: track.id,
       url: track.url,
       content: content,
-      components: components,
-      componentsLower: componentsLower,
+      tokens: tokens,
+      tokensLower: tokensLower,
       types: types,
     };
   }
@@ -153,10 +153,10 @@
     function tracksForWord(word) {
       switch (sensitivity) {
         case SearchType.sensitive:
-          return findTracks((t) => t.components.indexOf(word) !== -1);
+          return findTracks((t) => t.tokens.indexOf(word) !== -1);
         case SearchType.insensitve:
           let lower = word.toLowerCase();
-          return findTracks((t) => t.componentsLower.indexOf(lower) !== -1);
+          return findTracks((t) => t.tokensLower.indexOf(lower) !== -1);
         case SearchType.regex:
           let re = new RegExp(word),
             results;
@@ -183,7 +183,7 @@
             value = 1;
             break;
           case SearchCountType.words:
-            value = count(t.components, label);
+            value = count(t.tokens, label);
             break;
           case SearchCountType.tracksRelativeDate:
             value = 1 / corpus.datesToTracks.get(t.releaseYear);
@@ -193,11 +193,11 @@
             break;
           case SearchCountType.wordsRelativeDate:
             value =
-              count(t.components, label) / corpus.datesToWords.get(t.releaseYear);
+              count(t.tokens, label) / corpus.datesToWords.get(t.releaseYear);
             break;
           case SearchCountType.wordsRelativeLocation:
             value =
-              count(t.components, label) /
+              count(t.tokens, label) /
               corpus.locationsToWords.get(t.departementNo);
             break;
           default:
@@ -442,7 +442,7 @@
 
       this.datesToWords = rollup(
         this.tracks,
-        (v) => sum(v, (d) => d.components.length),
+        (v) => sum(v, (d) => d.tokens.length),
         (d) => d.releaseYear
       );
 
@@ -454,7 +454,7 @@
 
       this.locationsToWords = rollup(
         this.tracks,
-        (v) => sum(v, (d) => d.components.length),
+        (v) => sum(v, (d) => d.tokens.length),
         (d) => d.departementNo
       );
     }

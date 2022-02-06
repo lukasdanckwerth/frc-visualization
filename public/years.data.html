@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="./css/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Years Data</title>
+    <style>
+      .ltv-bar-chart-label {
+        font-size: 12px;
+      }
+    </style>
   </head>
   <body>
     <div class="frcv-container">
@@ -19,13 +24,17 @@
         <span>Years Data</span>
       </div>
       <div class="frcv-col-3 frcv-end">
-        <button type="button" onclick="screenshot()">Screenshot</button>
+        <button type="button" onclick="barChart.pngDownload();">
+          Screenshot
+        </button>
         <select id="data" onchange="dataChange()">
           <option>Tracks</option>
-          <option>Words</option>
-          <option>Words (Relative)</option>
+          <option>Tokens</option>
+          <option>Tokens (per Track)</option>
           <option>Types</option>
-          <option>Types (Relative)</option>
+          <option>Types (per Track)</option>
+          <option>Types (per Tokens)</option>
+          <option>Tokens vs. Types</option>
           <option>Female</option>
           <option>Male</option>
           <option>Group</option>
@@ -36,7 +45,6 @@
       </div>
 
       <div id="bar-chart"></div>
-      <div id="legend"></div>
     </div>
 
     <script src="js/lib/lotivis.js"></script>
@@ -54,16 +62,8 @@
         .enabled(false)
         .dates(lotivis.d3.range(1995, 2021));
 
-      let legend = lotivis.legend().selector("#legend");
-
-      function screenshot() {
-        barChart.pngDownload();
-      }
-
       function setDataset(index) {
-        let dc = lotivis.parseDatasets(datasets[index]);
-        barChart.dataController(dc).run();
-        legend.dataController(dc).run();
+        barChart.dataController(lotivis.parseDatasets(datasets[index])).run();
       }
 
       function dataChange() {
@@ -76,10 +76,12 @@
 
       Promise.all([
         lotivis.d3.json("./assets/year.to.track.json"),
-        lotivis.d3.json("./assets/year.to.words.json"),
-        lotivis.d3.json("./assets/year.to.words.relative.json"),
+        lotivis.d3.json("./assets/year.to.tokens.json"),
+        lotivis.d3.json("./assets/year.to.tokens.per.tracks.json"),
         lotivis.d3.json("./assets/year.to.types.json"),
-        lotivis.d3.json("./assets/year.to.types.relative.json"),
+        lotivis.d3.json("./assets/year.to.types.per.tracks.json"),
+        lotivis.d3.json("./assets/year.to.types.per.tokens.json"),
+        lotivis.d3.json("./assets/year.to.tokens.types.json"),
         lotivis.d3.json("./assets/year.to.female.json"),
         lotivis.d3.json("./assets/year.to.male.json"),
         lotivis.d3.json("./assets/year.to.group.json"),

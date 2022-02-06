@@ -25002,6 +25002,7 @@
   exports.d3 = index;
   exports.datatext = datatext;
   exports.debug = ltv_debug;
+  exports.flatDatasets = flatDatasets;
   exports.json = json;
   exports.jsonFlat = jsonFlat;
   exports.legend = legend;

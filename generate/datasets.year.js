@@ -1,5 +1,5 @@
 const fileAccess = require("./file.access");
-const frc = require("../../public/js/lib/frc.js");
+const frc = require("../public/js/lib/frc.js");
 const d3 = require("d3");
 
 const json = fileAccess.readCorpusJSON();
@@ -10,6 +10,14 @@ const byYear = d3.rollup(
   (v) => v.length,
   (d) => d.releaseYear
 );
+
+const tokensADate = d3.rollup(
+  tracks,
+  (v) => d3.sum(v, (d) => d.tokens.length),
+  (d) => d.releaseYear
+);
+
+console.log("tokensADate", tokensADate);
 
 function data(tracks, value) {
   let data = [];
@@ -37,19 +45,29 @@ function dataset(name, value) {
 let tracksDataset = dataset("Tracks", (t) => 1);
 fileAccess.writeJSON([tracksDataset], "year.to.track.json");
 
-let wordsDataset = dataset("Words", (t) => t.components.length);
-fileAccess.writeJSON([wordsDataset], "year.to.words.json");
+let tokensDataset = dataset("Tokens", (t) => t.tokens.length);
+fileAccess.writeJSON([tokensDataset], "year.to.tokens.json");
 
 let typesDataset = dataset("Types", (t) => t.types.length);
 fileAccess.writeJSON([typesDataset], "year.to.types.json");
 
-wordsDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-wordsDataset.label = "Words-(Relative)";
-fileAccess.writeJSON([wordsDataset], "year.to.words.relative.json");
+fileAccess.writeJSON(
+  [tokensDataset, typesDataset],
+  "year.to.tokens.types.json"
+);
+
+tokensDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
+tokensDataset.label = "Tokens-(Relative)";
+fileAccess.writeJSON([tokensDataset], "year.to.tokens.per.tracks.json");
 
 typesDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
 typesDataset.label = "Types-(Relative)";
-fileAccess.writeJSON([typesDataset], "year.to.types.relative.json");
+fileAccess.writeJSON([typesDataset], "year.to.types.per.tracks.json");
+
+typesDataset = dataset("Types", (t) => t.types.length);
+typesDataset.data.forEach((d) => (d.value = d.value / tokensADate.get(d.date)));
+typesDataset.label = "Types-(Relative)";
+fileAccess.writeJSON([typesDataset], "year.to.types.per.tokens.json");
 
 let datasetFemale = dataset("Female", (t) => (t.sex === "F" ? 1 : 0));
 fileAccess.writeJSON([datasetFemale], "year.to.female.json");

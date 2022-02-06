@@ -32,7 +32,7 @@ fileAccess.writeJSON(
 );
 
 fileAccess.writeJSON(
-  { label: "Words", data: data(tracks, (t) => t.components.length) },
+  { label: "Words", data: data(tracks, (t) => t.tokens.length) },
   "corpus.overview.words.json"
 );
 
