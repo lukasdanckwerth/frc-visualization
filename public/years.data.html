@@ -35,10 +35,10 @@
           <option>Types (per Track)</option>
           <option>Types (per Tokens)</option>
           <option>Tokens vs. Types</option>
-          <option>Female</option>
-          <option>Male</option>
-          <option>Group</option>
-          <option>All Artists</option>
+          <option>Tracks by Female Artists</option>
+          <option>Tracks by Male Artists</option>
+          <option>Tracks by Groups</option>
+          <option>Tracks by All Artists</option>
         </select>
         <input type="checkbox" id="labels" onchange="onLabels()" checked />
         <label for="labels">Labels</label>
@@ -57,7 +57,8 @@
       let barChart = lotivis
         .bar()
         .selector("#bar-chart")
-        .marginTop(80)
+        .marginTop(40)
+        .marginLeft(70)
         .labels(true)
         .enabled(false)
         .dates(lotivis.d3.range(1995, 2021));
