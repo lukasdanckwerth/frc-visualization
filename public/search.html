@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="./css/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Search</title>
+    <style>
+      .ltv-bar-chart-label {
+        font-size: 12px;
+      }
+
+      #map-chart-paris svg .ltv-map-label {
+        transform: translate(-40px, 0);
+      }
+    </style>
   </head>
   <body>
     <!-- LOADING INDICATOR -->
@@ -146,14 +155,12 @@
         </div>
         <br />
         <div class="frcv-headline">
-          <span>Metropole</span>
-          <button onclick="screenshot('map-chart-metropole')">
-            Screenshot
-          </button>
+          <span>Paris</span>
+          <button onclick="screenshot('map-chart-paris')">Screenshot</button>
         </div>
         <div class="col-md-6">
-          <div id="map-chart-metropole">
-            <!-- Map Chart Metropole Here -->
+          <div id="map-chart-paris">
+            <!-- Map Chart Paris Here -->
           </div>
         </div>
       </div>

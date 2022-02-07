@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="./css/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Corpus Overview</title>
+    <style>
+      .ltv-bar-chart-label {
+        font-size: 12px;
+      }
+
+      #map-chart-paris svg .ltv-map-label {
+        transform: translate(-40px, 0);
+      }
+    </style>
   </head>
 
   <body>
@@ -116,6 +125,8 @@
         .labels(true)
         .enabled(false)
         .dates(d3.range(1995, 2021));
+
+      barChart.legend().title(null);
 
       let mapChart = lotivis
         .map()
