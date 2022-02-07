@@ -37,9 +37,9 @@ let mapChart = lotivis
   .featureIDAccessor((f) => f.properties.code)
   .featureNameAccessor((f) => f.properties.nom);
 
-let mapChartMetropole = lotivis
+let mapChartParis = lotivis
   .map()
-  .selector("#map-chart-metropole")
+  .selector("#map-chart-paris")
   .width(400)
   .height(400)
   .labels(true)
@@ -120,7 +120,7 @@ function search(searchText) {
   let dc = new lotivis.parseDatasets(datasets);
   barChart.dataController(dc).run();
   mapChart.dataController(dc).run();
-  mapChartMetropole.dataController(dc).run();
+  mapChartParis.dataController(dc).run();
   plotChart.dataController(dc).run();
   // legend.dataController(dc).run();
 
@@ -178,7 +178,7 @@ function countTypeAction(some) {
 
 d3.json("./assets/departements.geojson").then((geoJSON) => {
   mapChart.geoJSON(geoJSON);
-  mapChartMetropole.geoJSON(geoJSON);
+  mapChartParis.geoJSON(geoJSON);
 });
 
 d3.json("./assets/corpus.json")
