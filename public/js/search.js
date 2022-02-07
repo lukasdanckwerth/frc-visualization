@@ -5,7 +5,12 @@ lotivis.config({ downloadFilePrefix: "frcv" });
 let d3 = lotivis.d3;
 
 // create lotivis components
-let barChart = lotivis.bar().selector("#bar-chart").labels(true);
+let barChart = lotivis
+  .bar()
+  .selector("#bar-chart")
+  .marginTop(70)
+  .marginLeft(70)
+  .labels(true);
 
 barChart
   .legend()
