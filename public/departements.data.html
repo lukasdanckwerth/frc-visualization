@@ -66,6 +66,7 @@
         .map()
         .selector("#map-chart")
         .labels(true)
+        .labelsExclude(["75", "92", "93", "94"])
         .exclude(["2A", "2B"])
         .featureIDAccessor((f) => "" + f.properties.code)
         .featureNameAccessor((f) => f.properties.nom);

@@ -122,7 +122,6 @@
 }
 
 .ltv-map-label {
-  fill: steelblue;
   text-anchor: middle;
   font-size: 12px;
   pointer-events: none;
