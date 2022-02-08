@@ -82,3 +82,14 @@ fileAccess.writeJSON(
   [datasetFemale, datasetMale, datasetGroup],
   "year.to.artists.json"
 );
+
+datasetFemale.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
+datasetFemale.label = "Female Relative per Year";
+datasetMale.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
+datasetMale.label = "Male Relative per Year";
+datasetGroup.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
+datasetGroup.label = "Groups Relative per Year";
+fileAccess.writeJSON(
+  [datasetFemale, datasetMale, datasetGroup],
+  "year.to.artists.per.tracks.json"
+);
