@@ -93,3 +93,12 @@ fileAccess.writeJSON(
   [datasetFemale, datasetMale, datasetGroup],
   "year.to.artists.per.tracks.json"
 );
+
+datasetFemale.stack = "Artists per Tracks";
+datasetMale.stack = "Artists per Tracks";
+datasetGroup.stack = "Artists per Tracks";
+
+fileAccess.writeJSON(
+  [datasetFemale, datasetMale, datasetGroup],
+  "year.to.artists.per.tracks.stacked.json"
+);

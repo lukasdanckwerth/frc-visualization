@@ -32,6 +32,7 @@ let mapChart = lotivis
   .map()
   .selector("#map-chart")
   .labels(true)
+  .labelsExclude(["75", "92", "93", "94"])
   .legend(true)
   .exclude(["2A", "2B"])
   .featureIDAccessor((f) => f.properties.code)

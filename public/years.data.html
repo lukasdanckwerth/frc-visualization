@@ -40,6 +40,7 @@
           <option>Tracks by Groups</option>
           <option>Tracks by All Artists</option>
           <option>Artists (per Track)</option>
+          <option>Artists (per Track) [Stacked]</option>
         </select>
         <input type="checkbox" id="labels" onchange="onLabels()" checked />
         <label for="labels">Labels</label>
@@ -91,6 +92,7 @@
         lotivis.d3.json("./assets/year.to.group.json"),
         lotivis.d3.json("./assets/year.to.artists.json"),
         lotivis.d3.json("./assets/year.to.artists.per.tracks.json"),
+        lotivis.d3.json("./assets/year.to.artists.per.tracks.stacked.json"),
       ]).then((all) => {
         datasets = all;
         setDataset(0);
