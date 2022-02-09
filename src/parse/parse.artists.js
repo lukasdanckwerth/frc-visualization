@@ -1,3 +1,10 @@
+/**
+ * Returns an array containing all artists who got at least one
+ * track from the passed `Corpus.json`.
+ *
+ * @param {*} json The corpus.json
+ * @returns {Array<artist>} An array containing all artists
+ */
 export function parseArtists(json) {
   console.log(`[FRC] Parse artists`);
   let artists = [],

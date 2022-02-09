@@ -1,37 +1,11 @@
-export function parseTracks(json) {
-  console.log(`[FRC] Parse tracks`);
-  let data = [],
-    ids = [];
-  let artist, album, track, entry;
-  for (let i = 0; i < json.length; i++) {
-    artist = json[i];
-
-    if (!(artist.departementName || artist.departement)) {
-      console.log(artist);
-      throw Error("missing departement name");
-    }
-
-    for (let i = 0; i < artist.albums.length; i++) {
-      album = artist.albums[i];
-      for (let j = 0; j < album.tracks.length; j++) {
-        track = album.tracks[j];
-        if (ids.includes(track.id)) continue;
-        ids.push(track.id);
-        data.push(parseTrack(track, artist, album.name));
-      }
-
-      for (let i = 0; i < artist.tracks.length; i++) {
-        track = artist.tracks[i];
-        if (ids.includes(track.id)) continue;
-        ids.push(track.id);
-        data.push(parseTrack(track, artist, undefined));
-      }
-    }
-  }
-
-  return data;
-}
-
+/**
+ * Parses a flat version of the given track including information
+ * from the passed artist and album (the latter if existing).
+ * @param {*} track
+ * @param {*} artist
+ * @param {*} album
+ * @returns
+ */
 function parseTrack(track, artist, album) {
   if (!track) {
     console.log("track", track);
@@ -74,4 +48,38 @@ function parseTrack(track, artist, album) {
     tokensLower: tokensLower,
     types: types,
   };
+}
+
+export function parseTracks(json) {
+  console.log(`[FRC] Parse tracks`);
+  let data = [],
+    ids = [];
+  let artist, album, track, entry;
+  for (let i = 0; i < json.length; i++) {
+    artist = json[i];
+
+    if (!(artist.departementName || artist.departement)) {
+      console.log(artist);
+      throw Error("missing departement name");
+    }
+
+    for (let i = 0; i < artist.albums.length; i++) {
+      album = artist.albums[i];
+      for (let j = 0; j < album.tracks.length; j++) {
+        track = album.tracks[j];
+        if (ids.includes(track.id)) continue;
+        ids.push(track.id);
+        data.push(parseTrack(track, artist, album.name));
+      }
+
+      for (let i = 0; i < artist.tracks.length; i++) {
+        track = artist.tracks[i];
+        if (ids.includes(track.id)) continue;
+        ids.push(track.id);
+        data.push(parseTrack(track, artist, undefined));
+      }
+    }
+  }
+
+  return data;
 }

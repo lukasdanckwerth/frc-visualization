@@ -126,7 +126,7 @@
         .enabled(false)
         .dates(d3.range(1995, 2021));
 
-      barChart.legend().title(null);
+      let legend = barChart.legend().title(null);
 
       let mapChart = lotivis
         .map()
@@ -152,6 +152,7 @@
         .plot()
         .selector("#plot-chart")
         .marginTop(50)
+        .marginLeft(70)
         .labels(true)
         .style("fraction")
         .dates(d3.range(1995, 2021));

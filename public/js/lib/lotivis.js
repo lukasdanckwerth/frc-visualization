@@ -1,5 +1,5 @@
 /*!
- * lotivis.js 1.0.95
+ * lotivis 1.0.100
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -8635,7 +8635,7 @@
     return (random() - 0.5) * 1e-6;
   }
 
-  function x$3(d) {
+  function x$4(d) {
     return d.x + d.vx;
   }
 
@@ -8662,7 +8662,7 @@
           ri2;
 
       for (var k = 0; k < iterations; ++k) {
-        tree = quadtree(nodes, x$3, y$3).visitAfter(prepare);
+        tree = quadtree(nodes, x$4, y$3).visitAfter(prepare);
         for (i = 0; i < n; ++i) {
           node = nodes[i];
           ri = radii[node.index], ri2 = ri * ri;
@@ -8857,7 +8857,7 @@
     return () => (s = (a$1 * s + c$3) % m) / m;
   }
 
-  function x$2(d) {
+  function x$3(d) {
     return d.x;
   }
 
@@ -9022,7 +9022,7 @@
         theta2 = 0.81;
 
     function force(_) {
-      var i, n = nodes.length, tree = quadtree(nodes, x$2, y$2).visitAfter(accumulate);
+      var i, n = nodes.length, tree = quadtree(nodes, x$3, y$2).visitAfter(accumulate);
       for (alpha = _, i = 0; i < n; ++i) node = nodes[i], tree.visit(apply);
     }
 
@@ -9178,7 +9178,7 @@
     return force;
   }
 
-  function x$1(x) {
+  function x$2(x) {
     var strength = constant$4(0.1),
         nodes,
         strengths,
@@ -17188,18 +17188,18 @@
     };
   }
 
-  var abs = Math.abs;
-  var atan2 = Math.atan2;
-  var cos = Math.cos;
-  var max = Math.max;
-  var min = Math.min;
-  var sin = Math.sin;
-  var sqrt = Math.sqrt;
+  const abs = Math.abs;
+  const atan2 = Math.atan2;
+  const cos = Math.cos;
+  const max = Math.max;
+  const min = Math.min;
+  const sin = Math.sin;
+  const sqrt = Math.sqrt;
 
-  var epsilon = 1e-12;
-  var pi = Math.PI;
-  var halfPi = pi / 2;
-  var tau = 2 * pi;
+  const epsilon = 1e-12;
+  const pi = Math.PI;
+  const halfPi = pi / 2;
+  const tau = 2 * pi;
 
   function acos(x) {
     return x > 1 ? 0 : x < -1 ? pi : Math.acos(x);
@@ -17507,7 +17507,7 @@
     return new Linear(context);
   }
 
-  function x(p) {
+  function x$1(p) {
     return p[0];
   }
 
@@ -17515,13 +17515,13 @@
     return p[1];
   }
 
-  function line(x$1, y$1) {
+  function line(x, y$1) {
     var defined = constant$1(true),
         context = null,
         curve = curveLinear,
         output = null;
 
-    x$1 = typeof x$1 === "function" ? x$1 : (x$1 === undefined) ? x : constant$1(x$1);
+    x = typeof x === "function" ? x : (x === undefined) ? x$1 : constant$1(x);
     y$1 = typeof y$1 === "function" ? y$1 : (y$1 === undefined) ? y : constant$1(y$1);
 
     function line(data) {
@@ -17538,14 +17538,14 @@
           if (defined0 = !defined0) output.lineStart();
           else output.lineEnd();
         }
-        if (defined0) output.point(+x$1(d, i, data), +y$1(d, i, data));
+        if (defined0) output.point(+x(d, i, data), +y$1(d, i, data));
       }
 
       if (buffer) return output = null, buffer + "" || null;
     }
 
     line.x = function(_) {
-      return arguments.length ? (x$1 = typeof _ === "function" ? _ : constant$1(+_), line) : x$1;
+      return arguments.length ? (x = typeof _ === "function" ? _ : constant$1(+_), line) : x;
     };
 
     line.y = function(_) {
@@ -17574,7 +17574,7 @@
         curve = curveLinear,
         output = null;
 
-    x0 = typeof x0 === "function" ? x0 : (x0 === undefined) ? x : constant$1(+x0);
+    x0 = typeof x0 === "function" ? x0 : (x0 === undefined) ? x$1 : constant$1(+x0);
     y0 = typeof y0 === "function" ? y0 : (y0 === undefined) ? constant$1(0) : constant$1(+y0);
     y1 = typeof y1 === "function" ? y1 : (y1 === undefined) ? y : constant$1(+y1);
 
@@ -17755,7 +17755,7 @@
     return pie;
   }
 
-  var curveRadialLinear = curveRadial$1(curveLinear);
+  var curveRadialLinear = curveRadial(curveLinear);
 
   function Radial(curve) {
     this._curve = curve;
@@ -17779,7 +17779,7 @@
     }
   };
 
-  function curveRadial$1(curve) {
+  function curveRadial(curve) {
 
     function radial(context) {
       return new Radial(curve(context));
@@ -17797,7 +17797,7 @@
     l.radius = l.y, delete l.y;
 
     l.curve = function(_) {
-      return arguments.length ? c(curveRadial$1(_)) : c()._curve;
+      return arguments.length ? c(curveRadial(_)) : c()._curve;
     };
 
     return l;
@@ -17827,7 +17827,7 @@
     a.lineOuterRadius = function() { return lineRadial(y1()); }, delete a.lineY1;
 
     a.curve = function(_) {
-      return arguments.length ? c(curveRadial$1(_)) : c()._curve;
+      return arguments.length ? c(curveRadial(_)) : c()._curve;
     };
 
     return a;
@@ -17835,6 +17835,79 @@
 
   function pointRadial(x, y) {
     return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
+  }
+
+  class Bump {
+    constructor(context, x) {
+      this._context = context;
+      this._x = x;
+    }
+    areaStart() {
+      this._line = 0;
+    }
+    areaEnd() {
+      this._line = NaN;
+    }
+    lineStart() {
+      this._point = 0;
+    }
+    lineEnd() {
+      if (this._line || (this._line !== 0 && this._point === 1)) this._context.closePath();
+      this._line = 1 - this._line;
+    }
+    point(x, y) {
+      x = +x, y = +y;
+      switch (this._point) {
+        case 0: {
+          this._point = 1;
+          if (this._line) this._context.lineTo(x, y);
+          else this._context.moveTo(x, y);
+          break;
+        }
+        case 1: this._point = 2; // falls through
+        default: {
+          if (this._x) this._context.bezierCurveTo(this._x0 = (this._x0 + x) / 2, this._y0, this._x0, y, x, y);
+          else this._context.bezierCurveTo(this._x0, this._y0 = (this._y0 + y) / 2, x, this._y0, x, y);
+          break;
+        }
+      }
+      this._x0 = x, this._y0 = y;
+    }
+  }
+
+  class BumpRadial {
+    constructor(context) {
+      this._context = context;
+    }
+    lineStart() {
+      this._point = 0;
+    }
+    lineEnd() {}
+    point(x, y) {
+      x = +x, y = +y;
+      if (this._point++ === 0) {
+        this._x0 = x, this._y0 = y;
+      } else {
+        const p0 = pointRadial(this._x0, this._y0);
+        const p1 = pointRadial(this._x0, this._y0 = (this._y0 + y) / 2);
+        const p2 = pointRadial(x, this._y0);
+        const p3 = pointRadial(x, y);
+        this._context.moveTo(...p0);
+        this._context.bezierCurveTo(...p1, ...p2, ...p3);
+      }
+    }
+  }
+
+  function bumpX(context) {
+    return new Bump(context, true);
+  }
+
+  function bumpY(context) {
+    return new Bump(context, false);
+  }
+
+  function bumpRadial(context) {
+    return new BumpRadial(context);
   }
 
   function linkSource(d) {
@@ -17846,17 +17919,24 @@
   }
 
   function link(curve) {
-    var source = linkSource,
-        target = linkTarget,
-        x$1 = x,
-        y$1 = y,
-        context = null;
+    let source = linkSource;
+    let target = linkTarget;
+    let x = x$1;
+    let y$1 = y;
+    let context = null;
+    let output = null;
 
     function link() {
-      var buffer, argv = slice.call(arguments), s = source.apply(this, argv), t = target.apply(this, argv);
-      if (!context) context = buffer = path();
-      curve(context, +x$1.apply(this, (argv[0] = s, argv)), +y$1.apply(this, argv), +x$1.apply(this, (argv[0] = t, argv)), +y$1.apply(this, argv));
-      if (buffer) return context = null, buffer + "" || null;
+      let buffer;
+      const argv = slice.call(arguments);
+      const s = source.apply(this, argv);
+      const t = target.apply(this, argv);
+      if (context == null) output = curve(buffer = path());
+      output.lineStart();
+      argv[0] = s, output.point(+x.apply(this, argv), +y$1.apply(this, argv));
+      argv[0] = t, output.point(+x.apply(this, argv), +y$1.apply(this, argv));
+      output.lineEnd();
+      if (buffer) return output = null, buffer + "" || null;
     }
 
     link.source = function(_) {
@@ -17868,7 +17948,7 @@
     };
 
     link.x = function(_) {
-      return arguments.length ? (x$1 = typeof _ === "function" ? _ : constant$1(+_), link) : x$1;
+      return arguments.length ? (x = typeof _ === "function" ? _ : constant$1(+_), link) : x;
     };
 
     link.y = function(_) {
@@ -17876,57 +17956,54 @@
     };
 
     link.context = function(_) {
-      return arguments.length ? ((context = _ == null ? null : _), link) : context;
+      return arguments.length ? (_ == null ? context = output = null : output = curve(context = _), link) : context;
     };
 
     return link;
   }
 
-  function curveHorizontal(context, x0, y0, x1, y1) {
-    context.moveTo(x0, y0);
-    context.bezierCurveTo(x0 = (x0 + x1) / 2, y0, x0, y1, x1, y1);
-  }
-
-  function curveVertical(context, x0, y0, x1, y1) {
-    context.moveTo(x0, y0);
-    context.bezierCurveTo(x0, y0 = (y0 + y1) / 2, x1, y0, x1, y1);
-  }
-
-  function curveRadial(context, x0, y0, x1, y1) {
-    var p0 = pointRadial(x0, y0),
-        p1 = pointRadial(x0, y0 = (y0 + y1) / 2),
-        p2 = pointRadial(x1, y0),
-        p3 = pointRadial(x1, y1);
-    context.moveTo(p0[0], p0[1]);
-    context.bezierCurveTo(p1[0], p1[1], p2[0], p2[1], p3[0], p3[1]);
-  }
-
   function linkHorizontal() {
-    return link(curveHorizontal);
+    return link(bumpX);
   }
 
   function linkVertical() {
-    return link(curveVertical);
+    return link(bumpY);
   }
 
   function linkRadial() {
-    var l = link(curveRadial);
+    const l = link(bumpRadial);
     l.angle = l.x, delete l.x;
     l.radius = l.y, delete l.y;
     return l;
   }
 
+  const sqrt3$2 = sqrt(3);
+
+  var asterisk = {
+    draw(context, size) {
+      const r = sqrt(size + min(size / 28, 0.75)) * 0.59436;
+      const t = r / 2;
+      const u = t * sqrt3$2;
+      context.moveTo(0, r);
+      context.lineTo(0, -r);
+      context.moveTo(-u, -t);
+      context.lineTo(u, t);
+      context.moveTo(-u, t);
+      context.lineTo(u, -t);
+    }
+  };
+
   var circle = {
-    draw: function(context, size) {
-      var r = Math.sqrt(size / pi);
+    draw(context, size) {
+      const r = sqrt(size / pi);
       context.moveTo(r, 0);
       context.arc(0, 0, r, 0, tau);
     }
   };
 
   var cross = {
-    draw: function(context, size) {
-      var r = Math.sqrt(size / 5) / 2;
+    draw(context, size) {
+      const r = sqrt(size / 5) / 2;
       context.moveTo(-3 * r, -r);
       context.lineTo(-r, -r);
       context.lineTo(-r, -3 * r);
@@ -17943,13 +18020,13 @@
     }
   };
 
-  var tan30 = Math.sqrt(1 / 3),
-      tan30_2 = tan30 * 2;
+  const tan30 = sqrt(1 / 3);
+  const tan30_2 = tan30 * 2;
 
   var diamond = {
-    draw: function(context, size) {
-      var y = Math.sqrt(size / tan30_2),
-          x = y * tan30;
+    draw(context, size) {
+      const y = sqrt(size / tan30_2);
+      const x = y * tan30;
       context.moveTo(0, -y);
       context.lineTo(x, 0);
       context.lineTo(0, y);
@@ -17958,22 +18035,62 @@
     }
   };
 
-  var ka = 0.89081309152928522810,
-      kr = Math.sin(pi / 10) / Math.sin(7 * pi / 10),
-      kx = Math.sin(tau / 10) * kr,
-      ky = -Math.cos(tau / 10) * kr;
+  var diamond2 = {
+    draw(context, size) {
+      const r = sqrt(size) * 0.62625;
+      context.moveTo(0, -r);
+      context.lineTo(r, 0);
+      context.lineTo(0, r);
+      context.lineTo(-r, 0);
+      context.closePath();
+    }
+  };
+
+  var plus = {
+    draw(context, size) {
+      const r = sqrt(size - min(size / 7, 2)) * 0.87559;
+      context.moveTo(-r, 0);
+      context.lineTo(r, 0);
+      context.moveTo(0, r);
+      context.lineTo(0, -r);
+    }
+  };
+
+  var square = {
+    draw(context, size) {
+      const w = sqrt(size);
+      const x = -w / 2;
+      context.rect(x, x, w, w);
+    }
+  };
+
+  var square2 = {
+    draw(context, size) {
+      const r = sqrt(size) * 0.4431;
+      context.moveTo(r, r);
+      context.lineTo(r, -r);
+      context.lineTo(-r, -r);
+      context.lineTo(-r, r);
+      context.closePath();
+    }
+  };
+
+  const ka = 0.89081309152928522810;
+  const kr = sin(pi / 10) / sin(7 * pi / 10);
+  const kx = sin(tau / 10) * kr;
+  const ky = -cos(tau / 10) * kr;
 
   var star = {
-    draw: function(context, size) {
-      var r = Math.sqrt(size * ka),
-          x = kx * r,
-          y = ky * r;
+    draw(context, size) {
+      const r = sqrt(size * ka);
+      const x = kx * r;
+      const y = ky * r;
       context.moveTo(0, -r);
       context.lineTo(x, y);
-      for (var i = 1; i < 5; ++i) {
-        var a = tau * i / 5,
-            c = Math.cos(a),
-            s = Math.sin(a);
+      for (let i = 1; i < 5; ++i) {
+        const a = tau * i / 5;
+        const c = cos(a);
+        const s = sin(a);
         context.lineTo(s * r, -c * r);
         context.lineTo(c * x - s * y, s * x + c * y);
       }
@@ -17981,40 +18098,43 @@
     }
   };
 
-  var square = {
-    draw: function(context, size) {
-      var w = Math.sqrt(size),
-          x = -w / 2;
-      context.rect(x, x, w, w);
-    }
-  };
-
-  var sqrt3 = Math.sqrt(3);
+  const sqrt3$1 = sqrt(3);
 
   var triangle = {
-    draw: function(context, size) {
-      var y = -Math.sqrt(size / (sqrt3 * 3));
+    draw(context, size) {
+      const y = -sqrt(size / (sqrt3$1 * 3));
       context.moveTo(0, y * 2);
-      context.lineTo(-sqrt3 * y, -y);
-      context.lineTo(sqrt3 * y, -y);
+      context.lineTo(-sqrt3$1 * y, -y);
+      context.lineTo(sqrt3$1 * y, -y);
       context.closePath();
     }
   };
 
-  var c = -0.5,
-      s$1 = Math.sqrt(3) / 2,
-      k = 1 / Math.sqrt(12),
-      a = (k / 2 + 1) * 3;
+  const sqrt3 = sqrt(3);
+
+  var triangle2 = {
+    draw(context, size) {
+      const s = sqrt(size) * 0.6824;
+      const t = s  / 2;
+      const u = (s * sqrt3) / 2; // cos(Math.PI / 6)
+      context.moveTo(0, -s);
+      context.lineTo(u, t);
+      context.lineTo(-u, t);
+      context.closePath();
+    }
+  };
+
+  const c = -0.5;
+  const s$1 = sqrt(3) / 2;
+  const k = 1 / sqrt(12);
+  const a = (k / 2 + 1) * 3;
 
   var wye = {
-    draw: function(context, size) {
-      var r = Math.sqrt(size / a),
-          x0 = r / 2,
-          y0 = r * k,
-          x1 = x0,
-          y1 = r * k + r,
-          x2 = -x1,
-          y2 = y1;
+    draw(context, size) {
+      const r = sqrt(size / a);
+      const x0 = r / 2, y0 = r * k;
+      const x1 = x0, y1 = r * k + r;
+      const x2 = -x1, y2 = y1;
       context.moveTo(x0, y0);
       context.lineTo(x1, y1);
       context.lineTo(x2, y2);
@@ -18028,7 +18148,18 @@
     }
   };
 
-  var symbols = [
+  var x = {
+    draw(context, size) {
+      const r = sqrt(size - min(size / 6, 1.7)) * 0.6189;
+      context.moveTo(-r, -r);
+      context.lineTo(r, r);
+      context.moveTo(-r, r);
+      context.lineTo(r, -r);
+    }
+  };
+
+  // These symbols are designed to be filled.
+  const symbolsFill = [
     circle,
     cross,
     diamond,
@@ -18038,13 +18169,25 @@
     wye
   ];
 
-  function symbol(type, size) {
-    var context = null;
+  // These symbols are designed to be stroked (with a width of 1.5px and round caps).
+  const symbolsStroke = [
+    circle,
+    plus,
+    x,
+    triangle2,
+    asterisk,
+    square2,
+    diamond2
+  ];
+
+  function Symbol$1(type, size) {
+    let context = null;
+
     type = typeof type === "function" ? type : constant$1(type || circle);
     size = typeof size === "function" ? size : constant$1(size === undefined ? 64 : +size);
 
     function symbol() {
-      var buffer;
+      let buffer;
       if (!context) context = buffer = path();
       type.apply(this, arguments).draw(context, +size.apply(this, arguments));
       if (buffer) return context = null, buffer + "" || null;
@@ -18205,52 +18348,6 @@
 
   function basisOpen(context) {
     return new BasisOpen(context);
-  }
-
-  class Bump {
-    constructor(context, x) {
-      this._context = context;
-      this._x = x;
-    }
-    areaStart() {
-      this._line = 0;
-    }
-    areaEnd() {
-      this._line = NaN;
-    }
-    lineStart() {
-      this._point = 0;
-    }
-    lineEnd() {
-      if (this._line || (this._line !== 0 && this._point === 1)) this._context.closePath();
-      this._line = 1 - this._line;
-    }
-    point(x, y) {
-      x = +x, y = +y;
-      switch (this._point) {
-        case 0: {
-          this._point = 1;
-          if (this._line) this._context.lineTo(x, y);
-          else this._context.moveTo(x, y);
-          break;
-        }
-        case 1: this._point = 2; // falls through
-        default: {
-          if (this._x) this._context.bezierCurveTo(this._x0 = (this._x0 + x) / 2, this._y0, this._x0, y, x, y);
-          else this._context.bezierCurveTo(this._x0, this._y0 = (this._y0 + y) / 2, x, this._y0, x, y);
-          break;
-        }
-      }
-      this._x0 = x, this._y0 = y;
-    }
-  }
-
-  function bumpX(context) {
-    return new Bump(context, true);
-  }
-
-  function bumpY(context) {
-    return new Bump(context, false);
   }
 
   function Bundle(context, beta) {
@@ -19815,7 +19912,7 @@
     forceManyBody: manyBody,
     forceRadial: radial$1,
     forceSimulation: simulation,
-    forceX: x$1,
+    forceX: x$2,
     forceY: y$1,
     formatDefaultLocale: defaultLocale$1,
     get format () { return format; },
@@ -20070,18 +20167,27 @@
     lineRadial: lineRadial$1,
     radialLine: lineRadial$1,
     pointRadial: pointRadial,
+    link: link,
     linkHorizontal: linkHorizontal,
     linkVertical: linkVertical,
     linkRadial: linkRadial,
-    symbol: symbol,
-    symbols: symbols,
+    symbol: Symbol$1,
+    symbolsStroke: symbolsStroke,
+    symbolsFill: symbolsFill,
+    symbols: symbolsFill,
+    symbolAsterisk: asterisk,
     symbolCircle: circle,
     symbolCross: cross,
     symbolDiamond: diamond,
+    symbolDiamond2: diamond2,
+    symbolPlus: plus,
     symbolSquare: square,
+    symbolSquare2: square2,
     symbolStar: star,
     symbolTriangle: triangle,
+    symbolTriangle2: triangle2,
     symbolWye: wye,
+    symbolX: x,
     curveBasisClosed: basisClosed,
     curveBasisOpen: basisOpen,
     curveBasis: basis,
@@ -21415,7 +21521,7 @@
           this.snapshot = function (_) {
               return arguments.length
                   ? ((attr.snapshot = _), this)
-                  : attr.snapshot ?? attr.data;
+                  : attr.snapshot || attr.data;
           };
 
           /**
@@ -23434,8 +23540,7 @@
       }
 
       function renderLegend(calc, dv) {
-          let stackNames = dv.stacks;
-          let label = state.label || stackNames[0];
+          let label = state.label || dv.stacks[0];
           let locationToSum = dv.locationToSum || [];
           let max = max$3(locationToSum, (item) => item[1]) || 0;
 
@@ -23445,8 +23550,8 @@
           let mapColors = MapColors(max);
           let allData = [
               "No Data",
+              "0",
               "> 0",
-              0,
               (1 / 4) * max,
               (1 / 2) * max,
               (3 / 4) * max,
@@ -23483,7 +23588,7 @@
                       ? "white"
                       : i === 1
                       ? "whitesmoke"
-                      : mapColors(d);
+                      : mapColors(i === 2 ? 0 : d);
               })
               .attr("x", xOff)
               .attr("y", (d, i) => i * 20 + 30)
@@ -23500,7 +23605,7 @@
               .attr("class", "ltv-map-legend-text")
               .attr("x", xOff + 24)
               .attr("y", (d, i) => i * 20 + 30 + 14)
-              .text((d) => d);
+              .text((d) => (typeof d === "number" ? state.numberFormat(d) : d));
 
           return;
       }
@@ -24439,7 +24544,7 @@
       /**
        * Sorts datasets by first date.
        */
-      firstDate: (left, right) => left.firstDate - right.firstDate,
+      firstDate: (left, right) => right.firstDate - left.firstDate,
   };
 
   /**

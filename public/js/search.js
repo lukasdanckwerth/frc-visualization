@@ -12,7 +12,7 @@ let barChart = lotivis
   .marginLeft(70)
   .labels(true);
 
-barChart
+let legend = barChart
   .legend()
   .title(null)
   .group(true)
@@ -108,7 +108,7 @@ function search(searchText) {
     return console.log("search text too short");
   }
 
-  urlparams.set(queryParameter, searchText);
+  urlparams.set(queryParameter, searchText.replace(/,/g, "_"));
 
   let datasets = corpus.search(
     searchText,
@@ -119,11 +119,10 @@ function search(searchText) {
   );
 
   let dc = new lotivis.parseDatasets(datasets);
-  barChart.dataController(dc).run();
-  mapChart.dataController(dc).run();
-  mapChartParis.dataController(dc).run();
-  plotChart.dataController(dc).run();
-  // legend.dataController(dc).run();
+  barChart.run(dc);
+  mapChart.run(dc);
+  mapChartParis.run(dc);
+  plotChart.run(dc);
 
   fillTracksCard(datasets);
   recentSearches.append(searchText);
@@ -197,7 +196,7 @@ d3.json("./assets/corpus.json")
     contentContainer.style.display = "block";
   })
   .then(() => {
-    let searchString = urlparams.get(queryParameter);
+    let searchString = urlparams.get(queryParameter).replace(/_/g, ",");
     console.log("searchString", searchString);
     if (!searchString) return;
     search(searchString);
