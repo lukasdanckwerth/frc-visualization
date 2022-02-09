@@ -4,25 +4,23 @@ let innovationListModal = document.getElementById("frcv-innovation-list-modal");
 
 function closeModal(modal) {
   modal.style.display = "none";
-  modal.classList.remove("show");
 }
 
 function showModal(id) {
   let modal = document.getElementById("frcv-" + id + "-modal");
   modal.style.display = "block";
-  modal.classList.add("show");
 }
 
-trackModal.onclick = function () {
-  closeModal(trackModal);
+trackModal.onclick = function (event) {
+  if (event.target === trackModal) closeModal(trackModal);
 };
 
-settingsModal.onclick = function () {
-  closeModal(settingsModal);
+settingsModal.onclick = function (event) {
+  if (event.target === settingsModal) closeModal(settingsModal);
 };
 
-innovationListModal.onclick = function () {
-  closeModal(innovationListModal);
+innovationListModal.onclick = function (event) {
+  if (event.target === innovationListModal) closeModal(innovationListModal);
 };
 
 function presentTrackPopup(track, label) {
