@@ -108,7 +108,7 @@ function search(searchText) {
     return console.log("search text too short");
   }
 
-  // parameters.set(queryParameter, searchText);
+  urlparams.set(queryParameter, searchText);
 
   let datasets = corpus.search(
     searchText,
@@ -197,7 +197,8 @@ d3.json("./assets/corpus.json")
     contentContainer.style.display = "block";
   })
   .then(() => {
-    let searchString = null; // parameters.getString(queryParameter);
+    let searchString = urlparams.get(queryParameter);
+    console.log("searchString", searchString);
     if (!searchString) return;
     search(searchString);
     searchField.value = searchString;
