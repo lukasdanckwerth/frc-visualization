@@ -104,6 +104,7 @@
         </select>
 
         <button onclick="showModal('innovation-list')">Innovation List</button>
+        <button onclick="showModal('recent-searches')">Recent Searches</button>
       </div>
 
       <br />
@@ -182,6 +183,15 @@
       </div>
     </div>
 
+    <!-- Innovation List Modal -->
+    <div class="frcv-modal" id="frcv-recent-searches-modal">
+      <div class="frcv-modal-dialog">
+        <div id="frcv-recent-searches">
+          <!-- recent searches here -->
+        </div>
+      </div>
+    </div>
+
     <!-- Settings Modal -->
     <div class="frcv-modal" id="frcv-settings-modal">
       <div class="frcv-modal-dialog">
@@ -213,10 +223,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
     <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
 
-    <script src="js/recent.searches.js"></script>
     <script src="js/search.track.modal.js"></script>
     <script src="js/search.tracks.panel.js"></script>
     <script src="js/search.js"></script>
