@@ -2,6 +2,6 @@
 
 console.log("[DEV] Start generating assets");
 
-require("./datasets.year.js");
+require("./datasets.departement.artists.js");
 
 console.log("[DEV] Finished assets");

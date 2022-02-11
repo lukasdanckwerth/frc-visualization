@@ -196,9 +196,9 @@ d3.json("./assets/corpus.json")
     contentContainer.style.display = "block";
   })
   .then(() => {
-    let searchString = urlparams.get(queryParameter).replace(/_/g, ",");
-    console.log("searchString", searchString);
+    let searchString = urlparams.get(queryParameter);
     if (!searchString) return;
+    searchString = searchString.replace(/_/g, ",");
     search(searchString);
     searchField.value = searchString;
     return;
