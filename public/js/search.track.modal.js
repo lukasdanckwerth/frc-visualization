@@ -1,13 +1,15 @@
-let trackModal = document.getElementById("frcv-track-modal");
-let settingsModal = document.getElementById("frcv-settings-modal");
-let innovationListModal = document.getElementById("frcv-innovation-list-modal");
+let byId = (id) => document.getElementById(id);
+let trackModal = byId("frcv-track-modal");
+let settingsModal = byId("frcv-settings-modal");
+let innovationListModal = byId("frcv-innovation-list-modal");
+let reacentSearchesModal = byId("frcv-recent-searches-modal");
 
 function closeModal(modal) {
   modal.style.display = "none";
 }
 
 function showModal(id) {
-  let modal = document.getElementById("frcv-" + id + "-modal");
+  let modal = byId("frcv-" + id + "-modal");
   modal.style.display = "block";
 }
 
@@ -21,6 +23,10 @@ settingsModal.onclick = function (event) {
 
 innovationListModal.onclick = function (event) {
   if (event.target === innovationListModal) closeModal(innovationListModal);
+};
+
+reacentSearchesModal.onclick = function (event) {
+  if (event.target === reacentSearchesModal) closeModal(reacentSearchesModal);
 };
 
 function presentTrackPopup(track, label) {
@@ -59,7 +65,7 @@ function presentTrackPopup(track, label) {
   html += "<br>";
   html += `<a href="${track.url}">${track.url}</a>`;
 
-  document.getElementById("frcv-track-modal-content").innerHTML = html;
+  byId("frcv-track-modal-content").innerHTML = html;
 
   showModal("track");
 }

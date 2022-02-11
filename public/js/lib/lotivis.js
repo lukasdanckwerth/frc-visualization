@@ -25176,10 +25176,16 @@
       return chart;
   }
 
+  exports.ColorScale = ColorScale;
+  exports.DATA_COLORS = DATA_COLORS;
+  exports.DataColors = DataColors;
   exports.DataController = DataController;
   exports.DataItem = DataItem;
   exports.Dataset = Dataset;
   exports.DateOrdinator = date_ordinator;
+  exports.MapColors = MapColors;
+  exports.PlotColors = PlotColors;
+  exports.TINT_COLOR = TINT_COLOR;
   exports.URLParams = URLParams;
   exports.bar = bar;
   exports.config = config;

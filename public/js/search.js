@@ -61,7 +61,7 @@ let contentContainer = getElement("content"),
 let corpus = new frc.Corpus("");
 let queryParameter = "q";
 // let parameters = lotivis.UrlParameters.getInstance();
-let recentSearches = new RecentSearches("frcv-search-input-data");
+let recentSearches = new recentsearches("frcv-search-input-data");
 
 // search options;
 let firstYear = 2000;
@@ -125,7 +125,8 @@ function search(searchText) {
   plotChart.run(dc);
 
   fillTracksCard(datasets);
-  recentSearches.append(searchText);
+  recentSearches.add(searchText);
+  fillRecentSearchesPanel();
 }
 
 /* date range */
@@ -208,21 +209,44 @@ d3.json("./assets/corpus.json")
 d3.text("./assets/innovation.list.txt").then((text) => {
   let lines = text.split("\n").filter((line) => line.length > 0);
   d3.select("#innovation-list")
-    .selectAll("a")
+    .selectAll("p")
     .data(lines)
     .enter()
-    .append("a")
-    .html((l, i) => `<nobr>${i + 1}. ${l.split(";").join(`, `)}</nobr>`)
+    .append("p")
+    .style("cursor", "pointer")
+    .html((l, i) => `${i + 1}. ${l.replace(/,/g, ", ")}`)
     .on("click", (e, l) => {
-      async function doCloseModal() {
-        closeModal(innovationListModal);
-      }
-      async function doSearch() {
-        searchField.value = l.split(";").join(`,`);
-        search(searchField.value);
-      }
-
-      doCloseModal();
-      doSearch();
+      closeModal(innovationListModal);
+      searchField.value = l;
+      search(searchField.value);
     });
 });
+
+function fillRecentSearchesPanel() {
+  let colors = lotivis.DATA_COLORS;
+  let lines = recentSearches.queries();
+
+  d3.select("#frcv-recent-searches").selectAll("p").remove();
+  d3.select("#frcv-recent-searches")
+    .selectAll("p")
+    .data(lines)
+    .enter()
+    .append("p")
+    .style("display", "block")
+    .style("cursor", "pointer")
+    .on("click", (e, l) => {
+      closeModal(reacentSearchesModal);
+      searchField.value = l;
+      search(searchField.value);
+    })
+    .selectAll("span")
+    .data((d, i) => [i + 1 + ". ", ...d.split(";")])
+    .enter()
+    .append("span")
+    .style("color", (d, i) =>
+      i == 0 ? colors[0] : colors[(i - 1) % colors.length]
+    )
+    .html((l) => l);
+}
+
+fillRecentSearchesPanel();
