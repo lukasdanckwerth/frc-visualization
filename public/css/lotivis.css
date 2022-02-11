@@ -9,6 +9,10 @@
   stroke-width: 1;
 }
 
+.ltv-bar-chart-axis-label {
+  font-size: 13px;
+}
+
 .ltv-bar-chart-label {
   pointer-events: none;
   font-size: 20px;
@@ -60,7 +64,6 @@
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -84,12 +87,16 @@
   opacity: 0.2;
 }
 
-.ltv-legend-pill input:hover ~ .ltv-pill-pill-span {
+.ltv-legend-pill input[type=checkbox]:hover ~ .ltv-pill-pill-span {
   opacity: 0.8;
 }
 
 /* When the checkbox is checked, add a blue background */
-.ltv-legend-pill input:checked ~ .ltv-legend-pill-span {
+.ltv-legend-pill input[type=checkbox]:checked ~ .ltv-legend-pill-span {
+  opacity: 1;
+}
+
+.ltv-legend-pill input[type=radio]:checked ~ .ltv-legend-pill-span {
   opacity: 1;
 }
 
@@ -231,6 +238,7 @@
   pointer-events: none;
   line-height: 1.4;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px 0;
+  z-index: 99;
 }
 
 .ltv-fade-in {

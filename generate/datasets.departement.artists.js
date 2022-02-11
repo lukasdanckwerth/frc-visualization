@@ -31,6 +31,15 @@ function dataset(name, artists) {
   return { label: name, stack: name, data: data(artists) };
 }
 
+let datasets = [
+  dataset("Artists", artists),
+  dataset("Female Artist", female),
+  dataset("Male Artist", male),
+  dataset("Group Artists", groups),
+];
+
+fileAccess.writeJSON(datasets, "departements.to.artists.all.json");
+
 fileAccess.writeJSON(
   dataset("Artists", artists),
   "departements.to.artists.json"
