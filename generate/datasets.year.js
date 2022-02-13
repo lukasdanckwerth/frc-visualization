@@ -25,6 +25,8 @@ function data(tracks, value) {
     t = tracks[i];
     if (!t) throw new Error("track invalid: " + i);
     if (!t.releaseYear) throw new Error("no release year: " + i);
+    if (t.releaseYear < 2000) continue;
+
     candidate = data.find((d) => d.date === t.releaseYear);
     if (candidate) {
       candidate.value += value(t);
@@ -42,53 +44,98 @@ function dataset(name, value) {
   return { label: name, stack: name, data: data(tracks, value) };
 }
 
-let tracksDataset = dataset("Tracks", (t) => 1);
-fileAccess.writeJSON([tracksDataset], "year.to.track.json");
+let tokensF = dataset("Tokens Female", (t) =>
+  t.sex === "F" ? t.tokens.length : 0
+);
+let tokensM = dataset("Tokens Male", (t) =>
+  t.sex === "M" ? t.tokens.length : 0
+);
+let tokensG = dataset("Tokens Group", (t) =>
+  t.sex === "G" ? t.tokens.length : 0
+);
+
+tokensF.stack = "Tokens";
+tokensM.stack = "Tokens";
+tokensG.stack = "Tokens";
+
+let typesF = dataset("Types Female", (t) =>
+  t.sex === "F" ? t.types.length : 0
+);
+let typesM = dataset("Types Male", (t) => (t.sex === "M" ? t.types.length : 0));
+let typesG = dataset("Types Group", (t) =>
+  t.sex === "G" ? t.types.length : 0
+);
+
+typesF.stack = "Types";
+typesM.stack = "Types";
+typesG.stack = "Types";
 
 let tokensDataset = dataset("Tokens", (t) => t.tokens.length);
-fileAccess.writeJSON([tokensDataset], "year.to.tokens.json");
-
 let typesDataset = dataset("Types", (t) => t.types.length);
-fileAccess.writeJSON([typesDataset], "year.to.types.json");
+tokensF.about =
+  "Amount of the tokens and the types of the corpus stacked by female, male and group artists.";
 
 fileAccess.writeJSON(
-  [tokensDataset, typesDataset],
-  "year.to.tokens.types.json"
+  [tokensF, tokensM, tokensG, typesF, typesM, typesG],
+  "year.to.tokens.and.types.json"
 );
 
 tokensDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-tokensDataset.label = "Tokens-(Relative)";
-fileAccess.writeJSON([tokensDataset], "year.to.tokens.per.tracks.json");
-
+tokensDataset.label = "Tokens (per Track)";
 typesDataset.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-typesDataset.label = "Types-(Relative)";
-fileAccess.writeJSON([typesDataset], "year.to.types.per.tracks.json");
+typesDataset.label = "Types (per Track)";
+
+tokensDataset.about =
+  "Tokens and types for each year devided by the total amount of tracks per year.";
+
+fileAccess.writeJSON(
+  [tokensDataset, typesDataset],
+  "year.to.tokens.and.types.relative.json"
+);
 
 typesDataset = dataset("Types", (t) => t.types.length);
 typesDataset.data.forEach((d) => (d.value = d.value / tokensADate.get(d.date)));
-typesDataset.label = "Types-(Relative)";
+typesDataset.label = "Types (per Tokens)";
+typesDataset.about =
+  "The percentage of types in lyrics. The higher the number the more diversity of tokens is used.";
+
 fileAccess.writeJSON([typesDataset], "year.to.types.per.tokens.json");
 
 let datasetFemale = dataset("Female", (t) => (t.sex === "F" ? 1 : 0));
-fileAccess.writeJSON([datasetFemale], "year.to.female.json");
-
 let datasetMale = dataset("Male", (t) => (t.sex === "M" ? 1 : 0));
-fileAccess.writeJSON([datasetMale], "year.to.male.json");
-
 let datasetGroup = dataset("Group", (t) => (t.sex === "G" ? 1 : 0));
-fileAccess.writeJSON([datasetGroup], "year.to.group.json");
+let datasets = [datasetFemale, datasetMale, datasetGroup];
+datasetFemale.about =
+  "Amount of Tracks grouped by female, male and group artists.";
+
+fileAccess.writeJSON(datasets, "year.to.tracks.grouped.json");
+
+datasetFemale.stack = "All";
+datasetMale.stack = "All";
+datasetGroup.stack = "All";
+
+datasetFemale.about =
+  "Amount of Tracks stacked by female, male and group artists.";
 
 fileAccess.writeJSON(
   [datasetFemale, datasetMale, datasetGroup],
-  "year.to.artists.json"
+  "year.to.tracks.stacked.json"
 );
 
+delete datasetFemale.stack;
+delete datasetMale.stack;
+delete datasetGroup.stack;
+
 datasetFemale.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-datasetFemale.label = "Female Relative per Year";
+datasetFemale.label = "Female";
 datasetMale.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-datasetMale.label = "Male Relative per Year";
+datasetMale.label = "Male";
 datasetGroup.data.forEach((d) => (d.value = d.value / byYear.get(d.date)));
-datasetGroup.label = "Groups Relative per Year";
+datasetGroup.label = "Groups";
+
+datasetFemale.about =
+  "Grouped percentage of Tracks made by female, male and group artists.";
+
 fileAccess.writeJSON(
   [datasetFemale, datasetMale, datasetGroup],
   "year.to.artists.per.tracks.json"
@@ -97,6 +144,9 @@ fileAccess.writeJSON(
 datasetFemale.stack = "Artists per Tracks";
 datasetMale.stack = "Artists per Tracks";
 datasetGroup.stack = "Artists per Tracks";
+
+datasetFemale.about =
+  "Stacked percentage of Tracks made by female, male and group artists.";
 
 fileAccess.writeJSON(
   [datasetFemale, datasetMale, datasetGroup],

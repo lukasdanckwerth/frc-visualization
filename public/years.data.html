@@ -13,40 +13,61 @@
       .ltv-bar-chart-label {
         font-size: 12px;
       }
+
+      .ltv-legend-pill-span {
+        border-radius: 0;
+      }
     </style>
   </head>
   <body>
     <div class="frcv-container">
-      <div class="frcv-col-3">
-        <a href="index.html" class="btn">Back</a>
+      <div class="frcv-header">
+        <a href="index.html"> Back </a>
       </div>
-      <div class="frcv-col-3 frcv-center">
-        <span>Years Data</span>
-      </div>
-      <div class="frcv-col-3 frcv-end">
-        <button type="button" onclick="barChart.pngDownload();">
-          Screenshot
-        </button>
-        <select id="data" onchange="dataChange()">
-          <option>Tracks</option>
-          <option>Tokens</option>
-          <option>Tokens (per Track)</option>
-          <option>Types</option>
-          <option>Types (per Track)</option>
-          <option>Types (per Tokens)</option>
-          <option>Tokens vs. Types</option>
-          <option>Tracks by Female Artists</option>
-          <option>Tracks by Male Artists</option>
-          <option>Tracks by Groups</option>
-          <option>Tracks by All Artists</option>
-          <option>Artists (per Track)</option>
-          <option>Artists (per Track) [Stacked]</option>
-        </select>
-        <input type="checkbox" id="labels" onchange="onLabels()" checked />
-        <label for="labels">Labels</label>
-      </div>
+      <div>
+        <div style="width: 300px; display: inline-block; vertical-align: top">
+          <div class="frcv-info-card">
+            <h2>Years Data</h2>
+            <div style="text-align: right">
+              <!-- DATA SOURCE -->
+              <select id="data" onchange="dataChange()">
+                <option>Tracks (Stacked)</option>
+                <option>Tracks (Grouped)</option>
+                <option>Tracks (Relative) [Grouped]</option>
+                <option>Tracks (Relative) [Stacked]</option>
+                <option>Tokens, Types (Stacked)</option>
+                <option>Tokens, Types (per Track)</option>
+                <option>Types (per Tokens)</option>
+                <option>Innovation List (Tracks)</option>
+                <option>Innovation List (Tokens)</option>
+              </select>
+            </div>
+            <div id="frcv-about" style="margin-top: 20px; line-height: 1.5">
+              <!-- about text here -->
+            </div>
+            <br />
+            <div style="text-align: right">
+              <!-- LABELS -->
+              <label for="labels">Labels:</label>
+              <input
+                type="checkbox"
+                id="labels"
+                onchange="onLabels()"
+                checked
+              />
+              <br />
+              <!-- SCREENSHOT BUTTON -->
+              <button type="button" onclick="barChart.pngDownload()">
+                Screenshot
+              </button>
+            </div>
+          </div>
+        </div>
 
-      <div id="bar-chart"></div>
+        <div style="display: inline-block; width: 880px; margin-left: 10px">
+          <div id="bar-chart"></div>
+        </div>
+      </div>
     </div>
 
     <script src="js/lib/lotivis.js"></script>
@@ -59,16 +80,24 @@
       let barChart = lotivis
         .bar()
         .selector("#bar-chart")
+        .width(800)
+        .height(400)
         .marginTop(40)
         .marginLeft(70)
+        .radius(0)
+        .ticks(10)
         .labels(true)
-        .enabled(false)
-        .dates(lotivis.d3.range(1995, 2021));
+        .enabled(false);
 
       barChart.legend().marginLeft(70).title(null);
 
       function setDataset(index) {
-        barChart.dataController(lotivis.parseDatasets(datasets[index])).run();
+        let dataset = datasets[index];
+        let aboutContainer = document.getElementById("frcv-about");
+        aboutContainer.innerText = dataset[0].about || "-";
+        barChart.title(dataset[0].label);
+        barChart.title(null);
+        barChart.dataController(lotivis.parseDatasets(dataset)).run();
       }
 
       function dataChange() {
@@ -80,19 +109,17 @@
       }
 
       Promise.all([
-        lotivis.d3.json("./assets/year.to.track.json"),
-        lotivis.d3.json("./assets/year.to.tokens.json"),
-        lotivis.d3.json("./assets/year.to.tokens.per.tracks.json"),
-        lotivis.d3.json("./assets/year.to.types.json"),
-        lotivis.d3.json("./assets/year.to.types.per.tracks.json"),
-        lotivis.d3.json("./assets/year.to.types.per.tokens.json"),
-        lotivis.d3.json("./assets/year.to.tokens.types.json"),
-        lotivis.d3.json("./assets/year.to.female.json"),
-        lotivis.d3.json("./assets/year.to.male.json"),
-        lotivis.d3.json("./assets/year.to.group.json"),
-        lotivis.d3.json("./assets/year.to.artists.json"),
+        lotivis.d3.json("./assets/year.to.tracks.stacked.json"),
+        lotivis.d3.json("./assets/year.to.tracks.grouped.json"),
         lotivis.d3.json("./assets/year.to.artists.per.tracks.json"),
         lotivis.d3.json("./assets/year.to.artists.per.tracks.stacked.json"),
+        lotivis.d3.json("./assets/year.to.tokens.and.types.json"),
+        lotivis.d3.json("./assets/year.to.tokens.and.types.relative.json"),
+        lotivis.d3.json("./assets/year.to.types.per.tokens.json"),
+        lotivis.d3.json("./assets/year.to.innovation.list.relative.json"),
+        lotivis.d3.json(
+          "./assets/year.to.innovation.list.tokens.relative.json"
+        ),
       ]).then((all) => {
         datasets = all;
         setDataset(0);

@@ -28,15 +28,15 @@ function data(tracks, value) {
 
 fileAccess.writeJSON(
   { label: "Tracks", data: data(tracks, (t) => 1) },
-  "corpus.overview.tracks.json"
+  "overview.tracks.json"
 );
 
 fileAccess.writeJSON(
-  { label: "Words", data: data(tracks, (t) => t.tokens.length) },
-  "corpus.overview.words.json"
+  { label: "Tokens", data: data(tracks, (t) => t.tokens.length) },
+  "overview.tokens.json"
 );
 
 fileAccess.writeJSON(
   { label: "Types", data: data(tracks, (t) => t.types.length) },
-  "corpus.overview.types.json"
+  "overview.types.json"
 );

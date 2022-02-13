@@ -12,8 +12,8 @@ console.log("innovationList", innovationList.length);
 const json = fileAccess.readCorpusJSON();
 const corpus = new frc.Corpus(json);
 
-function search(name, countType) {
-  console.log("search", name, countType);
+function search(countType) {
+  console.log("search", countType);
 
   const datasets = corpus.search(
     innovationList.join(","),
@@ -30,31 +30,44 @@ function search(name, countType) {
     delete d.tracks;
   });
 
-  console.log(name, "datasets", datasets.length);
-  // fileAccess.writeJSON(datasets, name + ".json");
-
   let flat = lotivis.flatDatasets(datasets);
-  console.log(name, "flat", flat.length);
-  // fileAccess.writeJSON(flat, name + ".flat.json");
-
   let combined = lotivis.toDataset(flat);
+
   console.log("datasets combined", combined.length);
-  fileAccess.writeJSON(combined[0], "corpus.overview." + name + ".json");
+
+  return combined[0];
 }
 
-search("innovation.list", frc.SearchCountType.tracks);
-search("innovation.list.relative.date", frc.SearchCountType.tracksRelativeDate);
-search(
-  "innovation.list.relative.location",
-  frc.SearchCountType.tracksRelativeLocation
+let overview = search(frc.SearchCountType.tracks);
+fileAccess.writeJSON(overview, "overview.innovation.list.json");
+
+let overviewTokens = search(frc.SearchCountType.words);
+fileAccess.writeJSON(overviewTokens, "overview.innovation.list.tokens.json");
+
+let yearToInnovation = search(frc.SearchCountType.tracksRelativeDate);
+yearToInnovation.about =
+  "Neologismus candidates in lyrics per tracks. The higher the number the more neologismus candidates are used.";
+fileAccess.writeJSON(
+  [yearToInnovation],
+  "year.to.innovation.list.relative.json"
 );
 
-search("innovation.list.words", frc.SearchCountType.words);
-search(
-  "innovation.list.words.relative.date",
-  frc.SearchCountType.wordsRelativeDate
+let yearToInnovationTokens = search(frc.SearchCountType.wordsRelativeDate);
+yearToInnovationTokens.about =
+  "Neologismus candidates percentage of tokens in lyrics. How much of the tokens are neologismus candidates.";
+fileAccess.writeJSON(
+  [yearToInnovationTokens],
+  "year.to.innovation.list.tokens.relative.json"
 );
-search(
-  "innovation.list.words.relative.location",
-  frc.SearchCountType.wordsRelativeLocation
+
+let depToInnovation = search(frc.SearchCountType.tracksRelativeLocation);
+fileAccess.writeJSON(
+  [depToInnovation],
+  "department.to.innovation.list.relative.json"
+);
+
+let depInnovationTokens = search(frc.SearchCountType.wordsRelativeLocation);
+fileAccess.writeJSON(
+  [depInnovationTokens],
+  "department.to.innovation.list.tokens.relative.json"
 );

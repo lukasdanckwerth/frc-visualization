@@ -10,7 +10,7 @@
 }
 
 .ltv-bar-chart-axis-label {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .ltv-bar-chart-label {
@@ -20,7 +20,7 @@
 
 .ltv-bar-chart-legend-label {
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .ltv-bar-chart-legend-circle {
@@ -55,6 +55,7 @@
   font-size: 12px;
   margin-right: 5px;
   display: block;
+  line-height: 1.5;
 }
 
 /* Customize the label (the container) */
@@ -78,11 +79,10 @@
 
 .ltv-legend-pill-span {
   font-size: 10px;
-  display: inline-block;
+  display: inline-flex;
   padding: 2px 7px;
   margin-right: 5px;
   margin-bottom: 5px;
-  border-radius: 999999px;
   color: white;
   opacity: 0.2;
 }
@@ -183,7 +183,7 @@
 .ltv-plot-label {
   fill: steelblue;
   text-anchor: start;
-  font-size: 12px;
+  font-size: 10px;
   pointer-events: none;
 }
 

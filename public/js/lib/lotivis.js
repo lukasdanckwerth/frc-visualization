@@ -1,5 +1,5 @@
 /*!
- * lotivis 1.0.101
+ * lotivis 1.0.102
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -20307,6 +20307,43 @@
     ZoomTransform: Transform
   });
 
+  selection.prototype.radius = function (radius) {
+      return this.attr("rx", radius).attr("ry", radius);
+  };
+
+  selection.prototype.div = function (aClass) {
+      return this.append("div").classed(aClass, true);
+  };
+
+  selection.prototype.error = function (text) {
+      return this.append("div").text(text);
+  };
+
+  selection.prototype.checkbox = function () {
+      // return this.append("div").text(text);
+
+      let pills = this.append("foreignobject")
+          .attr("width", 100)
+          .attr("height", 100)
+          // .append("label")
+          .classed("ltv-legend-pill", true);
+
+      pills
+          .append("input")
+          .classed("ltv-legend-checkbox", true)
+          .attr("type", "checkbox");
+
+      pills
+          .append("g")
+          .attr("fill", "red")
+          .classed("ltv-legend-pill-span", true)
+          .text((d, i) => "Hello World");
+
+      pills.append("text").text("Hello");
+
+      return pills;
+  };
+
   const DEFAULT_NUMBER_FORMAT = new Intl.NumberFormat("en-EN", {
     maximumFractionDigits: 3,
   }).format;
@@ -20316,87 +20353,63 @@
   }).format;
 
   /**
-   * lotivis wide default values
-   */
-  const DEFAULTS = {
-    /**
-     * A string which is used for unknown values
-     */
-    unknown: "LOTIVIS_UNKNOWN",
-
-    /**
-     * The border style
-     */
-    borderStyle: "solid 1px lightgray",
-
-    /**
-     * The default number formatter used by all charts.
-     */
-    numberFormat: GERMAN_NUMBER_FORMAT,
-
-    /**
-     * The default margin to use for charts
-     */
-    margin: 60,
-
-    /**
-     *  The default offset for the space between an object an the toolbar
-     */
-    tooltipOffset: 7,
-
-    /**
-     * The default radius to use for bars drawn on a chart
-     */
-    barRadius: 5,
-
-    /**
-     * A string which is used as prefix for download.
-     */
-    downloadFilePrefix: "ltv",
-
-    /**
-     * The deault filename generator.
-     */
-    // filenameGenerator: FILENAME_GENERATOR,
-  };
-
-  /**
    * lotivis wide configuration
    */
   const CONFIG = {
-    /**  A Boolean value indicating whether the debug logging is enabled */
-    debug: true,
+      /**
+       * A Boolean value indicating whether the debug logging is enabled
+       */
+      debug: true,
 
-    /** The default margin to use for charts */
-    defaultMargin: DEFAULTS.margin,
+      /**
+       * The default margin to use for charts
+       */
+      defaultMargin: 60,
 
-    /** The default offset for the space between an object an the toolbar */
-    tooltipOffset: DEFAULTS.tooltipOffset,
+      /**
+       * The default offset for the space between an object an the toolbar
+       */
+      tooltipOffset: 7,
 
-    /** The default radius to use for bars drawn on a chart */
-    barRadius: DEFAULTS.barRadius,
+      /**
+       *  The default radius to use for bars drawn on a chart
+       */
+      barRadius: 0,
 
-    /** The opacity to use for selection. */
-    selectionOpacity: 0.1,
+      /**
+       * The opacity to use for selection.
+       */
+      selectionOpacity: 0.1,
 
-    /** A string which is used as prefix for download. */
-    downloadFilePrefix: DEFAULTS.downloadFilePrefix,
+      /**
+       * A string which is used as prefix for download.
+       */
+      downloadFilePrefix: "ltv",
 
-    /** A string which is used as separator between components when creating a file name. */
-    filenameSeparator: DEFAULTS.filenameSeparator,
+      /**
+       * A string which is used as separator between components when creating a file name.
+       */
+      filenameSeparator: "-",
 
-    /** The default number formatter used by all charts. */
-    numberFormat: DEFAULTS.numberFormat,
+      /**
+       * The default number formatter used by all charts.
+       */
+      numberFormat: GERMAN_NUMBER_FORMAT,
 
-    /** The default id for a container displying the current url */
-    debugURLDivId: "DEBUG-ltv-url-DEBUG",
+      /**
+       * The default id for a container displying the current url
+       */
+      debugURLDivId: "DEBUG-ltv-url-DEBUG",
 
-    debugDataDivId: "DEBUG-ltv-data-DEBUG",
+      /**
+       *
+       */
+      debugDataDivId: "DEBUG-ltv-data-DEBUG",
 
-    /**
-     * The deault filename generator.
-     */
-    // filenameGenerator: DEFAULTS.filenameGenerator,
+      /**
+       * The deault filename generator.
+       */
+      // filenameGenerator: DEFAULTS.filenameGenerator,
   };
 
   /**
@@ -20404,24 +20417,243 @@
    * @param {*} input
    */
   function config(input) {
-    // return config object for no arguments
-    if (!arguments.length) return CONFIG;
+      // return config object for no arguments
+      if (!arguments.length) return CONFIG;
 
-    // return the value for the given key if input is string
-    if (arguments.length === 1 && typeof input === "string")
-      return Object.hasOwnProperty.call(CONFIG, input) ? CONFIG[input] : null;
+      // return the value for the given key if input is string
+      if (arguments.length === 1 && typeof input === "string")
+          return Object.hasOwnProperty.call(CONFIG, input) ? CONFIG[input] : null;
 
-    // iterate values of input, add them to lotivis config
-    for (const key in input) {
-      if (!Object.hasOwnProperty.call(input, key)) continue;
-      if (Object.hasOwnProperty.call(CONFIG, key)) {
-        CONFIG[key] = input[key];
-        ltv_debug("update config", key, " = ", CONFIG[key]);
-      } else {
-        ltv_debug("unknown config key", key);
+      // iterate values of input, add them to lotivis config
+      for (const key in input) {
+          if (!Object.hasOwnProperty.call(input, key)) continue;
+          if (Object.hasOwnProperty.call(CONFIG, key)) {
+              CONFIG[key] = input[key];
+              ltv_debug("update config", key, " = ", CONFIG[key]);
+          } else {
+              ltv_debug("unknown config key", key);
+          }
       }
+  }
+
+  function runsInBrowser() {
+      return !(typeof document === "undefined");
+  }
+
+  /**
+   * Gets or sets whethter lotivis is in debug mode.
+   * @param {Boolean} enabled Enable debug logging
+   */
+  function ltv_debug(...args) {
+      if (!arguments.length) return CONFIG.debug;
+
+      if (arguments.length === 1 && typeof args[0] === "boolean") {
+          config({ debug: args[0] });
+      } else if (CONFIG.debug) {
+          console.log("[ltv] ", ...args);
+      }
+  }
+
+  // Strings
+
+  function str(src) {
+      return "" + src;
+  }
+
+  function prefix(src, pre) {
+      return (src = str(src)), src.startsWith(pre || "") ? src : pre + src;
+  }
+
+  function postfix(src, post) {
+      return (src = str(src)), src.endsWith(post || "") ? src : src + post;
+  }
+
+  function cut$1(src, max) {
+      return ((src = str(src)), src.length <= max)
+          ? src
+          : postfix(src.substring(0, max), "...");
+  }
+
+  // D3 attributes
+
+  function transX(x) {
+      return "translate(" + x + ",0)";
+  }
+
+  function transY(y) {
+      return "translate(0," + y + ")";
+  }
+
+  const MAX_FILENAME_LENGTH = 120;
+
+  const separator = " ";
+
+  const formatTime = timeFormat("%Y-%m-%d" + separator + "%H-%M-%S");
+
+  /**
+   * Removes invalid characters of filenames.
+   * @param {string} filename The filename to make safe
+   * @returns {string} A safe-to-use filename
+   */
+  function safe(name) {
+      return name.split(` `).join(`-`).split(`/`).join(`-`).split(`:`).join(`-`);
+  }
+
+  /**
+   * The default filename creator.
+   * @param {*} dc The data controller
+   * @param {*} data The data
+   * @param {*} extension An optional extension
+   * @param {*} suf An optional suffix
+   * @returns
+   */
+  const FILENAME_GENERATOR = function (dc, data, extension, suf) {
+      let trimmed = data.labels
+          .map(safe)
+          .join(separator)
+          .substring(0, MAX_FILENAME_LENGTH);
+
+      let labelsCount = data.labels.length;
+      let stacksCount = data.stacks.length;
+      let dateString = formatTime(new Date());
+
+      let name = [
+          CONFIG.downloadFilePrefix,
+          trimmed,
+          labelsCount ? labelsCount + "L" : null,
+          stacksCount ? stacksCount + "S" : null,
+          dateString,
+          // Math.random().toString(36).substring(2, 8), // random
+          suf,
+      ].join(separator);
+
+      if (extension) name = name + prefix(extension, ".");
+
+      return name;
+  };
+
+  const formatGerman = "%d.%m.%Y";
+  const formatIso = "%Y-%m-%d";
+
+  function DEFAULT_DATE_ORDINATOR(value) {
+      return value;
+  }
+
+  function DATE_TO_NUMBER_ORDINATOR(date) {
+      return Number(date);
+  }
+
+  function GERMAN_DATE_ORDINATOR(string) {
+      return Number(timeParse(formatGerman)(string));
+  }
+
+  function ISO_DATE_ORDINATOR(string) {
+      return Number(timeParse(formatIso)(string));
+  }
+
+  function WEEKDAY_ORDINATOR(weekday) {
+      let lowercase = weekday.toLowerCase();
+      switch (lowercase) {
+          case "sunday":
+          case "sun":
+              return 0;
+          case "monday":
+          case "mon":
+              return 1;
+          case "tuesday":
+          case "tue":
+              return 2;
+          case "wednesday":
+          case "wed":
+              return 3;
+          case "thursday":
+          case "thr":
+              return 4;
+          case "friday":
+          case "fri":
+              return 5;
+          case "saturday":
+          case "sat":
+              return 6;
+          default:
+              return -1;
+      }
+  }
+
+  var date_ordinator = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    DEFAULT_DATE_ORDINATOR: DEFAULT_DATE_ORDINATOR,
+    DATE_TO_NUMBER_ORDINATOR: DATE_TO_NUMBER_ORDINATOR,
+    GERMAN_DATE_ORDINATOR: GERMAN_DATE_ORDINATOR,
+    ISO_DATE_ORDINATOR: ISO_DATE_ORDINATOR,
+    WEEKDAY_ORDINATOR: WEEKDAY_ORDINATOR
+  });
+
+  class DataUnqualifiedError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "DataUnqualifiedError";
     }
   }
+
+  function Data(data) {
+      if (!Array.isArray(data))
+          throw new DataUnqualifiedError("not an array", data);
+
+      // extremes
+      data.sum = sum$2(data, (d) => d.value);
+      data.max = max$3(data, (d) => d.value);
+      data.min = min$2(data, (d) => d.value);
+
+      // relations
+      data.byLabel = group(data, (d) => d.label);
+      data.byStack = group(data, (d) => d.stack || d.label);
+      data.byLocation = group(data, (d) => d.location);
+      data.byDate = group(data, (d) => d.date);
+
+      // meta
+      data.labels = Array.from(data.byLabel.keys());
+      data.stacks = Array.from(data.byStack.keys());
+      data.locations = Array.from(data.byLocation.keys());
+      data.dates = Array.from(data.byDate.keys());
+
+      return data;
+  }
+
+  // https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
+  // ids must not contain whitespaces
+  // ids should avoid ".", ":" and "/"
+  /**
+   * @param {*} id The id to escape from invalid characters
+   * @returns A safe to use version of the id
+   */
+  function safeId(id) {
+      return id
+          .split(` `)
+          .join(`-`)
+          .split(`/`)
+          .join(`-`)
+          .split(`.`)
+          .join(`-`)
+          .split(`:`)
+          .join(`-`);
+  }
+
+  // export function randomString() {
+  //     return Math.random().toString(36).substring(2, 8);
+  // }
+
+  /**
+   * Creates and returns a unique generated string.
+   */
+  const uniqueId = (function () {
+      var prefix = "ltv";
+      var counter = 0;
+
+      return function (type) {
+          return [prefix, type || "id", ++counter].join("-");
+      };
+  })();
 
   function element(selector) {
       var el = select(selector).node();
@@ -20461,36 +20693,6 @@
       document.head.appendChild(script);
   })();
 
-  /**
-   * Appends the passed value in suffix to the passed value of string if string not
-   * already ends with suffix.
-   *
-   * @param {*} string The source string to be extended
-   * @param {*} suffix The suffix to append
-   * @returns {string} The string with the passed suffix
-   */
-  // export function append(string, suffix) {
-  //   return ("" + string).endsWith(suffix || "") ? string : string + suffix;
-  // }
-
-  function str(src) {
-      return "" + src;
-  }
-
-  function prefix(src, pre) {
-      return (src = str(src)), src.startsWith(pre || "") ? src : pre + src;
-  }
-
-  function postfix(src, post) {
-      return (src = str(src)), src.endsWith(post || "") ? src : src + post;
-  }
-
-  function cut$1(src, max) {
-      return ((src = str(src)), src.length <= max)
-          ? src
-          : postfix(src.substring(0, max), "...");
-  }
-
   const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
 
   function csvParse(text) {
@@ -20511,19 +20713,19 @@
    * @returns {boolean} A Boolean value indicating whether the given value is valid.
    */
   function isValue(value) {
-    return Boolean(value || value === 0);
+      return Boolean(value || value === 0);
   }
 
   function isString(value) {
-    return value && typeof value === "string";
+      return value && typeof value === "string";
   }
 
   function isFunction(value) {
-    return value && typeof value === "function";
+      return value && typeof value === "function";
   }
 
   function copy(object) {
-    return JSON.parse(JSON.stringify(object));
+      return JSON.parse(JSON.stringify(object));
   }
 
   function baseChart(state) {
@@ -20758,10 +20960,6 @@
       return chart;
   }
 
-  const DATATEXT_TITLE = function (dt, dv) {
-      return "Data";
-  };
-
   /**
    * Returns the JSON string from the passed data view.
    * @param {datatext} dt The
@@ -20799,7 +20997,7 @@
           enabled: true,
 
           // (optional) title of the datatext
-          title: DATATEXT_TITLE,
+          title: (dt, dv) => "Data",
 
           // the text to display for the data
           text: CSV_TEXT,
@@ -20927,380 +21125,12 @@
       return chart;
   }
 
-  function runsInBrowser() {
-      return !(typeof document === "undefined");
-  }
-
-  /**
-   * Gets or sets whethter lotivis is in debug mode.
-   * @param {Boolean} enabled Enable debug logging
-   */
-  function ltv_debug(...args) {
-      if (!arguments.length) return CONFIG.debug;
-
-      if (arguments.length === 1 && typeof args[0] === "boolean") {
-          config({ debug: args[0] });
-      } else if (CONFIG.debug) {
-          console.log("[ltv] ", ...args);
-      }
-  }
-
   function data_preview(dc) {
       if (!dc || !CONFIG.debug || !runsInBrowser()) return;
       if (!document.getElementById("ltv-data")) return;
       if (!CONFIG.datatext) CONFIG.datatext = datatext().selector("#ltv-data");
       CONFIG.datatext.dataController(dc).run();
   }
-
-  // https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
-
-  /**
-   * @param {*} id The id to escape from invalid characters
-   * @returns A safe to use version of the id
-   */
-  function safeId(id) {
-    return id
-      .split(` `)
-      .join(`-`)
-      .split(`/`)
-      .join(`-`)
-      .split(`.`)
-      .join(`-`)
-      .split(`:`)
-      .join(`-`);
-  }
-
-  /**
-   * Creates and returns a unique generated string.
-   */
-  const uniqueId = (function () {
-    var prefix = "ltv";
-    var counter = 0;
-
-    return function (type) {
-      return [prefix, type || "id", ++counter].join("-");
-    };
-  })();
-
-  const MAX_FILENAME_LENGTH = 120;
-
-  const separator = " ";
-
-  const formatTime = timeFormat("%Y-%m-%d" + separator + "%H-%M-%S");
-
-  /**
-   * Removes invalid characters of filenames.
-   * @param {string} filename The filename to make safe
-   * @returns {string} A safe-to-use filename
-   */
-  function safe(name) {
-    return name.split(` `).join(`-`).split(`/`).join(`-`).split(`:`).join(`-`);
-  }
-
-  /**
-   * The default filename creator.
-   * @param {*} dc The data controller
-   * @param {*} data The data
-   * @param {*} extension An optional extension
-   * @param {*} suf An optional suffix
-   * @returns
-   */
-  const FILENAME_GENERATOR = function (dc, data, extension, suf) {
-    let trimmed = data.labels
-      .map(safe)
-      .join(separator)
-      .substring(0, MAX_FILENAME_LENGTH);
-
-    let labelsCount = data.labels.length;
-    let stacksCount = data.stacks.length;
-    let dateString = formatTime(new Date());
-
-    let name = [
-      CONFIG.downloadFilePrefix,
-      trimmed,
-      labelsCount ? labelsCount + "L" : null,
-      stacksCount ? stacksCount + "S" : null,
-      dateString,
-      // Math.random().toString(36).substring(2, 8), // random
-      suf,
-    ].join(separator);
-
-    if (extension) name = name + prefix(extension, ".");
-
-    return name;
-  };
-
-  const formatGerman = "%d.%m.%Y";
-  const formatIso = "%Y-%m-%d";
-
-  function DEFAULT_DATE_ORDINATOR(value) {
-    return value;
-  }
-
-  function DATE_TO_NUMBER_ORDINATOR(date) {
-    return Number(date);
-  }
-
-  function GERMAN_DATE_ORDINATOR(string) {
-    return Number(timeParse(formatGerman)(string));
-  }
-
-  function ISO_DATE_ORDINATOR(string) {
-    return Number(timeParse(formatIso)(string));
-  }
-
-  function WEEKDAY_ORDINATOR(weekday) {
-    let lowercase = weekday.toLowerCase();
-    switch (lowercase) {
-      case "sunday":
-      case "sun":
-        return 0;
-      case "monday":
-      case "mon":
-        return 1;
-      case "tuesday":
-      case "tue":
-        return 2;
-      case "wednesday":
-      case "wed":
-        return 3;
-      case "thursday":
-      case "thr":
-        return 4;
-      case "friday":
-      case "fri":
-        return 5;
-      case "saturday":
-      case "sat":
-        return 6;
-      default:
-        return -1;
-    }
-  }
-
-  var date_ordinator = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    DEFAULT_DATE_ORDINATOR: DEFAULT_DATE_ORDINATOR,
-    DATE_TO_NUMBER_ORDINATOR: DATE_TO_NUMBER_ORDINATOR,
-    GERMAN_DATE_ORDINATOR: GERMAN_DATE_ORDINATOR,
-    ISO_DATE_ORDINATOR: ISO_DATE_ORDINATOR,
-    WEEKDAY_ORDINATOR: WEEKDAY_ORDINATOR
-  });
-
-  /** Returns the darker darker version of the passed color. */
-  function darker(color) {
-      return color.darker().darker();
-  }
-
-  // constants
-
-  /** The default colors used by lotivis. */
-  const DATA_COLORS = []
-      .concat(category10)
-      .concat(Tableau10)
-      .concat(Dark2);
-
-  /** The default tint color used by lotivis. */
-  const TINT_COLOR = DATA_COLORS[0];
-
-  /**
-   *
-   * @param {*} data The data to generate colors for
-   * @return {DataColors} A data colors object
-   */
-  function DataColors(data) {
-      let baseColors = DATA_COLORS,
-          stackColors = new Map(),
-          labelColors = new Map(),
-          stacksToLabels = group(
-              data,
-              (d) => d.stack || d.label,
-              (d) => d.label
-          ),
-          stacks = Array.from(stacksToLabels.keys());
-
-      /**
-       * Returns a collection of label belonging the passed stack.
-       * @private
-       */
-      function stackLabels(stack) {
-          return Array.from((stacksToLabels.get(stack) || []).keys());
-      }
-
-      /**
-       * From the collection of base color returns the color for
-       * the passed stack by calculating the stacks index.
-       * @private
-       */
-      function stackColor(stack) {
-          return baseColors[stacks.indexOf(stack) % baseColors.length];
-      }
-
-      stacks.forEach((stack) => {
-          let labels = stackLabels(stack);
-          let c1 = color(stackColor(stack));
-          let colors = ColorScale(labels.length, [c1, darker(c1)]);
-
-          stackColors.set(stack, c1);
-
-          labels.forEach((label, index) => {
-              labelColors.set(label, colors(index));
-          });
-      });
-
-      function main() {}
-
-      /**
-       * Returns the color for the given stack.
-       *
-       * @param {stack} stack The stack
-       * @returns The d3.color for the stack
-       * @public
-       */
-      main.stack = function (stack) {
-          return stackColors ? stackColors.get(stack) || TINT_COLOR : TINT_COLOR;
-      };
-
-      /**
-       * Returns the color for the given label.
-       *
-       * @param {label} label The label
-       * @returns {d3.Color} The color for the label
-       * @public
-       */
-      main.label = function (label) {
-          return labelColors ? labelColors.get(label) || TINT_COLOR : TINT_COLOR;
-      };
-
-      return main;
-  }
-
-  function MapColors(max) {
-      return linear()
-          .domain([0, (1 / 3) * max, (2 / 3) * max, max])
-          .range(["yellow", "orange", "red", "purple"]);
-  }
-
-  function PlotColors(max) {
-      return ColorScale(max, ["yellow", "orange", "red", "purple"]);
-  }
-
-  function ColorScale(max, colors) {
-      return linear()
-          .domain(colors.map((c, i) => (i / (colors.length - 1)) * max))
-          .range(colors);
-  }
-
-  class DataUnqualifiedError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = "DataUnqualifiedError";
-    }
-  }
-
-  function Data(data) {
-      if (!Array.isArray(data))
-          throw new DataUnqualifiedError("not an array", data);
-
-      // extremes
-      data.sum = sum$2(data, (d) => d.value);
-      data.max = max$3(data, (d) => d.value);
-      data.min = min$2(data, (d) => d.value);
-
-      // relations
-      data.byLabel = group(data, (d) => d.label);
-      data.byStack = group(data, (d) => d.stack || d.label);
-      data.byLocation = group(data, (d) => d.location);
-      data.byDate = group(data, (d) => d.date);
-
-      // meta
-      data.labels = Array.from(data.byLabel.keys());
-      data.stacks = Array.from(data.byStack.keys());
-      data.locations = Array.from(data.byLocation.keys());
-      data.dates = Array.from(data.byDate.keys());
-
-      return data;
-  }
-
-  function inBrowser() {
-      return typeof window !== "undefined";
-  }
-
-  function base64encode(obj) {
-      return obj === null
-          ? null
-          : btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
-  }
-
-  function base64decode(b64) {
-      if (!inBrowser()) return null;
-      try {
-          return JSON.parse(decodeURIComponent(escape(window.atob(b64))));
-      } catch (error) {
-          ltv_debug(error);
-          return null;
-      }
-  }
-
-  class URLParams {
-      static locationURL() {
-          return inBrowser() ? new URL(window.location.href) : null;
-      }
-
-      static set(key, value) {
-          if (!inBrowser()) return;
-          const url = URLParams.locationURL();
-
-          value === null
-              ? url.searchParams.delete(key)
-              : url.searchParams.set(key, value);
-
-          this.updateHistory(url);
-      }
-
-      static get(key) {
-          return inBrowser()
-              ? URLParams.locationURL().searchParams.get(key)
-              : null;
-      }
-
-      static boolean(key) {
-          return this.get(key) === "true";
-      }
-
-      static object(key, value) {
-          return arguments.length === 1
-              ? base64decode(this.get(key))
-              : this.set(key, base64encode(value));
-      }
-
-      static exists(key) {
-          return this.get(key) !== null;
-      }
-
-      static documentTitle() {
-          return inBrowser() ? document.title : "";
-      }
-
-      static updateHistory(url) {
-          if (!inBrowser()) return;
-          window.history.replaceState(null, this.documentTitle(), url);
-          this.updateURLContainer(url);
-      }
-
-      static updateURLContainer(url) {
-          if (!inBrowser()) return;
-
-          if (!URLParams.conainer)
-              URLParams.conainer = select("#" + CONFIG.debugURLDivId)
-                  .classed("ltv-url", true);
-
-          URLParams.conainer.text(url || URLParams.locationURL());
-      }
-  }
-
-  // run update of container presenting the URL once
-  URLParams.updateURLContainer();
 
   class DataController {
       constructor(data) {
@@ -21317,7 +21147,6 @@
               snapshot: data,
               filters: { labels: [], locations: [], dates: [], stacks: [] },
               filenameGenerator: FILENAME_GENERATOR,
-              dataColors: DataColors(data),
               dateAccess: DEFAULT_DATE_ORDINATOR,
           };
 
@@ -21389,14 +21218,6 @@
 
               // do calculations
               calculateSnapshot();
-
-              console.log("this.hasFilters()", this.hasFilters());
-              console.log("attr.filters", attr.filters);
-
-              URLParams.object(
-                  this.id + "-filters",
-                  this.hasFilters() ? this.filters() : null
-              );
 
               // call listeners
               disp.call("filter", this, sender, name, action, item);
@@ -21528,24 +21349,6 @@
               return arguments.length
                   ? ((attr.snapshot = _), this)
                   : attr.snapshot || attr.data;
-          };
-
-          /**
-           * Returns the color for the data with the passed label.
-           * @param {String} label The label of the data
-           * @returns {d3.Color} The color of the label
-           */
-          this.labelColor = function (label) {
-              return attr.dataColors.label(label);
-          };
-
-          /**
-           * Returns the color for the passed stack.
-           * @param {String} stack The stack of the data
-           * @returns {d3.Color} The color of the stack
-           */
-          this.stackColor = function (stack) {
-              return attr.dataColors.stack(stack);
           };
 
           /**
@@ -21765,6 +21568,177 @@
     }
 
     return datasets;
+  }
+
+  /** Returns the darker darker version of the passed color. */
+  function darker(color) {
+      // return color.darker().darker();
+      return color.darker();
+  }
+
+  // constants
+
+  const colorSchemeCategory10 = category10;
+
+  const colorSchemeTableau10 = Tableau10;
+
+  const colorSchemeLotivis10 = [
+      "RoyalBlue",
+      "MediumSeaGreen",
+      "MediumPurple",
+      "Violet",
+      "Orange",
+      "Tomato",
+      "Turquoise",
+      "LightGray",
+      "Gray",
+      "BurlyWood",
+  ];
+
+  const tintColor = colorSchemeLotivis10[0];
+
+  const colorScale1 = colorScale("Yellow", "Orange", "Red", "Purple");
+
+  const colorScale2 = colorScale("White", "MediumSeaGreen", "RoyalBlue");
+
+  function ColorsGenerator(c, d) {
+      let colors = c || colorSchemeLotivis10,
+          data = d || [],
+          stackColors,
+          labelColors,
+          stacksToLabels,
+          stacks;
+
+      function fallback() {
+          return Array.isArray(colors) && colors.length ? colors[0] : "RoyalBlue";
+      }
+
+      function generator(index) {
+          return colors[(+index || 0) % colors.length];
+      }
+
+      function calc() {
+          stackColors = new Map();
+          labelColors = new Map();
+          stacksToLabels = group(
+              data,
+              (d) => d.stack || d.label,
+              (d) => d.label
+          );
+          stacks = Array.from(stacksToLabels.keys());
+
+          stacks.forEach((stack) => {
+              let labels = Array.from((stacksToLabels.get(stack) || []).keys());
+              let stackColor = colors[stacks.indexOf(stack) % colors.length];
+              let c1 = color(stackColor);
+              let stackScale = colorScale(c1, darker(c1));
+
+              stackColors.set(stack, c1);
+
+              labels.forEach((label, index) => {
+                  labelColors.set(label, stackScale(index / labels.length));
+              });
+          });
+
+          return generator;
+      }
+
+      generator.data = function (_) {
+          return arguments.length ? ((data = _), calc()) : data;
+      };
+
+      generator.colors = function (_) {
+          return arguments.length ? ((colors = _), calc()) : colors;
+      };
+
+      generator.stack = function (stack) {
+          return stackColors ? stackColors.get(stack) || fallback() : fallback();
+      };
+
+      generator.label = function (label) {
+          return labelColors ? labelColors.get(label) || fallback() : fallback();
+      };
+
+      return generator;
+  }
+
+  /**
+   *
+   * @param {*} data The data to generate colors for
+   * @return {DataColors} A data colors object
+   */
+  function DataColors(data) {
+      let baseColors = colorSchemeLotivis10,
+          stackColors = new Map(),
+          labelColors = new Map(),
+          stacksToLabels = group(
+              data,
+              (d) => d.stack || d.label,
+              (d) => d.label
+          ),
+          stacks = Array.from(stacksToLabels.keys());
+
+      /**
+       * Returns a collection of label belonging the passed stack.
+       * @private
+       */
+      function stackLabels(stack) {
+          return Array.from((stacksToLabels.get(stack) || []).keys());
+      }
+
+      /**
+       * From the collection of base color returns the color for
+       * the passed stack by calculating the stacks index.
+       * @private
+       */
+      function stackColor(stack) {
+          return baseColors[stacks.indexOf(stack) % baseColors.length];
+      }
+
+      stacks.forEach((stack) => {
+          let labels = stackLabels(stack);
+          let c1 = color(stackColor(stack));
+          let colors = colorScale(c1, darker(c1));
+
+          stackColors.set(stack, c1);
+
+          labels.forEach((label, index) => {
+              labelColors.set(label, colors(index / labels.length));
+          });
+      });
+
+      function main() {}
+
+      /**
+       * Returns the color for the given stack.
+       *
+       * @param {stack} stack The stack
+       * @returns The d3.color for the stack
+       * @public
+       */
+      main.stack = function (stack) {
+          return stackColors ? stackColors.get(stack) || tintColor : tintColor;
+      };
+
+      /**
+       * Returns the color for the given label.
+       *
+       * @param {label} label The label
+       * @returns {d3.Color} The color for the label
+       * @public
+       */
+      main.label = function (label) {
+          return labelColors ? labelColors.get(label) || tintColor : tintColor;
+      };
+
+      return main;
+  }
+
+  function colorScale(...colors) {
+      if (!colors.length) throw new Error("no colors");
+      return linear()
+          .domain(colors.map((c, i) => i / (colors.length - 1)))
+          .range(colors);
   }
 
   /**
@@ -23166,6 +23140,27 @@
       return geojsonCopy(json, ids, (f) => ids.includes(idValue(f)));
   }
 
+  class Events {
+      static disp = dispatch(
+          "filter",
+          "data",
+          "map-selection-will-change",
+          "map-selection-did-change"
+      );
+
+      static on(name, callback) {
+          ltv_debug("Events on", name);
+          this.disp.on(name, callback);
+      }
+
+      static call(name, sender, ...params) {
+          ltv_debug("Events on", name);
+          this.disp.call(name, this, sender, ...params);
+      }
+  }
+
+  Events.shared = new Events();
+
   /**
    * Reusable Map Chart API class that renders a
    * simple and configurable map chart.
@@ -23188,10 +23183,10 @@
           height: 1000,
 
           // margin
-          marginLeft: 20,
-          marginTop: 20,
-          marginRight: 20,
-          marginBottom: 20,
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
 
           // Whether the chart is enabled.
           enabled: true,
@@ -23205,12 +23200,20 @@
           // whether to draw a legend on the map
           legend: true,
 
+          legendPanel: true,
+
           // whether to display a tooltip.
           tooltip: true,
 
           exclude: null,
 
           include: null,
+
+          colorScale: colorScale2,
+
+          colorScheme: colorSchemeLotivis10,
+
+          radius: CONFIG.barRadius,
 
           // the geojson wich is drawn
           geoJSON: null,
@@ -23233,10 +23236,6 @@
       let chart = baseChart(state);
       state.projection = mercator();
       state.path = index$3().projection(state.projection);
-
-      function colors() {
-          return state.dataController.dataColors();
-      }
 
       /**
        * Tells the map chart that the GeoJSON has changed.
@@ -23316,7 +23315,7 @@
           }
       }
 
-      function htmlValues(features, dv) {
+      function htmlValues(features, dv, calc) {
           let combinedByLabel = {};
           for (let i = 0; i < features.length; i++) {
               let feature = features[i];
@@ -23337,7 +23336,7 @@
           let components = [""];
           let sum = 0;
           for (const label in combinedByLabel) {
-              let color = colors().label(label);
+              let color = calc.colors.label(label);
               let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
               sum += combinedByLabel[label];
               let value = state.numberFormat(combinedByLabel[label]);
@@ -23443,7 +23442,7 @@
                   calc.tooltip.html(
                       [
                           htmlTitle(calc.selectedFeatures),
-                          htmlValues(calc.selectedFeatures, dv),
+                          htmlValues(calc.selectedFeatures, dv, calc),
                       ].join("<br>")
                   );
                   positionTooltip(
@@ -23453,9 +23452,10 @@
                   );
               } else {
                   calc.tooltip.html(
-                      [htmlTitle([feature]), htmlValues([feature], dv)].join(
-                          "<br>"
-                      )
+                      [
+                          htmlTitle([feature]),
+                          htmlValues([feature], dv, calc),
+                      ].join("<br>")
                   );
                   positionTooltip(event, feature, calc);
               }
@@ -23483,7 +23483,7 @@
 
           let locationToSum = dv.locationToSum;
           let max = max$3(locationToSum, (item) => item[1]);
-          let generator = MapColors(1);
+          let generator = state.colorScale;
 
           calc.areas = calc.svg
               .selectAll(".ltv-map-area")
@@ -23554,9 +23554,11 @@
           let max = max$3(locationToSum, (item) => item[1]) || 0;
 
           let xOff = 10 + state.marginLeft;
-          let labelColor = state.dataController.stackColor(label);
+          let labelColor = calc.colors.stack(label);
 
-          let mapColors = MapColors(max);
+          xOff = 1;
+
+          let mapColors = state.colorScale;
           let allData = [
               "No Data",
               "0",
@@ -23597,7 +23599,7 @@
                       ? "white"
                       : i === 1
                       ? "whitesmoke"
-                      : mapColors(i === 2 ? 0 : d);
+                      : mapColors(i === 2 ? 0 : d / max);
               })
               .attr("x", xOff)
               .attr("y", (d, i) => i * 20 + 30)
@@ -23619,7 +23621,7 @@
           return;
       }
 
-      function renderLegendPanel(calc, dv) {
+      function renderDataSelectionPanel(calc, dv) {
           let stacks = dv.stacks;
           let selectedStack = state.selectedStack || stacks[0];
           let radioName = state.id + "-radio";
@@ -23648,14 +23650,17 @@
               .attr("checked", (stack) => (stack == selectedStack ? true : null))
               .on("change", (event, stack) => {
                   if (selectedStack == stack) return;
+                  Events.call("map-selection-will-change", chart, stack);
                   state.selectedStack = stack;
+                  Events.call("map-selection-did-change", chart, stack);
                   chart.run();
               });
 
           calc.legendPanelCpans = calc.legendPanelPills
               .append("span")
               .classed("ltv-legend-pill-span", true)
-              .style("background-color", (stack) => colors().stack(stack))
+              .style("border-radius", postfix(state.radius, "px"))
+              .style("background-color", (stack) => calc.colors.stack(stack))
               .text((d, i) => cut$1(d, 20));
       }
 
@@ -23746,6 +23751,7 @@
           calc.graphHeight = state.height - state.marginTop - state.marginBottom;
           calc.graphBottom = state.height - state.marginBottom;
           calc.graphRight = state.width - state.marginRight;
+          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
 
           if (!state.geoJSON) {
               chart.geoJSON(createGeoJSON(dv.locations));
@@ -23769,8 +23775,19 @@
               renderLegend(calc, dv);
           }
 
-          renderLegendPanel(calc, dv);
+          if (state.legendPanel) {
+              renderDataSelectionPanel(calc, dv);
+          }
       };
+
+      Events.on(
+          "map-selection-did-change." + chart.id(),
+          function (sender, stack, b, c) {
+              if (sender === chart) return;
+              state.selectedStack = stack;
+              chart.run();
+          }
+      );
 
       // return generated chart
       return chart;
@@ -23817,6 +23834,8 @@
 
           // the format of displaying a group
           groupFormat: GROUP_TITLE_FORMAT,
+
+          colorScheme: colorSchemeLotivis10,
 
           // (optional) title of the legend
           title: null,
@@ -23914,10 +23933,6 @@
           return state.stackFormat(stack, value, labels, index);
       }
 
-      function dataColors() {
-          return state.dataController.dataColors();
-      }
-
       function disabled() {
           return unwrap(state.enabled) ? null : true;
       }
@@ -23934,14 +23949,6 @@
           return typeof value === "function" ? value(chart) : value;
       }
 
-      selection.prototype.div = function (aClass) {
-          return this.append("div").classed(aClass, true);
-      };
-
-      selection.prototype.error = function (text) {
-          return this.append("div").text(text);
-      };
-
       /**
        * Calculates the data view for the bar chart.
        *
@@ -23952,6 +23959,7 @@
        */
       chart.dataView = function (dc) {
           var dv = {};
+          dv.data = dc.data();
           dv.labels = dc.labels();
           dv.stacks = dc.stacks();
           dv.locations = dc.locations();
@@ -23990,14 +23998,15 @@
        * @public
        */
       chart.render = function (container, calc, dv) {
+          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
           calc.div = container
               .append("div")
-              .div("ltv-legend")
+              .classed("ltv-legend", true)
               .attr("id", state.id)
-              .style("padding-left", state.marginLeft + "px")
-              .style("padding-top", state.marginTop + "px")
-              .style("padding-right", state.marginRight + "px")
-              .style("padding-bottom", state.marginBottom + "px");
+              .style("margin-left", state.marginLeft + "px")
+              .style("margin-top", state.marginTop + "px")
+              .style("margin-right", state.marginRight + "px")
+              .style("margin-bottom", state.marginBottom + "px");
 
           // if a title is given render div with title inside
           if (state.title) {
@@ -24007,7 +24016,7 @@
                   .text(unwrap(state.title));
           }
 
-          var colorFn = isStacks() ? dataColors().stack : dataColors().label;
+          var colorFn = isStacks() ? calc.colors.stack : calc.colors.label;
           var changeFn = isStacks() ? toggleStack : toggleLabel;
           var textFn = isStacks() ? stackText : labelText;
 
@@ -24016,7 +24025,7 @@
               .data(isGroups() ? dv.stacks : [""]) // use single group when mode is not "groups"
               .enter()
               .div("ltv-legend-group")
-              .style("color", (s) => dataColors().stack(s));
+              .style("color", (s) => calc.colors.stack(s));
 
           // draw titles only in "groups" mode
           if (isGroups()) {
@@ -24068,14 +24077,6 @@
       return chart;
   }
 
-  function transX(x) {
-      return "translate(" + x + ",0)";
-  }
-
-  function transY(y) {
-      return "translate(0," + y + ")";
-  }
-
   /**
    * Reusable Bar Chart API class that renders a
    * simple and configurable bar chart.
@@ -24094,6 +24095,8 @@
       let state = {
           // a unique id for this chart
           id: uniqueId("bar"),
+
+          title: "BarChart",
 
           // the width of the chart's svg
           width: 1000,
@@ -24116,7 +24119,7 @@
           // whether to draw labels
           labels: false,
 
-          labelRotation: -90,
+          labelRotation: -70,
 
           legend: legend(),
 
@@ -24124,10 +24127,14 @@
 
           yAxis: false,
 
+          ticks: 10,
+
           // whether to display a tooltip.
           tooltip: true,
 
           style: "stacks",
+
+          colorScheme: colorSchemeLotivis10,
 
           // the data controller.
           dataController: null,
@@ -24144,10 +24151,6 @@
 
       // Create new underlying chart with the specified state.
       let chart = baseChart(state);
-
-      function colors() {
-          return state.dataController.dataColors();
-      }
 
       /**
        *
@@ -24177,7 +24180,7 @@
           calc.xStack = band()
               .domain(dv.stacks)
               .rangeRound([0, calc.xChartScale.bandwidth()])
-              .padding(0.01);
+              .padding(0.05);
 
           calc.yChart = linear()
               .domain([0, dv.maxTotal])
@@ -24193,18 +24196,59 @@
               .attr("viewBox", `0 0 ${state.width} ${state.height}`);
       }
 
+      function renderTitle(calc, dv) {
+          calc.title = calc.svg
+              .append("text")
+              .attr("class", "ltv-title")
+              .attr("text-anchor", "middle")
+              .attr("x", calc.graphWidth / 2)
+              .attr("y", 10)
+              .text(state.title);
+      }
+
       /**
        * Renders the axis of the chart.
        * @param {*} calc The calc obj
        * @private
        */
-      function renderAxis(calc) {
+      function renderAxis(calc, dv) {
           // left axis
+          // let leftAxis =
+
+          if (Number.isInteger(state.ticks)) {
+              calc.svg
+                  .append("g")
+                  .call(axisLeft(calc.yChart).ticks(state.ticks))
+                  .attr("transform", transX(state.marginLeft))
+                  .attr("class", "ltv-bar-chart-axis-label");
+          }
+
+          function datesLabelColor(date) {
+              return state.dataController.isFilter("dates", date)
+                  ? "gray"
+                  : "white";
+          }
+
+          let dc = state.dataController;
+          let dates = state.dates || dv.dates;
           calc.svg
               .append("g")
-              .call(axisLeft(calc.yChart))
-              .attr("transform", transX(state.marginLeft))
-              .attr("class", "ltv-bar-chart-axis-label");
+              .attr("transform", transY(state.height - state.marginBottom + 4))
+              .selectAll("g")
+              .data(dates)
+              .enter()
+              .append("rect")
+              .attr("fill", datesLabelColor)
+              .attr("cursor", "pointer")
+              .attr("x", (d) => calc.xChartScale(d))
+              .attr("width", calc.xChartScale.bandwidth())
+              .attr("height", 20)
+              .radius(state.radius)
+              .text((d) => d)
+              .on("click", (e, d, some) => {
+                  dc.toggleFilter("dates", d, chart);
+                  select(e.target).attr("fill", datesLabelColor);
+              });
 
           // bottom axis
           calc.svg
@@ -24220,11 +24264,11 @@
        * @private
        */
       function renderGrid(calc) {
-          if (state.xAxis) {
+          if (state.xAxis && Number.isInteger(state.ticks)) {
               let xAxisGrid = axisLeft(calc.yChart)
                   .tickSize(-calc.graphWidth)
                   .tickFormat("")
-                  .ticks(20);
+                  .ticks(state.ticks);
 
               calc.svg
                   .append("g")
@@ -24297,7 +24341,7 @@
               }
 
               calc.tip
-                  .html(getHTMLForDate(date, dv))
+                  .html(getHTMLForDate(date, dv, calc))
                   .top(`${top}px`)
                   .left(`${left}px`)
                   .show();
@@ -24342,13 +24386,12 @@
               .enter()
               .append("rect")
               .attr("class", "ltv-bar-chart-bar")
-              .attr("fill", (d) => colors().stack(d[0]))
+              .attr("fill", (d) => calc.colors.stack(d[0]))
               .attr("x", (d) => calc.xStack(d[0]))
               .attr("y", (d) => calc.yChart(d[1]))
               .attr("width", calc.xStack.bandwidth())
               .attr("height", (d) => calc.graphBottom - calc.yChart(d[1]))
-              .attr("rx", state.radius)
-              .attr("ry", state.radius)
+              .radius(state.radius)
               .raise();
       }
 
@@ -24371,14 +24414,13 @@
               .enter()
               .append("rect")
               .attr("class", "ltv-bar-chart-bar")
-              .attr("fill", (d) => colors().label(d[2]))
+              .attr("fill", (d) => calc.colors.label(d[2]))
               .attr("width", calc.xStack.bandwidth())
               .attr("height", (d) =>
                   !d[1] ? 0 : calc.yChart(d[0]) - calc.yChart(d[1])
               )
               .attr("y", (d) => calc.yChart(d[1]))
-              .attr("rx", state.radius)
-              .attr("ry", state.radius)
+              .radius(state.radius)
               .raise();
       }
 
@@ -24435,7 +24477,7 @@
           );
       }
 
-      function getHTMLForDate(date, dv) {
+      function getHTMLForDate(date, dv, calc) {
           let filtered = dv.byDateLabel.get(date);
           if (!filtered) return "No Data";
 
@@ -24445,7 +24487,7 @@
               .map(function (label) {
                   let value = filtered.get(label);
                   if (!value) return undefined;
-                  let color = colors().label(label);
+                  let color = calc.colors.label(label);
                   let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
                   let valueFormatted = state.numberFormat(value);
                   sum += value;
@@ -24541,11 +24583,15 @@
           calc.graphHeight = state.height - state.marginTop - state.marginBottom;
           calc.graphBottom = state.height - state.marginBottom;
           calc.graphRight = state.width - state.marginRight;
+          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
 
           createScales(calc, dv);
 
           renderSVG(container, calc);
-          renderAxis(calc);
+
+          if (state.title) renderTitle(calc);
+
+          renderAxis(calc, dv);
           renderGrid(calc);
           renderSelection(calc, dv);
 
@@ -24563,6 +24609,10 @@
               let dc = state.dataController;
               let dv = state.legend.dataView(dc);
               let calc = {};
+              state.legend
+                  .marginLeft(state.marginLeft)
+                  .marginRight(state.marginRight)
+                  .colorScheme(state.colorScheme);
               state.legend.skipFilterUpdate = () => true;
               state.legend.dataController(dc).render(container, calc, dv);
           }
@@ -24573,15 +24623,15 @@
   }
 
   function hashString(s) {
-    let hash = 0,
-      i,
-      chr;
-    for (i = 0; i < s.length; i++) {
-      chr = s.charCodeAt(i);
-      hash = (hash << 5) - hash + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
+      let hash = 0,
+          i,
+          chr;
+      for (i = 0; i < s.length; i++) {
+          chr = s.charCodeAt(i);
+          hash = (hash << 5) - hash + chr;
+          hash |= 0; // Convert to 32bit integer
+      }
+      return hash;
   }
 
   /**
@@ -24592,7 +24642,7 @@
    * @public
    */
   function hash$1(input) {
-    return hashString(isString(input) ? input : JSON.stringify(input));
+      return hashString(isString(input) ? input : JSON.stringify(input));
   }
 
   const DATE_ACCESS = function (d) {
@@ -24652,13 +24702,23 @@
           marginBottom: 20,
 
           // bar radius
-          radius: 5,
+          radius: CONFIG.barRadius,
+
+          // whether to draw the x axis grid
+          xGrid: true,
+
+          // whether to draw the y axis grid
+          yGrid: true,
 
           // the plot's style, "gradient" or "fraction"
           style: "gradient",
 
           // the plot's color mode, "single" or "multi"
           colorMode: "multi",
+
+          colorScale: colorScale1,
+
+          colorScheme: colorSchemeLotivis10,
 
           // Whether the chart is selectable.
           selectable: true,
@@ -24766,8 +24826,8 @@
           // left
           calc.svg
               .append("g")
-              .call(axisLeft(calc.yChart))
-              .attr("transform", transX(state.marginLeft));
+              .call(axisRight(calc.yChart))
+              .attr("transform", transX(state.marginLeft + calc.graphWidth));
 
           // bottom
           if (state.drawBottomAxis) {
@@ -24785,17 +24845,21 @@
        * @private
        */
       function renderGrid(calc) {
-          calc.svg
-              .append("g")
-              .classed("ltv-plot-grid ltv-plot-grid-x", true)
-              .attr("transform", transY(calc.height - state.marginBottom))
-              .call(calc.xAxisGrid);
+          if (state.xGrid) {
+              calc.svg
+                  .append("g")
+                  .classed("ltv-plot-grid ltv-plot-grid-x", true)
+                  .attr("transform", transY(calc.height - state.marginBottom))
+                  .call(calc.xAxisGrid);
+          }
 
-          calc.svg
-              .append("g")
-              .classed("ltv-plot-grid ltv-plot-grid-y", true)
-              .attr("transform", transX(state.marginLeft))
-              .call(calc.yAxisGrid);
+          if (state.yGrid) {
+              calc.svg
+                  .append("g")
+                  .classed("ltv-plot-grid ltv-plot-grid-y", true)
+                  .attr("transform", transX(state.marginLeft))
+                  .call(calc.yAxisGrid);
+          }
       }
 
       /**
@@ -24837,9 +24901,9 @@
        * @param {*} dv The data view
        */
       function renderBarsFraction(calc, dv) {
-          let colors = PlotColors(dv.max);
+          let colors = state.colorScale || colorScale1;
           let brush = dv.max / 2;
-          let dataColors = state.dataController.dataColors();
+          let dataColors = calc.colors;
           let isSingle = state.colorMode === "single";
 
           calc.barsData = calc.svg
@@ -24863,12 +24927,11 @@
               .attr("y", 0)
               .attr("width", calc.xChart.bandwidth())
               .attr("height", calc.yChartPadding.bandwidth())
-              .attr(`fill`, (d) => (isSingle ? null : colors(d[1])))
+              .attr(`fill`, (d) => (isSingle ? null : colors(d[1] / dv.max)))
               .attr("opacity", (d) =>
                   isSingle ? (d[1] + brush) / (dv.max + brush) : 1
               )
-              .attr("rx", state.radius)
-              .attr("ry", state.radius);
+              .radius(state.radius);
 
           if (state.labels === true) {
               calc.labels = calc.barsData
@@ -24897,11 +24960,10 @@
        * @param {*} dc
        */
       function renderBarsGradient(calc, dv, dc) {
-          let plotColors = PlotColors(dv.max);
           calc.definitions = calc.svg.append("defs");
 
           for (let index = 0; index < dv.datasets.length; index++) {
-              createGradient(dv.datasets[index], dv, calc, plotColors);
+              createGradient(dv.datasets[index], dv, calc);
           }
 
           calc.barsData = calc.svg
@@ -24918,8 +24980,7 @@
               )
               .attr("fill", (d) => `url(#${state.id}-${hash$1(d.label)})`)
               .attr("class", "ltv-plot-bar")
-              .attr("rx", state.radius)
-              .attr("ry", state.radius)
+              .radius(state.radius)
               .attr("x", (d) =>
                   calc.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0)
               )
@@ -24966,10 +25027,9 @@
        * @param {*} ds
        * @param {*} dv
        * @param {*} calc
-       * @param {*} plotColors
        * @returns
        */
-      function createGradient(ds, dv, calc, plotColors) {
+      function createGradient(ds, dv, calc) {
           let gradient = calc.definitions
               .append("linearGradient")
               .attr("id", state.id + "-" + hash$1(ds.label))
@@ -24985,13 +25045,16 @@
               dataController = chart.dataController(),
               dataColors = dataController.dataColors(),
               isSingle = state.colorMode === "single",
-              colors = isSingle ? dataColors.label : plotColors;
+              colors = isSingle ? dataColors.label : state.colorScale;
 
           function append(value, percent) {
               gradient
                   .append("stop")
                   .attr("offset", percent + "%")
-                  .attr("stop-color", colors(isSingle ? ds.label : value))
+                  .attr(
+                      "stop-color",
+                      colors(isSingle ? ds.label : value / dv.max)
+                  )
                   .attr("stop-opacity", isSingle ? value / dv.max : 1);
           }
 
@@ -25151,6 +25214,7 @@
           calc.graphTop = calc.height - state.marginTop;
           calc.graphRight = state.width - state.marginRight;
           calc.graphBottom = calc.height - state.marginBottom;
+          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
 
           // scales
           createScales(calc, dv);
@@ -25176,18 +25240,19 @@
       return chart;
   }
 
-  exports.ColorScale = ColorScale;
-  exports.DATA_COLORS = DATA_COLORS;
+  exports.ColorsGenerator = ColorsGenerator;
   exports.DataColors = DataColors;
   exports.DataController = DataController;
   exports.DataItem = DataItem;
   exports.Dataset = Dataset;
   exports.DateOrdinator = date_ordinator;
-  exports.MapColors = MapColors;
-  exports.PlotColors = PlotColors;
-  exports.TINT_COLOR = TINT_COLOR;
-  exports.URLParams = URLParams;
   exports.bar = bar;
+  exports.colorScale = colorScale;
+  exports.colorScale1 = colorScale1;
+  exports.colorScale2 = colorScale2;
+  exports.colorSchemeCategory10 = colorSchemeCategory10;
+  exports.colorSchemeLotivis10 = colorSchemeLotivis10;
+  exports.colorSchemeTableau10 = colorSchemeTableau10;
   exports.config = config;
   exports.csv = csv;
   exports.csvParse = csvParse;
@@ -25203,6 +25268,7 @@
   exports.parseDataset = parseDataset;
   exports.parseDatasets = parseDatasets;
   exports.plot = plot;
+  exports.tintColor = tintColor;
   exports.toDataset = toDataset;
 
   Object.defineProperty(exports, '__esModule', { value: true });

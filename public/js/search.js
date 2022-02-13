@@ -4,12 +4,21 @@ lotivis.config({ downloadFilePrefix: "frcv" });
 
 let d3 = lotivis.d3;
 
+let colorScale =
+  urlparams.get("map-color-scale") === "scale2"
+    ? lotivis.colorScale2
+    : lotivis.colorScale1;
+
 // create lotivis components
 let barChart = lotivis
   .bar()
   .selector("#bar-chart")
-  .marginTop(70)
-  .marginLeft(70)
+  .title(null)
+  .radius(0)
+  .width(800)
+  .height(300)
+  .marginTop(40)
+  .marginLeft(40)
   .labels(true);
 
 let legend = barChart
@@ -17,13 +26,17 @@ let legend = barChart
   .title(null)
   .group(true)
   .groupFormat(function (s, v, ls, i) {
-    return `${i + 1}) ${ls[0]} (+ ${ls.length - 1}) (Sum: ${v})`;
+    // return `${i + 1}) ${ls[0]} (+ ${ls.length - 1}) (Sum: ${v})`;
+    return `${i + 1}) ${s} (Sum: ${v})`;
   });
 
 let plotChart = lotivis
   .plot()
   .selector("#plot-chart")
-  .marginLeft(80)
+  .width(800)
+  .marginLeft(0)
+  .marginRight(80)
+  .barHeight(24)
   .style("fraction")
   .colorMode("single")
   .labels(true);
@@ -31,9 +44,12 @@ let plotChart = lotivis
 let mapChart = lotivis
   .map()
   .selector("#map-chart")
+  .width(800)
+  .height(800)
   .labels(true)
-  .labelsExclude(["75", "92", "93", "94"])
   .legend(true)
+  .colorScale(colorScale)
+  .labelsExclude(["75", "92", "93", "94"])
   .exclude(["2A", "2B"])
   .featureIDAccessor((f) => f.properties.code)
   .featureNameAccessor((f) => f.properties.nom);
@@ -41,10 +57,12 @@ let mapChart = lotivis
 let mapChartParis = lotivis
   .map()
   .selector("#map-chart-paris")
-  .width(400)
-  .height(400)
+  .width(280)
+  .height(280)
   .labels(true)
   .legend(false)
+  .colorScale(colorScale)
+  .legendPanel(false)
   .include(["75", "92", "93", "94"])
   .featureIDAccessor((f) => f.properties.code)
   .featureNameAccessor((f) => f.properties.nom);
@@ -64,7 +82,8 @@ let queryParameter = "q";
 let recentSearches = new recentsearches("frcv-search-input-data");
 
 // search options;
-let firstYear = 2000;
+// let firstYear = 2000;
+let firstYear = 1995;
 let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
 let countType = frc.SearchCountType.tracks;
@@ -92,6 +111,14 @@ function onLabelsMap() {
 
 function onLabelsPlot() {
   plotChart.config.labels = getElement("labelsPlot").checked;
+}
+
+function mapColorScaleChange() {
+  let value = getElement("map-color-scale").value;
+  let scale = value === "scale1" ? lotivis.colorScale1 : lotivis.colorScale2;
+  urlparams.set("map-color-scale", value);
+  mapChart.colorScale(scale).run();
+  mapChartParis.colorScale(scale).run();
 }
 
 /* search */
@@ -152,7 +179,7 @@ function fillYearDropdowns() {
   let html = "";
   let firstYearOverride = 2000;
 
-  for (let year = 2000; year < 2021; year++) {
+  for (let year = 1995; year < 2021; year++) {
     html += `<option value="${year}">${year}</option>`;
   }
 
@@ -223,7 +250,7 @@ d3.text("./assets/innovation.list.txt").then((text) => {
 });
 
 function fillRecentSearchesPanel() {
-  let colors = lotivis.DATA_COLORS;
+  let colors = lotivis.colorSchemeLotivis10;
   let lines = recentSearches.queries();
 
   d3.select("#frcv-recent-searches").selectAll("p").remove();

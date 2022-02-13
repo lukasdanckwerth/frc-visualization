@@ -30,29 +30,31 @@ function data(tracks, value) {
   return data;
 }
 
-function dataset(name, value) {
-  return { label: name, stack: name, data: data(tracks, value) };
+function dataset(name, value, stack) {
+  return { label: name, stack: stack || name, data: data(tracks, value) };
 }
 
-let tracksDataset = dataset("Tracks", (t) => 1);
-fileAccess.writeJSON(tracksDataset, "departements.to.tracks.json");
+let tracksData = dataset("Tracks", (t) => 1);
+let tracksDataset = [tracksData];
+tracksData.about =
+  "Displays from the corpus the numbers of tracks for each department.";
+console.log("tracksDataset", tracksDataset);
+fileAccess.writeJSON(tracksDataset, "department.to.tracks.json");
 
-let wordsDataset = dataset("Words", (t) => t.tokens.length);
-fileAccess.writeJSON(wordsDataset, "departements.to.words.json");
+let tokensData = dataset("Tokens", (t) => t.tokens.length);
+let typesData = dataset("Types", (t) => t.types.length);
 
-let typesDataset = dataset("Types", (t) => t.types.length);
-fileAccess.writeJSON(typesDataset, "departements.to.types.json");
+let tokensDataRelative = dataset("Tokens (Relative)", (t) => t.tokens.length);
+let typesDataRelative = dataset("Types (Relative)", (t) => t.types.length);
 
-wordsDataset.data.forEach(
+tokensDataRelative.data.forEach(
   (d) => (d.value = d.value / byDepartement.get(d.location))
 );
-wordsDataset.label = "Words-(Relative)";
-wordsDataset.stack = "Words-(Relative)";
-fileAccess.writeJSON(wordsDataset, "departements.to.words.relative.json");
 
-typesDataset.data.forEach(
+typesDataRelative.data.forEach(
   (d) => (d.value = d.value / byDepartement.get(d.location))
 );
-typesDataset.label = "Types-(Relative)";
-typesDataset.stack = "Types-(Relative)";
-fileAccess.writeJSON(typesDataset, "departements.to.types.relative.json");
+
+let datasets = [tokensData, tokensDataRelative, typesData, typesDataRelative];
+
+fileAccess.writeJSON(datasets, "department.to.tokens.and.types.json");
