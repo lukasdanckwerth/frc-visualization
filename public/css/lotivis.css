@@ -78,7 +78,7 @@
 
 .ltv-legend-pill-span {
   font-size: 10px;
-  display: inline-block;
+  display: inline-flex;
   padding: 2px 7px;
   margin-right: 5px;
   margin-bottom: 5px;

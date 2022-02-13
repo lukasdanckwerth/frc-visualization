@@ -9,59 +9,81 @@
     <link rel="stylesheet" href="./css/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Artists Activity Range</title>
+    <style>
+      .ltv-plot-label {
+        fill: lightseagreen;
+      }
+    </style>
   </head>
   <body>
     <div class="frcv-container">
-      <!-- HEADER -->
-      <div class="frcv-col-3">
-        <a href="index.html" class="btn">Back</a>
+      <div class="frcv-header">
+        <a href="index.html"> Back </a>
       </div>
-      <div class="frcv-col-3 frcv-center">
-        <span>Artists Activity Range</span>
-      </div>
-      <br />
-      <br />
-      <div class="frcv-center">
-        <!-- SCREENSHOT BUTTON -->
-        <button type="button" onclick="plotChart.pngDownload()">
-          Screenshot
-        </button>
-        <!-- DATA SOURCE -->
-        <span> &NonBreakingSpace; </span>
-        <label for="data">Data:</label>
-        <select id="data" onchange="dataChange()">
-          <option>All</option>
-          <option selected>Female</option>
-          <option>Male</option>
-          <option>Groups</option>
-        </select>
-        <!-- PLOT TYPE -->
-        <span> &NonBreakingSpace; </span>
-        <label for="type">Type:</label>
-        <select id="type" onchange="typeChange()">
-          <option>gradient</option>
-          <option selected>fraction</option>
-        </select>
-        <!-- SORT -->
-        <span> &NonBreakingSpace; </span>
-        <label for="sort">Sort:</label>
-        <select id="sort" onchange="sortChange()">
-          <option>alphabetically</option>
-          <option>duration</option>
-          <option>intensity</option>
-          <option>firstDate</option>
-        </select>
-        <!-- LABELS -->
-        <span> &NonBreakingSpace; </span>
-        <label for="labels">Labels:</label>
-        <input type="checkbox" id="labels" onchange="labelsChange()" checked />
-      </div>
-      <!-- CONTENT -->
-      <div class="row">
-        <div class="col-12">
-          <div style="max-width: 800px; margin: auto">
-            <div id="plot-chart"></div>
+      <div>
+        <div style="width: 400px; display: inline-block; vertical-align: top">
+          <div class="frcv-info-card">
+            <h2>Artists Activity Range</h2>
+            <div id="frcv-about" style="margin-top: 20px">
+              <!-- about text here -->
+              Released tracks from artists in the the corpus from 1995 till
+              2020. The darker the color the more tracks released. Choose from
+              all, female, male and group artists. Get an other view by picking
+              the "gradient" type or an other sort of the data.
+            </div>
+            <br />
+            <div style="text-align: right">
+              <!-- DATA SOURCE -->
+              <label for="data">Data:</label>
+              <select id="data" onchange="dataChange()">
+                <option>All</option>
+                <option selected>Female</option>
+                <option>Male</option>
+                <option>Groups</option>
+              </select>
+              <br />
+              <!-- PLOT TYPE -->
+              <label for="type">Type:</label>
+              <select id="type" onchange="typeChange()">
+                <option>gradient</option>
+                <option selected>fraction</option>
+              </select>
+              <br />
+              <!-- SORT -->
+              <label for="sort">Sort:</label>
+              <select id="sort" onchange="sortChange()">
+                <option>alphabetically</option>
+                <option>duration</option>
+                <option>intensity</option>
+                <option>firstDate</option>
+              </select>
+              <br />
+              <!-- LABELS -->
+              <label for="labels">Labels:</label>
+              <input
+                type="checkbox"
+                id="labels"
+                onchange="labelsChange()"
+                checked
+              />
+              <!-- SCREENSHOT BUTTON -->
+              <button type="button" onclick="plotChart.pngDownload()">
+                Screenshot
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div
+          style="
+            display: inline-block;
+            width: 760px;
+            height: 1200px;
+            margin-left: 10px;
+            overflow: scroll;
+          "
+        >
+          <div id="plot-chart"></div>
         </div>
       </div>
     </div>
@@ -76,10 +98,12 @@
       let plotChart = lotivis
         .plot()
         .selector("#plot-chart")
+        .selectable(false)
+        .width(1000)
         .style("fraction")
-        .marginTop(50)
-        .marginLeft(200)
-        .marginRight(10);
+        .marginTop(20)
+        .marginLeft(10)
+        .marginRight(160);
 
       function setDataset(index) {
         plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();

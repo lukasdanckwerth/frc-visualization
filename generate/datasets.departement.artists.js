@@ -27,35 +27,20 @@ function data(artists) {
   return data;
 }
 
-function dataset(name, artists) {
-  return { label: name, stack: name, data: data(artists) };
+function dataset(name, artists, stack) {
+  return { label: name, stack: stack || name, data: data(artists) };
 }
 
 let datasets = [
-  dataset("Artists", artists),
-  dataset("Female Artist", female),
-  dataset("Male Artist", male),
+  dataset("Females", female, "All"),
+  dataset("Males", male, "All"),
+  dataset("Groups", groups, "All"),
+  dataset("Female Artists", female),
+  dataset("Male Artists", male),
   dataset("Group Artists", groups),
 ];
 
-fileAccess.writeJSON(datasets, "departements.to.artists.all.json");
+datasets[0].about =
+  "Displays from the corpus the numbers of artists for each department.";
 
-fileAccess.writeJSON(
-  dataset("Artists", artists),
-  "departements.to.artists.json"
-);
-
-fileAccess.writeJSON(
-  dataset("Female Artist", female),
-  "departements.to.female.artists.json"
-);
-
-fileAccess.writeJSON(
-  dataset("Male Artist", male),
-  "departements.to.male.artists.json"
-);
-
-fileAccess.writeJSON(
-  dataset("Group Artists", groups),
-  "departements.to.group.artists.json"
-);
+fileAccess.writeJSON(datasets, "departements.to.artists.json");

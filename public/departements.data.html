@@ -17,36 +17,40 @@
   </head>
   <body>
     <div class="frcv-container">
-      <!-- HEADER -->
-      <div class="frcv-col-3">
-        <a href="index.html">Back</a>
+      <div class="frcv-header">
+        <a href="index.html"> Back </a>
       </div>
-      <div class="frcv-col-3 frcv-center">
-        <span>Departments Data</span>
-      </div>
-      <div class="frcv-col-3 frcv-end">
-        <button type="button" onclick="screenshot()">Screenshot</button>
-        <select id="data" onchange="dataChange()">
-          <option>Artists</option>
-          <option>Female Artists</option>
-          <option>Male Artists</option>
-          <option>Group Artists</option>
-          <option>Tracks</option>
-          <option>Words</option>
-          <option>Words (Relative)</option>
-          <option>Types</option>
-          <option>Types (Relative)</option>
-        </select>
-        <span> &NonBreakingSpace; </span>
-        <label for="labels">Labels:</label>
-        <input type="checkbox" id="labels" onchange="labelsChange()" checked />
-      </div>
-      <!-- CONTENT -->
-      <div class="frcv-col-3">
-        <div id="map-chart-paris"></div>
-      </div>
-      <div style="display: inline-block; width: 66%">
-        <div id="map-chart"></div>
+      <div>
+        <div style="width: 400px; display: inline-block; vertical-align: top">
+          <div class="frcv-info-card">
+            <h2>Departments Data</h2>
+            <select id="data" onchange="dataChange()">
+              <option>Artists</option>
+              <option>Tracks</option>
+              <option>Tokens and Types</option>
+            </select>
+            <span> &NonBreakingSpace; </span>
+            <label for="labels">Labels:</label>
+            <input
+              type="checkbox"
+              id="labels"
+              onchange="labelsChange()"
+              checked
+            />
+            <span> &NonBreakingSpace; </span>
+            <button type="button" onclick="screenshot()">Screenshot</button>
+            <div id="frcv-about" style="margin-top: 20px">
+              <!-- about text here -->
+            </div>
+          </div>
+          <div style="float: right">
+            <div id="map-chart-paris" style="width: 300px"></div>
+          </div>
+        </div>
+
+        <div style="display: inline-block; width: 600px; margin-left: 10px">
+          <div id="map-chart"></div>
+        </div>
       </div>
     </div>
 
@@ -73,6 +77,7 @@
         .height(400)
         .labels(true)
         .legend(false)
+        .legendPanel(false)
         .include(["75", "92", "93", "94"])
         .featureIDAccessor((f) => "" + f.properties.code)
         .featureNameAccessor((f) => f.properties.nom);
@@ -85,6 +90,7 @@
 
       function labelsChange() {
         mapChart.labels(document.getElementById("labels").checked).run();
+        mapChartParis.labels(document.getElementById("labels").checked).run();
       }
 
       function dataChange() {
@@ -92,23 +98,19 @@
       }
 
       function setDataset(index) {
-        let dataset = datasets[index];
-        let datasets2 = Array.isArray(dataset) ? dataset : [dataset];
-        let dataController = lotivis.parseDatasets(datasets2);
+        let data = datasets[index];
+        let dataController = lotivis.parseDatasets(data);
+
+        document.getElementById("frcv-about").innerText = data[0].about || "";
+
         mapChart.dataController(dataController).run();
         mapChartParis.dataController(dataController).run();
       }
 
       Promise.all([
-        lotivis.d3.json("./assets/departements.to.artists.all.json"),
-        lotivis.d3.json("./assets/departements.to.female.artists.json"),
-        lotivis.d3.json("./assets/departements.to.male.artists.json"),
-        lotivis.d3.json("./assets/departements.to.group.artists.json"),
+        lotivis.d3.json("./assets/departements.to.artists.json"),
         lotivis.d3.json("./assets/departements.to.tracks.json"),
-        lotivis.d3.json("./assets/departements.to.words.json"),
-        lotivis.d3.json("./assets/departements.to.words.relative.json"),
-        lotivis.d3.json("./assets/departements.to.types.json"),
-        lotivis.d3.json("./assets/departements.to.types.relative.json"),
+        lotivis.d3.json("./assets/departements.to.tokens.and.types.json"),
         lotivis.d3.json("./assets/departements.geojson"),
       ])
         .then((all) => {
@@ -119,7 +121,10 @@
           datasets = all;
           setDataset(0);
         })
-        .catch((error) => alert(error));
+        .catch((error) => {
+          console.log(error);
+          alert(error);
+        });
     </script>
   </body>
 </html>

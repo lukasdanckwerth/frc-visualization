@@ -17,36 +17,55 @@
   </head>
   <body>
     <div class="frcv-container">
-      <div class="frcv-col-3">
-        <a href="index.html" class="btn">Back</a>
+      <div class="frcv-header">
+        <a href="index.html"> Back </a>
       </div>
-      <div class="frcv-col-3 frcv-center">
-        <span>Years Data</span>
-      </div>
-      <div class="frcv-col-3 frcv-end">
-        <button type="button" onclick="barChart.pngDownload();">
-          Screenshot
-        </button>
-        <select id="data" onchange="dataChange()">
-          <option>Tracks</option>
-          <option>Tokens</option>
-          <option>Tokens (per Track)</option>
-          <option>Types</option>
-          <option>Types (per Track)</option>
-          <option>Types (per Tokens)</option>
-          <option>Tokens vs. Types</option>
-          <option>Tracks by Female Artists</option>
-          <option>Tracks by Male Artists</option>
-          <option>Tracks by Groups</option>
-          <option>Tracks by All Artists</option>
-          <option>Artists (per Track)</option>
-          <option>Artists (per Track) [Stacked]</option>
-        </select>
-        <input type="checkbox" id="labels" onchange="onLabels()" checked />
-        <label for="labels">Labels</label>
-      </div>
+      <div>
+        <div style="width: 400px; display: inline-block; vertical-align: top">
+          <div class="frcv-info-card">
+            <h2>Years Data</h2>
+            <div id="frcv-about" style="margin-top: 20px">
+              <!-- about text here -->
+            </div>
+            <br />
+            <div style="text-align: right">
+              <!-- DATA SOURCE -->
+              <select id="data" onchange="dataChange()">
+                <option>Tracks</option>
+                <option>Tokens</option>
+                <option>Tokens (per Track)</option>
+                <option>Types</option>
+                <option>Types (per Track)</option>
+                <option>Types (per Tokens)</option>
+                <option>Tokens vs. Types</option>
+                <option>Tracks by Female Artists</option>
+                <option>Tracks by Male Artists</option>
+                <option>Tracks by Groups</option>
+                <option>Tracks by All Artists</option>
+                <option>Artists (per Track)</option>
+                <option>Artists (per Track) [Stacked]</option>
+              </select>
+              <br />
+              <!-- LABELS -->
+              <label for="labels">Labels:</label>
+              <input
+                type="checkbox"
+                id="labels"
+                onchange="onLabels()"
+                checked
+              />
+              <!-- SCREENSHOT BUTTON -->
+              <button type="button" onclick="barChart.pngDownload()">
+                Screenshot
+              </button>
+            </div>
+          </div>
+        </div>
 
-      <div id="bar-chart"></div>
+        <div style="display: inline-block; width: 760px; margin-left: 10px">
+          <div id="bar-chart"></div>
+        </div>
+      </div>
     </div>
 
     <script src="js/lib/lotivis.js"></script>
@@ -68,7 +87,9 @@
       barChart.legend().marginLeft(70).title(null);
 
       function setDataset(index) {
-        barChart.dataController(lotivis.parseDatasets(datasets[index])).run();
+        let dataset = datasets[index];
+        barChart.title(dataset[0].label);
+        barChart.dataController(lotivis.parseDatasets(dataset)).run();
       }
 
       function dataChange() {
