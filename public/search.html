@@ -20,157 +20,177 @@
     </style>
   </head>
   <body>
-    <!-- LOADING INDICATOR -->
-    <div class="frcv-container frcv-center" id="loading-indicator">
-      Loading & parsing corpus...
-    </div>
-    <div class="frcv-container" id="content">
-      <!-- HEADER -->
-
-      <div class="frcv-col-3">
-        <a href="index.html" class="btn">Back</a>
-      </div>
-      <div class="frcv-col-3 frcv-center">
-        <span>Search</span>
-      </div>
-      <div class="frcv-col-3 frcv-end">
-        <button onclick="showModal('settings')">Settings</button>
+    <div class="frcv-container">
+      <div class="frcv-header">
+        <a href="index.html"> Back </a>
+        <div style="display: inline-flex; float: right">
+          <button onclick="showModal('settings')">Settings</button>
+        </div>
       </div>
 
-      <br />
-      <br />
-      <!-- INPUT FIELD -->
+      <!-- LEFT -->
+      <div
+        style="
+          display: inline-block;
+          width: 300px;
+          margin-right: 20px;
+          vertical-align: top;
+        "
+      >
+        <div class="frcv-info-card">
+          <h2>Search</h2>
 
-      <!-- <textarea
-        id="textarea-input"
-        style="width: 100%; resize: vertical"
-        placeholder="Type word. Press enter to start search."
-        onkeydown="textAreaOnkeydown(this)"
-      ></textarea> -->
+          <div style="text-align: right">
+            <label for="case-sensitivity">Case Sens.</label>
+            <select
+              id="case-sensitivity"
+              onchange="sensitivityDropdownAction(this)"
+            >
+              <option id="case-insensitive" value="case-insensitive">No</option>
+              <option id="case-sensitive" value="case-sensitive">Yes</option>
+              <option id="regex" value="regex">Regex</option>
+            </select>
+            <br />
+            <label for="from-dropdown">From</label>
+            <select id="from-dropdown" onchange="fromDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+            <br />
+            <label for="till-dropdown">To</label>
+            <select id="till-dropdown" onchange="tillDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+            <br />
+            <label for="relative-absolute-dropdown">Count</label>
+            <select
+              id="relative-absolute-dropdown"
+              onchange="countTypeAction(this)"
+            >
+              <option id="tracks" value="tracks">Tracks</option>
+              <option id="tracks-relative-date" value="tracks-relative-date">
+                Tracks (Rel. Date)
+              </option>
+              <option
+                id="tracks-relative-location"
+                value="tracks-relative-location"
+              >
+                Tracks (Rel. Location)
+              </option>
+              <option id="words" value="words">Tokens</option>
+              <option id="words-relative-date" value="words-relative-date">
+                Tokens (Rel. Date)
+              </option>
+              <option
+                id="words-relative-location"
+                value="words-relative-location"
+              >
+                Tokens (Rel. Location)
+              </option>
+            </select>
+            <br />
+            <br />
+            <!-- INPUT FIELD -->
 
-      <input
-        style="width: 100%"
-        class=""
-        type="text"
-        placeholder=""
-        id="search-input"
-        list="frcv-search-input-data"
-        onkeydown="searchFieldAction(this)"
-      />
-      <datalist id="frcv-search-input-data"></datalist>
+            <input
+              style="width: 250px"
+              class=""
+              type="text"
+              placeholder=""
+              id="search-input"
+              onkeydown="searchFieldAction(this)"
+            />
+            <textarea
+              id="textarea-input"
+              style="width: 250px; resize: vertical"
+              placeholder="Type word. Press enter to start search."
+              onkeydown="textAreaOnkeydown(this)"
+            ></textarea>
+            <br />
+            <br />
+            <button onclick="showModal('innovation-list')">
+              Innovation List
+            </button>
+            <br />
+            <button onclick="showModal('recent-searches')">
+              Recent Searches
+            </button>
+            <br />
+          </div>
+        </div>
 
-      <div class="">
-        <label for="case-sensitivity">Case Sens.</label>
-        <select
-          id="case-sensitivity"
-          onchange="sensitivityDropdownAction(this)"
+        <!-- TRACKS -->
+        <div class="frcv-info-card" style="width: 260px">
+          <h2>Tracks:</h2>
+          <div id="tracks-card" class="frcv-tracks-list">
+            <!-- Tracks List Here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div
+        style="
+          display: inline-block;
+          width: 870px;
+          margin-left: 20px;
+          height: 90%;
+          overflow: scroll;
+        "
+      >
+        <!-- LOADING INDICATOR -->
+        <div
+          id="loading-indicator"
+          style="font-size: 60px; font-weight: 600; color: lightgray"
         >
-          <option id="case-insensitive" value="case-insensitive">No</option>
-          <option id="case-sensitive" value="case-sensitive">Yes</option>
-          <option id="regex" value="regex">Regex</option>
-        </select>
-
-        <label for="from-dropdown">From</label>
-        <select id="from-dropdown" onchange="fromDropdownAction(this)">
-          <!-- Year Options Here -->
-        </select>
-        <label for="till-dropdown">To</label>
-        <select id="till-dropdown" onchange="tillDropdownAction(this)">
-          <!-- Year Options Here -->
-        </select>
-
-        <label for="relative-absolute-dropdown">Count</label>
-        <select
-          id="relative-absolute-dropdown"
-          onchange="countTypeAction(this)"
-        >
-          <option id="tracks" value="tracks">Tracks</option>
-          <option id="tracks-relative-date" value="tracks-relative-date">
-            Tracks (Rel. Date)
-          </option>
-          <option
-            id="tracks-relative-location"
-            value="tracks-relative-location"
-          >
-            Tracks (Rel. Location)
-          </option>
-          <option id="words" value="words">Words</option>
-          <option id="words-relative-date" value="words-relative-date">
-            Words (Rel. Date)
-          </option>
-          <option id="words-relative-location" value="words-relative-location">
-            Words (Rel. Location)
-          </option>
-        </select>
-
-        <button onclick="showModal('innovation-list')">Innovation List</button>
-        <button onclick="showModal('recent-searches')">Recent Searches</button>
-      </div>
-
-      <br />
-      <br />
-
-      <!-- COMPONENTS -->
-      <div class="frcv-col-2">
-        <div class="frcv-headline">
-          <span>Bar</span>
-          <button onclick="screenshot('bar-chart-and-legend')">
-            Screenshot
-          </button>
+          Loading<br />and parsing<br />corpus...
         </div>
-        <div id="bar-chart-and-legend">
-          <div id="bar-chart">
-            <!-- Bar Chart Here -->
+
+        <div id="content">
+          <div class="frcv-chart-wrapper">
+            <div style="text-align: right">
+              <button onclick="barChart.pngDownload()">
+                Screenshot BarChart
+              </button>
+            </div>
+            <div id="bar-chart">
+              <!-- Bar Chart Here -->
+            </div>
           </div>
-          <div id="legend">
-            <!-- Labels Chart Here -->
+          <div class="frcv-chart-wrapper">
+            <div style="text-align: right">
+              <button onclick="barChart.pngDownload()">
+                Screenshot Map France
+              </button>
+              <button onclick="barChartParis.pngDownload()">
+                Screenshot Map Paris
+              </button>
+              <br />
+              <br />
+            </div>
+            <div style="width: 70%; display: inline-block">
+              <div id="map-chart">
+                <!-- Map Chart Here -->
+              </div>
+            </div>
+            <div style="width: 28%; display: inline-block; vertical-align: top">
+              <div id="map-chart-paris">
+                <!-- Map Chart Paris Here -->
+              </div>
+            </div>
+          </div>
+          <div class="frcv-chart-wrapper">
+            <div style="text-align: right">
+              <button onclick="plotChart.pngDownload()">
+                Screenshot PlotChart
+              </button>
+              <br />
+              <br />
+            </div>
+            <div id="plot-chart">
+              <!-- Plot Chart Here -->
+            </div>
           </div>
         </div>
-        <br />
-        <div class="frcv-headline">
-          <span>Plot</span>
-          <button class="btn btn-sm" onclick="screenshot('plot-chart')">
-            Screenshot
-          </button>
-        </div>
-        <div id="plot-chart">
-          <!-- Plot Chart Here -->
-        </div>
-        <br />
-        <div class="frcv-headline">
-          <span>Tracks</span>
-        </div>
-        <div id="tracks-card" class="frcv-tracks-list">
-          <!-- Tracks List Here -->
-        </div>
-      </div>
-      <div class="frcv-col-2">
-        <div class="frcv-headline">
-          <span>Map</span>
-          <button class="btn btn-sm" onclick="screenshot('map-chart')">
-            Screenshot
-          </button>
-        </div>
-        <div id="map-chart">
-          <!-- Map Chart Here -->
-        </div>
-        <br />
-        <div class="frcv-headline">
-          <span>Paris</span>
-          <button onclick="screenshot('map-chart-paris')">Screenshot</button>
-        </div>
-        <div class="col-md-6">
-          <div id="map-chart-paris">
-            <!-- Map Chart Paris Here -->
-          </div>
-        </div>
-        <br />
-        <!-- <div class="frcv-headline">
-          <span>Data</span>
-        </div>
-        <div id="ltv-data">
-          <!-- legend here -- >
-        </div> -->
       </div>
     </div>
 
@@ -195,8 +215,9 @@
     <!-- Settings Modal -->
     <div class="frcv-modal" id="frcv-settings-modal">
       <div class="frcv-modal-dialog">
+        <h2>Setting</h2>
         <div id="frcv-settings" class="frcv-settings">
-          Labels:
+          <div>Labels</div>
           <div>
             <input type="checkbox" id="labelsBar" name="labelsBar" checked />
             <label for="labelsBar">BarChart</label>
@@ -209,6 +230,16 @@
             <input type="checkbox" id="labelsPlot" name="labelsPlot" checked />
             <label for="labelsPlot">PlotChart</label>
           </div>
+          <br />
+
+          <div>Map</div>
+          <label for="map-color-scale">Color Scale:</label>
+          <select id="map-color-scale" onchange="mapColorScaleChange(this)">
+            <option id="scale1" value="scale1">
+              Yellow, Orange, Red, Purple
+            </option>
+            <option id="scale2" value="scale2">White, Light Green, Blue</option>
+          </select>
         </div>
       </div>
     </div>

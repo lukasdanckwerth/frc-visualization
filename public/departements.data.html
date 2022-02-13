@@ -44,11 +44,11 @@
             </div>
           </div>
           <div style="float: right">
-            <div id="map-chart-paris" style="width: 300px"></div>
+            <div id="map-chart-paris" style="width: 240px"></div>
           </div>
         </div>
 
-        <div style="display: inline-block; width: 600px; margin-left: 10px">
+        <div style="display: inline-block; width: 600px; margin-left: 40px">
           <div id="map-chart"></div>
         </div>
       </div>
@@ -64,6 +64,8 @@
       let mapChart = lotivis
         .map()
         .selector("#map-chart")
+        .width(700)
+        .height(700)
         .labels(true)
         .labelsExclude(["75", "92", "93", "94"])
         .exclude(["2A", "2B"])
@@ -73,8 +75,8 @@
       let mapChartParis = lotivis
         .map()
         .selector("#map-chart-paris")
-        .width(400)
-        .height(400)
+        .width(300)
+        .height(300)
         .labels(true)
         .legend(false)
         .legendPanel(false)
@@ -108,9 +110,13 @@
       }
 
       Promise.all([
-        lotivis.d3.json("./assets/departements.to.artists.json"),
-        lotivis.d3.json("./assets/departements.to.tracks.json"),
-        lotivis.d3.json("./assets/departements.to.tokens.and.types.json"),
+        lotivis.d3.json("./assets/department.to.artists.json"),
+        lotivis.d3.json("./assets/department.to.tracks.json"),
+        lotivis.d3.json("./assets/department.to.tokens.and.types.json"),
+        lotivis.d3.json("./assets/department.to.innovation.list.relative.json"),
+        lotivis.d3.json(
+          "./assets/department.to.innovation.list.tokens.relative.json"
+        ),
         lotivis.d3.json("./assets/departements.geojson"),
       ])
         .then((all) => {

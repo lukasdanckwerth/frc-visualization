@@ -1,5 +1,5 @@
 /*!
- * frc-visualisation 1.0.57
+ * frc-visualisation 1.0.68
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -9,6 +9,13 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.frc = {}));
 })(this, (function (exports) { 'use strict';
 
+  /**
+   * Returns an array containing all artists who got at least one
+   * track from the passed `Corpus.json`.
+   *
+   * @param {*} json The corpus.json
+   * @returns {Array<artist>} An array containing all artists
+   */
   function parseArtists(json) {
     console.log(`[FRC] Parse artists`);
     let artists = [],
@@ -34,40 +41,14 @@
     return artists;
   }
 
-  function parseTracks(json) {
-    console.log(`[FRC] Parse tracks`);
-    let data = [],
-      ids = [];
-    let artist, album, track;
-    for (let i = 0; i < json.length; i++) {
-      artist = json[i];
-
-      if (!(artist.departementName || artist.departement)) {
-        console.log(artist);
-        throw Error("missing departement name");
-      }
-
-      for (let i = 0; i < artist.albums.length; i++) {
-        album = artist.albums[i];
-        for (let j = 0; j < album.tracks.length; j++) {
-          track = album.tracks[j];
-          if (ids.includes(track.id)) continue;
-          ids.push(track.id);
-          data.push(parseTrack(track, artist, album.name));
-        }
-
-        for (let i = 0; i < artist.tracks.length; i++) {
-          track = artist.tracks[i];
-          if (ids.includes(track.id)) continue;
-          ids.push(track.id);
-          data.push(parseTrack(track, artist, undefined));
-        }
-      }
-    }
-
-    return data;
-  }
-
+  /**
+   * Parses a flat version of the given track including information
+   * from the passed artist and album (the latter if existing).
+   * @param {*} track
+   * @param {*} artist
+   * @param {*} album
+   * @returns
+   */
   function parseTrack(track, artist, album) {
     if (!track) {
       console.log("track", track);
@@ -110,6 +91,40 @@
       tokensLower: tokensLower,
       types: types,
     };
+  }
+
+  function parseTracks(json) {
+    console.log(`[FRC] Parse tracks`);
+    let data = [],
+      ids = [];
+    let artist, album, track;
+    for (let i = 0; i < json.length; i++) {
+      artist = json[i];
+
+      if (!(artist.departementName || artist.departement)) {
+        console.log(artist);
+        throw Error("missing departement name");
+      }
+
+      for (let i = 0; i < artist.albums.length; i++) {
+        album = artist.albums[i];
+        for (let j = 0; j < album.tracks.length; j++) {
+          track = album.tracks[j];
+          if (ids.includes(track.id)) continue;
+          ids.push(track.id);
+          data.push(parseTrack(track, artist, album.name));
+        }
+
+        for (let i = 0; i < artist.tracks.length; i++) {
+          track = artist.tracks[i];
+          if (ids.includes(track.id)) continue;
+          ids.push(track.id);
+          data.push(parseTrack(track, artist, undefined));
+        }
+      }
+    }
+
+    return data;
   }
 
   const SearchType = {
@@ -226,10 +241,20 @@
       let labels = stack.split(",").map((l) => l.trim());
       let datasets = [];
 
+      let stackFormatted =
+        labels.length < 2
+          ? labels[0]
+          : labels[0] + " (+" + (labels.length - 1) + ")";
+
       for (let i = 0; i < labels.length; i++) {
         let label = labels[i];
         let tracks = tracksForWord(label);
-        datasets.push({ label, stack, data: data(tracks, label), tracks });
+        datasets.push({
+          label,
+          stack: stackFormatted,
+          data: data(tracks, label),
+          tracks,
+        });
       }
 
       return datasets;

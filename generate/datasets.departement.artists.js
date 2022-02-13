@@ -43,4 +43,4 @@ let datasets = [
 datasets[0].about =
   "Displays from the corpus the numbers of artists for each department.";
 
-fileAccess.writeJSON(datasets, "departements.to.artists.json");
+fileAccess.writeJSON(datasets, "department.to.artists.json");

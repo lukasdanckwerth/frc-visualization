@@ -39,7 +39,7 @@ let tracksDataset = [tracksData];
 tracksData.about =
   "Displays from the corpus the numbers of tracks for each department.";
 console.log("tracksDataset", tracksDataset);
-fileAccess.writeJSON(tracksDataset, "departements.to.tracks.json");
+fileAccess.writeJSON(tracksDataset, "department.to.tracks.json");
 
 let tokensData = dataset("Tokens", (t) => t.tokens.length);
 let typesData = dataset("Types", (t) => t.types.length);
@@ -57,4 +57,4 @@ typesDataRelative.data.forEach(
 
 let datasets = [tokensData, tokensDataRelative, typesData, typesDataRelative];
 
-fileAccess.writeJSON(datasets, "departements.to.tokens.and.types.json");
+fileAccess.writeJSON(datasets, "department.to.tokens.and.types.json");

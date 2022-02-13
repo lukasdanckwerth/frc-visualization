@@ -5,11 +5,11 @@ body {
 
 a {
   text-decoration: none;
-color: black;
+  color: black;
 }
 
 .frcv-container {
-  max-width: 1200px;
+  max-width: 1220px;
   padding-top: 10px;
   margin: auto;
 }
@@ -43,7 +43,6 @@ color: black;
   font-family: "Courier New", Courier, monospace;
 }
 
-
 /* NENU */
 
 .frcv-menu {
@@ -62,15 +61,26 @@ color: black;
 }
 
 .frcv-menu a:hover {
-  color: rgb(31, 119, 180);
+  color: rgb(65, 105, 225);
 }
 
 .frcv-info-card {
-  border-top: solid 3px rgb(31, 119, 180);
+  border-top: solid 3px RoyalBlue;
+  /* border-top: solid 3px orange; */
   padding: 30px 20px 50px 20px;
-  background: linear-gradient(180deg, rgb(31, 119, 180, 0.4) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    180deg,
+    rgb(65, 105, 225, 0.4) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   vertical-align: top;
   display: inline-block;
+}
+
+.frcv-chart-wrapper {
+  /* border-top: solid 1px RoyalBlue; */
+  vertical-align: top;
+  padding-bottom: 80px;
 }
 
 .frcv-header {
@@ -85,7 +95,20 @@ color: black;
 }
 
 .frcv-info {
-  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.frcv-label {
+  display: inline-block;
+  text-align: right;
+  min-width: 80px;
+  margin-right: 10px;
+}
+
+.frcv-value {
+  font-weight: 600;
 }
 
 .frcv-innovation-list {
@@ -102,8 +125,13 @@ color: black;
 }
 
 .frcv-tracks-list {
-  padding: 10px 5px;
-  font-size: 15px;
+  /* border-top: solid 3px RoyalBlue; */
+  padding: 0px;
+  margin: 0px;
+  font-size: 13px;
+  height: 400px;
+  overflow: scroll;
+  line-height: 1.4;
 }
 
 .frcv-tracks-list-group {
@@ -127,7 +155,7 @@ color: black;
 }
 
 .frcv-tracks-list .title {
-  color: rgb(31, 119, 180);
+  color: rgb(65, 105, 225);
   margin-right: 5px;
 }
 
@@ -158,9 +186,28 @@ color: black;
 }
 
 .frcv-tracks-modal-content {
-  color: rgb(31, 119, 180);
+  color: rgb(65, 105, 225);
 }
 
 .frcv-important {
   color: red;
+}
+
+/* BUTTON */
+
+button {
+  background-color: rgb(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+  color: rgb(0, 0, 0, 0.3);
+  padding: 1px 10px;
+  font-size: 15px;
+}
+
+button:active {
+  opacity: 0.5;
+}
+
+button:hover {
+  color: rgb(65, 105, 225);
 }

@@ -11,7 +11,7 @@
     <title>FRCV - Artists Activity Range</title>
     <style>
       .ltv-plot-label {
-        fill: lightseagreen;
+        fill: black;
       }
     </style>
   </head>
@@ -41,6 +41,7 @@
                 <option>Male</option>
                 <option>Groups</option>
               </select>
+              <br />
               <br />
               <!-- PLOT TYPE -->
               <label for="type">Type:</label>
@@ -98,12 +99,19 @@
       let plotChart = lotivis
         .plot()
         .selector("#plot-chart")
-        .selectable(false)
-        .width(1000)
         .style("fraction")
+        .colorScale(lotivis.colorScale2)
+        .colorScale(
+          lotivis.colorScale("white", lotivis.colorSchemeLotivis10[0])
+        )
+        .width(800)
         .marginTop(20)
         .marginLeft(10)
-        .marginRight(160);
+        .marginRight(160)
+        .radius(0)
+        .barHeight(22)
+        .yGrid(false)
+        .selectable(false);
 
       function setDataset(index) {
         plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();

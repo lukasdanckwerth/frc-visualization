@@ -112,10 +112,20 @@ export function internalSearch(
     let labels = stack.split(",").map((l) => l.trim());
     let datasets = [];
 
+    let stackFormatted =
+      labels.length < 2
+        ? labels[0]
+        : labels[0] + " (+" + (labels.length - 1) + ")";
+
     for (let i = 0; i < labels.length; i++) {
       let label = labels[i];
       let tracks = tracksForWord(label);
-      datasets.push({ label, stack, data: data(tracks, label), tracks });
+      datasets.push({
+        label,
+        stack: stackFormatted,
+        data: data(tracks, label),
+        tracks,
+      });
     }
 
     return datasets;
