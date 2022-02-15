@@ -20668,14 +20668,6 @@
       a.click();
   }
 
-  function downloadBlob(blob, fname) {
-      if (window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveBlob(blob, fname);
-      } else {
-          downloadURL(URL.createObjectURL(blob), fname);
-      }
-  }
-
   function pngDownload(selector, filename, callback) {
       html2canvas(element(selector), { scale: 4 }).then((canvas) => {
           downloadURL(canvas.toDataURL(), filename);
@@ -20696,15 +20688,18 @@
   const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
 
   function csvParse(text) {
-    return new DataController(csvParse$1(text, autoType));
+      console.log("text: ", text);
+      return new DataController(csvParse$1(text, autoType));
   }
 
   async function csv(path) {
-    return fetch(path).then((csv) => csvParse(csv));
+      return fetch(path)
+          .then((res) => res.text())
+          .then((csv) => csvParse(csv));
   }
 
   function csvRender(data, columns = DEFAULT_COLUMNS) {
-    return csvFormat(data.data ? data.data() : data, columns);
+      return csvFormat(data.data ? data.data() : data, columns);
   }
 
   /**
@@ -21038,24 +21033,30 @@
        * @public
        */
       chart.download = function () {
-          let type;
+          let type, extension;
 
           if (state.text === CSV_TEXT) {
               type = "text/csv";
+              extension = "csv";
           } else if (
               state.text === JSON_TEXT ||
               state.text === JSON_TEXT_DATA_VIEW
           ) {
               type = "text/json";
+              extension = "json";
           } else {
               type = "text/text";
+              extension = "txt";
           }
 
           let blob = new Blob([text], { type: type });
-          let filename = state.dataController.filename(state.text, "datatext");
+          let objectURL = URL.createObjectURL(blob);
+          let filename = state.dataController.filename(extension, "datatext");
 
-          down(blob, filename, type);
-          downloadBlob(blob, filename);
+          console.log("filename", filename);
+
+          downloadURL(objectURL, filename);
+
           return chart;
       };
 
@@ -24111,7 +24112,7 @@
           marginBottom: 20,
 
           // corner radius of bars
-          radius: 5,
+          radius: CONFIG.barRadius,
 
           // whether the chart is enabled.
           enabled: true,
@@ -24873,24 +24874,30 @@
           calc.svg
               .append("g")
               .selectAll("g")
-              .data(dv.datasets)
+              .data(dv.labels)
               .enter()
               .append("rect")
               .attr("class", "ltv-plot-chart-selection-rect")
               .attr(`opacity`, 0)
               .attr("x", state.marginLeft)
-              .attr("y", (d) => calc.yChart(d.label))
+              .attr("y", (l) => calc.yChart(l))
               .attr("width", calc.graphWidth)
               .attr("height", calc.yChart.bandwidth())
-              .on("mouseenter", (e, d) => showTooltip(calc, d))
-              .on("mouseout", (e, d) => calc.tooltip.hide())
-              .on("click", (e, d) => {
-                  state.dataController.toggleFilter("labels", d.label, chart);
-                  calc.svg
-                      .selectAll(".ltv-plot-chart-selection-rect")
-                      .classed("ltv-selected", (d) =>
-                          state.dataController.isFilter("labels", d.label)
-                      );
+              .on("mouseenter", (_, l) =>
+                  showTooltip(
+                      calc,
+                      dv.datasets.find((d) => d.label === l)
+                  )
+              )
+              .on("mouseout", () => calc.tooltip.hide())
+              .on("click", (e, l) => {
+                  state.dataController.toggleFilter("labels", l, chart);
+                  chart.run();
+                  // calc.svg
+                  //     .selectAll(".ltv-plot-chart-selection-rect")
+                  //     .classed("ltv-selected", (d) =>
+                  //         state.dataController.isFilter("labels", d.label)
+                  //     );
               });
       }
 
@@ -25041,9 +25048,9 @@
           if (!ds.data || ds.data.length === 0) return;
 
           let count = ds.data.length,
-              latestDate = ds.lastDate,
-              dataController = chart.dataController(),
-              dataColors = dataController.dataColors(),
+              latestDate = ds.lastDate;
+              chart.dataController();
+              let dataColors = ColorsGenerator(state.colorScheme),
               isSingle = state.colorMode === "single",
               colors = isSingle ? dataColors.label : state.colorScale;
 
@@ -25076,7 +25083,7 @@
        * @param {*} ds
        */
       function showTooltip(calc, ds) {
-          if (!state.tooltip) return;
+          if (!state.tooltip || !ds) return;
           calc.tooltip.html(tooltipHTML(ds));
 
           // position tooltip
@@ -25106,6 +25113,8 @@
        * @private
        */
       function tooltipHTML(ds) {
+          if (!ds) return null;
+
           let filtered = ds.data.filter((item) => item.value !== 0),
               sum = sum$2(ds.data, (d) => d.value),
               comps = [
@@ -25127,9 +25136,9 @@
           return comps.join("<br/>");
       }
 
-      chart.skipFilterUpdate = function (filter) {
-          return filter === "label";
-      };
+      // chart.skipFilterUpdate = function (filter) {
+      //     return filter === "labels";
+      // };
 
       /**
        * Calculates the data view for the bar chart.
@@ -25142,6 +25151,7 @@
       chart.dataView = function (dc) {
           var dv = {};
           dv.dates = dc.dates().sort();
+          dv.labels = dc.labels();
           dv.data = dc.snapshot();
           dv.byLabelDate = rollups(
               dv.data,
@@ -25186,7 +25196,6 @@
                   break;
           }
 
-          dv.labels = dv.datasets.map((d) => d.label);
           dv.firstDate = dv.dates[0];
           dv.lastDate = dv.dates[dv.dates.length - 1];
           dv.max = max$3(dv.datasets, (d) => max$3(d.data, (i) => i.value));
