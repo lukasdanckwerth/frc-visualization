@@ -116,7 +116,7 @@ function mapColorScaleChange() {
 }
 
 function onShowData(checkbox) {
-  console.log("e", checkbox.checked);
+  getElement("ltv-data").style.display = checkbox.checked ? "block" : "none";
 }
 
 /* search */
