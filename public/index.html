@@ -12,19 +12,24 @@
   </head>
 
   <body>
-    <div class="frcv-container">
+    <div class="frcv-container-main-menu">
       <div class="frcv-header">
-        <!-- empty -->
+        <!-- placeholder -->
         <span> &NonBreakingSpace; </span>
       </div>
-      <div class="frcv-info-card">
+      <div class="frcv-info-card" style="width: 400px">
         <span class="frcv-h1">
           French Rap Corpus
           <br />
           Visualization
         </span>
         <span id="frcv-version" class="frcv-code"></span>
-        <span id="frcv-environment" class="frcv-code"></span>
+
+        <div id="frcv-about" style="margin-top: 20px; line-height: 1.5">
+          <!-- about text here -->
+        </div>
+
+        <pre id="frcv-json"></pre>
       </div>
 
       <div class="frcv-menu">
@@ -34,26 +39,19 @@
         <a href="./artists.activity.range.html"> Artists Activity Range </a>
         <a href="./search.html"> Search </a>
       </div>
-
-      <div class="frcv-start-page">
-        <br />
-        <br />
-        <footer class="frcv-center">
-          <!-- <a href="./about.html"> About </a> -->
-        </footer>
-      </div>
     </div>
 
-    <script src="js/lib/lotivis.js"></script>
-
     <script>
-      lotivis.d3.json("./assets/about.json").then(function (response) {
-        lotivis.d3.selectAll("#frcv-version").html(response.version);
-        lotivis.d3
-          .selectAll("#frcv-environment")
-          .html("(" + response.environment + ")");
-        lotivis.d3.selectAll(".frcv-corpus-size").html(response.corpusSize);
-      });
+      fetch("./assets/about.json")
+        .then((res) => res.json())
+        .then(
+          (json) =>
+            (document.getElementById("frcv-json").innerText = JSON.stringify(
+              json,
+              null,
+              3
+            ))
+        );
     </script>
   </body>
 </html>

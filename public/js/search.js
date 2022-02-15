@@ -93,6 +93,21 @@ let lastYear = 2020;
 let sensitivity = document.getElementById("case-sensitivity").value;
 let countType = frc.SearchCountType.tracks;
 
+let byId = (id) => document.getElementById(id);
+let trackModal = byId("frcv-track-modal");
+let settingsModal = byId("frcv-settings-modal");
+let innovationListModal = byId("frcv-innovation-list-modal");
+let reacentSearchesModal = byId("frcv-recent-searches-modal");
+
+function closeModal(modal) {
+  modal.style.display = "none";
+}
+
+function showModal(id) {
+  let modal = byId("frcv-" + id + "-modal");
+  modal.style.display = "block";
+}
+
 contentContainer.style.display = "none";
 
 function onLabelsBar() {
@@ -210,6 +225,63 @@ function countTypeAction(some) {
   (countType = some.value), search(searchField.value);
 }
 
+trackModal.onclick = function (event) {
+  if (event.target === trackModal) closeModal(trackModal);
+};
+
+settingsModal.onclick = function (event) {
+  if (event.target === settingsModal) closeModal(settingsModal);
+};
+
+innovationListModal.onclick = function (event) {
+  if (event.target === innovationListModal) closeModal(innovationListModal);
+};
+
+reacentSearchesModal.onclick = function (event) {
+  if (event.target === reacentSearchesModal) closeModal(reacentSearchesModal);
+};
+
+function presentTrackPopup(track, label) {
+  let input = label;
+  let lines = track.content.split("\n");
+  let html = "";
+
+  html += `<h1 class="frcv-headline">${track.title}</h1>`;
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    let words = line.split(" ");
+    for (let j = 0; j < words.length; j++) {
+      let word = words[j];
+
+      if (
+        [
+          input.toLowerCase(),
+          `${input},`.toLowerCase(),
+          `${input})`.toLowerCase(),
+          `(${input}`.toLowerCase(),
+          `${input}]`.toLowerCase(),
+          `[${input}`.toLowerCase(),
+        ].includes(word.toLowerCase())
+      ) {
+        html += `<b class="frcv-important">${word}</b>`;
+      } else {
+        html += word;
+      }
+
+      html += " ";
+    }
+    html += "<br>";
+  }
+
+  html += "<br>";
+  html += `<a href="${track.url}">${track.url}</a>`;
+
+  byId("frcv-track-modal-content").innerHTML = html;
+
+  showModal("track");
+}
+
 d3.json("./assets/departements.geojson").then((geoJSON) => {
   mapChart.geoJSON(geoJSON);
   mapChartParis.geoJSON(geoJSON);
@@ -254,6 +326,45 @@ d3.text("./assets/innovation.list.txt").then((text) => {
       search(searchField.value);
     });
 });
+
+function fillTracksCard(datasets) {
+  // let tracksObject = datasets.tracks;
+  let element = d3.select("#tracks-card");
+
+  console.log("datasets", datasets);
+
+  element.selectAll("div").remove();
+  element
+    .selectAll(".div")
+    .data(datasets)
+    .enter()
+    .append("div")
+    .classed("frcv-tracks-list-group", true)
+    .html(
+      (d) =>
+        `<div class="frcv-tracks-list-group-headline">${d.label} (${d.tracks.length} Tracks)</div>`
+    )
+    .selectAll(".div")
+    .data((d) =>
+      d.tracks
+        .sort((t1, t2) => d3.descending(t1.releaseYear, t2.releaseYear))
+        .map((t) => [t, d.label])
+    )
+    .enter()
+    .append("div")
+    .style("cursor", "pointer")
+    .html((item, index) => {
+      let track = item[0];
+      return [
+        `<span class="index-number">${index + 1}.</span>`,
+        `<span class="title">${track.title}</span>`,
+        `<span class="artist">(${track.artist.trim()}, ${
+          track.releaseYear
+        })</span>`,
+      ].join(" ");
+    })
+    .on("click", (event, item) => presentTrackPopup(item[0], item[1]));
+}
 
 function fillRecentSearchesPanel() {
   let colors = lotivis.colorSchemeLotivis10;
