@@ -51,7 +51,7 @@
           </div>
           <div>
             <span class="frcv-label">Tokens: </span>
-            <span class="frcv-value" id="frcv-words"> - </span>
+            <span class="frcv-value" id="frcv-tokens"> - </span>
           </div>
           <div>
             <span class="frcv-label">Types: </span>
@@ -239,13 +239,13 @@
       }
 
       lotivis.d3.json("./assets/about.json").then((about) => {
-        setText("frcv-artists-all", about.artists.all);
-        setText("frcv-artists-female", about.artists.female);
-        setText("frcv-artists-male", about.artists.male);
-        setText("frcv-artists-groups", about.artists.groups);
-        setText("frcv-tracks", about.tracks);
-        setText("frcv-words", about.words);
-        setText("frcv-types", about.types);
+        setText("frcv-artists-all", about.corpus.artists.all);
+        setText("frcv-artists-female", about.corpus.artists.female);
+        setText("frcv-artists-male", about.corpus.artists.male);
+        setText("frcv-artists-groups", about.corpus.artists.groups);
+        setText("frcv-tracks", about.corpus.tracks);
+        setText("frcv-tokens", about.corpus.tokens);
+        setText("frcv-types", about.corpus.types);
       });
     </script>
   </body>
