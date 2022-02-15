@@ -91,20 +91,22 @@
             <br />
             <!-- INPUT FIELD -->
 
-            <input
+            <!-- <input
               style="width: 250px"
               class=""
               type="text"
               placeholder=""
               id="search-input"
               onkeydown="searchFieldAction(this)"
-            />
+            /> -->
             <textarea
-              id="textarea-input"
+              id="search-input"
               style="width: 250px; resize: vertical"
+              rows="4"
               placeholder="Type word. Press enter to start search."
-              onkeydown="textAreaOnkeydown(this)"
-            ></textarea>
+              onkeydown="textAreaKeydown(this)"
+            >
+            </textarea>
             <br />
             <br />
             <button onclick="showModal('innovation-list')">
@@ -190,6 +192,10 @@
               <!-- Plot Chart Here -->
             </div>
           </div>
+
+          <div class="frcv-chart-wrapper">
+            <div id="ltv-data"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -240,6 +246,17 @@
             </option>
             <option id="scale2" value="scale2">White, Light Green, Blue</option>
           </select>
+
+          <div>Data</div>
+          <div>
+            <input
+              type="checkbox"
+              id="showData"
+              name="showData"
+              onchange="onShowData(this)"
+            />
+            <label for="showData">Show Data</label>
+          </div>
         </div>
       </div>
     </div>

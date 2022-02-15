@@ -67,6 +67,11 @@ let mapChartParis = lotivis
   .featureIDAccessor((f) => f.properties.code)
   .featureNameAccessor((f) => f.properties.nom);
 
+// ##################################################################################
+//
+//
+// ##################################################################################
+
 function getElement(id) {
   return document.getElementById(id);
 }
@@ -90,17 +95,6 @@ let countType = frc.SearchCountType.tracks;
 
 contentContainer.style.display = "none";
 
-function screenshot(id) {
-  let filename = barChart.dataController().filename(".png", id);
-  html2canvas(getElement(id), { scale: 10 }).then((canvas) => {
-    // download as base64 file
-    const downloadLink = document.createElement("a");
-    downloadLink.href = canvas.toDataURL();
-    downloadLink.download = filename;
-    downloadLink.click();
-  });
-}
-
 function onLabelsBar() {
   barChart.config.labels = getElement("labelsBar").checked;
 }
@@ -121,7 +115,19 @@ function mapColorScaleChange() {
   mapChartParis.colorScale(scale).run();
 }
 
+function onShowData(checkbox) {
+  console.log("e", checkbox.checked);
+}
+
 /* search */
+function textAreaKeydown(input) {
+  if (Object.getPrototypeOf(this.event) !== KeyboardEvent.prototype) return;
+  if (this.event.key !== "Enter") return;
+
+  this.event.preventDefault();
+  search(input.value);
+}
+
 function searchFieldAction(input) {
   if (Object.getPrototypeOf(this.event) !== KeyboardEvent.prototype) return;
   if (this.event.key !== "Enter") return;
