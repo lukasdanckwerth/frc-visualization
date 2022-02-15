@@ -9,6 +9,6 @@ require("./datasets.departement.artists");
 // require("./datasets.overview");
 // require("./datasets.innovation.list.js");
 // require("./copy.assets.js");
-// require("./about.json");
+require("./about.json");
 
 console.log("[DEV] Finished assets");

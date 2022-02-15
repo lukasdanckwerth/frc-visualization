@@ -14,6 +14,12 @@ a {
   margin: auto;
 }
 
+.frcv-container-main-menu {
+  max-width: 1000px;
+  padding-top: 10px;
+  margin: auto;
+}
+
 .frcv-col-3 {
   display: inline-block;
   width: 33%;
@@ -43,7 +49,7 @@ a {
   font-family: "Courier New", Courier, monospace;
 }
 
-/* NENU */
+/* MAIN MENU */
 
 .frcv-menu {
   max-width: 400px;
@@ -63,6 +69,8 @@ a {
 .frcv-menu a:hover {
   color: rgb(65, 105, 225);
 }
+
+/* INFO CARD */
 
 .frcv-info-card {
   border-top: solid 3px RoyalBlue;

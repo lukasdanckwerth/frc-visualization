@@ -5,28 +5,28 @@ const frc = require("../public/js/lib/frc.js");
 let corpusJSONPath = fileAccess.corpusJSONPath;
 let json = fileAccess.readCorpusJSON();
 let corpus = new frc.Corpus(json);
-let artists = corpus.artists;
-let tracks = corpus.tracks;
-let words = tracks.reduce((p, c) => (p += c.tokens.length), 0);
-let types = tracks.reduce((p, c) => (p += c.types.length), 0);
 
 let about = {
+  name: package.name,
   version: package.version,
-  packageName: package.name,
-  packageAuthor: package.author,
+  author: package.author,
   environment: package.environment || "production",
-  corpusSize: fileAccess.fileSize(corpusJSONPath),
-  corpusSizeFormatted: fileAccess.fileSizeFormatted(corpusJSONPath),
-  originalCorpusArtists: json.length,
-  artists: {
-    all: artists.length,
-    female: artists.filter((a) => a.sex === "F").length,
-    male: artists.filter((a) => a.sex === "M").length,
-    groups: artists.filter((a) => a.group === "G").length,
+  corpus: {
+    artists: {
+      all: corpus.artists.length,
+      female: corpus.artists.filter((a) => a.sex === "F").length,
+      male: corpus.artists.filter((a) => a.sex === "M").length,
+      groups: corpus.artists.filter((a) => a.group === "G").length,
+      index: json.length,
+    },
+    tracks: corpus.tracks.length,
+    tokens: corpus.tracks.reduce((p, c) => (p += c.tokens.length), 0),
+    types: corpus.tracks.reduce((p, c) => (p += c.types.length), 0),
+    fileSize: {
+      bytes: fileAccess.fileSize(corpusJSONPath),
+      formatted: fileAccess.fileSizeFormatted(corpusJSONPath),
+    },
   },
-  tracks: tracks.length,
-  words: words,
-  types: types,
 };
 
 fileAccess.writeJSON(about, "about.json");

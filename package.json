@@ -1,6 +1,6 @@
 {
-  "name": "frc-visualisation",
-  "version": "1.0.72",
+  "name": "frc-visualization",
+  "version": "1.0.73",
   "description": "French Rap Corpus Visualization",
   "main": "npm run serve",
   "author": "Lukas Danckwerth",
@@ -10,7 +10,8 @@
     "build:watch": "rollup --config --watch",
     "serve": "http-server public/",
     "assets": "npm run build && node generate/generate.assets.js",
-    "assets:dev": "node generate/generate.assets.dev.js"
+    "assets:dev": "npm run build && node generate/generate.assets.dev.js",
+    "assets:about": "npm run build && node generate/about.json.js"
   },
   "dependencies": {
     "rollup": "^2.39.0",
