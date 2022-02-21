@@ -1,3 +1,5 @@
+import { lab } from "d3";
+
 export const SearchType = {
   sensitive: "case-sensitive",
   insensitve: "case-insensitive",
@@ -18,6 +20,8 @@ function count(array, element) {
   for (let i = 0; i < array.length; i++) if (array[i] == element) count++;
   return count;
 }
+
+var _emptyData = null;
 
 export function internalSearch(
   corpus,
@@ -55,8 +59,34 @@ export function internalSearch(
     }
   }
 
+  function emptyData(label) {
+    let dates = corpus.dates();
+    let locations = corpus.locations();
+    let data = dates.map((date) => {
+      return {
+        label,
+        date,
+        location: null,
+        stack: null,
+        value: 0,
+      };
+    });
+
+    return data.concat(
+      locations.map((location) => {
+        return {
+          label,
+          date: firstYear,
+          location: location,
+          stack: null,
+          value: 0,
+        };
+      })
+    );
+  }
+
   function data(tracks, label) {
-    let data = [],
+    let data = emptyData(label),
       value = 0;
     for (let t, candidate, i = 0; i < tracks.length; i++) {
       t = tracks[i];

@@ -1,252 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/frcv.css" />
-    <title>FRCV - Corpus Overview</title>
-    <style>
-      .ltv-bar-chart-label {
-        font-size: 12px;
-      }
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+        />
+        <link rel="stylesheet" href="./css/lotivis.css" />
+        <link rel="stylesheet" href="./css/frcv.css" />
+        <title>FRCV - Corpus Overview</title>
+        <style>
+            .ltv-bar-chart-label {
+                font-size: 12px;
+            }
 
-      #map-chart-paris svg .ltv-map-label {
-        transform: translate(-40px, 0);
-      }
-    </style>
-  </head>
+            #map-chart-paris svg .ltv-map-label {
+                transform: translate(-40px, 0);
+            }
+        </style>
+    </head>
 
-  <body>
-    <div class="frcv-container">
-      <div class="frcv-header">
-        <a href="index.html"> Back </a>
-      </div>
-      <div class="frcv-info-card" style="max-width: 280px; margin-right: 20px">
-        <h2>Corpus Overview</h2>
-
-        <div class="frcv-info">
-          <div>
-            <span class="frcv-label">All Artists:</span>
-            <span class="frcv-value" id="frcv-artists-all"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Female: </span>
-            <span class="frcv-value" id="frcv-artists-female"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Male: </span>
-            <span class="frcv-value" id="frcv-artists-male"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Groups: </span>
-            <span class="frcv-value" id="frcv-artists-groups"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Tracks: </span>
-            <span class="frcv-value" id="frcv-tracks"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Tokens: </span>
-            <span class="frcv-value" id="frcv-tokens"> - </span>
-          </div>
-          <div>
-            <span class="frcv-label">Types: </span>
-            <span class="frcv-value" id="frcv-types"> - </span>
-          </div>
-        </div>
-
-        <div style="text-align: right">
-          <!-- DATA SOURCE -->
-          <select id="data" onchange="dataChange()">
-            <option>Tracks</option>
-            <option>Tokens</option>
-            <option>Types</option>
-            <option>Innovation List</option>
-            <option>Innovation List (Tokens)</option>
-          </select>
-        </div>
-
-        <div id="frcv-about" style="margin-top: 20px">
-          <!-- about text here -->
-        </div>
-
-        <div style="text-align: right">
-          <!-- LABELS -->
-          <label for="labels">Labels:</label>
-          <input type="checkbox" id="labels" onchange="onLabels()" checked />
-          <br />
-          <!-- SCREENSHOT BUTTON -->
-          <button
-            type="button"
-            onclick="barChart.pngDownload()"
-            style="width: 100%"
-          >
-            Screenshot BarChart
-          </button>
-          <br />
-          <button
-            type="button"
-            onclick="mapChart.pngDownload()"
-            style="width: 100%"
-          >
-            Screenshot Map
-          </button>
-          <br />
-          <button
-            type="button"
-            onclick="mapChartParis.pngDownload()"
-            style="width: 100%"
-          >
-            Screenshot Map Paris
-          </button>
-          <br />
-        </div>
-      </div>
-
-      <div style="width: 880px; display: inline-block">
-        <div id="loading-indicator">Loading...</div>
-
-        <div id="bar-chart">
-          <!-- Bar Chart Here -->
-        </div>
-
-        <div>
-          <div style="display: inline-block; width: 600px; vertical-align: top">
-            <div id="map-chart">
-              <!-- Map Chart Here -->
+    <body>
+        <div class="frcv-container">
+            <div class="frcv-header">
+                <a href="index.html"> Back </a>
             </div>
-          </div>
-          <div style="display: inline-block; width: 250px; vertical-align: top">
-            <div id="map-chart-paris">
-              <!-- Map Chart Here -->
+            <div
+                class="frcv-info-card"
+                style="max-width: 280px; margin-right: 20px"
+            >
+                <h2>Corpus Overview</h2>
+
+                <div class="frcv-info">
+                    <div>
+                        <span class="frcv-label">All Artists:</span>
+                        <span class="frcv-value" id="frcv-artists-all">
+                            -
+                        </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Female: </span>
+                        <span class="frcv-value" id="frcv-artists-female">
+                            -
+                        </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Male: </span>
+                        <span class="frcv-value" id="frcv-artists-male">
+                            -
+                        </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Groups: </span>
+                        <span class="frcv-value" id="frcv-artists-groups">
+                            -
+                        </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Tracks: </span>
+                        <span class="frcv-value" id="frcv-tracks"> - </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Tokens: </span>
+                        <span class="frcv-value" id="frcv-tokens"> - </span>
+                    </div>
+                    <div>
+                        <span class="frcv-label">Types: </span>
+                        <span class="frcv-value" id="frcv-types"> - </span>
+                    </div>
+                </div>
+
+                <div style="text-align: right">
+                    <!-- DATA SOURCE -->
+                    <select id="data" onchange="dataChange()">
+                        <option>Tracks</option>
+                        <option>Tokens</option>
+                        <option>Types</option>
+                        <option>Innovation List</option>
+                        <option>Innovation List (Tokens)</option>
+                    </select>
+                </div>
+
+                <div id="frcv-about" style="margin-top: 20px">
+                    <!-- about text here -->
+                </div>
+
+                <div style="text-align: right">
+                    <!-- LABELS -->
+                    <label for="labels">Labels:</label>
+                    <input
+                        type="checkbox"
+                        id="labels"
+                        onchange="onLabels()"
+                        checked
+                    />
+                    <br />
+                    <br />
+
+                    <!-- SCREENSHOT BUTTON -->
+                    <button
+                        type="button"
+                        onclick="barChart.pngDownload()"
+                        style="width: 100%"
+                    >
+                        Screenshot BarChart
+                    </button>
+                    <br />
+                    <button
+                        type="button"
+                        onclick="mapChart.pngDownload()"
+                        style="width: 100%"
+                    >
+                        Screenshot Map
+                    </button>
+                    <br />
+                    <button
+                        type="button"
+                        onclick="mapChartParis.pngDownload()"
+                        style="width: 100%"
+                    >
+                        Screenshot Map Paris
+                    </button>
+                    <br />
+                </div>
             </div>
-          </div>
+
+            <div style="width: 880px; display: inline-block">
+                <div id="loading-indicator">Loading...</div>
+
+                <div id="bar-chart">
+                    <!-- Bar Chart Here -->
+                </div>
+
+                <div>
+                    <div
+                        style="
+                            display: inline-block;
+                            width: 600px;
+                            vertical-align: top;
+                        "
+                    >
+                        <div id="map-chart">
+                            <!-- Map Chart Here -->
+                        </div>
+                    </div>
+                    <div
+                        style="
+                            display: inline-block;
+                            width: 250px;
+                            vertical-align: top;
+                        "
+                    >
+                        <div id="map-chart-paris">
+                            <!-- Map Chart Here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="plot-chart">
+                    <!-- Plot Chart Here -->
+                </div>
+            </div>
         </div>
 
-        <div id="plot-chart">
-          <!-- Plot Chart Here -->
-        </div>
-      </div>
-    </div>
+        <script src="js/lib/lotivis.js"></script>
+        <script src="js/lib/frc.js"></script>
 
-    <script src="js/lib/lotivis.js"></script>
-    <script src="js/lib/frc.js"></script>
+        <script>
+            // enable debug mode
+            lotivis.debug(true);
+            lotivis.config.downloadFilePrefix = "frcv";
 
-    <script>
-      // enable debug mode
-      lotivis.debug(true);
-      lotivis.config.downloadFilePrefix = "frcv";
+            let d3 = lotivis.d3;
+            // let corpus = null;
+            let datasets = [];
 
-      let d3 = lotivis.d3;
-      // let corpus = null;
-      let datasets = [];
+            let barChart = lotivis
+                .bar()
+                .selector("#bar-chart")
+                .width(1000)
+                .height(400)
+                .title(null)
+                .legend(null)
+                .marginTop(20)
+                .marginLeft(50)
+                .marginBottom(40)
+                .radius(0)
+                .labels(true)
+                .enabled(false)
+                .dates(d3.range(1995, 2021));
 
-      let barChart = lotivis
-        .bar()
-        .selector("#bar-chart")
-        .width(1000)
-        .height(400)
-        .title(null)
-        .legend(null)
-        .marginTop(20)
-        .marginLeft(50)
-        .marginBottom(40)
-        .radius(0)
-        .labels(true)
-        .enabled(false)
-        .dates(d3.range(1995, 2021));
+            // let legend = barChart.legend().title(null);
 
-      // let legend = barChart.legend().title(null);
+            let mapChart = lotivis
+                .map()
+                .selector("#map-chart")
+                .width(800)
+                .height(800)
+                .labels(true)
+                .labelsExclude(["75", "92", "93", "94"])
+                .exclude(["2A", "2B"])
+                .featureIDAccessor((f) => "" + f.properties.code)
+                .featureNameAccessor((f) => f.properties.nom);
 
-      let mapChart = lotivis
-        .map()
-        .selector("#map-chart")
-        .width(800)
-        .height(800)
-        .labels(true)
-        .labelsExclude(["75", "92", "93", "94"])
-        .exclude(["2A", "2B"])
-        .featureIDAccessor((f) => "" + f.properties.code)
-        .featureNameAccessor((f) => f.properties.nom);
+            let mapChartParis = lotivis
+                .map()
+                .selector("#map-chart-paris")
+                .width(300)
+                .height(300)
+                .labels(true)
+                .legend(false)
+                .legendPanel(false)
+                .include(["75", "92", "93", "94"])
+                .featureIDAccessor((f) => "" + f.properties.code)
+                .featureNameAccessor((f) => f.properties.nom);
 
-      let mapChartParis = lotivis
-        .map()
-        .selector("#map-chart-paris")
-        .width(300)
-        .height(300)
-        .labels(true)
-        .legend(false)
-        .legendPanel(false)
-        .include(["75", "92", "93", "94"])
-        .featureIDAccessor((f) => "" + f.properties.code)
-        .featureNameAccessor((f) => f.properties.nom);
+            function onLabels() {
+                let checked = document.getElementById("labels").checked;
+                barChart.labels(checked).run();
+                mapChart.labels(checked).run();
+                mapChartParis.labels(checked).run();
+            }
 
-      function onLabels() {
-        let checked = document.getElementById("labels").checked;
-        barChart.labels(checked).run();
-        mapChart.labels(checked).run();
-        mapChartParis.labels(checked).run();
-      }
+            function setDataset(index) {
+                let dataset = datasets[index];
+                let controller = lotivis.parseDataset(dataset);
 
-      function setDataset(index) {
-        let dataset = datasets[index];
-        let controller = lotivis.parseDataset(dataset);
+                barChart.dataController(controller).run();
+                mapChart.dataController(controller).run();
+                mapChartParis.dataController(controller).run();
+            }
 
-        barChart.dataController(controller).run();
-        mapChart.dataController(controller).run();
-        mapChartParis.dataController(controller).run();
-      }
+            function dataChange() {
+                setDataset(document.getElementById("data").selectedIndex);
+            }
 
-      function dataChange() {
-        setDataset(document.getElementById("data").selectedIndex);
-      }
+            Promise.all([
+                // lotivis.d3.json("./assets/corpus.json"),
+                lotivis.d3.json("./assets/departements.geojson"),
+                lotivis.d3.json("./assets/overview.tracks.json"),
+                lotivis.d3.json("./assets/overview.tokens.json"),
+                lotivis.d3.json("./assets/overview.types.json"),
+                lotivis.d3.json("./assets/overview.innovation.list.json"),
+                lotivis.d3.json(
+                    "./assets/overview.innovation.list.tokens.json"
+                ),
+            ])
+                .then((all) => {
+                    // let rawCorpus = all.shift();
+                    // corpus = new frc.Corpus(rawCorpus);
 
-      Promise.all([
-        // lotivis.d3.json("./assets/corpus.json"),
-        lotivis.d3.json("./assets/departements.geojson"),
-        lotivis.d3.json("./assets/overview.tracks.json"),
-        lotivis.d3.json("./assets/overview.tokens.json"),
-        lotivis.d3.json("./assets/overview.types.json"),
-        lotivis.d3.json("./assets/overview.innovation.list.json"),
-        lotivis.d3.json("./assets/overview.innovation.list.tokens.json"),
-      ])
-        .then((all) => {
-          // let rawCorpus = all.shift();
-          // corpus = new frc.Corpus(rawCorpus);
+                    let geoJSON = all.shift();
+                    mapChart.geoJSON(geoJSON);
+                    mapChartParis.geoJSON(geoJSON);
 
-          let geoJSON = all.shift();
-          mapChart.geoJSON(geoJSON);
-          mapChartParis.geoJSON(geoJSON);
+                    datasets = all;
+                    setDataset(0);
 
-          datasets = all;
-          setDataset(0);
+                    lotivis.d3
+                        .select("#loading-indicator")
+                        .style("display", "none");
+                })
+                .catch((e) => {
+                    console.error(e);
+                    alert(e);
+                });
 
-          lotivis.d3.select("#loading-indicator").style("display", "none");
-        })
-        .catch((e) => {
-          console.error(e);
-          alert(e);
-        });
+            function setText(id, text) {
+                document.getElementById(id).innerText = lotivis
+                    .config()
+                    .numberFormat(text);
+            }
 
-      function setText(id, text) {
-        document.getElementById(id).innerText = lotivis
-          .config()
-          .numberFormat(text);
-      }
-
-      lotivis.d3.json("./assets/about.json").then((about) => {
-        setText("frcv-artists-all", about.corpus.artists.all);
-        setText("frcv-artists-female", about.corpus.artists.female);
-        setText("frcv-artists-male", about.corpus.artists.male);
-        setText("frcv-artists-groups", about.corpus.artists.groups);
-        setText("frcv-tracks", about.corpus.tracks);
-        setText("frcv-tokens", about.corpus.tokens);
-        setText("frcv-types", about.corpus.types);
-      });
-    </script>
-  </body>
+            lotivis.d3.json("./assets/about.json").then((about) => {
+                setText("frcv-artists-all", about.corpus.artists.all);
+                setText("frcv-artists-female", about.corpus.artists.female);
+                setText("frcv-artists-male", about.corpus.artists.male);
+                setText("frcv-artists-groups", about.corpus.artists.groups);
+                setText("frcv-tracks", about.corpus.tracks);
+                setText("frcv-tokens", about.corpus.tokens);
+                setText("frcv-types", about.corpus.types);
+            });
+        </script>
+    </body>
 </html>

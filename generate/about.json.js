@@ -9,8 +9,7 @@ let corpus = new frc.Corpus(json);
 let about = {
   name: package.name,
   version: package.version,
-  author: package.author,
-  environment: package.environment || "production",
+  authors: ["Lukas Danckwerth", "Jan-Niklas Wilsker"],
   corpus: {
     artists: {
       all: corpus.artists.length,

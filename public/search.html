@@ -1,636 +1,727 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/frcv.css" />
-    <title>FRCV - Search</title>
-    <style>
-      .ltv-bar-chart-label {
-        font-size: 12px;
-      }
-
-      #map-chart-paris svg .ltv-map-label {
-        transform: translate(-40px, 0);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="frcv-container">
-      <div class="frcv-header">
-        <a href="index.html"> Back </a>
-        <div style="display: inline-flex; float: right">
-          <button onclick="showModal('settings')">Settings</button>
-        </div>
-      </div>
-
-      <!-- LEFT -->
-      <div
-        style="
-          display: inline-block;
-          width: 300px;
-          margin-right: 20px;
-          vertical-align: top;
-        "
-      >
-        <div class="frcv-info-card">
-          <h2>Search</h2>
-
-          <div style="text-align: right">
-            <label for="case-sensitivity">Case Sens.</label>
-            <select
-              id="case-sensitivity"
-              onchange="sensitivityDropdownAction(this)"
-            >
-              <option id="case-insensitive" value="case-insensitive">No</option>
-              <option id="case-sensitive" value="case-sensitive">Yes</option>
-              <option id="regex" value="regex">Regex</option>
-            </select>
-            <br />
-            <label for="from-dropdown">From</label>
-            <select id="from-dropdown" onchange="fromDropdownAction(this)">
-              <!-- Year Options Here -->
-            </select>
-            <br />
-            <label for="till-dropdown">To</label>
-            <select id="till-dropdown" onchange="tillDropdownAction(this)">
-              <!-- Year Options Here -->
-            </select>
-            <br />
-            <label for="relative-absolute-dropdown">Count</label>
-            <select
-              id="relative-absolute-dropdown"
-              onchange="countTypeAction(this)"
-            >
-              <option id="tracks" value="tracks">Tracks</option>
-              <option id="tracks-relative-date" value="tracks-relative-date">
-                Tracks (Rel. Date)
-              </option>
-              <option
-                id="tracks-relative-location"
-                value="tracks-relative-location"
-              >
-                Tracks (Rel. Location)
-              </option>
-              <option id="words" value="words">Tokens</option>
-              <option id="words-relative-date" value="words-relative-date">
-                Tokens (Rel. Date)
-              </option>
-              <option
-                id="words-relative-location"
-                value="words-relative-location"
-              >
-                Tokens (Rel. Location)
-              </option>
-            </select>
-            <br />
-            <br />
-
-            <!-- INPUT FIELD -->
-            <textarea
-              id="search-input"
-              style="width: 250px; resize: vertical"
-              rows="4"
-              placeholder="Type word. Press enter to start search."
-              onkeydown="textareaKeydown(this)"
-            >
-            </textarea>
-            <br />
-            <br />
-            <button onclick="showModal('innovation-list')">
-              Innovation List
-            </button>
-            <br />
-            <button onclick="showModal('recent-searches')">
-              Recent Searches
-            </button>
-            <br />
-          </div>
-        </div>
-
-        <!-- TRACKS -->
-        <div class="frcv-info-card" style="width: 260px">
-          <h2>Tracks:</h2>
-          <div id="tracks-card" class="frcv-tracks-list">
-            <!-- Tracks List Here -->
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div
-        style="
-          display: inline-block;
-          width: 870px;
-          margin-left: 20px;
-          height: 90%;
-          overflow: scroll;
-        "
-      >
-        <!-- LOADING INDICATOR -->
-        <div
-          id="loading-indicator"
-          style="font-size: 60px; font-weight: 600; color: lightgray"
-        >
-          Loading<br />and parsing<br />corpus...
-        </div>
-
-        <div id="content" style="display: none">
-          <div class="frcv-chart-wrapper">
-            <div style="text-align: right">
-              <button onclick="barChart.pngDownload()">
-                Screenshot BarChart
-              </button>
-            </div>
-            <div id="bar-chart">
-              <!-- Bar Chart Here -->
-            </div>
-          </div>
-          <div class="frcv-chart-wrapper">
-            <div style="text-align: right">
-              <button onclick="map.pngDownload()">Screenshot Map France</button>
-              <button onclick="mapParis.pngDownload()">
-                Screenshot Map Paris
-              </button>
-              <br />
-              <br />
-            </div>
-            <div style="width: 70%; display: inline-block">
-              <div id="map-chart">
-                <!-- Map Chart Here -->
-              </div>
-            </div>
-            <div style="width: 28%; display: inline-block; vertical-align: top">
-              <div id="map-chart-paris">
-                <!-- Map Chart Paris Here -->
-              </div>
-            </div>
-          </div>
-          <div class="frcv-chart-wrapper">
-            <div style="text-align: right">
-              <button onclick="plotChart.pngDownload()">
-                Screenshot PlotChart
-              </button>
-              <br />
-              <br />
-            </div>
-            <div id="plot-chart">
-              <!-- Plot Chart Here -->
-            </div>
-          </div>
-
-          <div
-            id="ltv-data"
-            class="frcv-chart-wrapper"
-            style="display: none"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Innovation List Modal -->
-    <div
-      class="frcv-modal"
-      id="frcv-innovation-list-modal"
-      onclick="closeModal()"
-    >
-      <div class="frcv-modal-dialog">
-        <div id="innovation-list" class="frcv-innovation-list">
-          <!-- innovation list content here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Innovation List Modal -->
-    <div
-      class="frcv-modal"
-      id="frcv-recent-searches-modal"
-      onclick="closeModal()"
-    >
-      <div class="frcv-modal-dialog">
-        <div id="frcv-recent-searches">
-          <!-- recent searches here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div class="frcv-modal" id="frcv-settings-modal" onclick="closeModal()">
-      <div class="frcv-modal-dialog">
-        <h2>Setting</h2>
-        <div id="frcv-settings" class="frcv-settings">
-          <div>Labels</div>
-          <div>
-            <input type="checkbox" id="labelsBar" name="labelsBar" checked />
-            <label for="labelsBar">BarChart</label>
-          </div>
-          <div>
-            <input type="checkbox" id="labelsMap" name="labelsMap" checked />
-            <label for="labelsMap">MapChart</label>
-          </div>
-          <div>
-            <input type="checkbox" id="labelsPlot" name="labelsPlot" checked />
-            <label for="labelsPlot">PlotChart</label>
-          </div>
-          <br />
-
-          <div>Map</div>
-          <label for="map-color-scale">Color Scale:</label>
-          <select id="map-color-scale" onchange="mapColorScaleChange(this)">
-            <option id="scale1" value="scale1">
-              Yellow, Orange, Red, Purple
-            </option>
-            <option id="scale2" value="scale2">White, Light Green, Blue</option>
-          </select>
-          <br />
-
-          <div>Data</div>
-          <div>
-            <input
-              type="checkbox"
-              id="showData"
-              name="showData"
-              onchange="onShowData(this)"
-            />
-            <label for="showData">Show Data</label>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Track Modal -->
-    <div class="frcv-modal" id="frcv-track-modal" onclick="closeModal()">
-      <div class="frcv-modal-dialog">
-        <div id="frcv-track-modal-content">
-          <!-- track content here -->
-        </div>
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="js/lib/lotivis.js"></script>
-    <script src="js/lib/frc.js"></script>
-    <!-- <script src="js/search.js"></script> -->
-    <script>
-      // ###############################################################################
-      // functions
-      function getElement(id) {
-        return document.getElementById(id);
-      }
-
-      function showElement(id) {
-        getElement(id).style.display = "block";
-      }
-
-      function hideElement(id) {
-        getElement(id).style.display = "none";
-      }
-
-      function closeModal() {
-        this.event.target.style.display = "none";
-      }
-
-      function showModal(id) {
-        showElement("frcv-" + id + "-modal");
-      }
-
-      function onLabelsBar() {
-        barChart.config.labels = getElement("labelsBar").checked;
-      }
-
-      function onLabelsMap() {
-        map.config.labels = getElement("labelsMap").checked;
-      }
-
-      function onLabelsPlot() {
-        plotChart.config.labels = getElement("labelsPlot").checked;
-      }
-
-      function mapColorScaleChange() {
-        let value = getElement("map-color-scale").value;
-        let scale =
-          value === "scale1" ? lotivis.colorScale1 : lotivis.colorScale2;
-        urlparams.set("map-color-scale", value);
-        map.colorScale(scale).run();
-        mapParis.colorScale(scale).run();
-      }
-
-      function onShowData(checkbox) {
-        getElement("ltv-data").style.display = checkbox.checked
-          ? "block"
-          : "none";
-      }
-
-      /* search */
-      function textareaKeydown(input) {
-        if (Object.getPrototypeOf(this.event) !== KeyboardEvent.prototype)
-          return;
-        if (this.event.key !== "Enter") return;
-
-        this.event.preventDefault();
-        search(input.value);
-      }
-
-      function search(searchText) {
-        if (searchText === undefined)
-          return console.log("search text undefined");
-        else if (searchText.trim().length === 0)
-          return console.log("search text too short");
-
-        urlparams.set("q", searchText.replace(/,/g, "_"));
-
-        let datasets = corpus.search(
-          searchText,
-          firstYear,
-          lastYear,
-          sensitivity,
-          countType
-        );
-
-        let dc = new lotivis.parseDatasets(datasets);
-
-        barChart.run(dc);
-        map.run(dc);
-        mapParis.run(dc);
-        plotChart.run(dc);
-
-        fillTracksCard(datasets);
-
-        recentSearches.add(searchText);
-        fillRecentSearchesPanel();
-      }
-
-      /* date range */
-      function updateYearsRange() {
-        let dates = d3.range(firstYear, lastYear + 1);
-        barChart.dates(dates);
-        plotChart.dates(dates);
-      }
-
-      function fromDropdownAction(el) {
-        (firstYear = +el.value), updateYearsRange(), search(searchField.value);
-      }
-
-      function tillDropdownAction(el) {
-        (lastYear = +el.value), updateYearsRange(), search(searchField.value);
-      }
-
-      function fillYearDropdowns() {
-        let html = "";
-        let firstYearOverride = 2000;
-
-        for (let year = 1995; year < 2021; year++) {
-          html += `<option value="${year}">${year}</option>`;
-        }
-
-        let fromDropdown = getElement("from-dropdown");
-        let tillDropdown = getElement("till-dropdown");
-        fromDropdown.innerHTML = html;
-        tillDropdown.innerHTML = html;
-        tillDropdown.value = `${lastYear}`;
-
-        if (firstYearOverride) {
-          firstYear = firstYearOverride;
-          fromDropdown.value = `${firstYearOverride}`;
-        }
-      }
-
-      function sensitivityDropdownAction(some) {
-        (sensitivity = some.value), search(searchField.value);
-      }
-
-      function countTypeAction(some) {
-        (countType = some.value), search(searchField.value);
-      }
-
-      function presentTrackPopup(track, label) {
-        let input = label;
-        let lines = track.content.split("\n");
-        let html = "";
-
-        html += `<h1 class="frcv-headline">${track.title}</h1>`;
-
-        for (let i = 0; i < lines.length; i++) {
-          let line = lines[i];
-          let words = line.split(" ");
-          for (let j = 0; j < words.length; j++) {
-            let word = words[j];
-
-            if (
-              [
-                input.toLowerCase(),
-                `${input},`.toLowerCase(),
-                `${input})`.toLowerCase(),
-                `(${input}`.toLowerCase(),
-                `${input}]`.toLowerCase(),
-                `[${input}`.toLowerCase(),
-              ].includes(word.toLowerCase())
-            ) {
-              html += `<b class="frcv-important">${word}</b>`;
-            } else {
-              html += word;
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+        />
+        <link rel="stylesheet" href="./css/lotivis.css" />
+        <link rel="stylesheet" href="./css/frcv.css" />
+        <title>FRCV - Search</title>
+        <style>
+            .ltv-bar-chart-label {
+                font-size: 12px;
             }
 
-            html += " ";
-          }
-          html += "<br>";
-        }
+            #map-chart-paris svg .ltv-map-label {
+                transform: translate(-40px, 0);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="frcv-container">
+            <div class="frcv-header">
+                <a href="index.html"> Back </a>
+                <div style="display: inline-flex; float: right">
+                    <button onclick="showModal('settings')">Settings</button>
+                </div>
+            </div>
 
-        html += "<br>";
-        html += `<a href="${track.url}">${track.url}</a>`;
+            <!-- LEFT -->
+            <div
+                style="
+                    display: inline-block;
+                    width: 300px;
+                    margin-right: 20px;
+                    vertical-align: top;
+                "
+            >
+                <div class="frcv-info-card">
+                    <h2>Search</h2>
 
-        getElement("frcv-track-modal-content").innerHTML = html;
+                    <div style="text-align: right">
+                        <label for="case-sensitivity">Case Sens.</label>
+                        <select
+                            id="case-sensitivity"
+                            onchange="sensitivityDropdownAction(this)"
+                        >
+                            <option
+                                id="case-insensitive"
+                                value="case-insensitive"
+                            >
+                                No
+                            </option>
+                            <option id="case-sensitive" value="case-sensitive">
+                                Yes
+                            </option>
+                            <option id="regex" value="regex">Regex</option>
+                        </select>
+                        <br />
+                        <label for="from-dropdown">From</label>
+                        <select
+                            id="from-dropdown"
+                            onchange="fromDropdownAction(this)"
+                        >
+                            <!-- Year Options Here -->
+                        </select>
+                        <br />
+                        <label for="till-dropdown">To</label>
+                        <select
+                            id="till-dropdown"
+                            onchange="tillDropdownAction(this)"
+                        >
+                            <!-- Year Options Here -->
+                        </select>
+                        <br />
+                        <label for="relative-absolute-dropdown">Count</label>
+                        <select
+                            id="relative-absolute-dropdown"
+                            onchange="countTypeAction(this)"
+                        >
+                            <option id="tracks" value="tracks">Tracks</option>
+                            <option
+                                id="tracks-relative-date"
+                                value="tracks-relative-date"
+                            >
+                                Tracks (Rel. Date)
+                            </option>
+                            <option
+                                id="tracks-relative-location"
+                                value="tracks-relative-location"
+                            >
+                                Tracks (Rel. Location)
+                            </option>
+                            <option id="words" value="words">Tokens</option>
+                            <option
+                                id="words-relative-date"
+                                value="words-relative-date"
+                            >
+                                Tokens (Rel. Date)
+                            </option>
+                            <option
+                                id="words-relative-location"
+                                value="words-relative-location"
+                            >
+                                Tokens (Rel. Location)
+                            </option>
+                        </select>
+                        <br />
+                        <br />
 
-        showModal("track");
-      }
+                        <!-- INPUT FIELD -->
+                        <textarea
+                            id="search-input"
+                            style="width: 250px; resize: vertical"
+                            rows="4"
+                            placeholder="Type word. Press enter to start search."
+                            onkeydown="textareaKeydown(this)"
+                        ></textarea>
+                        <br />
+                        <br />
+                        <button onclick="showModal('innovation-list')">
+                            Innovation List
+                        </button>
+                        <br />
+                        <button onclick="showModal('recent-searches')">
+                            Recent Searches
+                        </button>
+                        <br />
+                    </div>
+                </div>
 
-      function fillTracksCard(datasets) {
-        // let tracksObject = datasets.tracks;
-        let element = d3.select("#tracks-card");
+                <!-- TRACKS -->
+                <div class="frcv-info-card" style="width: 260px">
+                    <h2>Tracks:</h2>
+                    <div id="tracks-card" class="frcv-tracks-list">
+                        <!-- Tracks List Here -->
+                    </div>
+                </div>
+            </div>
 
-        element.selectAll("div").remove();
-        element
-          .selectAll(".div")
-          .data(datasets)
-          .enter()
-          .append("div")
-          .classed("frcv-tracks-list-group", true)
-          .html(
-            (d) =>
-              `<div class="frcv-tracks-list-group-headline">${d.label} (${d.tracks.length} Tracks)</div>`
-          )
-          .selectAll(".div")
-          .data((d) =>
-            d.tracks
-              .sort((t1, t2) => d3.descending(t1.releaseYear, t2.releaseYear))
-              .map((t) => [t, d.label])
-          )
-          .enter()
-          .append("div")
-          .style("cursor", "pointer")
-          .html((item, index) => {
-            let track = item[0];
-            return [
-              `<span class="index-number">${index + 1}.</span>`,
-              `<span class="title">${track.title}</span>`,
-              `<span class="artist">(${track.artist.trim()}, ${
-                track.releaseYear
-              })</span>`,
-            ].join(" ");
-          })
-          .on("click", (event, item) => presentTrackPopup(item[0], item[1]));
-      }
+            <!-- RIGHT -->
+            <div
+                style="
+                    display: inline-block;
+                    width: 870px;
+                    margin-left: 20px;
+                    height: 90%;
+                    overflow: scroll;
+                "
+            >
+                <!-- LOADING INDICATOR -->
+                <div
+                    id="loading-indicator"
+                    style="font-size: 60px; font-weight: 600; color: lightgray"
+                >
+                    Loading<br />and parsing<br />corpus...
+                </div>
 
-      function fillRecentSearchesPanel() {
-        let colors = lotivis.colorSchemeLotivis10;
-        let lines = recentSearches.queries();
+                <div id="content" style="display: none">
+                    <div class="frcv-chart-wrapper">
+                        <div style="text-align: right">
+                            <button onclick="barChart.pngDownload()">
+                                Screenshot BarChart
+                            </button>
+                        </div>
+                        <div id="bar-chart">
+                            <!-- Bar Chart Here -->
+                        </div>
+                    </div>
+                    <div class="frcv-chart-wrapper">
+                        <div style="text-align: right">
+                            <button onclick="map.pngDownload()">
+                                Screenshot Map France
+                            </button>
+                            <button onclick="mapParis.pngDownload()">
+                                Screenshot Map Paris
+                            </button>
+                            <br />
+                            <br />
+                        </div>
+                        <div style="width: 70%; display: inline-block">
+                            <div id="map-chart">
+                                <!-- Map Chart Here -->
+                            </div>
+                        </div>
+                        <div
+                            style="
+                                width: 28%;
+                                display: inline-block;
+                                vertical-align: top;
+                            "
+                        >
+                            <div id="map-chart-paris">
+                                <!-- Map Chart Paris Here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frcv-chart-wrapper">
+                        <div style="text-align: right">
+                            <button onclick="plotChart.pngDownload()">
+                                Screenshot PlotChart
+                            </button>
+                            <br />
+                            <br />
+                        </div>
+                        <div id="plot-chart">
+                            <!-- Plot Chart Here -->
+                        </div>
+                    </div>
 
-        d3.select("#frcv-recent-searches").selectAll("p").remove();
-        d3.select("#frcv-recent-searches")
-          .selectAll("p")
-          .data(lines)
-          .enter()
-          .append("p")
-          .style("display", "block")
-          .style("cursor", "pointer")
-          .on("click", (e, l) => {
-            hideElement("frcv-recent-searches-modal");
-            searchField.value = l;
-            search(searchField.value);
-          })
-          .selectAll("span")
-          .data((d, i) => [i + 1 + ". ", ...d.split(";")])
-          .enter()
-          .append("span")
-          .style("color", (d, i) =>
-            i == 0 ? colors[0] : colors[(i - 1) % colors.length]
-          )
-          .html((l) => l);
-      }
+                    <div id="frcv-data" class="frcv-chart-wrapper">
+                        <div style="width: 48%; display: inline-block">
+                            <div id="datatext-json">
+                                <!-- datatext json here -->
+                            </div>
+                        </div>
+                        <div style="width: 48%; display: inline-block">
+                            <div id="datatext-csv">
+                                <!-- datatext csv here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      // ###############################################################################
-      // configure lotivis
-      lotivis.debug(true);
-      lotivis.config({ downloadFilePrefix: "frcv" });
+        <!-- Innovation List Modal -->
+        <div
+            class="frcv-modal"
+            id="frcv-innovation-list-modal"
+            onclick="closeModal()"
+        >
+            <div class="frcv-modal-dialog">
+                <div id="innovation-list" class="frcv-innovation-list">
+                    <!-- innovation list content here -->
+                </div>
+            </div>
+        </div>
 
-      let mapColorScale =
-        urlparams.get("map-color-scale") === "scale2"
-          ? lotivis.colorScale2
-          : lotivis.colorScale1;
+        <!-- Innovation List Modal -->
+        <div
+            class="frcv-modal"
+            id="frcv-recent-searches-modal"
+            onclick="closeModal()"
+        >
+            <div class="frcv-modal-dialog">
+                <div id="frcv-recent-searches">
+                    <!-- recent searches here -->
+                </div>
+            </div>
+        </div>
 
-      // ###############################################################################
-      // create lotivis components
-      let barChart = lotivis
-        .bar()
-        .selector("#bar-chart")
-        .title(null)
-        .radius(0)
-        .width(800)
-        .height(300)
-        .marginTop(40)
-        .marginLeft(40)
-        .labels(true);
+        <!-- Settings Modal -->
+        <div class="frcv-modal" id="frcv-settings-modal" onclick="closeModal()">
+            <div class="frcv-modal-dialog">
+                <h2>Setting</h2>
+                <div id="frcv-settings" class="frcv-settings">
+                    <div>Labels</div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="labelsBar"
+                            name="labelsBar"
+                            checked
+                        />
+                        <label for="labelsBar">BarChart</label>
+                    </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="labelsMap"
+                            name="labelsMap"
+                            checked
+                        />
+                        <label for="labelsMap">MapChart</label>
+                    </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="labelsPlot"
+                            name="labelsPlot"
+                            checked
+                        />
+                        <label for="labelsPlot">PlotChart</label>
+                    </div>
+                    <br />
 
-      let legend = barChart
-        .legend()
-        .title(null)
-        .group(true)
-        .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
+                    <div>Map</div>
+                    <label for="map-color-scale">Color Scale:</label>
+                    <select
+                        id="map-color-scale"
+                        onchange="mapColorScaleChange(this)"
+                    >
+                        <option id="scale1" value="scale1">
+                            Yellow, Orange, Red, Purple
+                        </option>
+                        <option id="scale2" value="scale2">
+                            White, Light Green, Blue
+                        </option>
+                    </select>
+                    <br />
 
-      let plotChart = lotivis
-        .plot()
-        .selector("#plot-chart")
-        .width(800)
-        .marginLeft(0)
-        .marginRight(80)
-        .barHeight(24)
-        .style("fraction")
-        .colorMode("single")
-        .labels(true);
+                    <div>Data</div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="showData"
+                            name="showData"
+                            onchange="onShowData(this)"
+                        />
+                        <label for="showData">Show Data</label>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      let map = lotivis
-        .map()
-        .selector("#map-chart")
-        .width(800)
-        .height(800)
-        .labels(true)
-        .legend(true)
-        .colorScale(mapColorScale)
-        .labelsExclude(["75", "92", "93", "94"])
-        .exclude(["2A", "2B"])
-        .featureIDAccessor((f) => f.properties.code)
-        .featureNameAccessor((f) => f.properties.nom);
+        <!-- Track Modal -->
+        <div class="frcv-modal" id="frcv-track-modal" onclick="closeModal()">
+            <div class="frcv-modal-dialog">
+                <div id="frcv-track-modal-content">
+                    <!-- track content here -->
+                </div>
+            </div>
+        </div>
 
-      let mapParis = lotivis
-        .map()
-        .selector("#map-chart-paris")
-        .width(280)
-        .height(280)
-        .labels(true)
-        .legend(false)
-        .colorScale(mapColorScale)
-        .legendPanel(false)
-        .include(["75", "92", "93", "94"])
-        .featureIDAccessor((f) => f.properties.code)
-        .featureNameAccessor((f) => f.properties.nom);
+        <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="js/lib/lotivis.js"></script>
+        <script src="js/lib/frc.js"></script>
+        <!-- <script src="js/search.js"></script> -->
+        <script>
+            // ###############################################################################
+            // functions
+            function getElement(id) {
+                return document.getElementById(id);
+            }
 
-      // ###############################################################################
-      // initialize
+            function showElement(id) {
+                getElement(id).style.display = "block";
+            }
 
-      let corpus;
-      let firstYear = 1995;
-      let lastYear = 2020;
-      let countType = frc.SearchCountType.tracks;
-      let sensitivity = getElement("case-sensitivity").value;
-      let recentSearches = new recentsearches("frcv-search-input-data");
-      let searchField = getElement("search-input");
+            function hideElement(id) {
+                getElement(id).style.display = "none";
+            }
 
-      d3.json("./assets/departements.geojson").then(
-        (json) => (map.geoJSON(json), mapParis.geoJSON(json))
-      );
+            function closeModal() {
+                this.event.target.style.display = "none";
+            }
 
-      d3.json("./assets/corpus.json")
-        .then((json) => new frc.Corpus(json))
-        .then((_corpus) => {
-          corpus = _corpus;
+            function showModal(id) {
+                showElement("frcv-" + id + "-modal");
+            }
 
-          fillYearDropdowns();
-          updateYearsRange();
+            function onLabelsBar() {
+                barChart.config.labels = getElement("labelsBar").checked;
+            }
 
-          hideElement("loading-indicator");
-          showElement("content");
-        })
-        .then(() => {
-          let searchString = urlparams.get("q");
-          if (!searchString) return;
-          searchString = searchString.replace(/_/g, ",");
-          searchField.value = searchString;
-          search(searchString);
-        })
-        .catch((error) => console.error(error));
+            function onLabelsMap() {
+                map.config.labels = getElement("labelsMap").checked;
+            }
 
-      d3.text("./assets/innovation.list.txt").then((text) => {
-        d3.select("#innovation-list")
-          .selectAll("p")
-          .data(text.split("\n").filter((line) => line.length > 0))
-          .enter()
-          .append("p")
-          .style("cursor", "pointer")
-          .html((l, i) => `${i + 1}. ${l.replace(/,/g, ", ")}`)
-          .on("click", (e, l) => {
-            hideElement("frcv-innovation-list-modal");
-            searchField.value = l;
-            search(searchField.value);
-          });
-      });
+            function onLabelsPlot() {
+                plotChart.config.labels = getElement("labelsPlot").checked;
+            }
 
-      fillRecentSearchesPanel();
-    </script>
-  </body>
+            function mapColorScaleChange() {
+                let value = getElement("map-color-scale").value;
+                let scale =
+                    value === "scale1"
+                        ? lotivis.colorScale1
+                        : lotivis.colorScale2;
+                urlparams.set("map-color-scale", value);
+                map.colorScale(scale).run();
+                mapParis.colorScale(scale).run();
+            }
+
+            function onShowData(checkbox) {
+                getElement("ltv-data").style.display = checkbox.checked
+                    ? "block"
+                    : "none";
+            }
+
+            /* search */
+            function textareaKeydown(input) {
+                if (
+                    Object.getPrototypeOf(this.event) !==
+                    KeyboardEvent.prototype
+                )
+                    return;
+                if (this.event.key !== "Enter") return;
+
+                this.event.preventDefault();
+                search(input.value);
+            }
+
+            function search(searchText) {
+                if (searchText === undefined)
+                    return console.log("search text undefined");
+                else if (searchText.trim().length === 0)
+                    return console.log("search text too short");
+
+                urlparams.set("q", searchText.replace(/,/g, "_"));
+
+                let datasets = corpus.search(
+                    searchText,
+                    firstYear,
+                    lastYear,
+                    sensitivity,
+                    countType
+                );
+
+                let dc = new lotivis.parseDatasets(datasets);
+
+                barChart.run(dc);
+                map.run(dc);
+                mapParis.run(dc);
+                plotChart.run(dc);
+                datatextJSON.run(dc);
+                datatextCSV.run(dc);
+
+                fillTracksCard(datasets);
+
+                recentSearches.add(searchText);
+                fillRecentSearchesPanel();
+            }
+
+            /* date range */
+            function updateYearsRange() {
+                let dates = d3.range(firstYear, lastYear + 1);
+                barChart.dates(dates);
+                plotChart.dates(dates);
+            }
+
+            function fromDropdownAction(el) {
+                (firstYear = +el.value),
+                    updateYearsRange(),
+                    search(searchField.value);
+            }
+
+            function tillDropdownAction(el) {
+                (lastYear = +el.value),
+                    updateYearsRange(),
+                    search(searchField.value);
+            }
+
+            function fillYearDropdowns() {
+                let html = "";
+                let firstYearOverride = 2000;
+
+                for (let year = 1995; year < 2021; year++) {
+                    html += `<option value="${year}">${year}</option>`;
+                }
+
+                let fromDropdown = getElement("from-dropdown");
+                let tillDropdown = getElement("till-dropdown");
+                fromDropdown.innerHTML = html;
+                tillDropdown.innerHTML = html;
+                tillDropdown.value = `${lastYear}`;
+
+                if (firstYearOverride) {
+                    firstYear = firstYearOverride;
+                    fromDropdown.value = `${firstYearOverride}`;
+                }
+            }
+
+            function sensitivityDropdownAction(some) {
+                (sensitivity = some.value), search(searchField.value);
+            }
+
+            function countTypeAction(some) {
+                (countType = some.value), search(searchField.value);
+            }
+
+            function presentTrackPopup(track, label) {
+                let input = label;
+                let lines = track.content.split("\n");
+                let html = "";
+
+                html += `<h1 class="frcv-headline">${track.title}</h1>`;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i];
+                    let words = line.split(" ");
+                    for (let j = 0; j < words.length; j++) {
+                        let word = words[j];
+
+                        if (
+                            [
+                                input.toLowerCase(),
+                                `${input},`.toLowerCase(),
+                                `${input})`.toLowerCase(),
+                                `(${input}`.toLowerCase(),
+                                `${input}]`.toLowerCase(),
+                                `[${input}`.toLowerCase(),
+                            ].includes(word.toLowerCase())
+                        ) {
+                            html += `<b class="frcv-important">${word}</b>`;
+                        } else {
+                            html += word;
+                        }
+
+                        html += " ";
+                    }
+                    html += "<br>";
+                }
+
+                html += "<br>";
+                html += `<a href="${track.url}">${track.url}</a>`;
+
+                getElement("frcv-track-modal-content").innerHTML = html;
+
+                showModal("track");
+            }
+
+            function fillTracksCard(datasets) {
+                // let tracksObject = datasets.tracks;
+                let element = d3.select("#tracks-card");
+
+                element.selectAll("div").remove();
+                element
+                    .selectAll(".div")
+                    .data(datasets)
+                    .enter()
+                    .append("div")
+                    .classed("frcv-tracks-list-group", true)
+                    .html(
+                        (d) =>
+                            `<div class="frcv-tracks-list-group-headline">${d.label} (${d.tracks.length} Tracks)</div>`
+                    )
+                    .selectAll(".div")
+                    .data((d) =>
+                        d.tracks
+                            .sort((t1, t2) =>
+                                d3.descending(t1.releaseYear, t2.releaseYear)
+                            )
+                            .map((t) => [t, d.label])
+                    )
+                    .enter()
+                    .append("div")
+                    .style("cursor", "pointer")
+                    .html((item, index) => {
+                        let track = item[0];
+                        return [
+                            `<span class="index-number">${index + 1}.</span>`,
+                            `<span class="title">${track.title}</span>`,
+                            `<span class="artist">(${track.artist.trim()}, ${
+                                track.releaseYear
+                            })</span>`,
+                        ].join(" ");
+                    })
+                    .on("click", (event, item) =>
+                        presentTrackPopup(item[0], item[1])
+                    );
+            }
+
+            function fillRecentSearchesPanel() {
+                let colors = lotivis.colorSchemeLotivis10;
+                let lines = recentSearches.queries();
+
+                d3.select("#frcv-recent-searches").selectAll("p").remove();
+                d3.select("#frcv-recent-searches")
+                    .selectAll("p")
+                    .data(lines)
+                    .enter()
+                    .append("p")
+                    .style("display", "block")
+                    .style("cursor", "pointer")
+                    .on("click", (e, l) => {
+                        hideElement("frcv-recent-searches-modal");
+                        searchField.value = l;
+                        search(searchField.value);
+                    })
+                    .selectAll("span")
+                    .data((d, i) => [i + 1 + ". ", ...d.split(";")])
+                    .enter()
+                    .append("span")
+                    .style("color", (d, i) =>
+                        i == 0 ? colors[0] : colors[(i - 1) % colors.length]
+                    )
+                    .html((l) => l);
+            }
+
+            // ###############################################################################
+            // configure lotivis
+            lotivis.debug(true);
+            lotivis.config({ downloadFilePrefix: "frcv" });
+
+            let mapColorScale =
+                urlparams.get("map-color-scale") === "scale2"
+                    ? lotivis.colorScale2
+                    : lotivis.colorScale1;
+
+            // ###############################################################################
+            // create lotivis components
+            let barChart = lotivis
+                .bar()
+                .selector("#bar-chart")
+                .title(null)
+                .radius(0)
+                .width(800)
+                .height(300)
+                .marginTop(40)
+                .marginLeft(40)
+                .labels(true);
+
+            let legend = barChart
+                .legend()
+                .title(null)
+                .group(true)
+                .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
+
+            let plotChart = lotivis
+                .plot()
+                .selector("#plot-chart")
+                .width(800)
+                .marginLeft(0)
+                .marginRight(80)
+                .barHeight(24)
+                .style("fraction")
+                .colorMode("single")
+                .labels(true);
+
+            let map = lotivis
+                .map()
+                .selector("#map-chart")
+                .width(800)
+                .height(800)
+                .labels(true)
+                .legend(true)
+                .colorScale(mapColorScale)
+                .labelsExclude(["75", "92", "93", "94"])
+                .exclude(["2A", "2B"])
+                .featureIDAccessor((f) => f.properties.code)
+                .featureNameAccessor((f) => f.properties.nom);
+
+            let mapParis = lotivis
+                .map()
+                .selector("#map-chart-paris")
+                .width(280)
+                .height(280)
+                .labels(true)
+                .legend(false)
+                .colorScale(mapColorScale)
+                .legendPanel(false)
+                .include(["75", "92", "93", "94"])
+                .featureIDAccessor((f) => f.properties.code)
+                .featureNameAccessor((f) => f.properties.nom);
+
+            let datatextJSON = lotivis
+                .datatext()
+                .selector("#datatext-json")
+                .text(lotivis.datatextJSON);
+
+            let datatextCSV = lotivis
+                .datatext()
+                .selector("#datatext-csv")
+                .text(function (dt, dv, dc) {
+                    let data = Array.from(dc.byDate(), ([key, value]) => {
+                        return {
+                            label: dv.labels[0],
+                            date: key,
+                            value: d3.sum(value, (d) => d.value),
+                            location: null,
+                            stack: null,
+                        };
+                    });
+                    // let
+                    // console.log(data);
+                    return lotivis.csvFormat(data);
+                });
+
+            // ###############################################################################
+            // initialize
+
+            let corpus,
+                firstYear = 1995,
+                lastYear = 2020,
+                countType = frc.SearchCountType.tracks,
+                sensitivity = getElement("case-sensitivity").value,
+                recentSearches = new recentsearches("frcv-search-input-data"),
+                searchField = getElement("search-input");
+
+            d3.json("./assets/departements.geojson").then(
+                (json) => (map.geoJSON(json), mapParis.geoJSON(json))
+            );
+
+            d3.json("./assets/corpus.json")
+                .then((json) => new frc.Corpus(json))
+                .then((_corpus) => {
+                    corpus = _corpus;
+
+                    fillYearDropdowns();
+                    updateYearsRange();
+
+                    hideElement("loading-indicator");
+                    showElement("content");
+                })
+                .then(() => {
+                    let searchString = urlparams.get("q");
+                    if (!searchString) return;
+                    searchString = searchString.replace(/_/g, ",");
+                    searchField.value = searchString;
+                    search(searchString);
+                })
+                .catch((error) => console.error(error));
+
+            d3.text("./assets/innovation.list.txt").then((text) => {
+                d3.select("#innovation-list")
+                    .selectAll("p")
+                    .data(text.split("\n").filter((line) => line.length > 0))
+                    .enter()
+                    .append("p")
+                    .style("cursor", "pointer")
+                    .html((l, i) => `${i + 1}. ${l.replace(/,/g, ", ")}`)
+                    .on("click", (e, l) => {
+                        hideElement("frcv-innovation-list-modal");
+                        searchField.value = l;
+                        search(searchField.value);
+                    });
+            });
+
+            fillRecentSearchesPanel();
+        </script>
+    </body>
 </html>

@@ -1,5 +1,6 @@
 /* sized */
 /* colors */
+/* font sizes */
 .ltv-bar-chart-background {
   pointer-events: none;
 }
@@ -13,19 +14,14 @@
   font-size: 12px;
 }
 
-.ltv-bar-chart-label {
-  pointer-events: none;
-  font-size: 20px;
-}
-
 .ltv-bar-chart-legend-label {
   cursor: pointer;
   font-size: 12px;
 }
 
-.ltv-bar-chart-legend-circle {
-  cursor: pointer;
-  stroke-width: 2;
+.ltv-bar-chart-label {
+  pointer-events: none;
+  font-size: 20px;
 }
 
 .ltv-bar-chart-bar {
@@ -78,7 +74,7 @@
 }
 
 .ltv-legend-pill-span {
-  font-size: 10px;
+  font-size: 12px;
   display: inline-flex;
   padding: 2px 7px;
   margin-right: 5px;
@@ -229,9 +225,9 @@
 
 .ltv-tooltip {
   position: absolute;
-  padding: 10px;
+  padding: 8px;
   background: white;
-  font: 12px sans-serif;
+  font-size: 12px;
   stroke-width: 2;
   border-radius: 8px;
   border: solid 1px dodgerblue;
@@ -239,14 +235,16 @@
   line-height: 1.4;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px 0;
   z-index: 99;
+  opacity: 0;
 }
 
-.ltv-fade-in {
+.ltv-tooltip-show {
   animation: fadeIn ease 0.3s;
   -webkit-animation: fadeIn ease 0.3s;
   -moz-animation: fadeIn ease 0.3s;
   -o-animation: fadeIn ease 0.3s;
   -ms-animation: fadeIn ease 0.3s;
+  opacity: 1;
 }
 
 @keyframes fadeIn {
