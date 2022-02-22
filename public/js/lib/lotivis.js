@@ -20359,7 +20359,7 @@
       /**
        * A Boolean value indicating whether the debug logging is enabled
        */
-      debug: true,
+      debug: false,
 
       /**
        * The default margin to use for charts
@@ -20410,6 +20410,9 @@
        * The deault filename generator.
        */
       // filenameGenerator: DEFAULTS.filenameGenerator,
+
+      /** A Boolean value indicating whether logging of third party libraries is enabled */
+      thidPartyLogging: false,
   };
 
   /**
@@ -20660,7 +20663,10 @@
   }
 
   function pngDownload(selector, filename, callback) {
-      html2canvas(element(selector), { scale: 4 }).then((canvas) => {
+      html2canvas(element(selector), {
+          scale: 4,
+          logging: CONFIG.thidPartyLogging,
+      }).then((canvas) => {
           downloadURL(canvas.toDataURL(), filename);
           if (callback) callback();
       });
@@ -21020,7 +21026,9 @@
           if (selection.size() === 0)
               throw new Error("empty selection: " + state.selector);
 
+          console.time("dataView " + state.id);
           let dv = chart.dataView(dc);
+          console.timeEnd("dataView " + state.id);
 
           selection.each(function scope() {
               // receive container
@@ -21820,7 +21828,7 @@
       // private
 
       function require(div) {
-          if (!div) throw new Error("invalid div");
+          if (typeof div !== "object") throw new Error("invalid div");
           return div;
       }
 
@@ -23238,7 +23246,7 @@
    *
    */
   function map() {
-      let state = {
+      let attr = {
           id: uniqueId("map"),
 
           width: 1000,
@@ -23294,49 +23302,42 @@
           featureNameAccessor: FEATURE_NAME_ACCESSOR,
       };
 
-      // Create new underlying chart with the specified state.
-      let chart = baseChart(state);
-      state.projection = mercator();
-      state.path = index$3().projection(state.projection);
+      // Create new underlying chart with the specified attr.
+      let chart = baseChart(attr);
+      attr.projection = mercator();
+      attr.path = index$3().projection(attr.projection);
 
       /**
        * Tells the map chart that the GeoJSON has changed.
        * @private
        */
       function geoJSONDidChange() {
-          let geoJSON = state.geoJSON;
-          if (!geoJSON) return;
+          if (!attr.geoJSON) return;
 
-          state.workGeoJSON = geoJSON;
+          attr.workGeoJSON = attr.geoJSON;
 
           // precalculate the center of each feature
-          state.workGeoJSON.features.forEach(
+          attr.workGeoJSON.features.forEach(
               (f) => (f.center = centroid$1(f))
           );
 
-          if (Array.isArray(state.exclude)) {
-              state.workGeoJSON = remove(
-                  state.workGeoJSON,
-                  state.exclude
-              );
+          if (Array.isArray(attr.exclude)) {
+              attr.workGeoJSON = remove(attr.workGeoJSON, attr.exclude);
           }
 
-          if (Array.isArray(state.include)) {
-              state.workGeoJSON = filter(
-                  state.workGeoJSON,
-                  state.include
-              );
+          if (Array.isArray(attr.include)) {
+              attr.workGeoJSON = filter(attr.workGeoJSON, attr.include);
           }
 
           // precalculate lotivis feature ids
           let feature, id;
-          for (let i = 0; i < state.workGeoJSON.features.length; i++) {
-              feature = state.workGeoJSON.features[i];
-              id = state.featureIDAccessor(feature);
-              state.workGeoJSON.features[i].lotivisId = id;
+          for (let i = 0; i < attr.workGeoJSON.features.length; i++) {
+              feature = attr.workGeoJSON.features[i];
+              id = attr.featureIDAccessor(feature);
+              attr.workGeoJSON.features[i].lotivisId = id;
           }
 
-          chart.zoomTo(state.workGeoJSON);
+          chart.zoomTo(attr.workGeoJSON);
 
           if (chart.dataController() === null) {
               chart.dataController(new DataController([]));
@@ -23349,12 +23350,12 @@
        * @private
        */
       function getSelectedFeatures() {
-          if (!state.workGeoJSON) return null;
+          if (!attr.workGeoJSON) return null;
 
-          let filtered = state.dataController.filters("locations");
+          let filtered = attr.dataController.filters("locations");
           if (filtered.length === 0) return [];
 
-          return state.workGeoJSON.features.filter(
+          return attr.workGeoJSON.features.filter(
               (f) => filtered.indexOf(f.lotivisId) !== -1
           );
       }
@@ -23370,14 +23371,14 @@
               let ids = featuresSlice
                   .map((feature) => `${feature.lotivisId}`)
                   .join(", ");
-              let names = featuresSlice.map(state.featureNameAccessor).join(", ");
+              let names = featuresSlice.map(attr.featureNameAccessor).join(", ");
               let moreCount = features.length - 3;
               return `IDs: ${ids} (+${moreCount})<br>Names: ${names} (+${moreCount})`;
           } else {
               let ids = features
                   .map((feature) => `${feature.lotivisId}`)
                   .join(", ");
-              let names = features.map(state.featureNameAccessor).join(", ");
+              let names = features.map(attr.featureNameAccessor).join(", ");
               return `IDs: ${ids}<br>Names: ${names}`;
           }
       }
@@ -23390,10 +23391,13 @@
        * @returns
        */
       function htmlValues(features, dv, calc) {
-          let combinedByLabel = {};
+          let combinedByLabel = {},
+              components = [""],
+              sum = 0;
+
           for (let i = 0; i < features.length; i++) {
-              let feature = features[i];
-              let data = dv.byLocationLabel.get(feature.lotivisId);
+              let data = dv.byLocationLabel.get(features[i].lotivisId);
+
               if (!data) continue;
               let keys = Array.from(data.keys());
 
@@ -23407,24 +23411,26 @@
               }
           }
 
-          let components = [""];
-          let sum = 0;
+          if (Object.keys(combinedByLabel).length === 0) return "<br>No Data";
+
           for (const label in combinedByLabel) {
-              let color = calc.colors.label(label);
-              let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-              sum += combinedByLabel[label];
-              let value = state.numberFormat(combinedByLabel[label]);
+              let color = calc.colors.label(label),
+                  divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`,
+                  value = combinedByLabel[label];
+              if (value === 0) continue;
+              sum += value;
+              value = attr.numberFormat(value);
               components.push(`${divHTML} ${label}: <b>${value}</b>`);
           }
 
           components.push("");
-          components.push(`Sum: <b>${state.numberFormat(sum)}</b>`);
+          components.push(`Sum: <b>${attr.numberFormat(sum)}</b>`);
 
           return components.length === 0 ? "No Data" : components.join("<br>");
       }
 
       /**
-       *
+       * Updates the tooltips position for the passed feature.
        * @param {*} event
        * @param {*} feature
        * @param {*} calc
@@ -23433,7 +23439,7 @@
           // position tooltip
           let size = calc.tooltip.size(),
               tOff = CONFIG.tooltipOffset,
-              projection = state.projection,
+              projection = attr.projection,
               fBounds = bounds$1(feature),
               fLowerLeft = projection(fBounds[0]),
               fUpperRight = projection(fBounds[1]),
@@ -23442,7 +23448,7 @@
           // svg is presented in dynamic sized view box so we need to get the actual size
           // of the element in order to calculate a scale for the position of the tooltip.
           let domRect = calc.svg.node().getBoundingClientRect(),
-              factor = domRect.width / state.width,
+              factor = domRect.width / attr.width,
               off = [domRect.x + window.scrollX, domRect.y + window.scrollY];
 
           let top = fLowerLeft[1] * factor + off[1] + tOff,
@@ -23451,12 +23457,6 @@
           calc.tooltip.left(left).top(top).show();
       }
 
-      /**
-       *
-       * @param {*} arr
-       * @param {*} obj
-       * @returns
-       */
       function contains(arr, obj) {
           return Array.isArray(arr) && arr.indexOf(obj) !== -1;
       }
@@ -23470,20 +23470,20 @@
           calc.svg = container
               .append("svg")
               .attr("class", "ltv-chart-svg ltv-map-svg")
-              .attr("viewBox", `0 0 ${state.width} ${state.height}`);
+              .attr("viewBox", `0 0 ${attr.width} ${attr.height}`);
       }
 
       function renderBackground(calc, dv) {
           calc.svg
               .append("rect")
               .attr("class", "ltv-map-background")
-              .attr("width", state.width)
-              .attr("height", state.height)
-              .on("click", () => state.dataController.clear("locations", chart));
+              .attr("width", attr.width)
+              .attr("height", attr.height)
+              .on("click", () => attr.dataController.clear("locations", chart));
       }
 
       function renderExteriorBorders(calc, dv) {
-          let geoJSON = state.workGeoJSON;
+          let geoJSON = attr.workGeoJSON;
           if (!geoJSON) return console.log("[ltv]  No GeoJSON to render");
 
           let bordersGeoJSON = join(geoJSON.features);
@@ -23495,12 +23495,12 @@
               .data(bordersGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .attr("class", "ltv-map-exterior-borders");
       }
 
       function filterLocation(location) {
-          return state.dataController.isFilter("locations", location);
+          return attr.dataController.isFilter("locations", location);
       }
 
       function renderFeatures(calc, dv) {
@@ -23557,9 +23557,9 @@
           }
 
           function mouseClick(event, feature) {
-              if (!state.enabled) return;
+              if (!attr.enabled) return;
               if (!feature || !feature.properties) return;
-              state.dataController.toggleFilter(
+              attr.dataController.toggleFilter(
                   "locations",
                   feature.lotivisId,
                   chart
@@ -23569,15 +23569,15 @@
 
           let locationToSum = dv.locationToSum;
           let max = max$3(locationToSum, (item) => item[1]);
-          let generator = state.colorScale;
+          let generator = attr.colorScale;
 
           calc.areas = calc.svg
               .selectAll(".ltv-map-area")
               .append("path")
-              .data(state.workGeoJSON.features)
+              .data(attr.workGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .classed("ltv-map-area", true)
               .attr("id", (f) => featureMapID(f))
               .style("stroke-dasharray", "1,4")
@@ -23597,21 +23597,21 @@
           // calc.svg.selectAll(".ltv-map-label").remove();
           calc.svg
               .selectAll("text")
-              .data(state.workGeoJSON.features)
+              .data(attr.workGeoJSON.features)
               .enter()
               .append("text")
               .attr("class", "ltv-map-label")
-              .attr("x", (f) => state.projection(f.center)[0])
-              .attr("y", (f) => state.projection(f.center)[1])
+              .attr("x", (f) => attr.projection(f.center)[0])
+              .attr("y", (f) => attr.projection(f.center)[1])
               .text((f) => {
-                  let featureID = state.featureIDAccessor(f);
-                  if (contains(state.labelsExclude, featureID)) return "";
+                  let featureID = attr.featureIDAccessor(f);
+                  if (contains(attr.labelsExclude, featureID)) return "";
                   let data = dv.byLocationLabel.get(featureID);
                   if (!data) return "";
                   let labels = Array.from(data.keys()),
                       values = labels.map((label) => data.get(label)),
                       sum = sum$2(values);
-                  return sum === 0 ? "" : state.numberFormat(sum);
+                  return sum === 0 ? "" : attr.numberFormat(sum);
               });
       }
 
@@ -23629,22 +23629,22 @@
               .data(calc.selectionBorderGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .attr("class", "ltv-map-selection-border")
               .raise();
       }
 
       function renderLegend(calc, dv) {
-          let label = state.selectedStack || dv.stacks[0];
+          let label = attr.selectedStack || dv.stacks[0];
           let locationToSum = dv.locationToSum || [];
           let max = max$3(locationToSum, (item) => item[1]) || 0;
 
-          let xOff = 10 + state.marginLeft;
+          let xOff = 10 + attr.marginLeft;
           let labelColor = calc.colors.stack(label);
 
           xOff = 1;
 
-          let mapColors = state.colorScale;
+          let mapColors = attr.colorScale;
           let allData = [
               "No Data",
               "0",
@@ -23658,7 +23658,7 @@
           let legend = calc.svg
               .append("svg")
               .attr("class", "ltv-map-legend")
-              .attr("width", state.width)
+              .attr("width", attr.width)
               .attr("height", 200)
               .attr("x", 0)
               .attr("y", 0);
@@ -23702,23 +23702,23 @@
               .attr("class", "ltv-map-legend-text")
               .attr("x", xOff + 24)
               .attr("y", (d, i) => i * 20 + 30 + 14)
-              .text((d) => (typeof d === "number" ? state.numberFormat(d) : d));
+              .text((d) => (typeof d === "number" ? attr.numberFormat(d) : d));
 
           return;
       }
 
       function renderDataSelectionPanel(calc, dv) {
           let stacks = dv.stacks;
-          let selectedStack = state.selectedStack || stacks[0];
-          let radioName = state.id + "-radio";
+          let selectedStack = attr.selectedStack || stacks[0];
+          let radioName = attr.id + "-radio";
 
           calc.legendPanel = calc.container
               .append("div")
               .classed("frc-legend", true)
-              .style("padding-left", state.marginLeft + "px")
-              .style("padding-top", state.marginTop + "px")
-              .style("padding-right", state.marginRight + "px")
-              .style("padding-bottom", state.marginBottom + "px");
+              .style("padding-left", attr.marginLeft + "px")
+              .style("padding-top", attr.marginTop + "px")
+              .style("padding-right", attr.marginRight + "px")
+              .style("padding-bottom", attr.marginBottom + "px");
 
           calc.legendPanelPills = calc.legendPanel
               .selectAll(".label")
@@ -23737,7 +23737,7 @@
               .on("change", (event, stack) => {
                   if (selectedStack == stack) return;
                   Events.call("map-selection-will-change", chart, stack);
-                  state.selectedStack = stack;
+                  attr.selectedStack = stack;
                   Events.call("map-selection-did-change", chart, stack);
                   chart.run();
               });
@@ -23745,7 +23745,7 @@
           calc.legendPanelCpans = calc.legendPanelPills
               .append("span")
               .classed("ltv-legend-pill-span", true)
-              .style("border-radius", postfix(state.radius, "px"))
+              .style("border-radius", postfix(attr.radius, "px"))
               .style("background-color", (stack) => calc.colors.stack(stack))
               .text((d, i) => cut$1(d, 20));
       }
@@ -23753,9 +23753,9 @@
       // public
 
       chart.zoomTo = function (geoJSON) {
-          if (state.projection)
-              state.projection.fitSize(
-                  [state.width - 20, state.height - 20],
+          if (attr.projection)
+              attr.projection.fitSize(
+                  [attr.width - 20, attr.height - 20],
                   geoJSON
               );
       };
@@ -23767,8 +23767,8 @@
        */
       chart.geoJSON = function (_) {
           return arguments.length
-              ? (((state.geoJSON = _), geoJSONDidChange()), this)
-              : state.geoJSON;
+              ? (((attr.geoJSON = _), geoJSONDidChange()), this)
+              : attr.geoJSON;
       };
 
       /**
@@ -23785,10 +23785,9 @@
           dv.stacks = dc.data().stacks;
           dv.locations = dc.data().locations;
 
-          if (!dv.stacks.includes(state.selectedStack))
-              state.selectedStack = null;
+          if (!dv.stacks.includes(attr.selectedStack)) attr.selectedStack = null;
 
-          dv.selectedStack = state.selectedStack || dv.stacks[0];
+          dv.selectedStack = attr.selectedStack || dv.stacks[0];
           dv.selectedStackData = dv.data.filter(
               (d) => (d.stack || d.label) == dv.selectedStack
           );
@@ -23827,19 +23826,19 @@
       /**
        *
        * @param {*} container
-       * @param {*} state
+       * @param {*} attr
        * @param {*} calc
        * @param {*} dv
        */
       chart.render = function (container, calc, dv) {
           calc.container = container;
-          calc.graphWidth = state.width - state.marginLeft - state.marginRight;
-          calc.graphHeight = state.height - state.marginTop - state.marginBottom;
-          calc.graphBottom = state.height - state.marginBottom;
-          calc.graphRight = state.width - state.marginRight;
-          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
+          calc.graphWidth = attr.width - attr.marginLeft - attr.marginRight;
+          calc.graphHeight = attr.height - attr.marginTop - attr.marginBottom;
+          calc.graphBottom = attr.height - attr.marginBottom;
+          calc.graphRight = attr.width - attr.marginRight;
+          calc.colors = ColorsGenerator(attr.colorScheme).data(dv.data);
 
-          if (!state.geoJSON) {
+          if (!attr.geoJSON) {
               chart.geoJSON(generate(dv.locations));
           }
 
@@ -23849,26 +23848,26 @@
           renderFeatures(calc, dv);
           renderSelection(calc);
 
-          if (state.labels) {
+          if (attr.labels) {
               renderLabels(calc, dv);
           }
 
-          if (state.tooltip) {
+          if (attr.tooltip) {
               calc.tooltip = tooltip().container(container).run();
           }
 
-          if (state.legend) {
+          if (attr.legend) {
               renderLegend(calc, dv);
           }
 
-          if (state.legendPanel) {
+          if (attr.legendPanel) {
               renderDataSelectionPanel(calc, dv);
           }
       };
 
       Events.on("map-selection-did-change." + chart.id(), function (stack) {
           if (this === chart) return;
-          state.selectedStack = stack;
+          attr.selectedStack = stack;
           chart.run();
       });
 

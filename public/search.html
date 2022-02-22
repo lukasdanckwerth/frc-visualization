@@ -155,6 +155,8 @@
                     style="font-size: 60px; font-weight: 600; color: lightgray"
                 >
                     Loading<br />and parsing<br />corpus...
+
+                    <div id="progress"></div>
                 </div>
 
                 <div id="content" style="display: none">
@@ -582,18 +584,22 @@
                     .html((l) => l);
             }
 
-            // ###############################################################################
+            // ===--------------------------------------------------------------===
             // configure lotivis
+            //
+
             lotivis.debug(true);
             lotivis.config({ downloadFilePrefix: "frcv" });
+
+            // ===--------------------------------------------------------------===
+            // create lotivis components
+            //
 
             let mapColorScale =
                 urlparams.get("map-color-scale") === "scale2"
                     ? lotivis.colorScale2
                     : lotivis.colorScale1;
 
-            // ###############################################################################
-            // create lotivis components
             let barChart = lotivis
                 .bar()
                 .selector("#bar-chart")
@@ -609,7 +615,10 @@
                 .legend()
                 .title(null)
                 .group(true)
-                .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
+                .groupFormat(
+                    (s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`
+                    // ls.length > 1 ? `${i + 1}) ${s} (Sum: ${v})` : null
+                );
 
             let plotChart = lotivis
                 .plot()
@@ -680,15 +689,13 @@
                 countType = frc.SearchCountType.tracks,
                 sensitivity = getElement("case-sensitivity").value,
                 recentSearches = new recentsearches("frcv-search-input-data"),
-                searchField = getElement("search-input");
+                searchField = getElement("search-input"),
+                progressDiv = getElement("progress");
 
-            d3.json("./assets/departements.geojson").then(
-                (json) => (map.geoJSON(json), mapParis.geoJSON(json))
-            );
-
-            d3.json("./assets/corpus.json")
-                .then((json) => new frc.Corpus(json))
-                .then((_corpus) => {
+            frc.fetchCorpus(function (value, total) {
+                progressDiv.innerText = value + " / " + total;
+            })
+                .then(function (_corpus) {
                     corpus = _corpus;
 
                     fillYearDropdowns();
@@ -704,12 +711,28 @@
                     searchField.value = searchString;
                     search(searchString);
                 })
-                .catch((error) => console.error(error));
+                .catch(function (error) {
+                    alert(error);
+                });
+
+            d3.json("./assets/departements.geojson").then(
+                (json) => (map.geoJSON(json), mapParis.geoJSON(json))
+            );
+
+            // d3.json("./assets/corpus.json")
+            //     .then((json) => new frc.Corpus(json))
+            //     .then((_corpus) => {
+            //         corpus = _corpus;
+            //     })
+
+            //     .catch((error) => console.error(error));
 
             d3.text("./assets/innovation.list.txt").then((text) => {
+                let lines = text.split("\n").filter((line) => line.length > 0);
+                lines = lines.sort((left, right) => left > right);
                 d3.select("#innovation-list")
                     .selectAll("p")
-                    .data(text.split("\n").filter((line) => line.length > 0))
+                    .data(lines)
                     .enter()
                     .append("p")
                     .style("cursor", "pointer")
