@@ -633,6 +633,8 @@
     exports.SearchType = SearchType;
     exports.artistsToDatasets = artistsToDatasets;
     exports.fetchCorpus = fetchCorpus;
+    exports.parseArtists = parseArtists;
+    exports.parseTracks = parseTracks;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

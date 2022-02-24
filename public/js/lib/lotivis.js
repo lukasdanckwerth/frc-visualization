@@ -1,5 +1,5 @@
 /*!
- * lotivis 1.0.102
+ * lotivis 1.0.103
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -21625,6 +21625,14 @@
       return ds.reduce((memo, d) => memo.concat(flatDataset(d)), []);
   }
 
+  function jsonParse(d) {
+      return parseDatasets([d]);
+  }
+
+  function jsonParseHierarchical(d) {
+      return parseDatasets([d]);
+  }
+
   function parseDataset(d) {
       return parseDatasets([d]);
   }
@@ -21636,17 +21644,14 @@
   function json(path) {
       return json$1(path).then((json) => {
           if (!Array.isArray(json)) throw new DataUnqualifiedError();
-          let flat = flatDatasets(json);
-          let controller = new DataController(flat, { original: json });
-          return controller;
+          return new DataController(flatDatasets(json), { original: json });
       });
   }
 
   function jsonFlat(path) {
       return json$1(path).then((json) => {
           if (!Array.isArray(json)) throw new DataUnqualifiedError();
-          let controller = new DataController(json, { original: json });
-          return controller;
+          return new DataController(json, { original: json });
       });
   }
 
@@ -21665,6 +21670,7 @@
           item,
           set,
           datum;
+
       for (let i = 0; i < data.length; i++) {
           item = data[i];
           set = datasets.find((d) => d.label === item.label);
@@ -21673,11 +21679,8 @@
               datum = set.data.find(
                   (d) => d.date === item.date && d.location === item.location
               );
-              if (datum) {
-                  datum.value += item.value;
-              } else {
-                  set.data.push(DataItem(item));
-              }
+
+              datum ? (datum.value += item.value) : set.data.push(DataItem(item));
           } else {
               datasets.push(Dataset(item));
           }
@@ -21936,9 +21939,9 @@
       let geoJSON = copy$1(source);
 
       geoJSON.getCenter = function () {
-          let allCoordinates = this.extractAllCoordinates();
-          let latitudeSum = 0;
-          let longitudeSum = 0;
+          let allCoordinates = this.extractAllCoordinates(),
+              latitudeSum = 0,
+              longitudeSum = 0;
 
           allCoordinates.forEach(function (coordinates) {
               latitudeSum += coordinates[1];
@@ -22045,10 +22048,10 @@
   }
 
   function generate(locations) {
-      let columns = 5;
-      let rows = Math.ceil(locations.length / columns);
-      let span = 0.1;
-      let features = [];
+      let columns = 5,
+          rows = Math.ceil(locations.length / columns),
+          span = 0.1,
+          features = [];
 
       outer: for (let row = 0; row < rows; row++) {
           for (let column = 0; column < columns; column++) {
@@ -25427,9 +25430,12 @@
   exports.datatextJSON = datatextJSON;
   exports.datatextJSONData = datatextJSONData;
   exports.debug = ltv_debug;
+  exports.flatDataset = flatDataset;
   exports.flatDatasets = flatDatasets;
   exports.json = json;
   exports.jsonFlat = jsonFlat;
+  exports.jsonParse = jsonParse;
+  exports.jsonParseHierarchical = jsonParseHierarchical;
   exports.legend = legend;
   exports.map = map;
   exports.parseDataset = parseDataset;
