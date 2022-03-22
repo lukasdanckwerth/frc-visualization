@@ -67,7 +67,7 @@ export function internalSearch(
                 label,
                 date,
                 location: locations[0],
-                stack: null,
+                group: null,
                 value: 0,
             };
         });
@@ -78,7 +78,7 @@ export function internalSearch(
                     label,
                     date: firstYear,
                     location: location,
-                    stack: null,
+                    group: null,
                     value: 0,
                 };
             })
@@ -140,11 +140,11 @@ export function internalSearch(
         return data;
     }
 
-    function searchStack(stack) {
-        let labels = stack.split(",").map((l) => l.trim());
+    function searchGroup(group) {
+        let labels = group.split(",").map((l) => l.trim());
         let datasets = [];
 
-        let stackFormatted =
+        let groupFormatted =
             labels.length < 2
                 ? labels[0]
                 : labels[0] + " (+" + (labels.length - 1) + ")";
@@ -154,7 +154,7 @@ export function internalSearch(
             let tracks = tracksForWord(label);
             datasets.push({
                 label,
-                stack: stackFormatted,
+                group: groupFormatted,
                 data: data(tracks, label),
                 tracks,
             });
@@ -163,8 +163,8 @@ export function internalSearch(
         return datasets;
     }
 
-    let stacks = query.split(";").map((value) => value.trim());
-    let datasets = stacks.map((stack) => searchStack(stack)).flat();
+    let groups = query.split(";").map((value) => value.trim());
+    let datasets = groups.map((group) => searchGroup(group)).flat();
 
     datasets.forEach((d) => {
         d.data = d.data.filter(
