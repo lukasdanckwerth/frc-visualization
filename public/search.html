@@ -416,21 +416,18 @@
                 );
 
                 let dc = new lotivis.parseDatasets(datasets);
-                dc.onFilter(
-                    "update-tracks",
-                    function (chart, filter, action, item) {
-                        let dc = this;
-                        let datasets = dc.snapshot();
-                        console.log("datasets", datasets);
-                    }
-                );
 
                 barChart.run(dc);
                 map.run(dc);
                 mapParis.run(dc);
                 plotChart.run(dc);
+
                 datatextJSON.run(dc);
                 datatextCSV.run(dc);
+
+                // update datatext take a long time so remove data controller to not be updated (but keep current content)
+                datatextJSON.dataController(null);
+                datatextCSV.dataController(null);
 
                 fillTracksCard(datasets);
 

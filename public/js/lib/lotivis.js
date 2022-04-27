@@ -20926,10 +20926,15 @@
           if (!arguments.length) return attr.dataController;
 
           // remove callback from existing controller
-          if (attr.dataController) attr.dataController.onFilter(chart.id(), null);
+          if (attr.dataController) {
+              attr.dataController.onFilter(chart.id(), null);
+          }
 
           attr.dataController = dc;
-          attr.dataController.onFilter(chart.id(), filterUpdate);
+
+          if (attr.dataController) {
+              attr.dataController.onFilter(chart.id(), filterUpdate);
+          }
 
           return chart;
       };
@@ -21073,7 +21078,7 @@
    * @returns
    */
   function datatext() {
-      let text;
+      let text, cachedHTML;
       let attr = {
           // the id of the datatext
           id: uniqueId("datatext"),
@@ -21204,11 +21209,15 @@
                   .on("click", attr.enabled ? chart.download : null);
           }
 
-          text = unwrap(attr.text, chart, dv, attr.dataController);
+          if (!cachedHTML) {
+              text = unwrap(attr.text, chart, dv, attr.dataController);
+              cachedHTML = html(text);
+          }
+
           calc.pre = calc.div
               .append("pre")
               .classed("ltv-datatext-pre", true)
-              .html(html(text));
+              .html(cachedHTML);
 
           if (isType(attr.height, "string", "number")) {
               calc.pre
