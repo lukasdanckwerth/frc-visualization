@@ -3,37 +3,13 @@ import { parseTracks } from "./parse.tacks.js";
 import { internalSearch } from "./corpus.search";
 import * as d3 from "d3";
 
-function ArraySet(input) {
-    return Array.from(new Set(input));
-}
-
-export function measure(label, func) {
-    label = label || "measure";
-    console.time(label);
-    func();
-    console.timeEnd(label);
-}
-
 export class Corpus {
     constructor(json) {
-        console.time("parse artists");
-
-        let that = this;
-
-        measure("parseArtists", function () {
-            that.artists = parseArtists(json);
-        });
-
-        measure("parseTracks", function () {
-            that.tracks = parseTracks(json);
-        });
+        this.artists = parseArtists(json);
+        this.tracks = parseTracks(json);
 
         console.log(`[FRC] Found ${this.artists.length} artists`);
         console.log(`[FRC] Found ${this.tracks.length} tracks`);
-
-        // let d3 = load_d3();
-
-        console.time("rollup");
 
         this.datesToTracks = d3.rollup(
             this.tracks,
@@ -41,7 +17,7 @@ export class Corpus {
             (d) => d.releaseYear
         );
 
-        this.datesToWords = d3.rollup(
+        this.datesToTokens = d3.rollup(
             this.tracks,
             (v) => d3.sum(v, (d) => d.tokens.length),
             (d) => d.releaseYear
@@ -53,13 +29,11 @@ export class Corpus {
             (d) => d.departementNo
         );
 
-        this.locationsToWords = d3.rollup(
+        this.locationsToTokens = d3.rollup(
             this.tracks,
             (v) => d3.sum(v, (d) => d.tokens.length),
             (d) => d.departementNo
         );
-
-        console.timeEnd("rollup");
     }
 
     dates() {
@@ -71,7 +45,7 @@ export class Corpus {
     }
 
     locationNames() {
-        return ArraySet(this.artists.map((a) => a.departementName));
+        return Array.from(new Set(this.artists.map((a) => a.departementName)));
     }
 
     tracksForLocationsAndDates(locations, dates) {
@@ -94,12 +68,12 @@ export class Corpus {
         return this.artists.filter((a) => ls.includes("" + a.departementNo));
     }
 
-    search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
+    search(query, firstYear, lastYear, searchType, searchCountType) {
         return internalSearch(
             this,
-            searchQuery,
-            sensitivity,
-            absolute,
+            query,
+            searchType,
+            searchCountType,
             firstYear,
             lastYear
         );

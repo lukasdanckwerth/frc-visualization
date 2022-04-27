@@ -403,6 +403,8 @@
                 else if (searchText.trim().length === 0)
                     return console.log("search text too short");
 
+                // searchText = searchText.replace(/\n/g, "");
+                console.log("searchText", searchText);
                 urlparams.set("q", searchText.replace(/,/g, "_"));
 
                 let datasets = corpus.search(
@@ -414,6 +416,14 @@
                 );
 
                 let dc = new lotivis.parseDatasets(datasets);
+                dc.onFilter(
+                    "update-tracks",
+                    function (chart, filter, action, item) {
+                        let dc = this;
+                        let datasets = dc.snapshot();
+                        console.log("datasets", datasets);
+                    }
+                );
 
                 barChart.run(dc);
                 map.run(dc);
@@ -492,6 +502,7 @@
                             [
                                 input.toLowerCase(),
                                 `${input},`.toLowerCase(),
+                                `${input}.`.toLowerCase(),
                                 `${input})`.toLowerCase(),
                                 `(${input}`.toLowerCase(),
                                 `${input}]`.toLowerCase(),
@@ -614,11 +625,8 @@
             let legend = barChart
                 .legend()
                 .title(null)
-                .group(true)
-                .groupFormat(
-                    (s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`
-                    // ls.length > 1 ? `${i + 1}) ${s} (Sum: ${v})` : null
-                );
+                .groups(true)
+                .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
 
             let plotChart = lotivis
                 .plot()
@@ -665,20 +673,7 @@
             let datatextCSV = lotivis
                 .datatext()
                 .selector("#datatext-csv")
-                .text(function (dt, dv, dc) {
-                    let data = Array.from(dc.byDate(), ([key, value]) => {
-                        return {
-                            label: dv.labels[0],
-                            date: key,
-                            value: d3.sum(value, (d) => d.value),
-                            location: null,
-                            group: null,
-                        };
-                    });
-                    // let
-                    // console.log(data);
-                    return lotivis.csvFormat(data);
-                });
+                .text(lotivis.datatextCSV);
 
             // ###############################################################################
             // initialize
@@ -718,14 +713,6 @@
             d3.json("./assets/departements.geojson").then(
                 (json) => (map.geoJSON(json), mapParis.geoJSON(json))
             );
-
-            // d3.json("./assets/corpus.json")
-            //     .then((json) => new frc.Corpus(json))
-            //     .then((_corpus) => {
-            //         corpus = _corpus;
-            //     })
-
-            //     .catch((error) => console.error(error));
 
             d3.text("./assets/innovation.list.txt").then((text) => {
                 let lines = text.split("\n").filter((line) => line.length > 0);

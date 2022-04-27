@@ -2,7 +2,8 @@
 /* colors */
 /* font sizes */
 .ltv-bar-chart-background {
-  pointer-events: none;
+  fill: transparent;
+  cursor: pointer;
 }
 
 .ltv-bar-chart-grid {
@@ -161,7 +162,7 @@
   pointer-events: none;
 }
 
-.ltv-plot-chart-hover-bar {
+.ltv-plot-chart-hover-rect {
   border-radius: 10px;
   fill: dodgerblue;
 }
@@ -177,7 +178,7 @@
 }
 
 .ltv-plot-label {
-  fill: steelblue;
+  fill: white;
   text-anchor: start;
   font-size: 10px;
   pointer-events: none;

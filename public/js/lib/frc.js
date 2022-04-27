@@ -55,97 +55,96 @@
      * @returns
      */
     function parseTrack(track, artist, album) {
-      if (!track) {
-        console.log("track", track);
-        console.log("artist", artist);
-        console.log("album", album);
-        throw Error("no track");
-      }
-      let content = track.content;
-      let tokens = content
-        .replace(/,/g, " ")
-        .replace(/\./g, " ")
-        .replace(/\n/g, " ")
-        .replace(/\(/g, " ")
-        .replace(/\)/g, " ")
-        .replace(/\[/g, " ")
-        .replace(/]/g, " ")
-        .replace(/\?/g, " ")
-        .replace(/\!/g, " ")
-        .split(" ")
-        .filter((word) => word.length > 0);
+        if (!track) {
+            console.log("track", track);
+            console.log("artist", artist);
+            console.log("album", album);
+            throw Error("no track");
+        }
+        let content = track.content,
+            tokens = content
+                .replace(/,/g, " ")
+                .replace(/\./g, " ")
+                .replace(/\n/g, " ")
+                .replace(/\(/g, " ")
+                .replace(/\)/g, " ")
+                .replace(/\[/g, " ")
+                .replace(/]/g, " ")
+                .replace(/\?/g, " ")
+                .replace(/\!/g, " ")
+                .split(" ")
+                .filter((word) => word.length > 0),
+            tokensLower = tokens.map((item) => item.toLowerCase()),
+            types = Array.from(new Set(tokens));
 
-      let tokensLower = tokens.map((item) => item.toLowerCase());
-      let types = Array.from(new Set(tokens));
-
-      return {
-        artist: artist.name,
-        artistID: artist.geniusId,
-        sex: artist.sex || artist.group,
-        album: album,
-        departementNo: "" + (artist.departementNo || artist.departementNo),
-        departementName: artist.departementName || artist.departement,
-        title: track.title,
-        fullTitle: track.fullTitle,
-        releaseDate: track.releaseDate,
-        releaseYear: track.releaseYear,
-        id: track.id,
-        url: track.url,
-        content: content,
-        tokens: tokens,
-        tokensLower: tokensLower,
-        types: types,
-      };
+        return {
+            artist: artist.name,
+            artistID: artist.geniusId,
+            sex: artist.sex || artist.group,
+            album: album,
+            departementNo: "" + (artist.departementNo || artist.departementNo),
+            departementName: artist.departementName || artist.departement,
+            title: track.title,
+            fullTitle: track.fullTitle,
+            releaseDate: track.releaseDate,
+            releaseYear: track.releaseYear,
+            id: track.id,
+            url: track.url,
+            content: content,
+            tokens: tokens,
+            tokensLower: tokensLower,
+            types: types,
+        };
     }
 
     function parseTracks(json) {
-      console.log(`[FRC] Parse tracks`);
-      let data = [],
-        ids = [];
-      let artist, album, track;
-      for (let i = 0; i < json.length; i++) {
-        artist = json[i];
+        console.log(`[FRC] Parse tracks`);
+        let data = [],
+            ids = [];
+        let artist, album, track;
+        for (let i = 0; i < json.length; i++) {
+            artist = json[i];
 
-        if (!(artist.departementName || artist.departement)) {
-          console.log(artist);
-          throw Error("missing departement name");
+            if (!(artist.departementName || artist.departement)) {
+                console.log(artist);
+                throw Error("missing departement name");
+            }
+
+            for (let i = 0; i < artist.albums.length; i++) {
+                album = artist.albums[i];
+                for (let j = 0; j < album.tracks.length; j++) {
+                    track = album.tracks[j];
+                    if (ids.includes(track.id)) continue;
+                    ids.push(track.id);
+                    data.push(parseTrack(track, artist, album.name));
+                }
+
+                for (let i = 0; i < artist.tracks.length; i++) {
+                    track = artist.tracks[i];
+                    if (ids.includes(track.id)) continue;
+                    ids.push(track.id);
+                    data.push(parseTrack(track, artist, undefined));
+                }
+            }
         }
 
-        for (let i = 0; i < artist.albums.length; i++) {
-          album = artist.albums[i];
-          for (let j = 0; j < album.tracks.length; j++) {
-            track = album.tracks[j];
-            if (ids.includes(track.id)) continue;
-            ids.push(track.id);
-            data.push(parseTrack(track, artist, album.name));
-          }
-
-          for (let i = 0; i < artist.tracks.length; i++) {
-            track = artist.tracks[i];
-            if (ids.includes(track.id)) continue;
-            ids.push(track.id);
-            data.push(parseTrack(track, artist, undefined));
-          }
-        }
-      }
-
-      return data;
+        return data;
     }
 
-    const SearchType = {
+    const SearchType = Object.freeze({
         sensitive: "case-sensitive",
         insensitve: "case-insensitive",
         regex: "regex",
-    };
+    });
 
-    const SearchCountType = {
+    const SearchCountType = Object.freeze({
         tracks: "tracks",
         tracksRelativeDate: "tracks-relative-date",
         tracksRelativeLocation: "tracks-relative-location",
         words: "words",
         wordsRelativeDate: "words-relative-date",
         wordsRelativeLocation: "words-relative-location",
-    };
+    });
 
     function count(array, element) {
         let count = 0;
@@ -156,8 +155,8 @@
     function internalSearch(
         corpus,
         query,
-        sensitivity,
-        searchCount,
+        searchType,
+        searchCountType,
         firstYear,
         lastYear
     ) {
@@ -165,41 +164,39 @@
 
         let tracks = corpus.tracks;
         corpus.artists;
-        sensitivity = sensitivity || SearchType.insensitve;
-        searchCount = searchCount || SearchCountType.tracks;
-
-        function findTracks(accessor) {
-            return tracks.filter(accessor);
-        }
+        searchType = searchType || SearchType.insensitve;
+        searchCountType = searchCountType || SearchCountType.tracks;
 
         function tracksForWord(word) {
-            switch (sensitivity) {
+            switch (searchType) {
                 case SearchType.sensitive:
-                    return findTracks((t) => t.tokens.indexOf(word) !== -1);
+                    return tracks.filter((t) => t.tokens.indexOf(word) !== -1);
                 case SearchType.insensitve:
                     let lower = word.toLowerCase();
-                    return findTracks((t) => t.tokensLower.indexOf(lower) !== -1);
+                    return tracks.filter(
+                        (t) => t.tokensLower.indexOf(lower) !== -1
+                    );
                 case SearchType.regex:
                     let re = new RegExp(word),
                         results;
-                    return findTracks((t) => {
+                    return tracks.filter((t) => {
                         results = t.content.match(re);
                         return results && results.length > 0;
                     });
                 default:
-                    throw new Error("unknown sensitivity: " + sensitivity);
+                    throw new Error("unknown search count type: " + searchType);
             }
         }
 
-        function emptyData(label) {
+        function emptyData(word) {
             let dates = corpus.dates();
             let locations = corpus.locations();
             let data = dates.map((date) => {
                 return {
-                    label,
-                    date,
+                    label: word,
+                    date: date,
                     location: locations[0],
-                    stack: null,
+                    group: null,
                     value: 0,
                 };
             });
@@ -207,18 +204,18 @@
             return data.concat(
                 locations.map((location) => {
                     return {
-                        label,
+                        labeL: word,
                         date: firstYear,
                         location: location,
-                        stack: null,
+                        group: null,
                         value: 0,
                     };
                 })
             );
         }
 
-        function data(tracks, label) {
-            let data = emptyData(label),
+        function data(tracks, word) {
+            let data = emptyData(word),
                 value = 0;
             for (let t, candidate, i = 0; i < tracks.length; i++) {
                 t = tracks[i];
@@ -226,12 +223,12 @@
                 if (!t.departementNo) throw new Error("no departement no: " + i);
                 if (!t.releaseYear) throw new Error("no release year: " + i);
 
-                switch (searchCount) {
+                switch (searchCountType) {
                     case SearchCountType.tracks:
                         value = 1;
                         break;
                     case SearchCountType.words:
-                        value = count(t.tokens, label);
+                        value = count(t.tokens, word);
                         break;
                     case SearchCountType.tracksRelativeDate:
                         value = 1 / corpus.datesToTracks.get(t.releaseYear);
@@ -241,16 +238,16 @@
                         break;
                     case SearchCountType.wordsRelativeDate:
                         value =
-                            count(t.tokens, label) /
-                            corpus.datesToWords.get(t.releaseYear);
+                            count(t.tokens, word) /
+                            corpus.datesToTokens.get(t.releaseYear);
                         break;
                     case SearchCountType.wordsRelativeLocation:
                         value =
-                            count(t.tokens, label) /
-                            corpus.locationsToWords.get(t.departementNo);
+                            count(t.tokens, word) /
+                            corpus.locationsToTokens.get(t.departementNo);
                         break;
                     default:
-                        throw new Error("unknown search type: " + searchCount);
+                        throw new Error("unknown search type: " + searchCountType);
                 }
 
                 candidate = data.find(
@@ -272,22 +269,21 @@
             return data;
         }
 
-        function searchStack(stack) {
-            let labels = stack.split(",").map((l) => l.trim());
-            let datasets = [];
+        function searchGroup(group) {
+            let words = group.split(",").map((l) => l.trim()),
+                datasets = [],
+                groupFormatted =
+                    words.length < 2
+                        ? words[0]
+                        : words[0] + " (+" + (words.length - 1) + ")";
 
-            let stackFormatted =
-                labels.length < 2
-                    ? labels[0]
-                    : labels[0] + " (+" + (labels.length - 1) + ")";
-
-            for (let i = 0; i < labels.length; i++) {
-                let label = labels[i];
-                let tracks = tracksForWord(label);
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i],
+                    tracks = tracksForWord(word);
                 datasets.push({
-                    label,
-                    stack: stackFormatted,
-                    data: data(tracks, label),
+                    label: word,
+                    group: groupFormatted,
+                    data: data(tracks, word),
                     tracks,
                 });
             }
@@ -295,8 +291,8 @@
             return datasets;
         }
 
-        let stacks = query.split(";").map((value) => value.trim());
-        let datasets = stacks.map((stack) => searchStack(stack)).flat();
+        let groups = query.split(";").map((value) => value.trim());
+        let datasets = groups.map((group) => searchGroup(group)).flat();
 
         datasets.forEach((d) => {
             d.data = d.data.filter(
@@ -485,37 +481,13 @@
 
     dispatch("start", "end", "cancel", "interrupt");
 
-    function ArraySet(input) {
-        return Array.from(new Set(input));
-    }
-
-    function measure(label, func) {
-        label = label || "measure";
-        console.time(label);
-        func();
-        console.timeEnd(label);
-    }
-
     class Corpus {
         constructor(json) {
-            console.time("parse artists");
-
-            let that = this;
-
-            measure("parseArtists", function () {
-                that.artists = parseArtists(json);
-            });
-
-            measure("parseTracks", function () {
-                that.tracks = parseTracks(json);
-            });
+            this.artists = parseArtists(json);
+            this.tracks = parseTracks(json);
 
             console.log(`[FRC] Found ${this.artists.length} artists`);
             console.log(`[FRC] Found ${this.tracks.length} tracks`);
-
-            // let d3 = load_d3();
-
-            console.time("rollup");
 
             this.datesToTracks = rollup(
                 this.tracks,
@@ -523,7 +495,7 @@
                 (d) => d.releaseYear
             );
 
-            this.datesToWords = rollup(
+            this.datesToTokens = rollup(
                 this.tracks,
                 (v) => sum(v, (d) => d.tokens.length),
                 (d) => d.releaseYear
@@ -535,13 +507,11 @@
                 (d) => d.departementNo
             );
 
-            this.locationsToWords = rollup(
+            this.locationsToTokens = rollup(
                 this.tracks,
                 (v) => sum(v, (d) => d.tokens.length),
                 (d) => d.departementNo
             );
-
-            console.timeEnd("rollup");
         }
 
         dates() {
@@ -553,7 +523,7 @@
         }
 
         locationNames() {
-            return ArraySet(this.artists.map((a) => a.departementName));
+            return Array.from(new Set(this.artists.map((a) => a.departementName)));
         }
 
         tracksForLocationsAndDates(locations, dates) {
@@ -576,12 +546,12 @@
             return this.artists.filter((a) => ls.includes("" + a.departementNo));
         }
 
-        search(searchQuery, firstYear, lastYear, sensitivity, absolute) {
+        search(query, firstYear, lastYear, searchType, searchCountType) {
             return internalSearch(
                 this,
-                searchQuery,
-                sensitivity,
-                absolute,
+                query,
+                searchType,
+                searchCountType,
                 firstYear,
                 lastYear
             );
