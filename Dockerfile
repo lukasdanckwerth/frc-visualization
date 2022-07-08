@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16.3.0-alpine
 
 # create working directory
 RUN mkdir -p /usr/src/app
@@ -18,8 +18,8 @@ RUN npm install
 RUN npm run build
 RUN npm run assets
 
-# remove unused datad
-RUN rm -rf rollup.config.js src data
+# remove unused data
+RUN rm -rf rollup.config.js src data generate
 
 # run server
 CMD ["npm", "run", "serve"]

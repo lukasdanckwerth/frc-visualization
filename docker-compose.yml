@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  frc-visualization:
+  frcv:
     build: .
-    container_name: frc-visualization
+    container_name: frcv
     restart: unless-stopped
     ports:
       - 80:8080

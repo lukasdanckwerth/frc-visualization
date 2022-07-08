@@ -1,5 +1,5 @@
 /*!
- * lotivis 1.0.102
+ * lotivis 1.0.103
  * Copyright (c) 2022 Lukas Danckwerth
  * Released under MIT License
  */
@@ -1083,7 +1083,7 @@
     return false;
   }
 
-  function filter$1(values, test) {
+  function filter$2(values, test) {
     if (typeof test !== "function") throw new TypeError("test is not a function");
     const array = [];
     let index = -1;
@@ -1590,7 +1590,7 @@
         : childFind(typeof match === "function" ? match : childMatcher(match)));
   }
 
-  var filter = Array.prototype.filter;
+  var filter$1 = Array.prototype.filter;
 
   function children() {
     return Array.from(this.children);
@@ -1598,7 +1598,7 @@
 
   function childrenFilter(match) {
     return function() {
-      return filter.call(this.children, match);
+      return filter$1.call(this.children, match);
     };
   }
 
@@ -2183,13 +2183,13 @@
     });
   }
 
-  function remove() {
+  function remove$1() {
     var parent = this.parentNode;
     if (parent) parent.removeChild(this);
   }
 
   function selection_remove() {
-    return this.each(remove);
+    return this.each(remove$1);
   }
 
   function selection_cloneShallow() {
@@ -8061,10 +8061,10 @@
   var csv$2 = dsvFormat(",");
 
   var csvParse$1 = csv$2.parse;
-  var csvParseRows = csv$2.parseRows;
-  var csvFormat = csv$2.format;
+  var csvParseRows$1 = csv$2.parseRows;
+  var csvFormat$1 = csv$2.format;
   var csvFormatBody = csv$2.formatBody;
-  var csvFormatRows = csv$2.formatRows;
+  var csvFormatRows$1 = csv$2.formatRows;
   var csvFormatRow = csv$2.formatRow;
   var csvFormatValue = csv$2.formatValue;
 
@@ -14717,7 +14717,7 @@
     };
   }
 
-  function copy$2(source, target) {
+  function copy$3(source, target) {
     return target
         .domain(source.domain())
         .range(source.range())
@@ -14873,7 +14873,7 @@
     var scale = continuous();
 
     scale.copy = function() {
-      return copy$2(scale, linear());
+      return copy$3(scale, linear());
     };
 
     initRange.apply(scale, arguments);
@@ -15056,7 +15056,7 @@
 
   function log() {
     const scale = loggish(transformer$2()).domain([1, 10]);
-    scale.copy = () => copy$2(scale, log()).base(scale.base());
+    scale.copy = () => copy$3(scale, log()).base(scale.base());
     initRange.apply(scale, arguments);
     return scale;
   }
@@ -15087,7 +15087,7 @@
     var scale = symlogish(transformer$2());
 
     scale.copy = function() {
-      return copy$2(scale, symlog()).constant(scale.constant());
+      return copy$3(scale, symlog()).constant(scale.constant());
     };
 
     return initRange.apply(scale, arguments);
@@ -15128,7 +15128,7 @@
     var scale = powish(transformer$2());
 
     scale.copy = function() {
-      return copy$2(scale, pow()).exponent(scale.exponent());
+      return copy$3(scale, pow()).exponent(scale.exponent());
     };
 
     initRange.apply(scale, arguments);
@@ -16504,7 +16504,7 @@
     };
 
     scale.copy = function() {
-      return copy$2(scale, calendar(ticks, tickInterval, year, month, week, day, hour, minute, second, format));
+      return copy$3(scale, calendar(ticks, tickInterval, year, month, week, day, hour, minute, second, format));
     };
 
     return scale;
@@ -16566,7 +16566,7 @@
     };
   }
 
-  function copy$1(source, target) {
+  function copy$2(source, target) {
     return target
         .domain(source.domain())
         .interpolator(source.interpolator())
@@ -16578,7 +16578,7 @@
     var scale = linearish(transformer$1()(identity$4));
 
     scale.copy = function() {
-      return copy$1(scale, sequential());
+      return copy$2(scale, sequential());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16588,7 +16588,7 @@
     var scale = loggish(transformer$1()).domain([1, 10]);
 
     scale.copy = function() {
-      return copy$1(scale, sequentialLog()).base(scale.base());
+      return copy$2(scale, sequentialLog()).base(scale.base());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16598,7 +16598,7 @@
     var scale = symlogish(transformer$1());
 
     scale.copy = function() {
-      return copy$1(scale, sequentialSymlog()).constant(scale.constant());
+      return copy$2(scale, sequentialSymlog()).constant(scale.constant());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16608,7 +16608,7 @@
     var scale = powish(transformer$1());
 
     scale.copy = function() {
-      return copy$1(scale, sequentialPow()).exponent(scale.exponent());
+      return copy$2(scale, sequentialPow()).exponent(scale.exponent());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16709,7 +16709,7 @@
     var scale = linearish(transformer()(identity$4));
 
     scale.copy = function() {
-      return copy$1(scale, diverging$1());
+      return copy$2(scale, diverging$1());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16719,7 +16719,7 @@
     var scale = loggish(transformer()).domain([0.1, 1, 10]);
 
     scale.copy = function() {
-      return copy$1(scale, divergingLog()).base(scale.base());
+      return copy$2(scale, divergingLog()).base(scale.base());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16729,7 +16729,7 @@
     var scale = symlogish(transformer());
 
     scale.copy = function() {
-      return copy$1(scale, divergingSymlog()).constant(scale.constant());
+      return copy$2(scale, divergingSymlog()).constant(scale.constant());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -16739,7 +16739,7 @@
     var scale = powish(transformer());
 
     scale.copy = function() {
-      return copy$1(scale, divergingPow()).exponent(scale.exponent());
+      return copy$2(scale, divergingPow()).exponent(scale.exponent());
     };
 
     return initInterpolator.apply(scale, arguments);
@@ -19800,7 +19800,7 @@
     zip: zip,
     every: every,
     some: some,
-    filter: filter$1,
+    filter: filter$2,
     map: map$2,
     reduce: reduce,
     reverse: reverse$3,
@@ -19844,10 +19844,10 @@
     dragEnable: yesdrag,
     dsvFormat: dsvFormat,
     csvParse: csvParse$1,
-    csvParseRows: csvParseRows,
-    csvFormat: csvFormat,
+    csvParseRows: csvParseRows$1,
+    csvFormat: csvFormat$1,
     csvFormatBody: csvFormatBody,
-    csvFormatRows: csvFormatRows,
+    csvFormatRows: csvFormatRows$1,
     csvFormatRow: csvFormatRow,
     csvFormatValue: csvFormatValue,
     tsvParse: tsvParse,
@@ -20355,11 +20355,11 @@
   /**
    * lotivis wide configuration
    */
-  const CONFIG = {
+  const config = {
       /**
        * A Boolean value indicating whether the debug logging is enabled
        */
-      debug: true,
+      debug: false,
 
       /**
        * The default margin to use for charts
@@ -20410,26 +20410,29 @@
        * The deault filename generator.
        */
       // filenameGenerator: DEFAULTS.filenameGenerator,
+
+      /** A Boolean value indicating whether logging of third party libraries is enabled */
+      thidPartyLogging: false,
   };
 
   /**
    * Gets or sets the configuration of lotivis.
    * @param {*} input
    */
-  function config(input) {
+  function ltv_config(input) {
       // return config object for no arguments
-      if (!arguments.length) return CONFIG;
+      if (!arguments.length) return config;
 
       // return the value for the given key if input is string
       if (arguments.length === 1 && typeof input === "string")
-          return Object.hasOwnProperty.call(CONFIG, input) ? CONFIG[input] : null;
+          return Object.hasOwnProperty.call(config, input) ? config[input] : null;
 
       // iterate values of input, add them to lotivis config
       for (const key in input) {
           if (!Object.hasOwnProperty.call(input, key)) continue;
-          if (Object.hasOwnProperty.call(CONFIG, key)) {
-              CONFIG[key] = input[key];
-              ltv_debug("update config", key, " = ", CONFIG[key]);
+          if (Object.hasOwnProperty.call(config, key)) {
+              config[key] = input[key];
+              ltv_debug("update config", key, " = ", config[key]);
           } else {
               ltv_debug("unknown config key", key);
           }
@@ -20445,11 +20448,11 @@
    * @param {Boolean} enabled Enable debug logging
    */
   function ltv_debug(...args) {
-      if (!arguments.length) return CONFIG.debug;
-
-      if (arguments.length === 1 && typeof args[0] === "boolean") {
-          config({ debug: args[0] });
-      } else if (CONFIG.debug) {
+      if (!arguments.length) {
+          return config.debug;
+      } else if (arguments.length === 1 && typeof args[0] === "boolean") {
+          ltv_config({ debug: args[0] });
+      } else if (config.debug) {
           console.log("[ltv] ", ...args);
       }
   }
@@ -20514,14 +20517,14 @@
           .substring(0, MAX_FILENAME_LENGTH);
 
       let labelsCount = data.labels.length;
-      let stacksCount = data.stacks.length;
+      let groupsCount = data.groups.length;
       let dateString = formatTime(new Date());
 
       let name = [
-          CONFIG.downloadFilePrefix,
+          config.downloadFilePrefix,
           trimmed,
           labelsCount ? labelsCount + "L" : null,
-          stacksCount ? stacksCount + "S" : null,
+          groupsCount ? groupsCount + "S" : null,
           dateString,
           // Math.random().toString(36).substring(2, 8), // random
           suf,
@@ -20580,20 +20583,11 @@
       }
   }
 
-  var date_ordinator = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    DEFAULT_DATE_ORDINATOR: DEFAULT_DATE_ORDINATOR,
-    DATE_TO_NUMBER_ORDINATOR: DATE_TO_NUMBER_ORDINATOR,
-    GERMAN_DATE_ORDINATOR: GERMAN_DATE_ORDINATOR,
-    ISO_DATE_ORDINATOR: ISO_DATE_ORDINATOR,
-    WEEKDAY_ORDINATOR: WEEKDAY_ORDINATOR
-  });
-
   class DataUnqualifiedError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = "DataUnqualifiedError";
-    }
+      constructor(message) {
+          super(message);
+          this.name = "DataUnqualifiedError";
+      }
   }
 
   function Data(data) {
@@ -20607,20 +20601,20 @@
 
       // relations
       data.byLabel = group(data, (d) => d.label);
-      data.byStack = group(data, (d) => d.stack || d.label);
+      data.byGroup = group(data, (d) => d.group || d.label);
       data.byLocation = group(data, (d) => d.location);
       data.byDate = group(data, (d) => d.date);
 
       // meta
       data.labels = Array.from(data.byLabel.keys());
-      data.stacks = Array.from(data.byStack.keys());
+      data.groups = Array.from(data.byGroup.keys());
       data.locations = Array.from(data.byLocation.keys());
       data.dates = Array.from(data.byDate.keys());
 
       return data;
   }
 
-  // https://stackoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
+  // https://groupoverflow.com/questions/70579/what-are-valid-values-for-the-id-attribute-in-html
   // ids must not contain whitespaces
   // ids should avoid ".", ":" and "/"
   /**
@@ -20669,7 +20663,10 @@
   }
 
   function pngDownload(selector, filename, callback) {
-      html2canvas(element(selector), { scale: 4 }).then((canvas) => {
+      html2canvas(element(selector), {
+          scale: 4,
+          logging: config.thidPartyLogging,
+      }).then((canvas) => {
           downloadURL(canvas.toDataURL(), filename);
           if (callback) callback();
       });
@@ -20685,11 +20682,33 @@
       document.head.appendChild(script);
   })();
 
-  const DEFAULT_COLUMNS = ["label", "location", "date", "value", "stack"];
+  const DEFAULT_COLUMNS = ["label", "location", "date", "value", "group"];
+
+  const DEFAULT_ROW = (d, i) => {
+      d[0];
+      d[1];
+      d[2];
+      d[3];
+      d[4];
+  };
 
   function csvParse(text) {
-      console.log("text: ", text);
       return new DataController(csvParse$1(text, autoType));
+  }
+
+  function csvParseRows(csv, row = DEFAULT_ROW) {
+      return new DataController(csvParseRows$1(csv, row));
+  }
+
+  /** Renders given data to CSV with headlines. */
+  function csvFormat(data, columns = DEFAULT_COLUMNS) {
+      console.log("dv.data", data);
+      return csvFormat$1(data.data ? data.data() : data, columns);
+  }
+
+  /** Renders given data to CSV with headlines. */
+  function csvFormatRows(data, columns = DEFAULT_COLUMNS) {
+      return csvFormatBody(data.data ? data.data() : data, columns);
   }
 
   async function csv(path) {
@@ -20698,8 +20717,10 @@
           .then((csv) => csvParse(csv));
   }
 
-  function csvRender(data, columns = DEFAULT_COLUMNS) {
-      return csvFormat(data.data ? data.data() : data, columns);
+  async function csvRows(path, row = DEFAULT_ROW) {
+      return fetch(path)
+          .then((res) => res.text())
+          .then((csv) => csvParseRows(csv, row));
   }
 
   /**
@@ -20712,40 +20733,32 @@
   }
 
   function isString(value) {
-      return value && typeof value === "string";
+      return typeof value === "string";
   }
 
   function isFunction(value) {
-      return value && typeof value === "function";
+      return typeof value === "function";
   }
 
-  function copy(object) {
+  function copy$1(object) {
       return JSON.parse(JSON.stringify(object));
   }
 
-  function baseChart(state) {
-      if (!state) throw new Error("no state passed");
-
-      // Private attributes
-      var chart = {},
-          calc = {},
-          state = state,
-          disp = dispatch("willRender", "didRender");
-
-      if (!state.id) state.id = uniqueId("chart");
-      if (!state.selector) state.selector = "body";
-      if (!state.debug) state.debug = false;
-
-      // Iterate state keys and create access function for each
-      Object.keys(state).forEach((key) => {
+  /**
+   *
+   * @param {*} src
+   * @param {*} attr
+   * @returns
+   */
+  function attributable(src, attr) {
+      // Iterate attr keys and create access function for each
+      Object.keys(attr).forEach((key) => {
           // do not override existing functions
-          if (chart[key] && isFunction(chart[key])) return;
-          chart[key] = function (_) {
-              return arguments.length ? ((state[key] = _), this) : state[key];
+          if (src[key] && isFunction(src[key])) return;
+          src[key] = function (_) {
+              return arguments.length ? ((attr[key] = _), src) : attr[key];
           };
       });
-
-      // public
 
       /**
        * Return the property for the given name if it exists, else
@@ -20756,45 +20769,112 @@
        *
        * @returns The property for the given name or the fallback.
        */
-      state.get = function (name, fb) {
-          return state.hasOwnProperty(name) ? state[name] || fb : fb;
+      attr.get = function (name, fb) {
+          return attr.hasOwnProperty(name) ? attr[name] || fb : fb;
       };
+
+      return src;
+  }
+
+  /**
+   * Events dispatch center.
+   *
+   * Lists of valid actions:
+   * - "filter"
+   * - "data"
+   * - "map-selection-will-change"
+   * - "map-selection-did-change"
+   */
+  class Events {
+      /**
+       * Global dispatch object.
+       */
+      static disp = dispatch(
+          "filter-will-change",
+          "filter-did-change",
+          "filter",
+          "data",
+          "data-will-change",
+          "data-did-change",
+          "map-selection-will-change",
+          "map-selection-did-change"
+      );
+
+      /**
+       *
+       * @param {String}  A specified event type.
+       * @param {*} callback
+       */
+      static on(type, callback) {
+          ltv_debug("Events on", type);
+          this.disp.on(type, callback);
+      }
+
+      /**
+       * Invokes each registered callback for the specified type, passing the
+       * callback the specified arguments, with `that` as the `this` context.
+       *
+       * @param type A specified event type.
+       * @param sender The `this` context for the callback.
+       * @param args Additional arguments to be passed to the callback.
+       * @throws "unknown type" on unknown event type.
+       */
+      static call(type, sender, ...params) {
+          ltv_debug("Events on", type);
+          this.disp.call(type, sender, ...params);
+      }
+  }
+
+  function baseChart(attr) {
+      if (!attr) throw new Error("no attr passed");
+
+      // private attributes
+      let chart = {};
+
+      // create `id` atrribute in case its not exising
+      if (!attr.id) attr.id = uniqueId("chart");
+
+      // create `selector` atrribute with default value "body" (if not existing)
+      if (!attr.selector) attr.selector = "body";
+
+      // create `debug` atrribute with default value `false` (if not existing)
+      if (!attr.debug) attr.debug = false;
+
+      // expose atrributes as getter-setter functions
+      attributable(chart, attr);
 
       // private
 
-      function filterUpdate(sender, filterName, action, item) {
-          if (chart === sender) return ltv_debug(chart.id(), "is sender");
+      function filterWillChange(filterName, action, item) {
+          ltv_debug("filterWillChange");
+      }
+
+      function filterDidChange(filterName, action, item) {
+          ltv_debug("filterDidChange", this);
+          if (this === chart) return ltv_debug(attr.id, "is sender");
           if (chart.skipFilterUpdate(filterName, action, item))
-              return ltv_debug(chart.id(), "skip filter update", filterName);
+              return ltv_debug(attr.id, "skip filter update", filterName);
+      }
 
+      function filterUpdate(sender, filterName, action, item) {
+          if (chart === sender) return ltv_debug(attr.id, "is sender");
+          if (chart.skipFilterUpdate(filterName, action, item))
+              return ltv_debug(attr.id, "skip filter update", filterName);
           return chart.run();
-
-          // if (!isString(state.selector))
-          //   throw new Error("invalid selector: " + state.selector);
-
-          // var selector = state.selector;
-          // var selection = d3.selectAll(selector);
-
-          // selection.each(function scope() {
-          //   // Receive container
-          //   var container = d3.select(this);
-          //   if (typeof chart.update === "function")
-          //     chart.update(container, state, calc);
-          // });
       }
 
       // public
-      chart.on = function (name, callback) {
-          disp.on(name, callback);
-      };
+      // chart.on = function (name, callback) {
+      //     disp.on(name, callback);
+      // };
 
-      chart.call = function (name, ...args) {
-          disp.call(name, this, ...args);
-      };
+      // chart.call = function (name, ...args) {
+      //     disp.call(name, this, ...args);
+      // };
 
-      // Define state getter and setter function
-      chart.state = function (_) {
-          return arguments.length ? (Object.assign(state, _), this) : state;
+      // Define attr getter and setter function
+      chart.attr = function (_) {
+          return arguments.length ? (Object.assign(attr, _), this) : attr;
       };
 
       /**
@@ -20815,26 +20895,26 @@
        * @public
        */
       chart.id = function () {
-          return state.id;
+          return attr.id;
       };
 
       /**
        * Generates and downloads a PNG.
        */
       chart.pngDownload = function (callback) {
-          if (!state.dataController) throw new Error("no data controller");
-          if (!state.id) throw new Error("no id");
-          if (!state.selector) throw new Error("no selector");
+          if (!attr.dataController) throw new Error("no data controller");
+          if (!attr.id) throw new Error("no id");
+          if (!attr.selector) throw new Error("no selector");
 
-          let type = state.id.split("-")[1];
-          let filename = state.dataController.filename(".png", type);
+          let type = attr.id.split("-")[1];
+          let filename = attr.dataController.filename(".png", type);
 
-          pngDownload(state.selector, filename, callback);
+          pngDownload(attr.selector, filename, callback);
       };
 
-      chart.svgDownload = function (callback) {};
-
-      // getter and setter
+      chart.svgDownload = function (callback) {
+          ltv_debug("svgDownload() not implemented");
+      };
 
       /**
        * Gets or sets the data controller.
@@ -20843,14 +20923,18 @@
        * @returns {dataController || this} The data controller or the chart itself
        */
       chart.dataController = function (dc) {
-          if (!arguments.length) return state.dataController;
+          if (!arguments.length) return attr.dataController;
 
           // remove callback from existing controller
-          if (state.dataController)
-              state.dataController.onFilter(chart.id(), null);
+          if (attr.dataController) {
+              attr.dataController.onFilter(chart.id(), null);
+          }
 
-          state.dataController = dc;
-          state.dataController.onFilter(chart.id(), filterUpdate);
+          attr.dataController = dc;
+
+          if (attr.dataController) {
+              attr.dataController.onFilter(chart.id(), filterUpdate);
+          }
 
           return chart;
       };
@@ -20864,16 +20948,16 @@
       chart.margin = function (_) {
           if (!arguments.length) {
               return {
-                  left: state.marginLeft,
-                  top: state.marginTop,
-                  right: state.marginRight,
-                  bottom: state.marginBottom,
+                  left: attr.marginLeft,
+                  top: attr.marginTop,
+                  right: attr.marginRight,
+                  bottom: attr.marginBottom,
               };
           }
-          if (_ && _["left"]) this.state({ marginLeft: _["left"] });
-          if (_ && _["top"]) this.state({ marginTop: _["top"] });
-          if (_ && _["right"]) this.state({ marginRight: _["right"] });
-          if (_ && _["bottom"]) this.state({ marginBottom: _["bottom"] });
+          if (_ && _["left"]) this.attr({ marginLeft: _["left"] });
+          if (_ && _["top"]) this.attr({ marginTop: _["top"] });
+          if (_ && _["right"]) this.attr({ marginRight: _["right"] });
+          if (_ && _["bottom"]) this.attr({ marginBottom: _["bottom"] });
           return chart;
       };
 
@@ -20927,55 +21011,75 @@
        */
       chart.run = function (dc) {
           if (dc) chart.dataController(dc);
-          else dc = state.dataController;
+          else dc = attr.dataController;
 
-          if (!state.selector) throw new Error("no selector");
+          if (!attr.selector) throw new Error("no selector");
           if (!dc) throw new Error("no data controller");
 
-          let selection = selectAll(state.selector);
+          let selection = selectAll(attr.selector);
           if (selection.size() === 0)
-              throw new Error("empty selection: " + state.selector);
+              throw new Error("empty selection: " + attr.selector);
 
+          console.time("dataView " + attr.id);
           let dv = chart.dataView(dc);
+          console.timeEnd("dataView " + attr.id);
 
           selection.each(function scope() {
               // receive container
-              let container = select(this);
+              let container = select(this),
+                  calc = {};
 
-              disp.call("willRender", chart, dv, calc);
               chart.clear(container, calc, dv);
               chart.render(container, calc, dv);
-              disp.call("didRender", chart, dv, calc);
           });
 
           return chart;
       };
+
+      Events.on("filter-will-change." + chart.id(), filterWillChange);
+      Events.on("filter-did-change." + chart.id(), filterDidChange);
 
       // return generated chart
       return chart;
   }
 
   /**
-   * Returns the JSON string from the passed data view.
-   * @param {datatext} dt The
-   * @param {dataview} dv
-   * @returns {string} JSON the passed data view.
+   * Returns the JSON string from the passed data view's data.
+   * @param {datatext} dt The datatext
+   * @param {dataview} dv The dataview
+   * @returns {string} JSON string from the data view's data.
    */
-  const JSON_TEXT = function (dt, dv) {
+  const datatextJSONData = function (dt, dv) {
       return JSON.stringify(dv.data, null, 2);
   };
 
-  const JSON_TEXT_DATA_VIEW = function (dt, dv) {
+  /**
+   * Returns the JSON string from the passed data view.
+   * @param {datatext} dt The datatext
+   * @param {dataview} dv The dataview
+   * @returns {string} JSON string from the data view.
+   */
+  const datatextJSON = function (dt, dv) {
       return JSON.stringify(dv, null, 2);
   };
 
-  const CSV_TEXT = function (dt, dv) {
-      return csvRender(dv.data);
+  /**
+   * Returns the CSV string from the passed data view's data.
+   * @param {datatext} dt The datatext
+   * @param {dataview} dv The dataview
+   * @returns CSV string from the data view's data.
+   */
+  const datatextCSV = function (dt, dv) {
+      return csvFormat(dv.data);
   };
 
+  /**
+   *
+   * @returns
+   */
   function datatext() {
-      let text;
-      let state = {
+      let text, cachedHTML;
+      let attr = {
           // the id of the datatext
           id: uniqueId("datatext"),
 
@@ -20995,14 +21099,14 @@
           title: (dt, dv) => "Data",
 
           // the text to display for the data
-          text: CSV_TEXT,
+          text: datatextCSV,
 
           // the data controller
           dataController: null,
       };
 
-      // expose state
-      let chart = baseChart(state);
+      // expose attr
+      let chart = baseChart(attr);
 
       // private
 
@@ -21035,12 +21139,12 @@
       chart.download = function () {
           let type, extension;
 
-          if (state.text === CSV_TEXT) {
+          if (attr.text === datatextCSV) {
               type = "text/csv";
               extension = "csv";
           } else if (
-              state.text === JSON_TEXT ||
-              state.text === JSON_TEXT_DATA_VIEW
+              attr.text === datatextJSONData ||
+              attr.text === datatextJSON
           ) {
               type = "text/json";
               extension = "json";
@@ -21049,11 +21153,9 @@
               extension = "txt";
           }
 
-          let blob = new Blob([text], { type: type });
-          let objectURL = URL.createObjectURL(blob);
-          let filename = state.dataController.filename(extension, "datatext");
-
-          console.log("filename", filename);
+          let blob = new Blob([text], { type: type }),
+              objectURL = URL.createObjectURL(blob),
+              filename = attr.dataController.filename(extension, "datatext");
 
           downloadURL(objectURL, filename);
 
@@ -21062,16 +21164,18 @@
 
       /**
        * Calculates and returns the data view for the datatext.
-       * @param {*} dc The data controller
        * @returns dv The generated data view
        * @public
        */
-      chart.dataView = function (dc) {
+      chart.dataView = function () {
+          let dc = attr.dataController;
+          if (!dc) throw new Error("no data controller");
+
           let dv = {};
 
           dv.data = dc.data();
           dv.labels = dc.labels();
-          dv.stacks = dc.stacks();
+          dv.groups = dc.groups();
           dv.locations = dc.locations();
           dv.dates = dc.dates();
 
@@ -21090,30 +21194,34 @@
           calc.div = container
               .append("div")
               .classed("ltv-datatext", true)
-              .attr("id", state.id)
-              .style("padding-left", state.marginLeft + "px")
-              .style("padding-top", state.marginTop + "px")
-              .style("padding-right", state.marginRight + "px")
-              .style("padding-bottom", state.marginBottom + "px");
+              .attr("id", attr.id)
+              .style("padding-left", attr.marginLeft + "px")
+              .style("padding-top", attr.marginTop + "px")
+              .style("padding-right", attr.marginRight + "px")
+              .style("padding-bottom", attr.marginBottom + "px");
 
-          if (state.title) {
+          if (attr.title) {
               calc.title = calc.div
                   .append("div")
                   .classed("ltv-datatext-title", true)
-                  .text(unwrap(state.title, chart, dv))
-                  .style("cursor", state.enabled ? "pointer" : null)
-                  .on("click", state.enabled ? chart.download : null);
+                  .text(unwrap(attr.title, chart, dv))
+                  .style("cursor", attr.enabled ? "pointer" : null)
+                  .on("click", attr.enabled ? chart.download : null);
           }
 
-          text = unwrap(state.text, chart, dv);
+          if (!cachedHTML) {
+              text = unwrap(attr.text, chart, dv, attr.dataController);
+              cachedHTML = html(text);
+          }
+
           calc.pre = calc.div
               .append("pre")
               .classed("ltv-datatext-pre", true)
-              .html(html(text));
+              .html(cachedHTML);
 
-          if (isType(state.height, "string", "number")) {
+          if (isType(attr.height, "string", "number")) {
               calc.pre
-                  .style("height", postfix(state.height, "px"))
+                  .style("height", postfix(attr.height, "px"))
                   .style("overflow", "scroll");
           }
 
@@ -21127,40 +21235,50 @@
   }
 
   function data_preview(dc) {
-      if (!dc || !CONFIG.debug || !runsInBrowser()) return;
+      if (!dc || !config.debug || !runsInBrowser()) return;
       if (!document.getElementById("ltv-data")) return;
-      if (!CONFIG.datatext) CONFIG.datatext = datatext().selector("#ltv-data");
-      CONFIG.datatext.dataController(dc).run();
+      if (!config.datatext) config.datatext = datatext().selector("#ltv-data");
+      config.datatext.dataController(dc).run();
   }
 
   class DataController {
+      /**
+       * Creates a new DataController with the passed data.
+       *
+       * @param {*} data
+       * @returns
+       */
       constructor(data) {
           if (!Array.isArray(data)) throw new Error("data not an array.");
-
-          let id = uniqueId("dc");
 
           // create data model
           data = Data(data);
 
-          let disp = dispatch("filter", "data");
-          let attr = {
-              data: data,
-              snapshot: data,
-              filters: { labels: [], locations: [], dates: [], stacks: [] },
-              filenameGenerator: FILENAME_GENERATOR,
-              dateAccess: DEFAULT_DATE_ORDINATOR,
-          };
+          let id = uniqueId("dc"),
+              disp = dispatch("filter", "data"),
+              attr = {
+                  id: id,
 
-          // expose attributes
-          Object.keys(attr).forEach((key) => {
-              // do not override existing functions
-              if (typeof this[key] === "function") return;
-              this[key] = function (_) {
-                  return arguments.length ? ((attr[key] = _), this) : attr[key];
+                  // the controlled data
+                  data: data,
+
+                  // the controlled filtered data
+                  snapshot: data,
+
+                  // the applied filters
+                  filters: { labels: [], locations: [], dates: [], groups: [] },
+
+                  // a filename generator
+                  filenameGenerator: FILENAME_GENERATOR,
+
+                  dateAccess: DEFAULT_DATE_ORDINATOR,
               };
-          });
 
-          // private
+          // expose atrributes as getter-setter functions
+          attributable(this, attr);
+
+          this.id = id;
+          attr.id = id;
 
           /**
            *
@@ -21168,12 +21286,12 @@
            */
           function calculateSnapshot() {
               let f = attr.filters;
-              let snapshot = filter$1(attr.data, (d) => {
+              let snapshot = filter$2(attr.data, (d) => {
                   return !(
                       f.locations.indexOf(d.location) !== -1 ||
                       f.dates.indexOf(d.date) !== -1 ||
                       f.labels.indexOf(d.label) !== -1 ||
-                      f.stacks.indexOf(d.stack) !== -1
+                      f.groups.indexOf(d.group) !== -1
                   );
               });
               attr.snapshot = Data(snapshot);
@@ -21182,7 +21300,6 @@
           }
 
           // listeners
-          this.id = id;
 
           /**
            * Adds a listener with the passed name for filter changes.
@@ -21216,11 +21333,7 @@
 
           this.filtersDidChange = function (name, action, item, sender) {
               if (!sender) throw new Error("missing sender");
-
-              // do calculations
               calculateSnapshot();
-
-              // call listeners
               disp.call("filter", this, sender, name, action, item);
               return this;
           };
@@ -21246,7 +21359,7 @@
               return arguments.length
                   ? this.filters(name).length > 0
                   : this.hasFilters("labels") ||
-                        this.hasFilters("stacks") ||
+                        this.hasFilters("groups") ||
                         this.hasFilters("locations") ||
                         this.hasFilters("dates");
           };
@@ -21264,7 +21377,7 @@
                       labels: [],
                       locations: [],
                       dates: [],
-                      stacks: [],
+                      groups: [],
                   };
                   this.filtersDidChange("all", "clear", null, sender);
               }
@@ -21287,8 +21400,11 @@
            * @param {*} sender The sender who made this action
            */
           this.addFilter = function (name, item, sender) {
-              if (this.filters(name).add(item))
-                  this.filtersDidChange(name, "add", item, sender);
+              Events.call("filter-will-change", sender, name, "add", item);
+              if (!this.filters(name).add(item)) return;
+              Events.call("filter-did-change", sender, name, "add", item);
+
+              this.filtersDidChange(name, "add", item, sender);
           };
 
           /**
@@ -21315,6 +21431,10 @@
                   : this.addFilter(name, item, sender);
           };
 
+          /**
+           * Returns the data applying the filters.
+           * @returns
+           */
           this.filteredData = function () {
               let f = attr.filters;
               return attr.data.filter(
@@ -21323,7 +21443,7 @@
                           f.locations.indexOf(d.location) !== -1 ||
                           f.dates.indexOf(d.date) !== -1 ||
                           f.labels.indexOf(d.label) !== -1 ||
-                          f.stacks.indexOf(d.stack) !== -1
+                          f.groups.indexOf(d.group) !== -1
                       )
               );
           };
@@ -21375,13 +21495,26 @@
                   .dataController(this)
                   .run();
           };
+
+          // initialize
           calculateSnapshot();
 
           // debug
-          ltv_debug("data controller", this.id, this);
+          ltv_debug("data controller", attr.id, this);
           data_preview(this);
 
           return this;
+      }
+
+      /**
+       * Creates and returns a new datatext with the passed selector. Also sets
+       * the DataController to the receiver.
+       *
+       * @param {String} selector The selctor for the datatext
+       * @returns {datatext} A newly created datatext
+       */
+      datatext(selector = "ltv-data") {
+          return datatext().dataController(this).selector(selector);
       }
 
       /** Returns entries with valid value. */
@@ -21393,8 +21526,8 @@
           return group(this.data(), (d) => d.label);
       }
 
-      byStack() {
-          return group(this.data(), (d) => d.stack || d.label);
+      byGroup() {
+          return group(this.data(), (d) => d.group || d.label);
       }
 
       byLocation() {
@@ -21409,8 +21542,8 @@
           return Array.from(this.byLabel().keys());
       }
 
-      stacks() {
-          return Array.from(this.byStack().keys());
+      groups() {
+          return Array.from(this.byGroup().keys());
       }
 
       locations() {
@@ -21421,8 +21554,8 @@
           return Array.from(this.byDate().keys());
       }
 
-      dataStack(s) {
-          return this.data().filter((d) => d.stack === s);
+      dataGroup(s) {
+          return this.data().filter((d) => d.group === s);
       }
 
       dataLabel(l) {
@@ -21437,8 +21570,8 @@
           return this.data().filter((d) => d.date === d);
       }
 
-      sumOfStack(s) {
-          return sum$2(this.dataStack(s), (d) => d.value);
+      sumOfGroup(s) {
+          return sum$2(this.dataGroup(s), (d) => d.value);
       }
 
       sumOfLabel(l) {
@@ -21488,17 +21621,17 @@
   };
 
   function flatDataset(d) {
-    if (Array.isArray(d)) throw new Error("expecting object. found array");
-    if (!d || !d.data) throw new Error("dataset has no data");
-    return d.data.map(function (i) {
-      return {
-        label: d.label,
-        stack: d.stack,
-        location: i.location,
-        date: i.date,
-        value: i.value,
-      };
-    });
+      if (Array.isArray(d)) throw new Error("expecting object. found array");
+      if (!d || !d.data) throw new Error("dataset has no data");
+      return d.data.map((i) => {
+          return {
+              label: d.label,
+              group: d.group,
+              location: i.location,
+              date: i.date,
+              value: i.value,
+          };
+      });
   }
 
   /**
@@ -21507,68 +21640,79 @@
    * @returns {Array} The flat version
    */
   function flatDatasets(ds) {
-    return ds.reduce((memo, d) => memo.concat(flatDataset(d)), []);
+      return ds.reduce((memo, d) => memo.concat(flatDataset(d)), []);
+  }
+
+  function jsonParse(d) {
+      return parseDatasets(Array.isArray(d) ? d : [d]);
+  }
+
+  function jsonParseHierarchical(d) {
+      return parseDatasets(Array.isArray(d) ? d : [d]);
+  }
+
+  function jsonParseDatasets(d) {
+      return parseDatasets(Array.isArray(d) ? d : [d]);
   }
 
   function parseDataset(d) {
-    return parseDatasets([d]);
+      return parseDatasets(Array.isArray(d) ? d : [d]);
   }
 
   function parseDatasets(d) {
-    return new DataController(flatDatasets(d));
+      return new DataController(flatDatasets(d));
   }
 
   function json(path) {
-    return json$1(path).then((json) => {
-      if (!Array.isArray(json)) throw new DataUnqualifiedError();
-      let flat = flatDatasets(json);
-      let controller = new DataController(flat, { original: json });
-      return controller;
-    });
+      return json$1(path).then((json) => {
+          if (!Array.isArray(json)) throw new DataUnqualifiedError();
+          return new DataController(flatDatasets(json));
+      });
+  }
+
+  function jsonDatasets(path) {
+      return json(path);
   }
 
   function jsonFlat(path) {
-    return json$1(path).then((json) => {
-      if (!Array.isArray(json)) throw new DataUnqualifiedError();
-      let controller = new DataController(json, { original: json });
-      return controller;
-    });
+      return json$1(path).then((json) => {
+          if (!Array.isArray(json)) throw new DataUnqualifiedError();
+          return new DataController(json);
+      });
   }
 
   function DataItem(item) {
-    return { date: item.date, location: item.location, value: item.value };
+      return { date: item.date, location: item.location, value: item.value };
   }
 
   function Dataset(item) {
-    let set = { label: item.label, data: [DataItem(item)] };
-    if (isValue(item.stack)) set.stack = item.stack;
-    return set;
+      let set = { label: item.label, data: [DataItem(item)] };
+      if (isValue(item.group)) set.group = item.group;
+      return set;
   }
 
   function toDataset(data) {
-    let datasets = [],
-      item,
-      set,
-      datum;
-    for (let i = 0; i < data.length; i++) {
-      item = data[i];
-      set = datasets.find((d) => d.label === item.label);
+      let datasets = [],
+          item,
+          set,
+          datum;
 
-      if (set) {
-        datum = set.data.find(
-          (d) => d.date === item.date && d.location === item.location
-        );
-        if (datum) {
-          datum.value += item.value;
-        } else {
-          set.data.push(DataItem(item));
-        }
-      } else {
-        datasets.push(Dataset(item));
+      for (let i = 0; i < data.length; i++) {
+          item = data[i];
+          set = datasets.find((d) => d.label === item.label);
+
+          if (set) {
+              datum = set.data.find(
+                  (d) => d.date === item.date && d.location === item.location
+              );
+
+              datum ? (datum.value += item.value) : set.data.push(DataItem(item));
+          } else {
+              datasets.push(Dataset(item));
+          }
       }
-    }
 
-    return datasets;
+      return datasets;
   }
 
   /** Returns the darker darker version of the passed color. */
@@ -21596,19 +21740,27 @@
       "BurlyWood",
   ];
 
-  const tintColor = colorSchemeLotivis10[0];
+  const colorSchemeDefault = colorSchemeCategory10;
+
+  const tintColor = colorSchemeDefault[0];
 
   const colorScale1 = colorScale("Yellow", "Orange", "Red", "Purple");
 
-  const colorScale2 = colorScale("White", "MediumSeaGreen", "RoyalBlue");
+  const colorScale2 = colorScale(
+      "White",
+      colorSchemeDefault[2],
+      colorSchemeDefault[0]
+  );
+
+  console.log(colorSchemeDefault[0]);
 
   function ColorsGenerator(c, d) {
-      let colors = c || colorSchemeLotivis10,
+      let colors = c || colorSchemeDefault,
           data = d || [],
-          stackColors,
+          groupColors,
           labelColors,
-          stacksToLabels,
-          stacks;
+          groupsToLabels,
+          groups;
 
       function fallback() {
           return Array.isArray(colors) && colors.length ? colors[0] : "RoyalBlue";
@@ -21619,25 +21771,25 @@
       }
 
       function calc() {
-          stackColors = new Map();
+          groupColors = new Map();
           labelColors = new Map();
-          stacksToLabels = group(
+          groupsToLabels = group(
               data,
-              (d) => d.stack || d.label,
+              (d) => d.group || d.label,
               (d) => d.label
           );
-          stacks = Array.from(stacksToLabels.keys());
+          groups = Array.from(groupsToLabels.keys());
 
-          stacks.forEach((stack) => {
-              let labels = Array.from((stacksToLabels.get(stack) || []).keys());
-              let stackColor = colors[stacks.indexOf(stack) % colors.length];
-              let c1 = color(stackColor);
-              let stackScale = colorScale(c1, darker(c1));
+          groups.forEach((group) => {
+              let labels = Array.from((groupsToLabels.get(group) || []).keys());
+              let groupColor = colors[groups.indexOf(group) % colors.length];
+              let c1 = color(groupColor);
+              let groupScale = colorScale(c1, darker(c1));
 
-              stackColors.set(stack, c1);
+              groupColors.set(group, c1);
 
               labels.forEach((label, index) => {
-                  labelColors.set(label, stackScale(index / labels.length));
+                  labelColors.set(label, groupScale(index / labels.length));
               });
           });
 
@@ -21652,8 +21804,8 @@
           return arguments.length ? ((colors = _), calc()) : colors;
       };
 
-      generator.stack = function (stack) {
-          return stackColors ? stackColors.get(stack) || fallback() : fallback();
+      generator.group = function (group) {
+          return groupColors ? groupColors.get(group) || fallback() : fallback();
       };
 
       generator.label = function (label) {
@@ -21661,78 +21813,6 @@
       };
 
       return generator;
-  }
-
-  /**
-   *
-   * @param {*} data The data to generate colors for
-   * @return {DataColors} A data colors object
-   */
-  function DataColors(data) {
-      let baseColors = colorSchemeLotivis10,
-          stackColors = new Map(),
-          labelColors = new Map(),
-          stacksToLabels = group(
-              data,
-              (d) => d.stack || d.label,
-              (d) => d.label
-          ),
-          stacks = Array.from(stacksToLabels.keys());
-
-      /**
-       * Returns a collection of label belonging the passed stack.
-       * @private
-       */
-      function stackLabels(stack) {
-          return Array.from((stacksToLabels.get(stack) || []).keys());
-      }
-
-      /**
-       * From the collection of base color returns the color for
-       * the passed stack by calculating the stacks index.
-       * @private
-       */
-      function stackColor(stack) {
-          return baseColors[stacks.indexOf(stack) % baseColors.length];
-      }
-
-      stacks.forEach((stack) => {
-          let labels = stackLabels(stack);
-          let c1 = color(stackColor(stack));
-          let colors = colorScale(c1, darker(c1));
-
-          stackColors.set(stack, c1);
-
-          labels.forEach((label, index) => {
-              labelColors.set(label, colors(index / labels.length));
-          });
-      });
-
-      function main() {}
-
-      /**
-       * Returns the color for the given stack.
-       *
-       * @param {stack} stack The stack
-       * @returns The d3.color for the stack
-       * @public
-       */
-      main.stack = function (stack) {
-          return stackColors ? stackColors.get(stack) || tintColor : tintColor;
-      };
-
-      /**
-       * Returns the color for the given label.
-       *
-       * @param {label} label The label
-       * @returns {d3.Color} The color for the label
-       * @public
-       */
-      main.label = function (label) {
-          return labelColors ? labelColors.get(label) || tintColor : tintColor;
-      };
-
-      return main;
   }
 
   function colorScale(...colors) {
@@ -21757,84 +21837,112 @@
    *
    */
   function tooltip() {
-    let state = {
-      // the id of the tooltip
-      id: uniqueId("tooltip"),
+      let main = {},
+          div;
 
-      // the tooltips margin
-      marginLeft: 0,
-      marginTop: 0,
-      marginRight: 0,
-      marginBottom: 0,
-    };
+      attributable(main, {
+          // the id of the tooltip
+          id: uniqueId("tooltip"),
 
-    let main = baseChart(state),
-      container,
-      div;
+          // the tooltips margin
+          marginLeft: 0,
+          marginTop: 0,
+          marginRight: 0,
+          marginBottom: 0,
 
-    // private
-    function withPixels(value) {
-      return typeof value === "string" && value.endsWith("px")
-        ? value
-        : value + "px";
-    }
+          // a container to render the tooltip in
+          container: null,
+      });
 
-    // public api
+      // private
 
-    main.container = function (_container) {
-      return arguments.length ? ((container = _container), main) : container;
-    };
+      function require(div) {
+          if (typeof div !== "object") throw new Error("invalid div");
+          return div;
+      }
 
-    main.html = function (_html) {
-      if (!div) throw new Error("no div of tooltip");
-      return arguments.length ? (div.html(_html), main) : div.attr("x");
-    };
+      // public api
 
-    main.show = function (html) {
-      if (!div) throw new Error("no div of tooltip");
-      return div.style("opacity", 1), main;
-    };
+      /**
+       * Shows the tooltip by setting the opacity to 1.
+       * @returnss {tooltip} The tooltip itself
+       */
+      main.show = function () {
+          return require(div).classed("ltv-tooltip-show", true), main;
+      };
 
-    main.hide = function () {
-      if (!div) throw new Error("no div of tooltip");
-      return div.style("opacity", 0), main;
-    };
+      /**
+       * Hides the tooltip by setting the opacity to 0.
+       * @returns {tooltip} The tooltip itself
+       */
+      main.hide = function () {
+          return require(div).classed("ltv-tooltip-show", false), main;
+      };
 
-    main.top = function (_top) {
-      if (!div) throw new Error("no div of tooltip");
-      if (!arguments.length) return div.style("top");
-      div.style("top", withPixels(_top));
+      /**
+       * Gets or sets the top in pixels.
+       * @param {*} _top
+       * @returns {String|tooltip}
+       */
+      main.top = function (_top) {
+          return arguments.length
+              ? (require(div).style("top", postfix(_top, "px")), main)
+              : require(div).style("top");
+      };
+
+      /**
+       * Gets or sets the left in pixels.
+       * @param {*} _left
+       * @returns {String|tooltip}
+       */
+      main.left = function (_left) {
+          return arguments.length
+              ? (require(div).style("left", postfix(_left, "px")), main)
+              : require(div).style("left");
+      };
+
+      /**
+       * Gets or sets the HTML content of the div container.
+       * @param {String} _html The new HTML to set
+       * @returns {String|tooltip}
+       */
+      main.html = function (_html) {
+          return arguments.length
+              ? (require(div).html(_html), main)
+              : require(div).html();
+      };
+
+      /**
+       * Gets or sets the left in pixels.
+       * @param {*} _div
+       * @returns {div|tooltip}
+       */
+      main.div = function (_div) {
+          return arguments.length ? ((div = _div), main) : div;
+      };
+
+      /**
+       * Gets the size of the tooltip.
+       * @returns The size
+       */
+      main.size = function () {
+          let domRect = require(div).node().getBoundingClientRect();
+          return [domRect.width, domRect.height];
+      };
+
+      /**
+       * Renders the tooltip.
+       * @returns The tooltip itself.
+       */
+      main.run = function () {
+          // render the div of the tooltip
+          div = main.container().append("div").classed("ltv-tooltip", true);
+
+          return main;
+      };
+
+      // return generated chart
       return main;
-    };
-
-    main.left = function (_left) {
-      if (!div) throw new Error("no div of tooltip");
-      if (!arguments.length) return div.style("left");
-      div.style("left", withPixels(_left));
-      return main;
-    };
-
-    main.size = function () {
-      if (!div) throw new Error("no div of tooltip");
-      let domRect = div.node().getBoundingClientRect();
-      return [domRect.width, domRect.height];
-    };
-
-    main.run = function () {
-      // remove any previous rendered tooltip
-      // if (div) div.remove();
-
-      // render the div of the tooltip
-      div = container
-        .append("div")
-        .attr("class", "ltv-tooltip")
-        .style("opacity", 0);
-
-      return main;
-    };
-
-    // return generated chart
-    return main;
   }
 
   /* returns a GeoJSON FeatureCollection object */
@@ -21854,12 +21962,12 @@
 
   /* returns a GeoJSON object */
   function GeoJSON(source) {
-      let geoJSON = copy(source);
+      let geoJSON = copy$1(source);
 
       geoJSON.getCenter = function () {
-          let allCoordinates = this.extractAllCoordinates();
-          let latitudeSum = 0;
-          let longitudeSum = 0;
+          let allCoordinates = this.extractAllCoordinates(),
+              latitudeSum = 0,
+              longitudeSum = 0;
 
           allCoordinates.forEach(function (coordinates) {
               latitudeSum += coordinates[1];
@@ -21944,11 +22052,11 @@
       return geoJSON;
   }
 
-  function createGeoJSON(locations) {
-      let columns = 5;
-      let rows = Math.ceil(locations.length / columns);
-      let span = 0.1;
-      let features = [];
+  function generate(locations) {
+      let columns = 5,
+          rows = Math.ceil(locations.length / columns),
+          span = 0.1,
+          features = [];
 
       outer: for (let row = 0; row < rows; row++) {
           for (let column = 0; column < columns; column++) {
@@ -22181,7 +22289,7 @@
   // and last point {B,C}. For a line, the first and last point are always
   // considered junctions, even if the line is closed; this ensures that a closed
   // line is never rotated.
-  function join(topology) {
+  function join$1(topology) {
     var coordinates = topology.coordinates,
         lines = topology.lines,
         rings = topology.rings,
@@ -22283,7 +22391,7 @@
   // point sequences are identified. The topology can then be subsequently deduped
   // to remove exact duplicate arcs.
   function cut(topology) {
-    var junctions = join(topology),
+    var junctions = join$1(topology),
         coordinates = topology.coordinates,
         lines = topology.lines,
         rings = topology.rings,
@@ -23056,6 +23164,52 @@
     };
   }
 
+  function extractObjects(topology) {
+      let objects = [];
+      for (const topologyKey in topology.objects) {
+          if (topology.objects.hasOwnProperty(topologyKey)) {
+              objects.push(topology.objects[topologyKey]);
+          }
+      }
+      return objects;
+  }
+
+  /**
+   * Returns a newly created GeoJSON with exactly one Feature
+   * merging the border of all containing features of the given
+   * collection of features.
+   *
+   * @param {GeoJSON | Array<Feature>} input GeoJSON or array of features
+   * @returns A new created GeoJSON
+   */
+  function join(input) {
+      let features = Array.isArray(input) ? input : input.features,
+          topology$1 = topology(features),
+          geometry = merge(topology$1, extractObjects(topology$1));
+      return FeatureCollection([Feature(geometry)]);
+  }
+
+  /**
+   * Returns a copy the passed
+   * @param {*} json
+   * @param {*} ids
+   * @param {*} featuresFilter
+   * @returns
+   */
+  function copy(json, ids, featuresFilter) {
+      if (!Array.isArray(ids)) {
+          throw new Error("invalid ids. not an array");
+      }
+      if (!Array.isArray(json.features)) {
+          throw new Error("no features in geojson");
+      }
+
+      // copy to do not modify original
+      let theCopy = JSON.parse(JSON.stringify(json));
+      theCopy.features = theCopy.features.filter(featuresFilter);
+      return theCopy;
+  }
+
   /**
    * Default accessor for the id of a feature.
    * @param {*} f The feature to get an id for
@@ -23080,41 +23234,6 @@
       return FEATURE_ID_ACCESSOR(f);
   };
 
-  function extractObjects(topology) {
-      let objects = [];
-      for (const topologyKey in topology.objects) {
-          if (topology.objects.hasOwnProperty(topologyKey)) {
-              objects.push(topology.objects[topologyKey]);
-          }
-      }
-      return objects;
-  }
-
-  /**
-   * Returns a newly created GeoJSON with exactly one Feature
-   * merging the border of all containing features of the given
-   * collection of features.
-   *
-   * @param {GeoJSON | Array<Feature>} input GeoJSON or array of features
-   * @returns A new created GeoJSON
-   */
-  function joinFeatures(input) {
-      let features = Array.isArray(input) ? input : input.features;
-      let topology$1 = topology(features);
-      let objects = extractObjects(topology$1);
-      let geometry = merge(topology$1, objects);
-      return FeatureCollection([Feature(geometry)]);
-  }
-
-  function geojsonCopy(json, ids, featuresFilter) {
-      if (!Array.isArray(ids)) throw new Error("invalid ids. not an array");
-      if (!Array.isArray(json.features))
-          throw new Error("invalid geojson. no features");
-      let theCopy = copy(json);
-      theCopy.features = theCopy.features.filter(featuresFilter);
-      return theCopy;
-  }
-
   /**
    * Returns a new generated GeoJSON without the Feature having the ids
    * specified.
@@ -23124,8 +23243,8 @@
    * @param {*} idValue An id accessor for the Features
    * @returns {GeoJSON} The new generated GeoJSON
    */
-  function removeFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
-      return geojsonCopy(json, ids, (f) => !ids.includes(idValue(f)));
+  function remove(json, ids, idValue = FEATURE_ID_ACCESSOR) {
+      return copy(json, ids, (f) => !ids.includes(idValue(f)));
   }
 
   /**
@@ -23137,30 +23256,9 @@
    * @param {*} idValue An id accessor for the Features
    * @returns {GeoJSON} The new generated GeoJSON
    */
-  function filterFeatures(json, ids, idValue = FEATURE_ID_ACCESSOR) {
-      return geojsonCopy(json, ids, (f) => ids.includes(idValue(f)));
+  function filter(json, ids, idValue = FEATURE_ID_ACCESSOR) {
+      return copy(json, ids, (f) => ids.includes(idValue(f)));
   }
-
-  class Events {
-      static disp = dispatch(
-          "filter",
-          "data",
-          "map-selection-will-change",
-          "map-selection-did-change"
-      );
-
-      static on(name, callback) {
-          ltv_debug("Events on", name);
-          this.disp.on(name, callback);
-      }
-
-      static call(name, sender, ...params) {
-          ltv_debug("Events on", name);
-          this.disp.call(name, this, sender, ...params);
-      }
-  }
-
-  Events.shared = new Events();
 
   /**
    * Reusable Map Chart API class that renders a
@@ -23177,7 +23275,7 @@
    *
    */
   function map() {
-      let state = {
+      let attr = {
           id: uniqueId("map"),
 
           width: 1000,
@@ -23206,15 +23304,17 @@
           // whether to display a tooltip.
           tooltip: true,
 
+          // array of area ids to remove from the geojson (before rendering)
           exclude: null,
 
+          // array of area ids to filter out from the geojson (before rendering)
           include: null,
 
           colorScale: colorScale2,
 
-          colorScheme: colorSchemeLotivis10,
+          colorScheme: colorSchemeDefault,
 
-          radius: CONFIG.barRadius,
+          radius: config.barRadius,
 
           // the geojson wich is drawn
           geoJSON: null,
@@ -23222,8 +23322,8 @@
           // The data controller.
           dataController: null,
 
-          // presented stack
-          stack: null,
+          // presented group
+          group: null,
 
           // the number format
           numberFormat: DEFAULT_NUMBER_FORMAT,
@@ -23233,49 +23333,52 @@
           featureNameAccessor: FEATURE_NAME_ACCESSOR,
       };
 
-      // Create new underlying chart with the specified state.
-      let chart = baseChart(state);
-      state.projection = mercator();
-      state.path = index$3().projection(state.projection);
+      // Create new underlying chart with the specified attr.
+      let chart = baseChart(attr);
+      attr.projection = mercator();
+      attr.path = index$3().projection(attr.projection);
 
       /**
        * Tells the map chart that the GeoJSON has changed.
        * @private
        */
       function geoJSONDidChange() {
-          let geoJSON = state.geoJSON;
-          if (!geoJSON) return;
+          if (!attr.geoJSON) return;
 
-          state.workGeoJSON = geoJSON;
+          attr.workGeoJSON = copy$1(attr.geoJSON);
 
           // precalculate the center of each feature
-          state.workGeoJSON.features.forEach(
+          attr.workGeoJSON.features.forEach(
               (f) => (f.center = centroid$1(f))
           );
 
-          if (Array.isArray(state.exclude)) {
-              state.workGeoJSON = removeFeatures(
-                  state.workGeoJSON,
-                  state.exclude
-              );
-          }
-
-          if (Array.isArray(state.include)) {
-              state.workGeoJSON = filterFeatures(
-                  state.workGeoJSON,
-                  state.include
-              );
-          }
-
           // precalculate lotivis feature ids
           let feature, id;
-          for (let i = 0; i < state.workGeoJSON.features.length; i++) {
-              feature = state.workGeoJSON.features[i];
-              id = state.featureIDAccessor(feature);
-              state.workGeoJSON.features[i].lotivisId = id;
+          for (let i = 0; i < attr.workGeoJSON.features.length; i++) {
+              feature = attr.workGeoJSON.features[i];
+              id = attr.featureIDAccessor(feature);
+              attr.workGeoJSON.features[i].lotivisId = id;
           }
 
-          chart.zoomTo(state.workGeoJSON);
+          // exclude features
+          if (Array.isArray(attr.exclude) && attr.exclude.length > 0) {
+              attr.workGeoJSON = remove(
+                  attr.workGeoJSON,
+                  attr.exclude,
+                  attr.featureIDAccessor
+              );
+          }
+
+          // only use included features
+          if (Array.isArray(attr.include) && attr.include.length > 0) {
+              attr.workGeoJSON = filter(
+                  attr.workGeoJSON,
+                  attr.include,
+                  attr.featureIDAccessor
+              );
+          }
+
+          chart.zoomTo(attr.workGeoJSON);
 
           if (chart.dataController() === null) {
               chart.dataController(new DataController([]));
@@ -23288,39 +23391,54 @@
        * @private
        */
       function getSelectedFeatures() {
-          if (!state.workGeoJSON) return null;
+          if (!attr.workGeoJSON) return null;
 
-          let filtered = state.dataController.filters("locations");
+          let filtered = attr.dataController.filters("locations");
           if (filtered.length === 0) return [];
 
-          return state.workGeoJSON.features.filter(
+          return attr.workGeoJSON.features.filter(
               (f) => filtered.indexOf(f.lotivisId) !== -1
           );
       }
 
+      /**
+       *
+       * @param {*} features
+       * @returns
+       */
       function htmlTitle(features) {
           if (features.length > 3) {
               let featuresSlice = features.slice(0, 3);
               let ids = featuresSlice
                   .map((feature) => `${feature.lotivisId}`)
                   .join(", ");
-              let names = featuresSlice.map(state.featureNameAccessor).join(", ");
+              let names = featuresSlice.map(attr.featureNameAccessor).join(", ");
               let moreCount = features.length - 3;
               return `IDs: ${ids} (+${moreCount})<br>Names: ${names} (+${moreCount})`;
           } else {
               let ids = features
                   .map((feature) => `${feature.lotivisId}`)
                   .join(", ");
-              let names = features.map(state.featureNameAccessor).join(", ");
+              let names = features.map(attr.featureNameAccessor).join(", ");
               return `IDs: ${ids}<br>Names: ${names}`;
           }
       }
 
+      /**
+       *
+       * @param {*} features
+       * @param {*} dv
+       * @param {*} calc
+       * @returns
+       */
       function htmlValues(features, dv, calc) {
-          let combinedByLabel = {};
+          let combinedByLabel = {},
+              components = [""],
+              sum = 0;
+
           for (let i = 0; i < features.length; i++) {
-              let feature = features[i];
-              let data = dv.byLocationLabel.get(feature.lotivisId);
+              let data = dv.byLocationLabel.get(features[i].lotivisId);
+
               if (!data) continue;
               let keys = Array.from(data.keys());
 
@@ -23334,27 +23452,35 @@
               }
           }
 
-          let components = [""];
-          let sum = 0;
+          if (Object.keys(combinedByLabel).length === 0) return "<br>No Data";
+
           for (const label in combinedByLabel) {
-              let color = calc.colors.label(label);
-              let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-              sum += combinedByLabel[label];
-              let value = state.numberFormat(combinedByLabel[label]);
+              let color = calc.colors.label(label),
+                  divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`,
+                  value = combinedByLabel[label];
+              if (value === 0) continue;
+              sum += value;
+              value = attr.numberFormat(value);
               components.push(`${divHTML} ${label}: <b>${value}</b>`);
           }
 
           components.push("");
-          components.push(`Sum: <b>${state.numberFormat(sum)}</b>`);
+          components.push(`Sum: <b>${attr.numberFormat(sum)}</b>`);
 
           return components.length === 0 ? "No Data" : components.join("<br>");
       }
 
+      /**
+       * Updates the tooltips position for the passed feature.
+       * @param {*} event
+       * @param {*} feature
+       * @param {*} calc
+       */
       function positionTooltip(event, feature, calc) {
           // position tooltip
           let size = calc.tooltip.size(),
-              tOff = CONFIG.tooltipOffset,
-              projection = state.projection,
+              tOff = config.tooltipOffset,
+              projection = attr.projection,
               fBounds = bounds$1(feature),
               fLowerLeft = projection(fBounds[0]),
               fUpperRight = projection(fBounds[1]),
@@ -23363,7 +23489,7 @@
           // svg is presented in dynamic sized view box so we need to get the actual size
           // of the element in order to calculate a scale for the position of the tooltip.
           let domRect = calc.svg.node().getBoundingClientRect(),
-              factor = domRect.width / state.width,
+              factor = domRect.width / attr.width,
               off = [domRect.x + window.scrollX, domRect.y + window.scrollY];
 
           let top = fLowerLeft[1] * factor + off[1] + tOff,
@@ -23385,23 +23511,26 @@
           calc.svg = container
               .append("svg")
               .attr("class", "ltv-chart-svg ltv-map-svg")
-              .attr("viewBox", `0 0 ${state.width} ${state.height}`);
+              .attr("viewBox", `0 0 ${attr.width} ${attr.height}`);
       }
 
       function renderBackground(calc, dv) {
           calc.svg
               .append("rect")
               .attr("class", "ltv-map-background")
-              .attr("width", state.width)
-              .attr("height", state.height)
-              .on("click", () => state.dataController.clear("locations", chart));
+              .attr("width", attr.width)
+              .attr("height", attr.height)
+              .on("click", () => {
+                  attr.dataController.clear("locations", chart);
+                  renderSelection(calc);
+              });
       }
 
       function renderExteriorBorders(calc, dv) {
-          let geoJSON = state.workGeoJSON;
+          let geoJSON = attr.workGeoJSON;
           if (!geoJSON) return console.log("[ltv]  No GeoJSON to render");
 
-          let bordersGeoJSON = joinFeatures(geoJSON.features);
+          let bordersGeoJSON = join(geoJSON.features);
           if (!bordersGeoJSON) return console.log("[ltv]  No borders to render.");
 
           calc.borders = calc.svg
@@ -23410,17 +23539,17 @@
               .data(bordersGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .attr("class", "ltv-map-exterior-borders");
       }
 
       function filterLocation(location) {
-          return state.dataController.isFilter("locations", location);
+          return attr.dataController.isFilter("locations", location);
       }
 
       function renderFeatures(calc, dv) {
           function opacity(location) {
-              return filterLocation(location) ? CONFIG.selectionOpacity : 1;
+              return filterLocation(location) ? config.selectionOpacity : 1;
           }
 
           function featureMapID(f) {
@@ -23472,27 +23601,28 @@
           }
 
           function mouseClick(event, feature) {
-              if (!state.enabled) return;
+              if (!attr.enabled) return;
               if (!feature || !feature.properties) return;
-              state.dataController.toggleFilter(
+              attr.dataController.toggleFilter(
                   "locations",
                   feature.lotivisId,
                   chart
               );
-              // chart.emit("click", event, feature);
+
+              renderSelection(calc);
           }
 
           let locationToSum = dv.locationToSum;
           let max = max$3(locationToSum, (item) => item[1]);
-          let generator = state.colorScale;
+          let generator = attr.colorScale;
 
           calc.areas = calc.svg
               .selectAll(".ltv-map-area")
               .append("path")
-              .data(state.workGeoJSON.features)
+              .data(attr.workGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .classed("ltv-map-area", true)
               .attr("id", (f) => featureMapID(f))
               .style("stroke-dasharray", "1,4")
@@ -23508,31 +23638,37 @@
               .raise();
       }
 
+      /**
+       * Renders the labels on the areas.
+       * @param {*} calc
+       * @param {*} dv
+       */
       function renderLabels(calc, dv) {
           // calc.svg.selectAll(".ltv-map-label").remove();
           calc.svg
               .selectAll("text")
-              .data(state.workGeoJSON.features)
+              .data(attr.workGeoJSON.features)
               .enter()
               .append("text")
               .attr("class", "ltv-map-label")
-              .attr("x", (f) => state.projection(f.center)[0])
-              .attr("y", (f) => state.projection(f.center)[1])
+              .attr("x", (f) => attr.projection(f.center)[0])
+              .attr("y", (f) => attr.projection(f.center)[1])
               .text((f) => {
-                  let featureID = state.featureIDAccessor(f);
-                  if (contains(state.labelsExclude, featureID)) return "";
+                  let featureID = attr.featureIDAccessor(f);
+                  if (contains(attr.labelsExclude, featureID)) return "";
                   let data = dv.byLocationLabel.get(featureID);
                   if (!data) return "";
                   let labels = Array.from(data.keys()),
                       values = labels.map((label) => data.get(label)),
                       sum = sum$2(values);
-                  return sum === 0 ? "" : state.numberFormat(sum);
+                  return sum === 0 ? "" : attr.numberFormat(sum);
               });
       }
 
       function renderSelection(calc, dv) {
           calc.selectedFeatures = getSelectedFeatures();
-          calc.selectionBorderGeoJSON = joinFeatures(calc.selectedFeatures);
+          calc.selectionBorderGeoJSON = join(calc.selectedFeatures);
+
           if (!calc.selectionBorderGeoJSON)
               return ltv_debug("no features selected", chart.id());
 
@@ -23544,22 +23680,22 @@
               .data(calc.selectionBorderGeoJSON.features)
               .enter()
               .append("path")
-              .attr("d", state.path)
+              .attr("d", attr.path)
               .attr("class", "ltv-map-selection-border")
               .raise();
       }
 
       function renderLegend(calc, dv) {
-          let label = state.selectedStack || dv.stacks[0];
+          let label = attr.selectedGroup || dv.groups[0];
           let locationToSum = dv.locationToSum || [];
           let max = max$3(locationToSum, (item) => item[1]) || 0;
 
-          let xOff = 10 + state.marginLeft;
-          let labelColor = calc.colors.stack(label);
+          let xOff = 10 + attr.marginLeft;
+          let labelColor = calc.colors.group(label);
 
           xOff = 1;
 
-          let mapColors = state.colorScale;
+          let mapColors = attr.colorScale;
           let allData = [
               "No Data",
               "0",
@@ -23573,7 +23709,7 @@
           let legend = calc.svg
               .append("svg")
               .attr("class", "ltv-map-legend")
-              .attr("width", state.width)
+              .attr("width", attr.width)
               .attr("height", 200)
               .attr("x", 0)
               .attr("y", 0);
@@ -23617,27 +23753,27 @@
               .attr("class", "ltv-map-legend-text")
               .attr("x", xOff + 24)
               .attr("y", (d, i) => i * 20 + 30 + 14)
-              .text((d) => (typeof d === "number" ? state.numberFormat(d) : d));
+              .text((d) => (typeof d === "number" ? attr.numberFormat(d) : d));
 
           return;
       }
 
       function renderDataSelectionPanel(calc, dv) {
-          let stacks = dv.stacks;
-          let selectedStack = state.selectedStack || stacks[0];
-          let radioName = state.id + "-radio";
+          let groups = dv.groups;
+          let selectedGroup = attr.selectedGroup || groups[0];
+          let radioName = attr.id + "-radio";
 
           calc.legendPanel = calc.container
               .append("div")
               .classed("frc-legend", true)
-              .style("padding-left", state.marginLeft + "px")
-              .style("padding-top", state.marginTop + "px")
-              .style("padding-right", state.marginRight + "px")
-              .style("padding-bottom", state.marginBottom + "px");
+              .style("padding-left", attr.marginLeft + "px")
+              .style("padding-top", attr.marginTop + "px")
+              .style("padding-right", attr.marginRight + "px")
+              .style("padding-bottom", attr.marginBottom + "px");
 
           calc.legendPanelPills = calc.legendPanel
               .selectAll(".label")
-              .data(stacks)
+              .data(groups)
               .enter()
               .append("label")
               .classed("ltv-legend-pill", true);
@@ -23647,30 +23783,30 @@
               .classed("ltv-legend-radio", true)
               .attr("type", "radio")
               .attr("name", radioName)
-              .attr("value", (stack) => stack)
-              .attr("checked", (stack) => (stack == selectedStack ? true : null))
-              .on("change", (event, stack) => {
-                  if (selectedStack == stack) return;
-                  Events.call("map-selection-will-change", chart, stack);
-                  state.selectedStack = stack;
-                  Events.call("map-selection-did-change", chart, stack);
+              .attr("value", (group) => group)
+              .attr("checked", (group) => (group == selectedGroup ? true : null))
+              .on("change", (event, group) => {
+                  if (selectedGroup == group) return;
+                  Events.call("map-selection-will-change", chart, group);
+                  attr.selectedGroup = group;
+                  Events.call("map-selection-did-change", chart, group);
                   chart.run();
               });
 
           calc.legendPanelCpans = calc.legendPanelPills
               .append("span")
               .classed("ltv-legend-pill-span", true)
-              .style("border-radius", postfix(state.radius, "px"))
-              .style("background-color", (stack) => calc.colors.stack(stack))
+              .style("border-radius", postfix(attr.radius, "px"))
+              .style("background-color", (group) => calc.colors.group(group))
               .text((d, i) => cut$1(d, 20));
       }
 
       // public
 
       chart.zoomTo = function (geoJSON) {
-          if (state.projection)
-              state.projection.fitSize(
-                  [state.width - 20, state.height - 20],
+          if (attr.projection)
+              attr.projection.fitSize(
+                  [attr.width - 20, attr.height - 20],
                   geoJSON
               );
       };
@@ -23682,48 +23818,49 @@
        */
       chart.geoJSON = function (_) {
           return arguments.length
-              ? (((state.geoJSON = _), geoJSONDidChange()), this)
-              : state.geoJSON;
+              ? (((attr.geoJSON = _), geoJSONDidChange()), this)
+              : attr.geoJSON;
       };
 
       /**
        * Calculates the data view for the bar chart.
-       * @param {*} calc
        * @returns
        */
-      chart.dataView = function (dc) {
-          var dv = {};
+      chart.dataView = function () {
+          let dc = attr.dataController;
+          if (!dc) throw new Error("no data controller");
+
+          let dv = {};
 
           dv.snapshot = dc.snapshot();
           dv.data = dc.snapshot();
           dv.labels = dc.data().labels;
-          dv.stacks = dc.data().stacks;
+          dv.groups = dc.data().groups;
           dv.locations = dc.data().locations;
 
-          if (!dv.stacks.includes(state.selectedStack))
-              state.selectedStack = null;
+          if (!dv.groups.includes(attr.selectedGroup)) attr.selectedGroup = null;
 
-          dv.selectedStack = state.selectedStack || dv.stacks[0];
-          dv.selectedStackData = dv.data.filter(
-              (d) => (d.stack || d.label) == dv.selectedStack
+          dv.selectedGroup = attr.selectedGroup || dv.groups[0];
+          dv.selectedGroupData = dv.data.filter(
+              (d) => (d.group || d.label) == dv.selectedGroup
           );
 
           dv.byLocationLabel = rollup(
-              dv.selectedStackData,
+              dv.selectedGroupData,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.location,
               (d) => d.label
           );
 
-          dv.byLocationStack = rollup(
-              dv.selectedStackData,
+          dv.byLocationGroup = rollup(
+              dv.selectedGroupData,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.location,
-              (d) => d.stack
+              (d) => d.group
           );
 
           dv.locationToSum = rollup(
-              dv.selectedStackData,
+              dv.selectedGroupData,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.location
           );
@@ -23732,7 +23869,7 @@
           dv.maxLabel = max$3(dv.byLocationLabel, (i) =>
               max$3(i[1], (d) => d[1])
           );
-          dv.maxStack = max$3(dv.byLocationStack, (i) =>
+          dv.maxGroup = max$3(dv.byLocationGroup, (i) =>
               max$3(i[1], (d) => d[1])
           );
 
@@ -23742,20 +23879,20 @@
       /**
        *
        * @param {*} container
-       * @param {*} state
+       * @param {*} attr
        * @param {*} calc
        * @param {*} dv
        */
       chart.render = function (container, calc, dv) {
           calc.container = container;
-          calc.graphWidth = state.width - state.marginLeft - state.marginRight;
-          calc.graphHeight = state.height - state.marginTop - state.marginBottom;
-          calc.graphBottom = state.height - state.marginBottom;
-          calc.graphRight = state.width - state.marginRight;
-          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
+          calc.graphWidth = attr.width - attr.marginLeft - attr.marginRight;
+          calc.graphHeight = attr.height - attr.marginTop - attr.marginBottom;
+          calc.graphBottom = attr.height - attr.marginBottom;
+          calc.graphRight = attr.width - attr.marginRight;
+          calc.colors = ColorsGenerator(attr.colorScheme).data(dv.data);
 
-          if (!state.geoJSON) {
-              chart.geoJSON(createGeoJSON(dv.locations));
+          if (!attr.geoJSON) {
+              chart.geoJSON(generate(dv.locations));
           }
 
           renderSVG(container, calc);
@@ -23764,54 +23901,47 @@
           renderFeatures(calc, dv);
           renderSelection(calc);
 
-          if (state.labels) {
+          if (attr.labels) {
               renderLabels(calc, dv);
           }
 
-          if (state.tooltip) {
+          if (attr.tooltip) {
               calc.tooltip = tooltip().container(container).run();
           }
 
-          if (state.legend) {
+          if (attr.legend) {
               renderLegend(calc, dv);
           }
 
-          if (state.legendPanel) {
+          if (attr.legendPanel) {
               renderDataSelectionPanel(calc, dv);
           }
       };
 
-      Events.on(
-          "map-selection-did-change." + chart.id(),
-          function (sender, stack, b, c) {
-              if (sender === chart) return;
-              state.selectedStack = stack;
-              chart.run();
-          }
-      );
+      Events.on("map-selection-did-change." + chart.id(), function (group) {
+          if (this === chart) return ltv_debug(chart.id(), "map is sender");
+          attr.selectedGroup = group;
+          chart.run();
+      });
 
       // return generated chart
       return chart;
   }
 
-  const LABEL_FORMAT = function (l, v, i) {
+  const legendLabelFormat = function (l, v, i) {
       return `${l} (${v})`;
   };
 
-  const STACK_FORMAT = function (s, v, ls, i) {
+  const legendGroupFormat = function (s, v, ls, i) {
       return `${s}`;
   };
 
-  const GROUP_TITLE_FORMAT = function (s, v, ls, i) {
+  const legendSectionFormat = function (s, v, ls, i) {
       return `${i + 1}) ${s} (Sum: ${v})`;
   };
 
-  // export const GROUP_TITLE_FORMAT = function (s, v, ls, i) {
-  //   return `${i}) ${s} (Labels: ${ls.length}, Sum: ${v})`;
-  // };
-
   function legend() {
-      let state = {
+      let attr = {
           // the id of the legend
           id: uniqueId("legend"),
 
@@ -23825,36 +23955,37 @@
           enabled: true,
 
           // the number formatter vor values displayed
-          numberFormat: CONFIG.numberFormat,
+          numberFormat: config.numberFormat,
 
           // the format of displaying a datasets label
-          labelFormat: LABEL_FORMAT,
+          labelFormat: legendLabelFormat,
 
-          // the format of displaying a datasets stack
-          stackFormat: STACK_FORMAT,
+          // the format of displaying a datasets group
+          groupFormat: legendGroupFormat,
 
           // the format of displaying a group
-          groupFormat: GROUP_TITLE_FORMAT,
+          sectionFormat: legendSectionFormat,
 
-          colorScheme: colorSchemeLotivis10,
+          // color scheme to use
+          colorScheme: colorSchemeDefault,
 
           // (optional) title of the legend
-          title: null,
+          title: null, // (chart) => null
 
-          // whether to display stacks instead of labels
-          stacks: false,
+          // whether to display groups instead of labels
+          groups: false, // (chart) => false
 
-          // whether group the legend (by stacks)
-          group: false,
+          // whether to create separate sections (by groups)
+          sections: false, // (chart) => false
 
           // the data controller
           dataController: null,
       };
 
-      var chart = baseChart(state);
+      var chart = baseChart(attr);
 
       /**
-       * Toggles the filtered state of the passed label.
+       * Toggles the filtered attr of the passed label.
        *
        * @param {Event} event The event of the checkbox
        * @param {String} label The label to be toggled
@@ -23862,21 +23993,21 @@
        */
       function toggleLabel(event, label) {
           event.target.checked
-              ? state.dataController.removeFilter("labels", label, chart)
-              : state.dataController.addFilter("labels", label, chart);
+              ? attr.dataController.removeFilter("labels", label, chart)
+              : attr.dataController.addFilter("labels", label, chart);
       }
 
       /**
-       * Toggles the filtered state of the passed stack.
+       * Toggles the filtered attr of the passed group.
        *
        * @param {Event} event The event of the checkbox
-       * @param {String} stack The stack to be toggled
+       * @param {String} group The group to be toggled
        * @private
        */
-      function toggleStack(event, stack) {
+      function toggleGroup(event, group) {
           event.target.checked
-              ? state.dataController.removeFilter("stacks", stack, chart)
-              : state.dataController.addFilter("stacks", stack, chart);
+              ? attr.dataController.removeFilter("groups", group, chart)
+              : attr.dataController.addFilter("groups", group, chart);
       }
 
       /**
@@ -23888,62 +24019,51 @@
        * @private
        */
       function labelChecked(label) {
-          return state.dataController.isFilter("labels", label) ? null : true;
+          return attr.dataController.isFilter("labels", label) ? null : true;
       }
 
       /**
        * Returns the value for the "checked" attribute dependant on whether
-       * given stack is filtered by the data controller.
+       * given group is filtered by the data controller.
        *
-       * @param {*} stack The stack to be checked
+       * @param {*} group The group to be checked
        * @returns {null | boolean}
        * @private
        */
-      function stackChecked(stack) {
-          return state.dataController.isFilter("stacks", stack) ? null : true;
+      function groupChecked(group) {
+          return attr.dataController.isFilter("groups", group) ? null : true;
       }
 
-      /**
-       * Formattes the given number.
-       *
-       * @param {Number} value The number to be formatted
-       * @returns The formatted value
-       * @private
-       */
       function format(value) {
-          return state.numberFormat(value);
+          return typeof attr.numberFormat === "function"
+              ? attr.numberFormat(value)
+              : value;
       }
 
-      /**
-       *
-       * @param {*} label
-       * @param {*} index
-       * @param {*} dv
-       * @returns
-       */
       function labelText(label, index, dv) {
-          if (typeof state.labelFormat !== "function") return label;
-          return state.labelFormat(label, format(dv.byLabel.get(label)), index);
+          return typeof attr.labelFormat !== "function"
+              ? label
+              : attr.labelFormat(label, format(dv.byLabel.get(label)), index);
       }
 
-      function stackText(stack, index, dv) {
-          if (typeof state.stackFormat !== "function") return stack;
-          var value = format(dv.byStack.get(stack));
-          var labelsToValue = dv.byStackLabel.get(stack);
-          var labels = Array.from(labelsToValue ? labelsToValue.keys() : []);
-          return state.stackFormat(stack, value, labels, index);
+      function groupText(group, index, dv) {
+          if (typeof attr.groupFormat !== "function") return group;
+          var value = format(dv.byGroup.get(group)),
+              labelsToValue = dv.byGroupLabel.get(group),
+              labels = Array.from(labelsToValue ? labelsToValue.keys() : []);
+          return attr.groupFormat(group, value, labels, index);
       }
 
       function disabled() {
-          return unwrap(state.enabled) ? null : true;
+          return unwrap(attr.enabled) ? null : true;
       }
 
       function isGroups() {
-          return unwrap(state.group) === true;
+          return unwrap(attr.groups) === true;
       }
 
-      function isStacks() {
-          return unwrap(state.stacks) === true;
+      function isSections() {
+          return unwrap(attr.sections) === true;
       }
 
       function unwrap(value) {
@@ -23953,16 +24073,17 @@
       /**
        * Calculates the data view for the bar chart.
        *
-       * @param {*} calc The calc object
        * @returns The generated data view
-       *
        * @public
        */
-      chart.dataView = function (dc) {
+      chart.dataView = function () {
+          var dc = attr.dataController;
+          if (!dc) throw new Error("no data controller");
+
           var dv = {};
           dv.data = dc.data();
           dv.labels = dc.labels();
-          dv.stacks = dc.stacks();
+          dv.groups = dc.groups();
           dv.locations = dc.locations();
           dv.dates = dc.dates();
 
@@ -23972,16 +24093,16 @@
               (d) => d.label
           );
 
-          dv.byStack = rollup(
+          dv.byGroup = rollup(
               dc.data(),
               (v) => sum$2(v, (d) => d.value),
-              (d) => d.stack || d.label
+              (d) => d.group || d.label
           );
 
-          dv.byStackLabel = rollup(
+          dv.byGroupLabel = rollup(
               dc.data(),
               (v) => sum$2(v, (d) => d.value),
-              (d) => d.stack || d.label,
+              (d) => d.group || d.label,
               (d) => d.label
           );
 
@@ -23999,67 +24120,66 @@
        * @public
        */
       chart.render = function (container, calc, dv) {
-          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
+          calc.colors = ColorsGenerator(attr.colorScheme).data(dv.data);
           calc.div = container
               .append("div")
               .classed("ltv-legend", true)
-              .attr("id", state.id)
-              .style("margin-left", state.marginLeft + "px")
-              .style("margin-top", state.marginTop + "px")
-              .style("margin-right", state.marginRight + "px")
-              .style("margin-bottom", state.marginBottom + "px");
+              .attr("id", attr.id)
+              .style("margin-left", attr.marginLeft + "px")
+              .style("margin-top", attr.marginTop + "px")
+              .style("margin-right", attr.marginRight + "px")
+              .style("margin-bottom", attr.marginBottom + "px");
 
           // if a title is given render div with title inside
-          if (state.title) {
+          if (attr.title) {
               calc.titleDiv = calc.div
                   .append("div")
                   .classed("ltv-legend-title", true)
-                  .text(unwrap(state.title));
+                  .text(unwrap(attr.title));
           }
 
-          var colorFn = isStacks() ? calc.colors.stack : calc.colors.label;
-          var changeFn = isStacks() ? toggleStack : toggleLabel;
-          var textFn = isStacks() ? stackText : labelText;
+          var colorFn = isGroups() ? calc.colors.group : calc.colors.label,
+              changeFn = isGroups() ? toggleGroup : toggleLabel,
+              textFn = isGroups() ? groupText : labelText;
 
-          calc.groups = calc.div
+          calc.sections = calc.div
               .selectAll(".div")
-              .data(isGroups() ? dv.stacks : [""]) // use single group when mode is not "groups"
+              .data(isSections() ? dv.groups : [""]) // use single group when mode is not "groups"
               .enter()
               .div("ltv-legend-group")
-              .style("color", (s) => calc.colors.stack(s));
+              .style("color", (s) => calc.colors.group(s));
 
-          // draw titles only in "groups" mode
-          if (isGroups()) {
-              calc.titles = calc.groups.append("div").text((stack, index) => {
-                  var labelsToValue = dv.byStackLabel.get(stack);
-                  return state.groupFormat(
-                      stack,
-                      format(dv.byStack.get(stack)),
-                      Array.from(labelsToValue ? labelsToValue.keys() : []),
-                      index
-                  );
+          // draw titles only in "sections" mode
+          if (isSections()) {
+              calc.titles = calc.sections.append("div").text((section, index) => {
+                  var labelsToValue = dv.byGroupLabel.get(section),
+                      value = format(dv.byGroup.get(section)),
+                      labels = Array.from(
+                          labelsToValue ? labelsToValue.keys() : []
+                      );
+                  return attr.sectionFormat(section, value, labels, index);
               });
           }
 
-          var pillsData = isGroups()
-              ? (d) => (isStacks() ? [d] : dv.byStackLabel.get(d))
-              : isStacks()
-              ? dv.stacks
+          var pillsData = isSections()
+              ? (d) => (isGroups() ? [d] : dv.byGroupLabel.get(d))
+              : isGroups()
+              ? dv.groups
               : dv.labels;
 
-          calc.pills = calc.groups
+          calc.pills = calc.sections
               .selectAll(".label")
               .data(pillsData)
               .enter()
               .append("label")
               .classed("ltv-legend-pill", true)
-              .datum((d) => (isGroups() && !isStacks() ? d[0] : d));
+              .datum((d) => (isSections() && !isGroups() ? d[0] : d));
 
           calc.checkboxes = calc.pills
               .append("input")
               .classed("ltv-legend-checkbox", true)
               .attr("type", "checkbox")
-              .attr("checked", isStacks() ? stackChecked : labelChecked)
+              .attr("checked", isGroups() ? groupChecked : labelChecked)
               .attr("disabled", disabled())
               .on("change", (e, d) => changeFn(e, d));
 
@@ -24069,12 +24189,12 @@
               .style("background-color", colorFn)
               .text((d, i) => textFn(d, i, dv));
 
-          if (CONFIG.debug && state.debug) console.log(this);
+          if (attr.debug) console.log(this);
 
           return chart;
       };
 
-      // Return generated chart
+      // return generated chart
       return chart;
   }
 
@@ -24093,10 +24213,14 @@
    *
    */
   function bar() {
-      let state = {
+      let attr = {
           // a unique id for this chart
           id: uniqueId("bar"),
 
+          // default selector
+          selector: "#ltv-bar-chart",
+
+          // the charts title
           title: "BarChart",
 
           // the width of the chart's svg
@@ -24112,7 +24236,7 @@
           marginBottom: 20,
 
           // corner radius of bars
-          radius: CONFIG.barRadius,
+          radius: config.barRadius,
 
           // whether the chart is enabled.
           enabled: true,
@@ -24120,25 +24244,29 @@
           // whether to draw labels
           labels: false,
 
+          // rotation (in degrees) of the labels above the bars
           labelRotation: -70,
 
+          // the legend object
           legend: legend(),
 
+          // whether to draw the x-grid
           xAxis: true,
 
+          // whether to draw the y-grid
           yAxis: false,
 
+          // amount of ticks for the y-axis
           ticks: 10,
 
           // whether to display a tooltip.
           tooltip: true,
 
-          style: "stacks",
+          // the bar charts style
+          style: "groups",
 
-          colorScheme: colorSchemeLotivis10,
-
-          // the data controller.
-          dataController: null,
+          // the bar chart color scheme
+          colorScheme: colorSchemeDefault,
 
           // transformes a given date t a numeric value.
           dateAccess: DEFAULT_DATE_ORDINATOR,
@@ -24148,10 +24276,13 @@
 
           // displayed dates
           dates: null,
+
+          // the data controller
+          dataController: null,
       };
 
-      // Create new underlying chart with the specified state.
-      let chart = baseChart(state);
+      // create new underlying chart with specified attributes
+      let chart = baseChart(attr);
 
       /**
        *
@@ -24159,34 +24290,34 @@
        * @param {*} dv
        */
       function createScales(calc, dv) {
-          // preferre dates from state if specified. fallback to
+          // preferre dates from attr if specified. fallback to
           // dates of data view
-          let dates = Array.isArray(state.dates) ? state.dates : dv.dates;
+          let dates = Array.isArray(attr.dates) ? attr.dates : dv.dates;
 
           // Sort date according to access function
-          dates = dates.sort((a, b) => state.dateAccess(a) - state.dateAccess(b));
+          dates = dates.sort((a, b) => attr.dateAccess(a) - attr.dateAccess(b));
 
           let padding = 0.1;
 
           calc.xChartScale = band()
               .domain(dates)
-              .rangeRound([state.marginLeft, calc.graphRight])
+              .rangeRound([attr.marginLeft, calc.graphRight])
               .paddingInner(padding);
 
           calc.xChartScalePadding = band()
               .domain(dates)
-              .rangeRound([state.marginLeft, calc.graphRight])
+              .rangeRound([attr.marginLeft, calc.graphRight])
               .paddingInner(padding);
 
-          calc.xStack = band()
-              .domain(dv.stacks)
+          calc.xGroup = band()
+              .domain(dv.groups)
               .rangeRound([0, calc.xChartScale.bandwidth()])
               .padding(0.05);
 
           calc.yChart = linear()
               .domain([0, dv.maxTotal])
               .nice()
-              .rangeRound([state.height - state.marginBottom, state.marginTop]);
+              .rangeRound([attr.height - attr.marginBottom, attr.marginTop]);
       }
 
       function renderSVG(container, calc) {
@@ -24194,7 +24325,34 @@
               .append("svg")
               .attr("class", "ltv-chart-svg ltv-bar-chart-svg")
               .attr("preserveAspectRatio", "xMidYMid meet")
-              .attr("viewBox", `0 0 ${state.width} ${state.height}`);
+              .attr("viewBox", `0 0 ${attr.width} ${attr.height}`);
+      }
+
+      /**
+       * Renders the background rect of the chart.
+       *
+       * @param {calc} calc The calc object.
+       * @private
+       */
+      function renderBackground(calc) {
+          calc.svg
+              .append("rect")
+              .attr("class", "ltv-bar-chart-background")
+              .attr("x", 0)
+              .attr("y", 0)
+              .attr("width", attr.width)
+              .attr("height", attr.height)
+              .on("click", (e, l) => {
+                  if (!attr.enabled) return;
+                  attr.dataController.clear("dates", chart);
+                  calc.svg
+                      .selectAll(`.ltv-bar-chart-selection-rect`)
+                      .attr(`opacity`, (d) =>
+                          attr.dataController.isFilter("dates", d)
+                              ? config.selectionOpacity
+                              : 0
+                      );
+              });
       }
 
       function renderTitle(calc, dv) {
@@ -24204,7 +24362,7 @@
               .attr("text-anchor", "middle")
               .attr("x", calc.graphWidth / 2)
               .attr("y", 10)
-              .text(state.title);
+              .text(attr.title);
       }
 
       /**
@@ -24216,46 +24374,19 @@
           // left axis
           // let leftAxis =
 
-          if (Number.isInteger(state.ticks)) {
-              calc.svg
+          if (Number.isInteger(attr.ticks)) {
+              calc.axisLeft = calc.svg
                   .append("g")
-                  .call(axisLeft(calc.yChart).ticks(state.ticks))
-                  .attr("transform", transX(state.marginLeft))
+                  .call(axisLeft(calc.yChart).ticks(attr.ticks))
+                  .attr("transform", transX(attr.marginLeft))
                   .attr("class", "ltv-bar-chart-axis-label");
           }
 
-          function datesLabelColor(date) {
-              return state.dataController.isFilter("dates", date)
-                  ? "gray"
-                  : "white";
-          }
-
-          let dc = state.dataController;
-          let dates = state.dates || dv.dates;
-          calc.svg
-              .append("g")
-              .attr("transform", transY(state.height - state.marginBottom + 4))
-              .selectAll("g")
-              .data(dates)
-              .enter()
-              .append("rect")
-              .attr("fill", datesLabelColor)
-              .attr("cursor", "pointer")
-              .attr("x", (d) => calc.xChartScale(d))
-              .attr("width", calc.xChartScale.bandwidth())
-              .attr("height", 20)
-              .radius(state.radius)
-              .text((d) => d)
-              .on("click", (e, d, some) => {
-                  dc.toggleFilter("dates", d, chart);
-                  select(e.target).attr("fill", datesLabelColor);
-              });
-
           // bottom axis
-          calc.svg
+          calc.axisBottom = calc.svg
               .append("g")
               .call(axisBottom(calc.xChartScale))
-              .attr("transform", transY(state.height - state.marginBottom))
+              .attr("transform", transY(attr.height - attr.marginBottom))
               .attr("class", "ltv-bar-chart-axis-label");
       }
 
@@ -24265,20 +24396,20 @@
        * @private
        */
       function renderGrid(calc) {
-          if (state.xAxis && Number.isInteger(state.ticks)) {
+          if (attr.xAxis && Number.isInteger(attr.ticks)) {
               let xAxisGrid = axisLeft(calc.yChart)
                   .tickSize(-calc.graphWidth)
                   .tickFormat("")
-                  .ticks(state.ticks);
+                  .ticks(attr.ticks);
 
               calc.svg
                   .append("g")
                   .attr("class", "ltv-bar-chart-grid ltv-bar-chart-grid-x")
-                  .attr("transform", transX(state.marginLeft))
+                  .attr("transform", transX(attr.marginLeft))
                   .call(xAxisGrid);
           }
 
-          if (state.yAxis) {
+          if (attr.yAxis) {
               let yAxisGrid = axisBottom(calc.xChartScale)
                   .tickSize(-calc.graphHeight)
                   .tickFormat("");
@@ -24291,51 +24422,67 @@
           }
       }
 
-      function renderSelection(calc, dv) {
+      function renderSelectionBars(calc, dv) {
+          function rectId(date) {
+              return `ltv-bar-chart-selection-rect-${safeId(String(date))}`;
+          }
+
           calc.selection = calc.svg
               .append("g")
               .selectAll("rect")
               .data(dv.dates)
               .enter()
               .append("rect")
+              .attr("id", (d) => rectId(d))
               .attr("class", "ltv-bar-chart-selection-rect")
-              .attr(
-                  "id",
-                  (d) => `ltv-bar-chart-selection-rect-${safeId(String(d))}`
-              )
+              .attr("x", (d) => calc.xChartScale(d))
+              .attr("y", attr.marginTop)
               .attr("width", calc.xChartScale.bandwidth())
               .attr("height", calc.graphHeight)
+              .attr("opacity", 0);
+      }
+
+      function renderHoverBars(calc, dv) {
+          function rectId(date) {
+              return `ltv-bar-chart-hover-bar-${safeId(String(date))}`;
+          }
+
+          calc.selection = calc.svg
+              .append("g")
+              .selectAll("rect")
+              .data(dv.dates)
+              .enter()
+              .append("rect")
+              .attr("id", (d) => rectId(d))
+              .attr("class", "ltv-bar-chart-hover-bar")
               .attr("x", (d) => calc.xChartScale(d))
-              .attr("y", state.marginTop)
-              .attr("opacity", (d) =>
-                  state.dataController.isFilter("dates", d) ? 0.3 : 0
-              )
+              .attr("y", attr.marginTop)
+              .attr("width", calc.xChartScale.bandwidth())
+              .attr("height", calc.graphHeight)
+              .attr("opacity", 0)
               .on("mouseenter", mouseEnter)
               .on("mouseout", mouseOut)
               .on("mousedrag", mouseDrag)
               .on("click", click)
               .raise();
 
-          // #  HANDLERS  ##############################################################
-
           function mouseEnter(event, date) {
-              calc.svg
-                  .select(`ltv-bar-chart-selection-rect-${safeId(String(date))}`)
-                  .attr("opacity", 0.3);
+              // make hover bar visible
+              select(this).attr("opacity", config.selectionOpacity);
 
               // position tooltip
-              let tooltipSize = calc.tip.size();
-              let domRect = calc.svg.node().getBoundingClientRect();
-              let factor = domRect.width / state.width;
-              let offset = [
-                  domRect.x + window.scrollX,
-                  domRect.y + window.scrollY,
-              ];
-              let top = getTop(factor, offset, tooltipSize, calc);
-              let left = calc.xChartScalePadding(date);
+              let tooltipSize = calc.tip.size(),
+                  domRect = calc.svg.node().getBoundingClientRect(),
+                  factor = domRect.width / attr.width,
+                  offset = [
+                      domRect.x + window.scrollX,
+                      domRect.y + window.scrollY,
+                  ],
+                  top = getTop(factor, offset[1], tooltipSize, calc),
+                  left = calc.xChartScalePadding(date);
 
               // differ tooltip position on bar position
-              if (left > state.width / 2) {
+              if (left > attr.width / 2) {
                   left = getXLeft(date, factor, offset, tooltipSize, calc);
               } else {
                   left = getXRight(date, factor, offset, calc);
@@ -24349,6 +24496,9 @@
           }
 
           function mouseOut(event, date) {
+              // make hover bar invisible
+              select(this).attr("opacity", 0);
+
               calc.tip.hide();
           }
 
@@ -24358,70 +24508,77 @@
           }
 
           function click(event, date) {
-              if (!state.enabled) return;
-              var dc = state.dataController;
+              if (!attr.enabled) return;
+              var dc = attr.dataController;
               dc.toggleFilter("dates", date, chart);
 
               calc.svg
-                  .select(`#ltv-bar-chart-selection-rect-${safeId(String(date))}`)
+                  .selectAll(`.ltv-bar-chart-selection-rect`)
                   .attr(`opacity`, (d) => (dc.isFilter("dates", d) ? 0.3 : 0));
-
-              // calc.svg
-              //   .selectAll(`.ltv-bar-chart-dates-area`)
-              //   .attr(`opacity`, (d) => (dc.isFilterDate(d[0]) ? 1 : 0.3))
-              //   .raise();
           }
       }
 
+      /**
+       * Renders the bars in "combined" style.
+       *
+       * @param {*} calc The calc object
+       * @param {*} dv The data view
+       */
       function renderCombined(calc, dv) {
           calc.svg
               .append("g")
               .selectAll("g")
-              .data(dv.byDateStack)
+              .data(dv.byDateGroup)
               .enter()
               .append("g")
               .attr("transform", (d) => transX(calc.xChartScale(d[0]))) // x for date
               .attr("class", "ltv-bar-chart-dates-area")
               .selectAll("rect")
-              .data((d) => d[1]) // map to by stack
+              .data((d) => d[1]) // map to by group
               .enter()
               .append("rect")
               .attr("class", "ltv-bar-chart-bar")
-              .attr("fill", (d) => calc.colors.stack(d[0]))
-              .attr("x", (d) => calc.xStack(d[0]))
+              .attr("fill", (d) => calc.colors.group(d[0]))
+              .attr("x", (d) => calc.xGroup(d[0]))
               .attr("y", (d) => calc.yChart(d[1]))
-              .attr("width", calc.xStack.bandwidth())
+              .attr("width", calc.xGroup.bandwidth())
               .attr("height", (d) => calc.graphBottom - calc.yChart(d[1]))
-              .radius(state.radius)
+              .radius(attr.radius)
               .raise();
       }
 
-      function renderStacked(calc, dv) {
+      /**
+       * Renders the bars in "grouped" style.
+       *
+       * @param {*} calc The calc object
+       * @param {*} dv The data view
+       */
+      function renderGrouped(calc, dv) {
           calc.svg
               .append("g")
               .selectAll("g")
-              .data(dv.byDatesStackSeries)
+              .data(dv.byDatesGroupSeries)
               .enter()
               .append("g")
               .attr("transform", (d) => transX(calc.xChartScale(d[0]))) // translate to x of date
               .attr("class", "ltv-bar-chart-dates-area")
               .selectAll("rect")
-              .data((d) => d[1]) // map to by stack
+              .data((d) => d[1]) // map to by group
               .enter()
               .append("g")
-              .attr("transform", (d) => transX(calc.xStack(d[0])))
+              .attr("transform", (d) => transX(calc.xGroup(d[0])))
               .selectAll("rect")
               .data((d) => d[1]) // map to series
               .enter()
               .append("rect")
               .attr("class", "ltv-bar-chart-bar")
               .attr("fill", (d) => calc.colors.label(d[2]))
-              .attr("width", calc.xStack.bandwidth())
+              .attr("width", calc.xGroup.bandwidth())
               .attr("height", (d) =>
                   !d[1] ? 0 : calc.yChart(d[0]) - calc.yChart(d[1])
               )
               .attr("y", (d) => calc.yChart(d[1]))
-              .radius(state.radius)
+              .radius(attr.radius)
               .raise();
       }
 
@@ -24434,50 +24591,81 @@
               .append("g")
               .attr("transform", (d) => `translate(${calc.xChartScale(d)},0)`) // translate to x of date
               .selectAll(".text")
-              .data((date) => dv.byDateStack.get(date) || [])
+              .data((date) => dv.byDateGroup.get(date) || [])
               .enter()
               .append("text")
               .attr("class", "ltv-bar-chart-label")
               .attr("transform", (d) => {
-                  let stack = d[0];
-                  let value = d[1];
-                  let width = calc.xStack.bandwidth() / 2;
-                  let x = (calc.xStack(stack) || 0) + width;
-                  let y = calc.yChart(value) - 5;
-                  let deg = state.labelRotation || -60;
+                  let group = d[0],
+                      value = d[1],
+                      width = calc.xGroup.bandwidth() / 2,
+                      x = (calc.xGroup(group) || 0) + width,
+                      y = calc.yChart(value) - 5,
+                      deg = attr.labelRotation || -60;
                   return `translate(${x},${y})rotate(${deg})`;
               })
-              .text((d) => (d[1] === 0 ? "" : state.numberFormat(d[1])))
+              .text((d) => (d[1] === 0 ? "" : attr.numberFormat(d[1])))
               .raise();
       }
 
-      function getTop(factor, offset, tooltipSize, calc) {
-          let top = state.marginTop * factor;
-          top += (calc.graphHeight * factor - tooltipSize[1]) / 2;
-          top += offset[1] - 10;
-          return top;
+      /**
+       *
+       * @param {*} factor
+       * @param {*} yOffset
+       * @param {*} tooltipSize
+       * @param {*} calc
+       * @returns
+       */
+      function getTop(factor, yOffset, tooltipSize, calc) {
+          return (
+              attr.marginTop * factor +
+              (calc.graphHeight * factor - tooltipSize[1]) / 2 +
+              (yOffset - 10)
+          );
       }
 
+      /**
+       *
+       * @param {*} date
+       * @param {*} factor
+       * @param {*} offset
+       * @param {*} tooltipSize
+       * @param {*} calc
+       * @returns
+       */
       function getXLeft(date, factor, offset, tooltipSize, calc) {
           return (
-              calc.xChartScalePadding(date) * factor +
+              calc.xChartScale(date) * factor +
               offset[0] -
               tooltipSize[0] -
               22 -
-              CONFIG.tooltipOffset
+              config.tooltipOffset
           );
       }
 
+      /**
+       *
+       * @param {*} date
+       * @param {*} factor
+       * @param {*} offset
+       * @param {*} calc
+       * @returns
+       */
       function getXRight(date, factor, offset, calc) {
           return (
-              (calc.xChartScalePadding(date) +
-                  calc.xChartScalePadding.bandwidth()) *
-                  factor +
+              (calc.xChartScale(date) + calc.xChartScale.bandwidth()) * factor +
               offset[0] +
-              CONFIG.tooltipOffset
+              config.tooltipOffset
           );
       }
 
+      /**
+       *
+       * @param {*} date
+       * @param {*} dv
+       * @param {*} calc
+       * @returns
+       */
       function getHTMLForDate(date, dv, calc) {
           let filtered = dv.byDateLabel.get(date);
           if (!filtered) return "No Data";
@@ -24490,43 +24678,44 @@
                   if (!value) return undefined;
                   let color = calc.colors.label(label);
                   let divHTML = `<div style="background: ${color};color: ${color}; display: inline;">__</div>`;
-                  let valueFormatted = state.numberFormat(value);
+                  let valueFormatted = attr.numberFormat(value);
                   sum += value;
                   return `${divHTML} ${label}: <b>${valueFormatted}</b>`;
               })
               .filter((d) => d)
               .join("<br>");
 
-          let sumFormatted = state.numberFormat(sum);
+          let sumFormatted = attr.numberFormat(sum);
           return `<b>${title}</b><br>${dataHTML}<br><br>Sum: <b>${sumFormatted}</b>`;
       }
 
       /**
        * Calculates the data view for the bar chart.
-       *
-       * @param {*} calc
        * @returns
        */
-      chart.dataView = function (dc) {
-          var dv = {};
+      chart.dataView = function () {
+          let dc = attr.dataController;
+          if (!dc) throw new Error("no data controller");
+
+          let dv = {};
 
           dv.data = dc.data();
           dv.snapshot = dc.snapshot();
+          dv.dates = dc.dates();
+          dv.groups = dv.snapshot.groups;
+          dv.labels = dv.snapshot.labels;
+          dv.enabledGroups = dv.snapshot.groups;
 
-          dv.byDateStackOriginal = rollup(
+          dv.byDateGroupOriginal = rollup(
               dv.data,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.date,
-              (d) => d.stack || d.label
+              (d) => d.group || d.label
           );
 
-          dv.maxTotal = max$3(dv.byDateStackOriginal, (d) =>
+          dv.maxTotal = max$3(dv.byDateGroupOriginal, (d) =>
               max$3(d[1], (d) => d[1])
           );
-          dv.dates = dc.dates();
-          dv.stacks = dv.snapshot.stacks;
-          dv.labels = dv.snapshot.labels;
-          dv.enabledStacks = dv.snapshot.stacks;
 
           dv.byDateLabel = rollup(
               dv.snapshot,
@@ -24535,39 +24724,39 @@
               (d) => d.label
           );
 
-          dv.byDateStack = rollup(
+          dv.byDateGroup = rollup(
               dv.snapshot,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.date,
-              (d) => d.stack || d.label
+              (d) => d.group || d.label
           );
 
-          dv.byDateStackLabel = rollup(
+          dv.byDateGroupLabel = rollup(
               dv.snapshot,
               (v) => sum$2(v, (d) => d.value),
               (d) => d.date,
-              (d) => d.stack || d.label,
+              (d) => d.group || d.label,
               (d) => d.label
           );
 
-          dv.byDatesStackSeries = new InternMap();
+          dv.byDatesGroupSeries = new InternMap();
           dv.dates.forEach((date) => {
-              let byStackLabel = dv.byDateStackLabel.get(date);
-              if (!byStackLabel) return;
-              dv.byDatesStackSeries.set(date, new InternMap());
+              let byGroupLabel = dv.byDateGroupLabel.get(date);
+              if (!byGroupLabel) return;
+              dv.byDatesGroupSeries.set(date, new InternMap());
 
-              dv.stacks.forEach((stack) => {
-                  let byLabel = byStackLabel.get(stack);
+              dv.groups.forEach((group) => {
+                  let byLabel = byGroupLabel.get(group);
                   if (!byLabel) return;
                   let value = 0;
                   let series = Array.from(byLabel)
                       .reverse()
                       .map((item) => [value, (value += item[1]), item[0]]);
-                  dv.byDatesStackSeries.get(date).set(stack, series);
+                  dv.byDatesGroupSeries.get(date).set(group, series);
               });
           });
 
-          dv.max = max$3(dv.byDateStack, (d) => max$3(d[1], (d) => d[1]));
+          dv.max = max$3(dv.byDateGroup, (d) => max$3(d[1], (d) => d[1]));
 
           return dv;
       };
@@ -24575,47 +24764,55 @@
       /**
        *
        * @param {*} container
-       * @param {*} state
+       * @param {*} attr
        * @param {*} calc
        * @param {*} dv
        */
       chart.render = function (container, calc, dv) {
-          calc.graphWidth = state.width - state.marginLeft - state.marginRight;
-          calc.graphHeight = state.height - state.marginTop - state.marginBottom;
-          calc.graphBottom = state.height - state.marginBottom;
-          calc.graphRight = state.width - state.marginRight;
-          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
+          calc.graphWidth = attr.width - attr.marginLeft - attr.marginRight;
+          calc.graphHeight = attr.height - attr.marginTop - attr.marginBottom;
+          calc.graphBottom = attr.height - attr.marginBottom;
+          calc.graphRight = attr.width - attr.marginRight;
+          calc.colors = ColorsGenerator(attr.colorScheme).data(dv.data);
 
           createScales(calc, dv);
 
           renderSVG(container, calc);
-
-          if (state.title) renderTitle(calc);
-
-          renderAxis(calc, dv);
+          renderBackground(calc);
+          renderAxis(calc);
           renderGrid(calc);
-          renderSelection(calc, dv);
+          renderSelectionBars(calc, dv);
+          renderHoverBars(calc, dv);
 
-          if (state.style === "combine") {
+          if (attr.style === "combine") {
               renderCombined(calc, dv);
           } else {
-              renderStacked(calc, dv);
+              renderGrouped(calc, dv);
           }
 
-          if (state.labels) renderLabels(calc, dv);
+          if (attr.title) {
+              renderTitle(calc);
+          }
 
-          if (state.tooltip) calc.tip = tooltip().container(container).run();
+          if (attr.labels) {
+              renderLabels(calc, dv);
+          }
 
-          if (state.legend) {
-              let dc = state.dataController;
-              let dv = state.legend.dataView(dc);
+          if (attr.tooltip) {
+              calc.tip = tooltip().container(container).run();
+              calc.tip.div().classed("ltv-bar-chart-tooltip", true);
+          }
+
+          if (attr.legend) {
+              let dc = attr.dataController;
+              let dv = attr.legend.dataController(dc).dataView();
               let calc = {};
-              state.legend
-                  .marginLeft(state.marginLeft)
-                  .marginRight(state.marginRight)
-                  .colorScheme(state.colorScheme);
-              state.legend.skipFilterUpdate = () => true;
-              state.legend.dataController(dc).render(container, calc, dv);
+              attr.legend
+                  .marginLeft(attr.marginLeft)
+                  .marginRight(attr.marginRight)
+                  .colorScheme(attr.colorScheme);
+              attr.legend.skipFilterUpdate = () => true;
+              attr.legend.render(container, calc, dv);
           }
       };
 
@@ -24687,7 +24884,7 @@
    *
    */
   function plot() {
-      let state = {
+      let attr = {
           id: uniqueId("plot"),
 
           // width of the svg
@@ -24703,7 +24900,7 @@
           marginBottom: 20,
 
           // bar radius
-          radius: CONFIG.barRadius,
+          radius: config.barRadius,
 
           // whether to draw the x axis grid
           xGrid: true,
@@ -24717,15 +24914,17 @@
           // the plot's color mode, "single" or "multi"
           colorMode: "multi",
 
+          // the plot's color scale which is used in "multi" color mode
           colorScale: colorScale1,
 
-          colorScheme: colorSchemeLotivis10,
+          // the plot's color scheme used in "single" color mode
+          colorScheme: colorSchemeDefault,
 
           // Whether the chart is selectable.
           selectable: true,
 
           // the border style of the data preview
-          border: CONFIG.defaultBorder,
+          border: config.defaultBorder,
 
           // transformes a given date into a numeric value.
           dateAccess: DATE_ACCESS,
@@ -24752,8 +24951,8 @@
           dataController: null,
       };
 
-      // create new underlying chart with the specified state
-      let chart = baseChart(state);
+      // create new underlying chart with the specified attr
+      let chart = baseChart(attr);
 
       // private
 
@@ -24765,26 +24964,27 @@
        * @private
        */
       function createScales(calc, dv) {
-          // preferre dates from state if specified. fallback to
+          // preferre dates from attr if specified. fallback to
           // dates of data view
-          let dates = Array.isArray(state.dates) ? state.dates : dv.dates;
+          let dates = Array.isArray(attr.dates) ? attr.dates : dv.dates;
+          let labels = dv.datasets.map((d) => d.label);
 
           // Sort date according to access function
-          dates = dates.sort((a, b) => state.dateAccess(a) - state.dateAccess(b));
+          dates = dates.sort((a, b) => attr.dateAccess(a) - attr.dateAccess(b));
 
           calc.xChart = band()
               .domain(dates)
-              .rangeRound([state.marginLeft, calc.graphRight])
+              .rangeRound([attr.marginLeft, calc.graphRight])
               .paddingInner(0.1);
 
           calc.yChartPadding = band()
-              .domain(dv.labels)
-              .rangeRound([calc.graphBottom, state.marginTop])
+              .domain(labels)
+              .rangeRound([calc.graphBottom, attr.marginTop])
               .paddingInner(0.1);
 
           calc.yChart = band()
-              .domain(dv.labels)
-              .rangeRound([calc.graphBottom, state.marginTop]);
+              .domain(labels)
+              .rangeRound([calc.graphBottom, attr.marginTop]);
 
           calc.xAxisGrid = axisBottom(calc.xChart)
               .tickSize(-calc.graphHeight)
@@ -24808,7 +25008,31 @@
               .append("svg")
               .attr("class", "ltv-chart-svg ltv-bar-chart-svg")
               .attr("preserveAspectRatio", "xMidYMid meet")
-              .attr("viewBox", `0 0 ${state.width} ${calc.height}`);
+              .attr("viewBox", `0 0 ${attr.width} ${calc.height}`);
+      }
+
+      /**
+       * Renders the background rect of the chart.
+       *
+       * @param {calc} calc The calc object.
+       * @private
+       */
+      function renderBackground(calc) {
+          calc.svg
+              .append("rect")
+              .attr("class", "ltv-plot-chart-background")
+              .attr("x", 0)
+              .attr("y", 0)
+              .attr("width", attr.width)
+              .attr("height", calc.height)
+              .on("click", (e, l) => {
+                  attr.dataController.clear("labels", chart);
+                  calc.svg
+                      .selectAll(".ltv-plot-chart-selection-rect")
+                      .classed("ltv-selected", (d) =>
+                          attr.dataController.isFilter("labels", d)
+                      );
+              });
       }
 
       /**
@@ -24822,20 +25046,20 @@
           calc.svg
               .append("g")
               .call(axisTop(calc.xChart))
-              .attr("transform", transY(state.marginTop));
+              .attr("transform", transY(attr.marginTop));
 
           // left
           calc.svg
               .append("g")
               .call(axisRight(calc.yChart))
-              .attr("transform", transX(state.marginLeft + calc.graphWidth));
+              .attr("transform", transX(attr.marginLeft + calc.graphWidth));
 
           // bottom
-          if (state.drawBottomAxis) {
+          if (attr.drawBottomAxis) {
               calc.svg
                   .append("g")
                   .call(axisBottom(calc.xChart))
-                  .attr("transform", transY(calc.height - state.marginBottom));
+                  .attr("transform", transY(calc.height - attr.marginBottom));
           }
       }
 
@@ -24846,19 +25070,19 @@
        * @private
        */
       function renderGrid(calc) {
-          if (state.xGrid) {
+          if (attr.xGrid) {
               calc.svg
                   .append("g")
                   .classed("ltv-plot-grid ltv-plot-grid-x", true)
-                  .attr("transform", transY(calc.height - state.marginBottom))
+                  .attr("transform", transY(calc.height - attr.marginBottom))
                   .call(calc.xAxisGrid);
           }
 
-          if (state.yGrid) {
+          if (attr.yGrid) {
               calc.svg
                   .append("g")
                   .classed("ltv-plot-grid ltv-plot-grid-y", true)
-                  .attr("transform", transX(state.marginLeft))
+                  .attr("transform", transX(attr.marginLeft))
                   .call(calc.yAxisGrid);
           }
       }
@@ -24877,27 +25101,53 @@
               .data(dv.labels)
               .enter()
               .append("rect")
-              .attr("class", "ltv-plot-chart-selection-rect")
+              .classed("ltv-plot-chart-selection-rect", true)
               .attr(`opacity`, 0)
-              .attr("x", state.marginLeft)
+              .attr("x", attr.marginLeft)
+              .attr("y", (l) => calc.yChart(l))
+              .attr("width", calc.graphWidth)
+              .attr("height", calc.yChart.bandwidth());
+      }
+
+      function renderHoverBars(calc, dv) {
+          calc.svg
+              .append("g")
+              .selectAll("g")
+              .data(dv.labels)
+              .enter()
+              .append("rect")
+              .classed("ltv-plot-chart-hover-rect", true)
+              .attr(`opacity`, 0)
+              .attr("x", attr.marginLeft)
               .attr("y", (l) => calc.yChart(l))
               .attr("width", calc.graphWidth)
               .attr("height", calc.yChart.bandwidth())
-              .on("mouseenter", (_, l) =>
+              .on("mouseenter", (e, l) => {
+                  calc.svg
+                      .selectAll(".ltv-plot-chart-hover-rect")
+                      .attr(`opacity`, (d) => {
+                          return d === l ? config.selectionOpacity : 0;
+                      });
+
                   showTooltip(
                       calc,
                       dv.datasets.find((d) => d.label === l)
-                  )
-              )
-              .on("mouseout", () => calc.tooltip.hide())
+                  );
+              })
+              .on("mouseout", (e, l) => {
+                  calc.svg
+                      .selectAll(".ltv-plot-chart-hover-rect")
+                      .attr(`opacity`, 0);
+
+                  calc.tooltip.hide();
+              })
               .on("click", (e, l) => {
-                  state.dataController.toggleFilter("labels", l, chart);
-                  chart.run();
-                  // calc.svg
-                  //     .selectAll(".ltv-plot-chart-selection-rect")
-                  //     .classed("ltv-selected", (d) =>
-                  //         state.dataController.isFilter("labels", d.label)
-                  //     );
+                  attr.dataController.toggleFilter("labels", l, chart);
+                  calc.svg
+                      .selectAll(".ltv-plot-chart-selection-rect")
+                      .classed("ltv-selected", (d) =>
+                          attr.dataController.isFilter("labels", d)
+                      );
               });
       }
 
@@ -24908,10 +25158,10 @@
        * @param {*} dv The data view
        */
       function renderBarsFraction(calc, dv) {
-          let colors = state.colorScale || colorScale1;
+          let colors = attr.colorScale || colorScale1;
           let brush = dv.max / 2;
           let dataColors = calc.colors;
-          let isSingle = state.colorMode === "single";
+          let isSingle = attr.colorMode === "single";
 
           calc.barsData = calc.svg
               .append("g")
@@ -24938,9 +25188,9 @@
               .attr("opacity", (d) =>
                   isSingle ? (d[1] + brush) / (dv.max + brush) : 1
               )
-              .radius(state.radius);
+              .radius(attr.radius);
 
-          if (state.labels === true) {
+          if (attr.labels === true) {
               calc.labels = calc.barsData
                   .append("g")
                   .attr(
@@ -24956,7 +25206,7 @@
                   .attr("class", "ltv-plot-label")
                   .attr("y", (d) => calc.yBandwidth / 2)
                   .attr("x", (d) => calc.xChart(d[0]) + 4)
-                  .text((d) => (d.sum === 0 ? null : state.numberFormat(d[1])));
+                  .text((d) => (d.sum === 0 ? null : attr.numberFormat(d[1])));
           }
       }
 
@@ -24985,9 +25235,9 @@
                   "transform",
                   (d) => `translate(0,${calc.yChartPadding(d.label)})`
               )
-              .attr("fill", (d) => `url(#${state.id}-${hash$1(d.label)})`)
+              .attr("fill", (d) => `url(#${attr.id}-${hash$1(d.label)})`)
               .attr("class", "ltv-plot-bar")
-              .radius(state.radius)
+              .radius(attr.radius)
               .attr("x", (d) =>
                   calc.xChart(d.duration < 0 ? d.lastDate : d.firstDate || 0)
               )
@@ -25001,7 +25251,7 @@
                   );
               });
 
-          if (state.labels === true) {
+          if (attr.labels === true) {
               calc.labels = calc.barsData
                   .append("text")
                   .attr("transform", `translate(0,${calc.yBandwidth / 2 + 4})`)
@@ -25022,7 +25272,7 @@
                   )
                   .text(function (dataset) {
                       if (dataset.sum === 0) return;
-                      return `${state.numberFormat(
+                      return `${attr.numberFormat(
                         dataset.sum
                     )} (${dataset.duration + 1} years)`;
                   });
@@ -25039,7 +25289,7 @@
       function createGradient(ds, dv, calc) {
           let gradient = calc.definitions
               .append("linearGradient")
-              .attr("id", state.id + "-" + hash$1(ds.label))
+              .attr("id", attr.id + "-" + hash$1(ds.label))
               .attr("x1", "0%")
               .attr("x2", "100%")
               .attr("y1", "0%")
@@ -25048,11 +25298,10 @@
           if (!ds.data || ds.data.length === 0) return;
 
           let count = ds.data.length,
-              latestDate = ds.lastDate;
-              chart.dataController();
-              let dataColors = ColorsGenerator(state.colorScheme),
-              isSingle = state.colorMode === "single",
-              colors = isSingle ? dataColors.label : state.colorScale;
+              latestDate = ds.lastDate,
+              dataColors = ColorsGenerator(attr.colorScheme),
+              isSingle = attr.colorMode === "single",
+              colors = isSingle ? dataColors.label : attr.colorScale;
 
           function append(value, percent) {
               gradient
@@ -25083,19 +25332,19 @@
        * @param {*} ds
        */
       function showTooltip(calc, ds) {
-          if (!state.tooltip || !ds) return;
+          if (!attr.tooltip || !ds) return;
           calc.tooltip.html(tooltipHTML(ds));
 
           // position tooltip
           let domRect = calc.svg.node().getBoundingClientRect(),
-              factor = domRect.width / state.width,
+              factor = domRect.width / attr.width,
               offset = [domRect.x + window.scrollX, domRect.y + window.scrollY];
 
           let top =
               calc.yChart(ds.label) * factor +
               offset[1] +
-              state.barHeight * factor +
-              CONFIG.tooltipOffset;
+              attr.barHeight * factor +
+              config.tooltipOffset;
 
           calc.tooltip
               .left(calc.xChart(ds.firstDate) * factor + offset[0])
@@ -25123,13 +25372,13 @@
                   "Start: " + ds.firstDate,
                   "End: " + ds.lastDate,
                   "",
-                  "Sum: " + state.numberFormat(sum),
+                  "Sum: " + attr.numberFormat(sum),
                   "",
               ];
 
           for (let i = 0; i < filtered.length; i++) {
               let entry = filtered[i];
-              let frmt = state.numberFormat(entry.value);
+              let frmt = attr.numberFormat(entry.value);
               comps.push(`${entry.date}: ${frmt}`);
           }
 
@@ -25140,16 +25389,19 @@
       //     return filter === "labels";
       // };
 
+      // public
+
       /**
        * Calculates the data view for the bar chart.
        *
-       * @param {*} calc The calc object
        * @returns The generated data view
-       *
        * @public
        */
-      chart.dataView = function (dc) {
-          var dv = {};
+      chart.dataView = function () {
+          let dc = attr.dataController;
+          if (!dc) throw new Error("no data controller");
+
+          let dv = {};
           dv.dates = dc.dates().sort();
           dv.labels = dc.labels();
           dv.data = dc.snapshot();
@@ -25178,7 +25430,7 @@
               return { label, data, sum, firstDate, lastDate, duration };
           });
 
-          switch (state.sort) {
+          switch (attr.sort) {
               case "alphabetically":
                   dv.datasets = dv.datasets.sort(PLOT_SORT.alphabetically);
                   break;
@@ -25216,28 +25468,30 @@
       chart.render = function (container, calc, dv) {
           // calculations
           calc.container = container;
-          calc.graphWidth = state.width - state.marginLeft - state.marginRight;
-          calc.graphHeight = dv.labels.length * state.barHeight;
-          calc.height = calc.graphHeight + state.marginTop + state.marginBottom;
-          calc.graphLeft = state.width - state.marginLeft;
-          calc.graphTop = calc.height - state.marginTop;
-          calc.graphRight = state.width - state.marginRight;
-          calc.graphBottom = calc.height - state.marginBottom;
-          calc.colors = ColorsGenerator(state.colorScheme).data(dv.data);
+          calc.graphWidth = attr.width - attr.marginLeft - attr.marginRight;
+          calc.graphHeight = dv.labels.length * attr.barHeight;
+          calc.height = calc.graphHeight + attr.marginTop + attr.marginBottom;
+          calc.graphLeft = attr.width - attr.marginLeft;
+          calc.graphTop = calc.height - attr.marginTop;
+          calc.graphRight = attr.width - attr.marginRight;
+          calc.graphBottom = calc.height - attr.marginBottom;
+          calc.colors = ColorsGenerator(attr.colorScheme).data(dv.data);
 
           // scales
           createScales(calc, dv);
 
           // render
           renderSVG(calc);
+          renderBackground(calc);
           renderAxis(calc);
           renderGrid(calc);
           renderSelection(calc, dv);
+          renderHoverBars(calc, dv);
 
-          if (state.style === "fraction") {
-              renderBarsFraction(calc, dv, state.dataController);
+          if (attr.style === "fraction") {
+              renderBarsFraction(calc, dv, attr.dataController);
           } else {
-              renderBarsGradient(calc, dv, state.dataController);
+              renderBarsGradient(calc, dv, attr.dataController);
           }
 
           calc.tooltip = tooltip().container(container).run();
@@ -25250,29 +25504,52 @@
   }
 
   exports.ColorsGenerator = ColorsGenerator;
-  exports.DataColors = DataColors;
+  exports.DATE_ACCESS = DATE_ACCESS;
+  exports.DATE_TO_NUMBER_ORDINATOR = DATE_TO_NUMBER_ORDINATOR;
+  exports.DEFAULT_COLUMNS = DEFAULT_COLUMNS;
+  exports.DEFAULT_DATE_ORDINATOR = DEFAULT_DATE_ORDINATOR;
+  exports.DEFAULT_ROW = DEFAULT_ROW;
   exports.DataController = DataController;
   exports.DataItem = DataItem;
   exports.Dataset = Dataset;
-  exports.DateOrdinator = date_ordinator;
+  exports.GERMAN_DATE_ORDINATOR = GERMAN_DATE_ORDINATOR;
+  exports.ISO_DATE_ORDINATOR = ISO_DATE_ORDINATOR;
+  exports.PLOT_SORT = PLOT_SORT;
+  exports.WEEKDAY_ORDINATOR = WEEKDAY_ORDINATOR;
   exports.bar = bar;
   exports.colorScale = colorScale;
   exports.colorScale1 = colorScale1;
   exports.colorScale2 = colorScale2;
   exports.colorSchemeCategory10 = colorSchemeCategory10;
+  exports.colorSchemeDefault = colorSchemeDefault;
   exports.colorSchemeLotivis10 = colorSchemeLotivis10;
   exports.colorSchemeTableau10 = colorSchemeTableau10;
-  exports.config = config;
+  exports.config = ltv_config;
   exports.csv = csv;
+  exports.csvFormat = csvFormat;
+  exports.csvFormatRows = csvFormatRows;
   exports.csvParse = csvParse;
-  exports.csvRender = csvRender;
+  exports.csvParseRows = csvParseRows;
+  exports.csvRows = csvRows;
   exports.d3 = index;
+  exports.data_preview = data_preview;
   exports.datatext = datatext;
+  exports.datatextCSV = datatextCSV;
+  exports.datatextJSON = datatextJSON;
+  exports.datatextJSONData = datatextJSONData;
   exports.debug = ltv_debug;
+  exports.flatDataset = flatDataset;
   exports.flatDatasets = flatDatasets;
   exports.json = json;
+  exports.jsonDatasets = jsonDatasets;
   exports.jsonFlat = jsonFlat;
+  exports.jsonParse = jsonParse;
+  exports.jsonParseDatasets = jsonParseDatasets;
+  exports.jsonParseHierarchical = jsonParseHierarchical;
   exports.legend = legend;
+  exports.legendGroupFormat = legendGroupFormat;
+  exports.legendLabelFormat = legendLabelFormat;
+  exports.legendSectionFormat = legendSectionFormat;
   exports.map = map;
   exports.parseDataset = parseDataset;
   exports.parseDatasets = parseDatasets;
