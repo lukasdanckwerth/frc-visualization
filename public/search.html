@@ -231,7 +231,7 @@
         <div
             class="frcv-modal"
             id="frcv-innovation-list-modal"
-            onclick="closeModal()"
+            onclick="hideElement('frcv-innovation-list-modal')"
         >
             <div class="frcv-modal-dialog">
                 <div id="innovation-list" class="frcv-innovation-list">
@@ -244,7 +244,7 @@
         <div
             class="frcv-modal"
             id="frcv-recent-searches-modal"
-            onclick="closeModal()"
+            onclick="hideElement('frcv-recent-searches-modal')"
         >
             <div class="frcv-modal-dialog">
                 <div id="frcv-recent-searches">
@@ -254,7 +254,11 @@
         </div>
 
         <!-- Settings Modal -->
-        <div class="frcv-modal" id="frcv-settings-modal" onclick="closeModal()">
+        <div
+            class="frcv-modal"
+            id="frcv-settings-modal"
+            onclick="hideElement('frcv-settings-modal')"
+        >
             <div class="frcv-modal-dialog">
                 <h2>Setting</h2>
                 <div id="frcv-settings" class="frcv-settings">
@@ -318,7 +322,11 @@
         </div>
 
         <!-- Track Modal -->
-        <div class="frcv-modal" id="frcv-track-modal" onclick="closeModal()">
+        <div
+            class="frcv-modal"
+            id="frcv-track-modal"
+            onclick="hideElement('frcv-track-modal')"
+        >
             <div class="frcv-modal-dialog">
                 <div id="frcv-track-modal-content">
                     <!-- track content here -->
@@ -345,10 +353,6 @@
 
             function hideElement(id) {
                 getElement(id).style.display = "none";
-            }
-
-            function closeModal() {
-                this.event.target.style.display = "none";
             }
 
             function showModal(id) {

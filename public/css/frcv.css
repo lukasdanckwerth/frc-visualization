@@ -141,7 +141,7 @@ div {
     padding: 0px;
     margin: 0px;
     font-size: 13px;
-    height: 400px;
+    /* height: 400px; */
     overflow: scroll;
     line-height: 1.4;
 }

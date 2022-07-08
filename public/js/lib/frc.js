@@ -270,28 +270,45 @@
         }
 
         function searchGroup(group) {
-            let words = group.split(",").map((l) => l.trim()),
-                datasets = [],
-                groupFormatted =
-                    words.length < 2
-                        ? words[0]
-                        : words[0] + " (+" + (words.length - 1) + ")";
-
-            for (let i = 0; i < words.length; i++) {
-                let word = words[i],
-                    tracks = tracksForWord(word);
-                datasets.push({
+            if (searchType == SearchType.regex) {
+                let word = group;
+                let tracks = tracksForWord(word);
+                return {
                     label: word,
-                    group: groupFormatted,
+                    group: word,
                     data: data(tracks, word),
                     tracks,
-                });
-            }
+                };
+            } else {
+                let words = group.split(",").map((l) => l.trim()),
+                    datasets = [],
+                    groupFormatted =
+                        words.length < 2
+                            ? words[0]
+                            : words[0] + " (+" + (words.length - 1) + ")";
 
-            return datasets;
+                for (let i = 0; i < words.length; i++) {
+                    let word = words[i],
+                        tracks = tracksForWord(word);
+                    datasets.push({
+                        label: word,
+                        group: groupFormatted,
+                        data: data(tracks, word),
+                        tracks,
+                    });
+                }
+
+                return datasets;
+            }
         }
 
-        let groups = query.split(";").map((value) => value.trim());
+        let groups = [];
+        if (searchType == SearchType.regex) {
+            groups = [query.trim()];
+        } else {
+            groups = query.split(";").map((value) => value.trim());
+        }
+
         let datasets = groups.map((group) => searchGroup(group)).flat();
 
         datasets.forEach((d) => {
