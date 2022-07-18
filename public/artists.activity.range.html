@@ -125,7 +125,7 @@
 
             function setDataset(index) {
                 plotChart
-                    .dataController(lotivis.parseDatasets(datasets[index]))
+                    .dataController(lotivis.datasetsToData(datasets[index]))
                     .run();
             }
 
