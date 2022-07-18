@@ -117,7 +117,7 @@
                 aboutContainer.innerText = dataset[0].about || "-";
                 barChart.title(dataset[0].label);
                 barChart.title(null);
-                barChart.dataController(lotivis.parseDatasets(dataset)).run();
+                barChart.dataController(lotivis.datasetsToData(dataset)).run();
             }
 
             function dataChange() {
