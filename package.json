@@ -1,6 +1,6 @@
 {
     "name": "frc-visualization",
-    "version": "1.0.76",
+    "version": "1.0.77",
     "description": "French Rap Corpus Visualization",
     "main": "npm run serve",
     "author": "Lukas Danckwerth",
@@ -19,6 +19,7 @@
         "@rollup/plugin-node-resolve": "^11.2.0",
         "async": "^3.2.4",
         "d3": "^6.5.0",
+        "glob-parent": "^6.0.2",
         "http-server": "^14.0.0",
         "minimist": "^1.2.6",
         "rollup": "^2.39.0"
