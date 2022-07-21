@@ -1,6 +1,6 @@
 export const SearchType = {
     sensitive: "case-sensitive",
-    insensitve: "case-insensitive",
+    insensitive: "case-insensitive",
     regex: "regex",
 };
 
@@ -33,7 +33,7 @@ export function internalSearch(
 
     let tracks = corpus.tracks;
     let artists = corpus.artists;
-    sensitivity = sensitivity || SearchType.insensitve;
+    sensitivity = sensitivity || SearchType.insensitive;
     searchCount = searchCount || SearchCountType.tracks;
 
     function findTracks(accessor) {
@@ -44,7 +44,7 @@ export function internalSearch(
         switch (sensitivity) {
             case SearchType.sensitive:
                 return findTracks((t) => t.tokens.indexOf(word) !== -1);
-            case SearchType.insensitve:
+            case SearchType.insensitive:
                 let lower = word.toLowerCase();
                 return findTracks((t) => t.tokensLower.indexOf(lower) !== -1);
             case SearchType.regex:
