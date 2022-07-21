@@ -1,17 +1,17 @@
-export const SearchType = {
+export const SearchType = Object.freeze({
     sensitive: "case-sensitive",
     insensitive: "case-insensitive",
     regex: "regex",
-};
+});
 
-export const SearchCountType = {
+export const SearchCountType = Object.freeze({
     tracks: "tracks",
     tracksRelativeDate: "tracks-relative-date",
     tracksRelativeLocation: "tracks-relative-location",
     words: "words",
     wordsRelativeDate: "words-relative-date",
     wordsRelativeLocation: "words-relative-location",
-};
+});
 
 function count(array, element) {
     let count = 0;
@@ -24,8 +24,8 @@ var _emptyData = null;
 export function internalSearch(
     corpus,
     query,
-    sensitivity,
-    searchCount,
+    searchType,
+    searchCountType,
     firstYear,
     lastYear
 ) {
@@ -41,31 +41,33 @@ export function internalSearch(
     }
 
     function tracksForWord(word) {
-        switch (sensitivity) {
+        switch (searchType) {
             case SearchType.sensitive:
                 return findTracks((t) => t.tokens.indexOf(word) !== -1);
             case SearchType.insensitive:
                 let lower = word.toLowerCase();
-                return findTracks((t) => t.tokensLower.indexOf(lower) !== -1);
+                return tracks.filter(
+                    (t) => t.tokensLower.indexOf(lower) !== -1
+                );
             case SearchType.regex:
                 let re = new RegExp(word),
                     results;
-                return findTracks((t) => {
+                return tracks.filter((t) => {
                     results = t.content.match(re);
                     return results && results.length > 0;
                 });
             default:
-                throw new Error("unknown sensitivity: " + sensitivity);
+                throw new Error("unknown search count type: " + searchType);
         }
     }
 
-    function emptyData(label) {
+    function emptyData(word) {
         let dates = corpus.dates();
         let locations = corpus.locations();
         let data = dates.map((date) => {
             return {
-                label,
-                date,
+                label: word,
+                date: date,
                 location: locations[0],
                 group: null,
                 value: 0,
@@ -75,7 +77,7 @@ export function internalSearch(
         return data.concat(
             locations.map((location) => {
                 return {
-                    label,
+                    labeL: word,
                     date: firstYear,
                     location: location,
                     group: null,
@@ -85,8 +87,8 @@ export function internalSearch(
         );
     }
 
-    function data(tracks, label) {
-        let data = emptyData(label),
+    function data(tracks, word) {
+        let data = emptyData(word),
             value = 0;
         for (let t, candidate, i = 0; i < tracks.length; i++) {
             t = tracks[i];
@@ -94,12 +96,12 @@ export function internalSearch(
             if (!t.departementNo) throw new Error("no departement no: " + i);
             if (!t.releaseYear) throw new Error("no release year: " + i);
 
-            switch (searchCount) {
+            switch (searchCountType) {
                 case SearchCountType.tracks:
                     value = 1;
                     break;
                 case SearchCountType.words:
-                    value = count(t.tokens, label);
+                    value = count(t.tokens, word);
                     break;
                 case SearchCountType.tracksRelativeDate:
                     value = 1 / corpus.datesToTracks.get(t.releaseYear);
@@ -109,16 +111,16 @@ export function internalSearch(
                     break;
                 case SearchCountType.wordsRelativeDate:
                     value =
-                        count(t.tokens, label) /
-                        corpus.datesToWords.get(t.releaseYear);
+                        count(t.tokens, word) /
+                        corpus.datesToTokens.get(t.releaseYear);
                     break;
                 case SearchCountType.wordsRelativeLocation:
                     value =
-                        count(t.tokens, label) /
-                        corpus.locationsToWords.get(t.departementNo);
+                        count(t.tokens, word) /
+                        corpus.locationsToTokens.get(t.departementNo);
                     break;
                 default:
-                    throw new Error("unknown search type: " + searchCount);
+                    throw new Error("unknown search type: " + searchCountType);
             }
 
             candidate = data.find(
@@ -141,29 +143,45 @@ export function internalSearch(
     }
 
     function searchGroup(group) {
-        let labels = group.split(",").map((l) => l.trim());
-        let datasets = [];
-
-        let groupFormatted =
-            labels.length < 2
-                ? labels[0]
-                : labels[0] + " (+" + (labels.length - 1) + ")";
-
-        for (let i = 0; i < labels.length; i++) {
-            let label = labels[i];
-            let tracks = tracksForWord(label);
-            datasets.push({
-                label,
-                group: groupFormatted,
-                data: data(tracks, label),
+        if (searchType == SearchType.regex) {
+            let word = group;
+            let tracks = tracksForWord(word);
+            return {
+                label: word,
+                group: word,
+                data: data(tracks, word),
                 tracks,
-            });
-        }
+            };
+        } else {
+            let words = group.split(",").map((l) => l.trim()),
+                datasets = [],
+                groupFormatted =
+                    words.length < 2
+                        ? words[0]
+                        : words[0] + " (+" + (words.length - 1) + ")";
 
-        return datasets;
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i],
+                    tracks = tracksForWord(word);
+                datasets.push({
+                    label: word,
+                    group: groupFormatted,
+                    data: data(tracks, word),
+                    tracks,
+                });
+            }
+
+            return datasets;
+        }
     }
 
-    let groups = query.split(";").map((value) => value.trim());
+    let groups = [];
+    if (searchType == SearchType.regex) {
+        groups = [query.trim()];
+    } else {
+        groups = query.split(";").map((value) => value.trim());
+    }
+
     let datasets = groups.map((group) => searchGroup(group)).flat();
 
     datasets.forEach((d) => {

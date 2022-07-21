@@ -231,7 +231,7 @@
         <div
             class="frcv-modal"
             id="frcv-innovation-list-modal"
-            onclick="closeModal()"
+            onclick="hideElement('frcv-innovation-list-modal')"
         >
             <div class="frcv-modal-dialog">
                 <div id="innovation-list" class="frcv-innovation-list">
@@ -244,7 +244,7 @@
         <div
             class="frcv-modal"
             id="frcv-recent-searches-modal"
-            onclick="closeModal()"
+            onclick="hideElement('frcv-recent-searches-modal')"
         >
             <div class="frcv-modal-dialog">
                 <div id="frcv-recent-searches">
@@ -254,7 +254,11 @@
         </div>
 
         <!-- Settings Modal -->
-        <div class="frcv-modal" id="frcv-settings-modal" onclick="closeModal()">
+        <div
+            class="frcv-modal"
+            id="frcv-settings-modal"
+            onclick="hideElement('frcv-settings-modal')"
+        >
             <div class="frcv-modal-dialog">
                 <h2>Setting</h2>
                 <div id="frcv-settings" class="frcv-settings">
@@ -318,7 +322,11 @@
         </div>
 
         <!-- Track Modal -->
-        <div class="frcv-modal" id="frcv-track-modal" onclick="closeModal()">
+        <div
+            class="frcv-modal"
+            id="frcv-track-modal"
+            onclick="hideElement('frcv-track-modal')"
+        >
             <div class="frcv-modal-dialog">
                 <div id="frcv-track-modal-content">
                     <!-- track content here -->
@@ -345,10 +353,6 @@
 
             function hideElement(id) {
                 getElement(id).style.display = "none";
-            }
-
-            function closeModal() {
-                this.event.target.style.display = "none";
             }
 
             function showModal(id) {
@@ -403,6 +407,8 @@
                 else if (searchText.trim().length === 0)
                     return console.log("search text too short");
 
+                // searchText = searchText.replace(/\n/g, "");
+                console.log("searchText", searchText);
                 urlparams.set("q", searchText.replace(/,/g, "_"));
 
                 let datasets = corpus.search(
@@ -413,14 +419,19 @@
                     countType
                 );
 
-                let dc = new lotivis.parseDatasets(datasets);
+                let dc = new lotivis.datasetsToData(datasets);
 
                 barChart.run(dc);
                 map.run(dc);
                 mapParis.run(dc);
                 plotChart.run(dc);
+
                 datatextJSON.run(dc);
                 datatextCSV.run(dc);
+
+                // update datatext take a long time so remove data controller to not be updated (but keep current content)
+                datatextJSON.dataController(null);
+                datatextCSV.dataController(null);
 
                 fillTracksCard(datasets);
 
@@ -492,6 +503,7 @@
                             [
                                 input.toLowerCase(),
                                 `${input},`.toLowerCase(),
+                                `${input}.`.toLowerCase(),
                                 `${input})`.toLowerCase(),
                                 `(${input}`.toLowerCase(),
                                 `${input}]`.toLowerCase(),
@@ -614,11 +626,8 @@
             let legend = barChart
                 .legend()
                 .title(null)
-                .group(true)
-                .groupFormat(
-                    (s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`
-                    // ls.length > 1 ? `${i + 1}) ${s} (Sum: ${v})` : null
-                );
+                .groups(true)
+                .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
 
             let plotChart = lotivis
                 .plot()
@@ -665,20 +674,7 @@
             let datatextCSV = lotivis
                 .datatext()
                 .selector("#datatext-csv")
-                .text(function (dt, dv, dc) {
-                    let data = Array.from(dc.byDate(), ([key, value]) => {
-                        return {
-                            label: dv.labels[0],
-                            date: key,
-                            value: d3.sum(value, (d) => d.value),
-                            location: null,
-                            group: null,
-                        };
-                    });
-                    // let
-                    // console.log(data);
-                    return lotivis.csvFormat(data);
-                });
+                .text(lotivis.datatextCSV);
 
             // ###############################################################################
             // initialize
@@ -718,14 +714,6 @@
             d3.json("./assets/departements.geojson").then(
                 (json) => (map.geoJSON(json), mapParis.geoJSON(json))
             );
-
-            // d3.json("./assets/corpus.json")
-            //     .then((json) => new frc.Corpus(json))
-            //     .then((_corpus) => {
-            //         corpus = _corpus;
-            //     })
-
-            //     .catch((error) => console.error(error));
 
             d3.text("./assets/innovation.list.txt").then((text) => {
                 let lines = text.split("\n").filter((line) => line.length > 0);

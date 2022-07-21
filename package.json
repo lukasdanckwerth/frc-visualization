@@ -1,22 +1,31 @@
 {
-  "name": "frc-visualization",
-  "version": "1.0.74",
-  "description": "French Rap Corpus Visualization",
-  "main": "npm run serve",
-  "author": "Lukas Danckwerth",
-  "license": "MIT",
-  "scripts": {
-    "build": "rollup --config",
-    "build:watch": "rollup --config --watch",
-    "serve": "http-server public/",
-    "assets": "npm run build && node generate/generate.assets.js",
-    "assets:dev": "npm run build && node generate/generate.assets.dev.js",
-    "assets:about": "npm run build && node generate/about.json.js"
-  },
-  "dependencies": {
-    "rollup": "^2.39.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "http-server": "^14.0.0",
-    "d3": "^6.5.0"
-  }
+    "name": "frc-visualization",
+    "version": "1.0.78",
+    "description": "French Rap Corpus Visualization",
+    "main": "npm run serve",
+    "author": "Lukas Danckwerth",
+    "license": "MIT",
+    "scripts": {
+        "build": "rollup --config",
+        "build:watch": "rollup --config --watch",
+        "serve": "http-server public/",
+        "assets": "npm run build && node generate/generate.assets.js",
+        "assets:dev": "npm run build && node generate/generate.assets.dev.js",
+        "assets:about": "npm run build && node generate/about.json.js",
+        "dev": "chokidar ./generate/create.wordlist.js -c \"node ./generate/create.wordlist.js\"",
+        "create.non.standard.count.list": "chokidar ./generate/create.non.standard.count.list.js -c \"node ./generate/create.non.standard.count.list.js\""
+    },
+    "dependencies": {
+        "@rollup/plugin-node-resolve": "^11.2.0",
+        "async": "^3.2.4",
+        "d3": "^6.5.0",
+        "glob-parent": "^6.0.2",
+        "http-server": "^14.0.0",
+        "minimist": "^1.2.6",
+        "rollup": "^2.39.0"
+    },
+    "devDependencies": {
+        "chokidar": "^3.5.3",
+        "chokidar-cli": "^3.0.0"
+    }
 }

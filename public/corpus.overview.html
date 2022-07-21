@@ -235,15 +235,12 @@
             }
 
             Promise.all([
-                // lotivis.d3.json("./assets/corpus.json"),
-                lotivis.d3.json("./assets/departements.geojson"),
-                lotivis.d3.json("./assets/overview.tracks.json"),
-                lotivis.d3.json("./assets/overview.tokens.json"),
-                lotivis.d3.json("./assets/overview.types.json"),
-                lotivis.d3.json("./assets/overview.innovation.list.json"),
-                lotivis.d3.json(
-                    "./assets/overview.innovation.list.tokens.json"
-                ),
+                d3.json("./assets/departements.geojson"),
+                d3.json("./assets/overview.tracks.json"),
+                d3.json("./assets/overview.tokens.json"),
+                d3.json("./assets/overview.types.json"),
+                d3.json("./assets/overview.innovation.list.json"),
+                d3.json("./assets/overview.innovation.list.tokens.json"),
             ])
                 .then((all) => {
                     // let rawCorpus = all.shift();

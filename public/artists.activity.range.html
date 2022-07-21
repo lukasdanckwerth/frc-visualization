@@ -1,144 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="./css/lotivis.css" />
-    <link rel="stylesheet" href="./css/frcv.css" />
-    <title>FRCV - Artists Activity Range</title>
-    <style>
-      .ltv-plot-label {
-        fill: black;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="frcv-container">
-      <div class="frcv-header">
-        <a href="index.html"> Back </a>
-      </div>
-      <div>
-        <div style="width: 400px; display: inline-block; vertical-align: top">
-          <div class="frcv-info-card">
-            <h2>Artists Activity Range</h2>
-            <div id="frcv-about" style="margin-top: 20px">
-              <!-- about text here -->
-              Released tracks from artists in the the corpus from 1995 till
-              2020. The darker the color the more tracks released. Choose from
-              all, female, male and group artists. Get an other view by picking
-              the "gradient" type or an other sort of the data.
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+        />
+        <link rel="stylesheet" href="./css/lotivis.css" />
+        <link rel="stylesheet" href="./css/frcv.css" />
+        <title>FRCV - Artists Activity Range</title>
+        <style>
+            .ltv-plot-label {
+                fill: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="frcv-container">
+            <div class="frcv-header">
+                <a href="index.html"> Back </a>
             </div>
-            <br />
-            <div style="text-align: right">
-              <!-- DATA SOURCE -->
-              <label for="data">Data:</label>
-              <select id="data" onchange="dataChange()">
-                <option>All</option>
-                <option selected>Female</option>
-                <option>Male</option>
-                <option>Groups</option>
-              </select>
-              <br />
-              <br />
-              <!-- PLOT TYPE -->
-              <label for="type">Type:</label>
-              <select id="type" onchange="typeChange()">
-                <option>gradient</option>
-                <option selected>fraction</option>
-              </select>
-              <br />
-              <!-- SORT -->
-              <label for="sort">Sort:</label>
-              <select id="sort" onchange="sortChange()">
-                <option>alphabetically</option>
-                <option>duration</option>
-                <option>intensity</option>
-                <option>firstDate</option>
-              </select>
-              <br />
-              <!-- LABELS -->
-              <label for="labels">Labels:</label>
-              <input
-                type="checkbox"
-                id="labels"
-                onchange="labelsChange()"
-                checked
-              />
-              <!-- SCREENSHOT BUTTON -->
-              <button type="button" onclick="plotChart.pngDownload()">
-                Screenshot
-              </button>
+            <div>
+                <div
+                    style="
+                        width: 400px;
+                        display: inline-block;
+                        vertical-align: top;
+                    "
+                >
+                    <div class="frcv-info-card">
+                        <h2>Artists Activity Range</h2>
+                        <div id="frcv-about" style="margin-top: 20px">
+                            <!-- about text here -->
+                            Released tracks from artists in the the corpus from
+                            1995 till 2020. The darker the color the more tracks
+                            released. Choose from all, female, male and group
+                            artists. Get an other view by picking the "gradient"
+                            type or an other sort of the data.
+                        </div>
+                        <br />
+                        <div style="text-align: right">
+                            <!-- DATA SOURCE -->
+                            <label for="data">Data:</label>
+                            <select id="data" onchange="dataChange()">
+                                <option>All</option>
+                                <option selected>Female</option>
+                                <option>Male</option>
+                                <option>Groups</option>
+                            </select>
+                            <br />
+                            <br />
+                            <!-- PLOT TYPE -->
+                            <label for="type">Type:</label>
+                            <select id="type" onchange="typeChange()">
+                                <option>gradient</option>
+                                <option selected>fraction</option>
+                            </select>
+                            <br />
+                            <!-- SORT -->
+                            <label for="sort">Sort:</label>
+                            <select id="sort" onchange="sortChange()">
+                                <option>alphabetically</option>
+                                <option>duration</option>
+                                <option>intensity</option>
+                                <option>firstDate</option>
+                            </select>
+                            <br />
+                            <!-- LABELS -->
+                            <label for="labels">Labels:</label>
+                            <input
+                                type="checkbox"
+                                id="labels"
+                                onchange="labelsChange()"
+                                checked
+                            />
+                            <!-- SCREENSHOT BUTTON -->
+                            <button
+                                type="button"
+                                onclick="plotChart.pngDownload()"
+                            >
+                                Screenshot
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="
+                        display: inline-block;
+                        width: 760px;
+                        height: 1200px;
+                        margin-left: 10px;
+                        overflow: scroll;
+                    "
+                >
+                    <div id="plot-chart"></div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div
-          style="
-            display: inline-block;
-            width: 760px;
-            height: 1200px;
-            margin-left: 10px;
-            overflow: scroll;
-          "
-        >
-          <div id="plot-chart"></div>
-        </div>
-      </div>
-    </div>
+        <script src="js/lib/lotivis.js"></script>
+        <script src="js/lib/frc.js"></script>
 
-    <script src="js/lib/lotivis.js"></script>
-    <script src="js/lib/frc.js"></script>
+        <script>
+            lotivis.debug(true);
 
-    <script>
-      lotivis.debug(true);
+            let datasets = [];
+            let plotChart = lotivis
+                .plot()
+                .selector("#plot-chart")
+                .style("fraction")
+                // .colorScale(lotivis.colorScale2)
+                .colorScale(
+                    lotivis.colorScale("white", lotivis.colorSchemeLotivis10[0])
+                )
+                .width(800)
+                .marginTop(20)
+                .marginLeft(10)
+                .marginRight(160)
+                .radius(0)
+                .barHeight(22)
+                .yGrid(false)
+                .selectable(false);
 
-      let datasets = [];
-      let plotChart = lotivis
-        .plot()
-        .selector("#plot-chart")
-        .style("fraction")
-        .colorScale(lotivis.colorScale2)
-        .colorScale(
-          lotivis.colorScale("white", lotivis.colorSchemeLotivis10[0])
-        )
-        .width(800)
-        .marginTop(20)
-        .marginLeft(10)
-        .marginRight(160)
-        .radius(0)
-        .barHeight(22)
-        .yGrid(false)
-        .selectable(false);
+            function setDataset(index) {
+                plotChart
+                    .dataController(lotivis.datasetsToData(datasets[index]))
+                    .run();
+            }
 
-      function setDataset(index) {
-        plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();
-      }
+            function dataChange() {
+                setDataset(document.getElementById("data").selectedIndex);
+            }
 
-      function dataChange() {
-        setDataset(document.getElementById("data").selectedIndex);
-      }
+            function typeChange() {
+                plotChart.style(document.getElementById("type").value).run();
+            }
 
-      function typeChange() {
-        plotChart.style(document.getElementById("type").value).run();
-      }
+            function sortChange() {
+                plotChart.sort(document.getElementById("sort").value).run();
+            }
 
-      function sortChange() {
-        plotChart.sort(document.getElementById("sort").value).run();
-      }
+            function labelsChange() {
+                plotChart
+                    .labels(document.getElementById("labels").checked)
+                    .run();
+            }
 
-      function labelsChange() {
-        plotChart.labels(document.getElementById("labels").checked).run();
-      }
-
-      Promise.all([
-        lotivis.d3.json("./assets/artists.active.range.json"),
-        lotivis.d3.json("./assets/artists.active.range.female.json"),
-        lotivis.d3.json("./assets/artists.active.range.male.json"),
-        lotivis.d3.json("./assets/artists.active.range.groups.json"),
-      ]).then((all) => ((datasets = all), setDataset(1)));
-    </script>
-  </body>
+            Promise.all([
+                lotivis.d3.json("./assets/artists.active.range.json"),
+                lotivis.d3.json("./assets/artists.active.range.female.json"),
+                lotivis.d3.json("./assets/artists.active.range.male.json"),
+                lotivis.d3.json("./assets/artists.active.range.groups.json"),
+            ]).then((all) => ((datasets = all), setDataset(1)));
+        </script>
+    </body>
 </html>
