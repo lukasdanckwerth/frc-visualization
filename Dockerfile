@@ -1,4 +1,4 @@
-FROM node:16.3.0-alpine
+FROM node:18-alpine
 
 # create working directory
 RUN mkdir -p /usr/src/app
@@ -7,19 +7,19 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # copy neccessary files
-COPY package.json package-lock.json rollup.config.js ./
-COPY src ./src
-COPY generate ./generate
-COPY data ./data
-COPY public ./public
+COPY . ./
 
 # install dependecies
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn run build
+
+RUN rm -rf node_modules
+
+RUN yarn install --production
 # RUN npm run assets
 
 # remove unused data
-RUN rm -rf rollup.config.js src data generate
+RUN rm -rf rollup.config.js src generate 
 
 # run server
-CMD ["npm", "run", "serve"]
+CMD ["yarn", "run", "serve"]
