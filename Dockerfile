@@ -16,7 +16,7 @@ COPY public ./public
 # install dependecies
 RUN npm install
 RUN npm run build
-RUN npm run assets
+# RUN npm run assets
 
 # remove unused data
 RUN rm -rf rollup.config.js src data generate

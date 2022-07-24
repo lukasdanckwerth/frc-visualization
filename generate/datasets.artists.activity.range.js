@@ -2,7 +2,6 @@ const fileAccess = require("./file.access");
 const frc = require("../public/js/lib/frc.js");
 
 const json = fileAccess.readCorpusJSON();
-
 const artists = frc.parseArtists(json);
 const female = artists.filter((a) => a.sex === "F");
 const male = artists.filter((a) => a.sex === "M");

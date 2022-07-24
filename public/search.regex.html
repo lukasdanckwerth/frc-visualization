@@ -1,387 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-        />
-        <link rel="stylesheet" href="./css/frcv.css" />
-        <title>FRCV - Search</title>
-        <style></style>
-    </head>
-    <body>
-        <div class="frcv-container">
-            <div class="frcv-header">
-                <a href="index.html"> Back </a>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="./css/frcv.css" />
+    <title>FRCV - Search</title>
+    <style></style>
+  </head>
+  <body>
+    <div class="frcv-container">
+      <div class="frcv-header">
+        <a href="../index.html"> Back </a>
+      </div>
+
+      <!-- LEFT -->
+      <div
+        style="
+          display: inline-block;
+          width: 300px;
+          margin-right: 20px;
+          vertical-align: top;
+        "
+      >
+        <div class="frcv-info-card">
+          <h2>Search Regex</h2>
+
+          <div style="text-align: right">
+            <label for="from-dropdown">From</label>
+            <select id="from-dropdown" onchange="fromDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+            <br />
+            <label for="till-dropdown">To</label>
+            <select id="till-dropdown" onchange="tillDropdownAction(this)">
+              <!-- Year Options Here -->
+            </select>
+            <br />
+            <div>
+              <input
+                type="checkbox"
+                id="add-word-bounderies"
+                name="add-word-bounderies"
+                checked
+              />
+              <label for="add-word-bounderies">
+                Add <b>\b</b> before and after input
+              </label>
             </div>
-
-            <!-- LEFT -->
-            <div
-                style="
-                    display: inline-block;
-                    width: 300px;
-                    margin-right: 20px;
-                    vertical-align: top;
-                "
-            >
-                <div class="frcv-info-card">
-                    <h2>Search Regex</h2>
-
-                    <div style="text-align: right">
-                        <label for="from-dropdown">From</label>
-                        <select
-                            id="from-dropdown"
-                            onchange="fromDropdownAction(this)"
-                        >
-                            <!-- Year Options Here -->
-                        </select>
-                        <br />
-                        <label for="till-dropdown">To</label>
-                        <select
-                            id="till-dropdown"
-                            onchange="tillDropdownAction(this)"
-                        >
-                            <!-- Year Options Here -->
-                        </select>
-                        <br />
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="add-word-bounderies"
-                                name="add-word-bounderies"
-                                checked
-                            />
-                            <label for="add-word-bounderies">
-                                Add <b>\b</b> before and after input
-                            </label>
-                        </div>
-                        <!-- INPUT FIELD -->
-                        <textarea
-                            id="search-input"
-                            style="width: 250px; resize: vertical"
-                            rows="4"
-                            placeholder="Type word. Press enter to start search."
-                            onkeydown="textareaKeydown(this)"
-                        ></textarea>
-                        <br />
-                        <br />
-                        <button onclick="showModal('recent-searches')">
-                            Recent Searches
-                        </button>
-                        <br />
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT -->
-            <div
-                style="
-                    display: inline-block;
-                    width: 870px;
-                    margin-left: 20px;
-                    /* overflow: scroll; */
-                "
-            >
-                <!-- LOADING INDICATOR -->
-                <div
-                    id="loading-indicator"
-                    style="font-size: 60px; font-weight: 600; color: lightgray"
-                >
-                    Loading<br />and parsing<br />corpus...
-
-                    <div id="progress"></div>
-                </div>
-
-                <!-- TRACKS -->
-                <div style="width: 870px">
-                    <!-- <h2>Tracks:</h2> -->
-                    <div id="tracks-card" class="frcv-tracks-list">
-                        <!-- Tracks List Here -->
-                    </div>
-                </div>
-            </div>
+            <!-- INPUT FIELD -->
+            <textarea
+              id="search-input"
+              style="width: 250px; resize: vertical"
+              rows="4"
+              placeholder="Type word. Press enter to start search."
+              onkeydown="textareaKeydown(this)"
+            ></textarea>
+            <br />
+            <br />
+            <button onclick="showModal('recent-searches')">
+              Recent Searches
+            </button>
+            <br />
+          </div>
         </div>
+      </div>
 
-        <!-- Recent Searches -->
+      <!-- RIGHT -->
+      <div
+        style="
+          display: inline-block;
+          width: 870px;
+          margin-left: 20px;
+          /* overflow: scroll; */
+        "
+      >
+        <!-- LOADING INDICATOR -->
         <div
-            class="frcv-modal"
-            id="frcv-recent-searches-modal"
-            onclick="hideElement('frcv-recent-searches-modal')"
+          id="loading-indicator"
+          style="font-size: 60px; font-weight: 600; color: lightgray"
         >
-            <div class="frcv-modal-dialog">
-                <div id="frcv-recent-searches">
-                    <!-- recent searches here -->
-                </div>
-            </div>
+          Loading<br />and parsing<br />corpus...
+
+          <div id="progress"></div>
         </div>
 
-        <!-- Track Modal -->
-        <div
-            class="frcv-modal"
-            id="frcv-track-modal"
-            onclick="hideElement('frcv-track-modal')"
-        >
-            <div class="frcv-modal-dialog">
-                <div id="frcv-track-modal-content">
-                    <!-- track content here -->
-                </div>
-            </div>
+        <!-- TRACKS -->
+        <div style="width: 870px">
+          <!-- <h2>Tracks:</h2> -->
+          <div id="tracks-card" class="frcv-tracks-list">
+            <!-- Tracks List Here -->
+          </div>
         </div>
+      </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <script src="js/lib/frc.js"></script>
+    <!-- Recent Searches -->
+    <div
+      class="frcv-modal"
+      id="frcv-recent-searches-modal"
+      onclick="hideElement('frcv-recent-searches-modal')"
+    >
+      <div class="frcv-modal-dialog">
+        <div id="frcv-recent-searches">
+          <!-- recent searches here -->
+        </div>
+      </div>
+    </div>
 
-        <script>
-            // ###############################################################################
-            // functions
-            function getElement(id) {
-                return document.getElementById(id);
-            }
+    <!-- Track Modal -->
+    <div
+      class="frcv-modal"
+      id="frcv-track-modal"
+      onclick="hideElement('frcv-track-modal')"
+    >
+      <div class="frcv-modal-dialog">
+        <div id="frcv-track-modal-content">
+          <!-- track content here -->
+        </div>
+      </div>
+    </div>
 
-            function showElement(id) {
-                getElement(id).style.display = "block";
-            }
+    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/lib/frc.js"></script>
 
-            function hideElement(id) {
-                getElement(id).style.display = "none";
-            }
+    <script>
+      // ###############################################################################
+      // functions
+      function getElement(id) {
+        return document.getElementById(id);
+      }
 
-            function showModal(id) {
-                showElement("frcv-" + id + "-modal");
-            }
+      function showElement(id) {
+        getElement(id).style.display = "block";
+      }
 
-            function onShowData(checkbox) {
-                getElement("ltv-data").style.display = checkbox.checked
-                    ? "block"
-                    : "none";
-            }
+      function hideElement(id) {
+        getElement(id).style.display = "none";
+      }
 
-            /* search */
-            function textareaKeydown(input) {
-                if (
-                    Object.getPrototypeOf(this.event) !==
-                    KeyboardEvent.prototype
-                )
-                    return;
-                if (this.event.key !== "Enter") return;
+      function showModal(id) {
+        showElement("frcv-" + id + "-modal");
+      }
 
-                this.event.preventDefault();
-                search(input.value);
-            }
+      function onShowData(checkbox) {
+        getElement("ltv-data").style.display = checkbox.checked
+          ? "block"
+          : "none";
+      }
 
-            function search(searchText) {
-                if (searchText === undefined)
-                    return console.log("search text undefined");
-                else if (searchText.trim().length === 0)
-                    return console.log("search text too short");
+      /* search */
+      function textareaKeydown(input) {
+        if (Object.getPrototypeOf(this.event) !== KeyboardEvent.prototype)
+          return;
+        if (this.event.key !== "Enter") return;
 
-                if (
-                    getElement("add-word-bounderies").checked &&
-                    !searchText.startsWith("\\b") &&
-                    !searchText.endsWith("\\b")
-                ) {
-                    searchText = "\\b" + searchText + "\\b";
-                }
+        this.event.preventDefault();
+        search(input.value);
+      }
 
-                // searchText = searchText.replace(/\n/g, "");
-                console.log("searchText", searchText);
+      function search(searchText) {
+        if (searchText === undefined)
+          return console.log("search text undefined");
+        else if (searchText.trim().length === 0)
+          return console.log("search text too short");
 
-                urlparams.set("q", searchText.replace(/,/g, "_"));
+        if (
+          getElement("add-word-bounderies").checked &&
+          !searchText.startsWith("\\b") &&
+          !searchText.endsWith("\\b")
+        ) {
+          searchText = "\\b" + searchText + "\\b";
+        }
 
-                let datasets = corpus.search(
-                    searchText,
-                    firstYear,
-                    lastYear,
-                    sensitivity,
-                    countType
-                );
+        // searchText = searchText.replace(/\n/g, "");
+        console.log("searchText", searchText);
 
-                fillTracksCard(datasets, searchText);
+        urlparams.set("q", searchText.replace(/,/g, "_"));
 
-                recentSearches.add(searchText);
-                fillRecentSearchesPanel();
-            }
+        let datasets = corpus.search(
+          searchText,
+          firstYear,
+          lastYear,
+          sensitivity,
+          countType
+        );
 
-            function fromDropdownAction(el) {
-                (firstYear = +el.value), search(searchField.value);
-            }
+        fillTracksCard(datasets, searchText);
 
-            function tillDropdownAction(el) {
-                (lastYear = +el.value), search(searchField.value);
-            }
+        recentSearches.add(searchText);
+        fillRecentSearchesPanel();
+      }
 
-            function fillYearDropdowns() {
-                let html = "";
-                let firstYearOverride = 2000;
+      function fromDropdownAction(el) {
+        (firstYear = +el.value), search(searchField.value);
+      }
 
-                for (let year = 1995; year < 2021; year++) {
-                    html += `<option value="${year}">${year}</option>`;
-                }
+      function tillDropdownAction(el) {
+        (lastYear = +el.value), search(searchField.value);
+      }
 
-                let fromDropdown = getElement("from-dropdown");
-                let tillDropdown = getElement("till-dropdown");
-                fromDropdown.innerHTML = html;
-                tillDropdown.innerHTML = html;
-                tillDropdown.value = `${lastYear}`;
+      function fillYearDropdowns() {
+        let html = "";
+        let firstYearOverride = 2000;
 
-                if (firstYearOverride) {
-                    firstYear = firstYearOverride;
-                    fromDropdown.value = `${firstYearOverride}`;
-                }
-            }
+        for (let year = 1995; year < 2021; year++) {
+          html += `<option value="${year}">${year}</option>`;
+        }
 
-            function sensitivityDropdownAction(some) {
-                (sensitivity = some.value), search(searchField.value);
-            }
+        let fromDropdown = getElement("from-dropdown");
+        let tillDropdown = getElement("till-dropdown");
+        fromDropdown.innerHTML = html;
+        tillDropdown.innerHTML = html;
+        tillDropdown.value = `${lastYear}`;
 
-            function countTypeAction(some) {
-                (countType = some.value), search(searchField.value);
-            }
+        if (firstYearOverride) {
+          firstYear = firstYearOverride;
+          fromDropdown.value = `${firstYearOverride}`;
+        }
+      }
 
-            function presentTrackPopup(track, label) {
-                let input = label;
-                let lines = track.content.split("\n");
-                let html = "";
-                let re = new RegExp(label);
+      function sensitivityDropdownAction(some) {
+        (sensitivity = some.value), search(searchField.value);
+      }
 
-                html += `<h1 class="frcv-headline">${track.title}</h1>`;
+      function countTypeAction(some) {
+        (countType = some.value), search(searchField.value);
+      }
 
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i];
-                    let text = line.replace(
-                        re,
-                        (result) =>
-                            `<span class="frcv-important">${result}</span>`
-                    );
+      function presentTrackPopup(track, label) {
+        let input = label;
+        let lines = track.content.split("\n");
+        let html = "";
+        let re = new RegExp(label);
 
-                    html += text;
-                    html += "<br>";
-                }
+        html += `<h1 class="frcv-headline">${track.title}</h1>`;
 
-                html += "<br>";
-                html += `<a href="${track.url}">${track.url}</a>`;
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i];
+          let text = line.replace(
+            re,
+            (result) => `<span class="frcv-important">${result}</span>`
+          );
 
-                getElement("frcv-track-modal-content").innerHTML = html;
+          html += text;
+          html += "<br>";
+        }
 
-                showModal("track");
-            }
+        html += "<br>";
+        html += `<a href="${track.url}">${track.url}</a>`;
 
-            function fillTracksCard(datasets, word) {
-                // let tracksObject = datasets.tracks;
-                let element = d3.select("#tracks-card");
+        getElement("frcv-track-modal-content").innerHTML = html;
 
-                element.selectAll("div").remove();
-                element
-                    .selectAll(".div")
-                    .data(datasets)
-                    .enter()
-                    .append("div")
-                    .classed("frcv-tracks-list-group", true)
-                    .html(
-                        (d) =>
-                            `<div class="frcv-tracks-list-group-headline">${d.label} (${d.tracks.length} Tracks)</div>`
-                    )
-                    .selectAll(".div")
-                    .data((d) =>
-                        d.tracks
-                            .sort((t1, t2) =>
-                                d3.descending(t1.releaseYear, t2.releaseYear)
-                            )
-                            .map((t) => [t, d.label])
-                    )
-                    .enter()
-                    .append("div")
-                    .style("cursor", "pointer")
-                    .html((item, index) => {
-                        let track = item[0],
-                            re = new RegExp(word),
-                            results = track.content.match(re);
+        showModal("track");
+      }
 
-                        return [
-                            `<span class="index-number">${index + 1}.</span>`,
-                            `<span class="title">[${results.join(
-                                ", "
-                            )}]</span>`,
-                            `<span class="artist">${track.title}</span>`,
-                            `<span class="artist">(${track.artist.trim()}, ${
-                                track.releaseYear
-                            })</span>`,
-                        ].join("\n");
-                    })
-                    .on("click", (event, item) =>
-                        presentTrackPopup(item[0], item[1])
-                    );
-            }
+      function fillTracksCard(datasets, word) {
+        // let tracksObject = datasets.tracks;
+        let element = d3.select("#tracks-card");
 
-            function fillRecentSearchesPanel() {
-                let lines = recentSearches.queries();
+        element.selectAll("div").remove();
+        element
+          .selectAll(".div")
+          .data(datasets)
+          .enter()
+          .append("div")
+          .classed("frcv-tracks-list-group", true)
+          .html(
+            (d) =>
+              `<div class="frcv-tracks-list-group-headline">${d.label} (${d.tracks.length} Tracks)</div>`
+          )
+          .selectAll(".div")
+          .data((d) =>
+            d.tracks
+              .sort((t1, t2) => d3.descending(t1.releaseYear, t2.releaseYear))
+              .map((t) => [t, d.label])
+          )
+          .enter()
+          .append("div")
+          .style("cursor", "pointer")
+          .html((item, index) => {
+            let track = item[0],
+              re = new RegExp(word),
+              results = track.content.match(re);
 
-                d3.select("#frcv-recent-searches").selectAll("p").remove();
-                d3.select("#frcv-recent-searches")
-                    .selectAll("p")
-                    .data(lines)
-                    .enter()
-                    .append("p")
-                    .style("display", "block")
-                    .style("cursor", "pointer")
-                    .on("click", (e, l) => {
-                        hideElement("frcv-recent-searches-modal");
-                        searchField.value = l;
-                        search(searchField.value);
-                    })
-                    .selectAll("span")
-                    .data((d, i) => [i + 1 + ". ", ...d.split(";")])
-                    .enter()
-                    .append("span")
-                    // .style("color","blue")
-                    .html((l) => l);
-            }
+            return [
+              `<span class="index-number">${index + 1}.</span>`,
+              `<span class="title">[${results.join(", ")}]</span>`,
+              `<span class="artist">${track.title}</span>`,
+              `<span class="artist">(${track.artist.trim()}, ${
+                track.releaseYear
+              })</span>`,
+            ].join("\n");
+          })
+          .on("click", (event, item) => presentTrackPopup(item[0], item[1]));
+      }
 
-            // ###############################################################################
-            // initialize
+      function fillRecentSearchesPanel() {
+        let lines = recentSearches.queries();
 
-            let corpus,
-                firstYear = 1995,
-                lastYear = 2020,
-                countType = frc.SearchCountType.tracks,
-                sensitivity = "regex",
-                recentSearches = new recentsearches("frcv-search-regex"),
-                searchField = getElement("search-input"),
-                progressDiv = getElement("progress");
+        d3.select("#frcv-recent-searches").selectAll("p").remove();
+        d3.select("#frcv-recent-searches")
+          .selectAll("p")
+          .data(lines)
+          .enter()
+          .append("p")
+          .style("display", "block")
+          .style("cursor", "pointer")
+          .on("click", (e, l) => {
+            hideElement("frcv-recent-searches-modal");
+            searchField.value = l;
+            search(searchField.value);
+          })
+          .selectAll("span")
+          .data((d, i) => [i + 1 + ". ", ...d.split(";")])
+          .enter()
+          .append("span")
+          // .style("color","blue")
+          .html((l) => l);
+      }
 
-            frc.fetchCorpus(function (value, total) {
-                progressDiv.innerText = value + " / " + total;
-            })
-                .then(function (_corpus) {
-                    corpus = _corpus;
+      // ###############################################################################
+      // initialize
 
-                    fillYearDropdowns();
+      let corpus,
+        firstYear = 1995,
+        lastYear = 2020,
+        countType = frc.SearchCountType.tracks,
+        sensitivity = "regex",
+        recentSearches = new recentsearches("frcv-search-regex"),
+        searchField = getElement("search-input"),
+        progressDiv = getElement("progress");
 
-                    hideElement("loading-indicator");
-                })
-                .then(() => {
-                    let searchString = urlparams.get("q");
-                    if (!searchString) return;
-                    searchString = searchString.replace(/_/g, ",");
+      frc
+        .fetchCorpus(function (value, total) {
+          progressDiv.innerText = value + " / " + total;
+        })
+        .then(function (_corpus) {
+          corpus = _corpus;
 
-                    if (searchString.startsWith("\\b")) {
-                        searchString = searchString.substring(2);
-                    }
+          fillYearDropdowns();
 
-                    if (searchString.endsWith("\\b")) {
-                        let length = searchString.length;
-                        searchString = searchString.substring(0, length - 2);
-                    }
+          hideElement("loading-indicator");
+        })
+        .then(() => {
+          let searchString = urlparams.get("q");
+          if (!searchString) return;
+          searchString = searchString.replace(/_/g, ",");
 
-                    searchField.value = searchString;
-                    search(searchString);
-                })
-                .catch((error) => alert(error));
+          if (searchString.startsWith("\\b")) {
+            searchString = searchString.substring(2);
+          }
 
-            fillRecentSearchesPanel();
-        </script>
-    </body>
+          if (searchString.endsWith("\\b")) {
+            let length = searchString.length;
+            searchString = searchString.substring(0, length - 2);
+          }
+
+          searchField.value = searchString;
+          search(searchString);
+        })
+        .catch((error) => alert(error));
+
+      fillRecentSearchesPanel();
+    </script>
+  </body>
 </html>
