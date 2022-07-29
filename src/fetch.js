@@ -5,7 +5,7 @@ export function fetchCorpus(progress, url) {
     if (typeof progress !== "function") progress = function () {};
 
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", url || "./assets/corpus.json");
+    xhr.open("GET", url || "../data/corpus.json");
 
     xhr.onprogress = function (event) {
       progress(event.loaded, event.total);

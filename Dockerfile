@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+EXPOSE 8080
+
 # create working directory
 RUN mkdir -p /usr/src/app
 
