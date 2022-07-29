@@ -1,4 +1,10 @@
 let fileAccess = require("./file.access");
+const frc = require("../public/js/lib/frc.js");
+
+const json = fileAccess.readCorpusJSON();
+const tracks = frc.parseTracks(json);
+
+console.log("tracks", tracks.length);
 
 // let filePathAllWords = "./data/corpus-non-standard-lower.words.txt";
 let filePathAllWords = "./data/corpus.words.txt";
@@ -6,6 +12,7 @@ let filePathAllWords = "./data/corpus.words.txt";
 let filePathSource = "./data/innovation.list.v2.txt";
 
 let allWords = fileAccess.read(filePathAllWords).toString().split("\n");
+
 let wordsWithNoOccurences = [];
 let sourceList = fileAccess
   .read(filePathSource)
@@ -17,6 +24,11 @@ function countOccurences(inputWord) {
   return allWords.filter((word) => word === inputWord).length;
 }
 
+function countTypes(inputWord) {
+  return tracks.filter((track) => track.tokensLower.indexOf(inputWord) !== -1)
+    .length;
+}
+
 let csvContent = "mainform;variation;count;details\n";
 let allCount = sourceList.length;
 
@@ -24,7 +36,7 @@ for (let index = 0; index < sourceList.length; index++) {
   let line = sourceList[index];
   let variants = line
     .split(",")
-    .map((word) => word.trim())
+    .map((word) => word.trim().toLowerCase())
     .filter((word) => word.length > 0);
 
   variants = Array.from(new Set(variants));
@@ -38,7 +50,7 @@ for (let index = 0; index < sourceList.length; index++) {
     // iterate and count
     for (let index2 = 0; index2 < variants.length; index2++) {
       let variant = variants[index2];
-      let count = countOccurences(variant);
+      let count = countTypes(variant);
       sumAllVariants += count;
       variantsToCount[variant] = count;
     }
@@ -49,7 +61,15 @@ for (let index = 0; index < sourceList.length; index++) {
       sortable.push([variant, variantsToCount[variant]]);
     }
 
-    let sorted = sortable.sort((a, b) => b[1] - a[1]);
+    let sorted = sortable
+      .sort((a, b) => b[1] - a[1])
+      .filter((item) => {
+        let word = item[0];
+        let value = item[1];
+        wordsWithNoOccurences.push(word);
+        return value > 0;
+      });
+
     let mainform = sorted[0][0];
     let variantsSorted = sorted.map((entry) => entry[0]);
     let variantsFormatted = variantsSorted.join(", ");

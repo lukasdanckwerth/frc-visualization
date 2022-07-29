@@ -28,6 +28,10 @@ function parseTrack(track, artist, album) {
       .replace(/\bm'/gi, "")
       .replace(/\bt'/gi, "")
       .replace(/\bd'/gi, "")
+      .replace(/\bj'/gi, "")
+      .replace(/\br'/gi, "")
+      .replace(/\bl'/gi, "")
+      .replace(/\bn'/gi, "")
       .split(" ")
       .filter((word) => word.length > 0),
     tokensLower = tokens.map((item) => item.toLowerCase()),
@@ -56,8 +60,12 @@ function parseTrack(track, artist, album) {
 export function parseTracks(json) {
   console.log(`[FRC] Parse tracks`);
   let data = [],
-    ids = [];
-  let artist, album, track, entry;
+    ids = [],
+    artist,
+    album,
+    track,
+    entry;
+
   for (let i = 0; i < json.length; i++) {
     artist = json[i];
 
@@ -68,19 +76,20 @@ export function parseTracks(json) {
 
     for (let i = 0; i < artist.albums.length; i++) {
       album = artist.albums[i];
+
       for (let j = 0; j < album.tracks.length; j++) {
         track = album.tracks[j];
-        if (ids.includes(track.id)) continue;
+        // if (ids.includes(track.id)) continue;
         ids.push(track.id);
         data.push(parseTrack(track, artist, album.name));
       }
+    }
 
-      for (let i = 0; i < artist.tracks.length; i++) {
-        track = artist.tracks[i];
-        if (ids.includes(track.id)) continue;
-        ids.push(track.id);
-        data.push(parseTrack(track, artist, undefined));
-      }
+    for (let i = 0; i < artist.tracks.length; i++) {
+      track = artist.tracks[i];
+      // if (ids.includes(track.id)) continue;
+      ids.push(track.id);
+      data.push(parseTrack(track, artist, undefined));
     }
   }
 

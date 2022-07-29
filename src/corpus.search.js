@@ -27,14 +27,15 @@ export function internalSearch(
   searchType,
   searchCountType,
   firstYear,
-  lastYear
+  lastYear,
+  excludedIds = []
 ) {
   console.time("search: " + query);
 
   let tracks = corpus.tracks;
   let artists = corpus.artists;
   sensitivity = sensitivity || SearchType.insensitive;
-  searchCount = searchCount || SearchCountType.tracks;
+  searchType = searchType || SearchCountType.tracks;
 
   function findTracks(accessor) {
     return tracks.filter(accessor);
@@ -182,6 +183,7 @@ export function internalSearch(
 
   datasets.forEach((d) => {
     d.data = d.data.filter((d) => d.date >= firstYear && d.date <= lastYear);
+    d.data = d.data.filter((d) => excludedIds.indexOf(d.id) === -1);
   });
 
   console.timeEnd("search: " + query);

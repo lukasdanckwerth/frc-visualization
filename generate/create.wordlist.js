@@ -7,7 +7,7 @@ function createWordlist(corpusPath) {
 
   var tracks = frc.parseTracks(fileAccess.readJSON(corpusPath));
   var words = [];
-  tracks.forEach((track) => words.push(...track.tokensLower));
+  tracks.forEach((track) => words.push(...track.tokensLower));/
 
   var text = words.join("\n");
   var targetPath = path.parse(corpusPath).name + ".words.txt";

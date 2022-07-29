@@ -8,6 +8,7 @@
     />
     <link rel="stylesheet" href="../../node_modules/lotivis/dist/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
+    <link rel="stylesheet" href="./css/lotivis.css" />
     <title>FRCV - Search</title>
     <style>
       .ltv-bar-chart-label {
@@ -287,10 +288,11 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/urlparams@1.0.5/dist/urlparams.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@lukasdanckwerth/recentsearches@1.0.0/dist/recentsearches.min.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
+    <script src="../../node_modules/@lukasdanckwerth/urlparams/dist/urlparams.js"></script>
+    <script src="../../node_modules/@lukasdanckwerth/recentsearches/dist/recentsearches.js"></script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
+    <!-- <script src="../../node_modules/lotivis/dist/lotivis.js"></script> -->
+    <script src="js/lib/lotivis.js"></script>
     <script src="js/lib/frc.js"></script>
     <!-- <script src="js/search.js"></script> -->
     <script>
@@ -367,7 +369,7 @@
           countType
         );
 
-        let dc = new lotivis.datasetsToData(datasets);
+        let dc = lotivis.parseDatasets(datasets);
 
         barChart.run(dc);
         map.run(dc);
@@ -477,7 +479,7 @@
         let element = d3.select("#tracks-card");
 
         element.selectAll("div").remove();
-        element
+        let divs = element
           .selectAll(".div")
           .data(datasets)
           .enter()
@@ -494,7 +496,21 @@
               .map((t) => [t, d.label])
           )
           .enter()
-          .append("div")
+          .append("div");
+
+        divs
+          .append("input")
+          .attr("type", "checkbox")
+          .attr("id", (item, index) => item[0])
+          .on("click", (item, index) => {
+            console.log(item);
+          })
+          .on("onchange", (item, index) => {
+            console.log(item);
+          });
+
+        divs
+          .append("span")
           .style("cursor", "pointer")
           .html((item, index) => {
             let track = item[0];
@@ -566,7 +582,7 @@
       let legend = barChart
         .legend()
         .title(null)
-        .groups(true)
+        // .groups(true)
         .groupFormat((s, v, ls, i) => `${i + 1}) ${s} (Sum: ${v})`);
 
       let plotChart = lotivis

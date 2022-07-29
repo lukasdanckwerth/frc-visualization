@@ -64,7 +64,7 @@ schnek, schneck, shnek, shneck, schneks, chnek, shneks, shnecks, schneiks, schne
 chill, chiller, chille, chillé, chillent, chillance, chillant, chilles, chillax, chill', chillera, chilleur, chilleurs, chillettes, tchiller, chillais
 track, tracks, trackz
 tier-quar, tiers-quar, tié-quar, tiécar, tierquar, tier-car, tiekar, tier-quar', tier-qua, tiéquar, tiers-quart, tiekcar, tie-quar, tiékars, tié-kar, tiékar, tiecar, tié-quart, tier'qua, tiequar, tier-quars, tiers-qua, 'tier-quar', tiécard, tiécars, tiè-quar, tier-kar, tier-quart, tiécart, tièkar
-kill, killah, killeur, killé, killaz, killés, killent, killes, killeurs, killa', kill', killeuse, killeuz, Killer, killez
+kill, killah, killeur, killé, killaz, killés, killent, killes, killeurs, killa', kill', killeuse, killeuz, killer, killez
 scred, scred', 'scred', scre-d, scréd, screds, scre-d', scret-d', scrèd', 'scred, 'scrète, scret
 gamos, gamoss, gamosse, gamosses
 'teille, 'teilles, teilles', teill', teil', teill, 'teil
@@ -223,7 +223,7 @@ rockstar, rockstars, rock-star, rocksta, rock-stars, rocsta
 roro, ro-ro, roros, roro', ro-ros
 veau-cer, veaux-cer, veaucer, veaucers, vau-cer, veaux-cer', veau-cer'
 vénèr, véner, vener, vénèr', véner', vé-ner, vénére, vénér', vénerre, véners, vener', veners, vénèrs, vé-'ner, vé-nère, vénerer, ve-ner, vènére, vé-ner', vé-nere, vé-nér, vénér, vés-ner', 'vé-ner', 'vée-ner', 'vés-ner', 'vées-ner'
-de-mer, demer, de-mer', 'de-mer‘
+de-mer, demer, de-mer', 'de-mer'
 haters, hater, hater's, haterz
 fame, fames'
 popo, popo', popos
@@ -279,7 +279,7 @@ gole-ri, golri, goleri, golent-ri, 'gole-ri', goler-ri, goles-ri, golerie, gol'r
 goumer, goume, goumé, goument, goumée, goumés, goumant, goumes
 transac', transac, transacs, transacs', transact'
 tox', toxs, toxo, toxs', tox's, toxos, toxes, toxo'
-bon-char, bonchar, ‚bon-char‘, bonne-char
+bon-char, bonchar, ‚bon-char', bonne-char
 plavon, plavons
 son-mai, zonmé, zonmai, sons-mai, sonmai
 crazy
@@ -647,7 +647,7 @@ nne-bo, ne-bo, nne-bo', nnes-bo
 roc-ma
 dep', deps, deps'
 koufar, koufars, kouffar, kouffars, kouf', koufahr, kouffar's
-loss-bo, losse-bo, losses-bo, lossbo, 'losse-bo‘, losse-bar, loss-bar, loss-bards, lossbar
+loss-bo, losse-bo, losses-bo, lossbo, 'losse-bo', losse-bar, loss-bar, loss-bards, lossbar
 sbah, sbahs
 seille-mar
 sère, 'sère
@@ -715,7 +715,7 @@ ne-chiè, nne-chie, ne-chie, ne-chié, ne-chien, nne-chiè, nnes-chie
 que-ban, que-ban', ques-ban
 ffé-ki, ffer-ki, ffe-ki
 metek, metek'
-car-pla, carpla, cards-pla, ‚cards-pla‘, card-pla
+car-pla, carpla, cards-pla, ‚cards-pla', card-pla
 certs-con, cert-con, 'cert-con', cer-con
 ffe-spli, fe-spli, feu-spli, ff-spli, ffeu-spli, ffeuspli
 niaxe, niaxous, niaxant, niaxer, niaksage, niakson, niaksons, niaksou, niaxent, niaxon, niaxou, niaksonne, niakser, niaksent
