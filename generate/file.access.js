@@ -1,5 +1,5 @@
 const corpusJSONPath = "./data/corpus.json";
-const assetsDirectoryPath = "./public/assets";
+const assetsDirectoryPath = "./data";
 const fs = require("fs");
 
 function min(name) {

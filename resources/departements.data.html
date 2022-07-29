@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./frcv.css" />
+    <title>FRCV - Departments Data</title>
+    <style>
+      #map-chart-paris svg .ltv-map-label {
+        transform: translate(-40px, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frcv-container">
+      <div class="frcv-header">
+        <a href="../index.html"> Back </a>
+      </div>
+      <div>
+        <div style="width: 400px; display: inline-block; vertical-align: top">
+          <div class="frcv-info-card">
+            <h2>Departments Data</h2>
+            <select id="data" onchange="dataChange()">
+              <option>Artists</option>
+              <option>Tracks</option>
+              <option>Tokens and Types</option>
+            </select>
+            <span> &NonBreakingSpace; </span>
+            <label for="labels">Labels:</label>
+            <input
+              type="checkbox"
+              id="labels"
+              onchange="labelsChange()"
+              checked
+            />
+            <div id="frcv-about" style="margin-top: 20px">
+              <!-- about text here -->
+            </div>
+            <br />
+            <div style="text-align: right">
+              <button type="button" onclick="mapChart.pngDownload()">
+                Screenshot France
+              </button>
+              <br />
+              <button type="button" onclick="mapChartParis.pngDownload()">
+                Screenshot Paris
+              </button>
+              <br />
+            </div>
+          </div>
+          <div style="float: right">
+            <div id="map-chart-paris" style="width: 240px"></div>
+          </div>
+          <div style="clear: both"></div>
+        </div>
+
+        <div style="display: inline-block; width: 600px; margin-left: 40px">
+          <div id="map-chart"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
+    <script src="../dist/frc.js"></script>
+
+    <script>
+      lotivis.debug(true);
+
+      let datasets = [];
+      let mapChart = lotivis
+        .map()
+        .selector("#map-chart")
+        .colorScale(lotivis.colorScale1)
+        .width(700)
+        .height(700)
+        .labels(true)
+        .labelsExclude(["75", "92", "93", "94"])
+        .exclude(["2A", "2B"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
+
+      let mapChartParis = lotivis
+        .map()
+        .selector("#map-chart-paris")
+        .colorScale(lotivis.colorScale1)
+        .width(300)
+        .height(300)
+        .labels(true)
+        .legend(false)
+        .legendPanel(false)
+        .include(["75", "92", "93", "94"])
+        .featureIDAccessor((f) => "" + f.properties.code)
+        .featureNameAccessor((f) => f.properties.nom);
+
+      function labelsChange() {
+        mapChart.labels(document.getElementById("labels").checked).run();
+        mapChartParis.labels(document.getElementById("labels").checked).run();
+      }
+
+      function dataChange() {
+        setDataset(document.getElementById("data").selectedIndex);
+      }
+
+      function setDataset(index) {
+        let data = datasets[index];
+        let dataController = lotivis.dataController(
+          lotivis.datasetsToData(data)
+        );
+
+        document.getElementById("frcv-about").innerText = data[0].about || "";
+
+        mapChart.dataController(dataController).run();
+        mapChartParis.dataController(dataController).run();
+      }
+
+      Promise.all([
+        d3.json("../data/department.to.artists.json"),
+        d3.json("../data/department.to.tracks.json"),
+        d3.json("../data/department.to.tokens.and.types.json"),
+        d3.json("../data/department.to.innovation.list.relative.json"),
+        d3.json("../data/department.to.innovation.list.tokens.relative.json"),
+        d3.json("../data/departements.geojson"),
+      ])
+        .then((all) => {
+          let geoJSON = all.pop();
+          mapChart.geoJSON(geoJSON);
+          mapChartParis.geoJSON(geoJSON);
+
+          datasets = all;
+          setDataset(0);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,543 @@
+[
+    {
+        "label": "Tokens Female",
+        "group": "Tokens",
+        "data": [
+            {
+                "date": 2006,
+                "value": 17645
+            },
+            {
+                "date": 2013,
+                "value": 21841
+            },
+            {
+                "date": 2016,
+                "value": 21164
+            },
+            {
+                "date": 2015,
+                "value": 18071
+            },
+            {
+                "date": 2005,
+                "value": 19293
+            },
+            {
+                "date": 2010,
+                "value": 13920
+            },
+            {
+                "date": 2011,
+                "value": 9554
+            },
+            {
+                "date": 2002,
+                "value": 11536
+            },
+            {
+                "date": 2009,
+                "value": 10381
+            },
+            {
+                "date": 2003,
+                "value": 434
+            },
+            {
+                "date": 2017,
+                "value": 42603
+            },
+            {
+                "date": 2019,
+                "value": 46315
+            },
+            {
+                "date": 2018,
+                "value": 21680
+            },
+            {
+                "date": 2020,
+                "value": 5263
+            },
+            {
+                "date": 2014,
+                "value": 18718
+            },
+            {
+                "date": 2012,
+                "value": 16871
+            },
+            {
+                "date": 2007,
+                "value": 11129
+            },
+            {
+                "date": 2008,
+                "value": 16933
+            },
+            {
+                "date": 2004,
+                "value": 3116
+            },
+            {
+                "date": 2001,
+                "value": 8119
+            },
+            {
+                "date": 2000,
+                "value": 0
+            }
+        ],
+        "about": "Amount of the tokens and the types of the corpus grouped by female, male and group artists."
+    },
+    {
+        "label": "Tokens Male",
+        "group": "Tokens",
+        "data": [
+            {
+                "date": 2006,
+                "value": 157791
+            },
+            {
+                "date": 2013,
+                "value": 335425
+            },
+            {
+                "date": 2016,
+                "value": 651139
+            },
+            {
+                "date": 2015,
+                "value": 615752
+            },
+            {
+                "date": 2005,
+                "value": 77514
+            },
+            {
+                "date": 2010,
+                "value": 154308
+            },
+            {
+                "date": 2011,
+                "value": 201929
+            },
+            {
+                "date": 2002,
+                "value": 46972
+            },
+            {
+                "date": 2009,
+                "value": 166078
+            },
+            {
+                "date": 2003,
+                "value": 70537
+            },
+            {
+                "date": 2017,
+                "value": 716487
+            },
+            {
+                "date": 2019,
+                "value": 688399
+            },
+            {
+                "date": 2018,
+                "value": 759734
+            },
+            {
+                "date": 2020,
+                "value": 457028
+            },
+            {
+                "date": 2014,
+                "value": 430759
+            },
+            {
+                "date": 2012,
+                "value": 358994
+            },
+            {
+                "date": 2007,
+                "value": 166047
+            },
+            {
+                "date": 2008,
+                "value": 135397
+            },
+            {
+                "date": 2004,
+                "value": 70970
+            },
+            {
+                "date": 2001,
+                "value": 55416
+            },
+            {
+                "date": 2000,
+                "value": 49012
+            }
+        ]
+    },
+    {
+        "label": "Tokens Group",
+        "group": "Tokens",
+        "data": [
+            {
+                "date": 2006,
+                "value": 95732
+            },
+            {
+                "date": 2013,
+                "value": 180394
+            },
+            {
+                "date": 2016,
+                "value": 246361
+            },
+            {
+                "date": 2015,
+                "value": 226612
+            },
+            {
+                "date": 2005,
+                "value": 73042
+            },
+            {
+                "date": 2010,
+                "value": 55446
+            },
+            {
+                "date": 2011,
+                "value": 125096
+            },
+            {
+                "date": 2002,
+                "value": 74413
+            },
+            {
+                "date": 2009,
+                "value": 54294
+            },
+            {
+                "date": 2003,
+                "value": 58099
+            },
+            {
+                "date": 2017,
+                "value": 260359
+            },
+            {
+                "date": 2019,
+                "value": 128641
+            },
+            {
+                "date": 2018,
+                "value": 199625
+            },
+            {
+                "date": 2020,
+                "value": 67042
+            },
+            {
+                "date": 2014,
+                "value": 216062
+            },
+            {
+                "date": 2012,
+                "value": 149592
+            },
+            {
+                "date": 2007,
+                "value": 89713
+            },
+            {
+                "date": 2008,
+                "value": 71652
+            },
+            {
+                "date": 2004,
+                "value": 53811
+            },
+            {
+                "date": 2001,
+                "value": 51975
+            },
+            {
+                "date": 2000,
+                "value": 49803
+            }
+        ]
+    },
+    {
+        "label": "Types Female",
+        "group": "Types",
+        "data": [
+            {
+                "date": 2006,
+                "value": 8169
+            },
+            {
+                "date": 2013,
+                "value": 12276
+            },
+            {
+                "date": 2016,
+                "value": 10543
+            },
+            {
+                "date": 2015,
+                "value": 9449
+            },
+            {
+                "date": 2005,
+                "value": 9714
+            },
+            {
+                "date": 2010,
+                "value": 7211
+            },
+            {
+                "date": 2011,
+                "value": 4717
+            },
+            {
+                "date": 2002,
+                "value": 6458
+            },
+            {
+                "date": 2009,
+                "value": 4227
+            },
+            {
+                "date": 2003,
+                "value": 246
+            },
+            {
+                "date": 2017,
+                "value": 19385
+            },
+            {
+                "date": 2019,
+                "value": 20392
+            },
+            {
+                "date": 2018,
+                "value": 9351
+            },
+            {
+                "date": 2020,
+                "value": 2450
+            },
+            {
+                "date": 2014,
+                "value": 9471
+            },
+            {
+                "date": 2012,
+                "value": 7918
+            },
+            {
+                "date": 2007,
+                "value": 4942
+            },
+            {
+                "date": 2008,
+                "value": 7833
+            },
+            {
+                "date": 2004,
+                "value": 1699
+            },
+            {
+                "date": 2001,
+                "value": 4010
+            },
+            {
+                "date": 2000,
+                "value": 0
+            }
+        ]
+    },
+    {
+        "label": "Types Male",
+        "group": "Types",
+        "data": [
+            {
+                "date": 2006,
+                "value": 83897
+            },
+            {
+                "date": 2013,
+                "value": 191472
+            },
+            {
+                "date": 2016,
+                "value": 339904
+            },
+            {
+                "date": 2015,
+                "value": 339500
+            },
+            {
+                "date": 2005,
+                "value": 41435
+            },
+            {
+                "date": 2010,
+                "value": 84246
+            },
+            {
+                "date": 2011,
+                "value": 111838
+            },
+            {
+                "date": 2002,
+                "value": 25575
+            },
+            {
+                "date": 2009,
+                "value": 85279
+            },
+            {
+                "date": 2003,
+                "value": 36755
+            },
+            {
+                "date": 2017,
+                "value": 364216
+            },
+            {
+                "date": 2019,
+                "value": 326538
+            },
+            {
+                "date": 2018,
+                "value": 373150
+            },
+            {
+                "date": 2020,
+                "value": 215192
+            },
+            {
+                "date": 2014,
+                "value": 240723
+            },
+            {
+                "date": 2012,
+                "value": 202906
+            },
+            {
+                "date": 2007,
+                "value": 87322
+            },
+            {
+                "date": 2008,
+                "value": 72759
+            },
+            {
+                "date": 2004,
+                "value": 37543
+            },
+            {
+                "date": 2001,
+                "value": 28753
+            },
+            {
+                "date": 2000,
+                "value": 24818
+            }
+        ]
+    },
+    {
+        "label": "Types Group",
+        "group": "Types",
+        "data": [
+            {
+                "date": 2006,
+                "value": 49745
+            },
+            {
+                "date": 2013,
+                "value": 98011
+            },
+            {
+                "date": 2016,
+                "value": 124476
+            },
+            {
+                "date": 2015,
+                "value": 122727
+            },
+            {
+                "date": 2005,
+                "value": 37677
+            },
+            {
+                "date": 2010,
+                "value": 30112
+            },
+            {
+                "date": 2011,
+                "value": 69267
+            },
+            {
+                "date": 2002,
+                "value": 41056
+            },
+            {
+                "date": 2009,
+                "value": 29206
+            },
+            {
+                "date": 2003,
+                "value": 30946
+            },
+            {
+                "date": 2017,
+                "value": 130644
+            },
+            {
+                "date": 2019,
+                "value": 62498
+            },
+            {
+                "date": 2018,
+                "value": 99439
+            },
+            {
+                "date": 2020,
+                "value": 29874
+            },
+            {
+                "date": 2014,
+                "value": 115295
+            },
+            {
+                "date": 2012,
+                "value": 79508
+            },
+            {
+                "date": 2007,
+                "value": 46973
+            },
+            {
+                "date": 2008,
+                "value": 37963
+            },
+            {
+                "date": 2004,
+                "value": 30057
+            },
+            {
+                "date": 2001,
+                "value": 27235
+            },
+            {
+                "date": 2000,
+                "value": 25509
+            }
+        ]
+    }
+]

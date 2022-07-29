@@ -1,14 +1,22 @@
 const fileAccess = require("./file.access");
+const path = require("path");
 const frc = require("../public/js/lib/frc.js");
-const json = fileAccess.readJSON("./data/corpus-non-standard-lower.json");
-const tracks = frc.parseTracks(json);
 
-var words = [];
+function createWordlist(corpusPath) {
+  console.log("creating wordlist for", corpusPath);
 
-tracks.forEach((track) => words.push(...track.tokensLower));
+  var tracks = frc.parseTracks(fileAccess.readJSON(corpusPath));
+  var words = [];
+  tracks.forEach((track) => words.push(...track.tokensLower));/
 
-console.log("words", words.length);
+  var text = words.join("\n");
+  var targetPath = path.parse(corpusPath).name + ".words.txt";
 
-var text = words.join("\n");
+  console.log("found", words.length, "words");
 
-fileAccess.write(text, "./data/words-non-standard-lower.txt");
+  fileAccess.write(text, "./data/" + targetPath);
+}
+
+["./data/corpus-non-standard-lower.json", "./data/corpus.json"].forEach(
+  createWordlist
+);

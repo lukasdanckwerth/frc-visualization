@@ -1,16 +1,20 @@
 # FRC-Visualization
 
+French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lotivis).
+
 ## Getting started
 
 ```sh
-# clone repository
-$ git clone git@github.com:lukasdanckwerth/frc-visualization.git
+# serve project locally
+yarn serve
 
-# pull dev branch
-$ git pull --rebase origin dev
+# build the frc.js library
+yarn build
 
-# checkout dev branch
-$ git checkout dev
+# ... or build with watching files for development
+yarn build:watch
+
+yarn build:watch:serve
 ```
 
 #### Deploy Stage
