@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@lukasdanckwerth/recentsearches@^1.0.0":
+"@lukasdanckwerth/recentsearches@1":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@lukasdanckwerth/recentsearches/-/recentsearches-1.0.0.tgz#e5d977476a56e0ccd887b27f6083d9468783b0fd"
   integrity sha512-lxbcM8/LM4Hhy8Iiz9SC//1XW0WWxsH10fCzUDmrE1ZxpL0TzMAvkGrxxDoBzQSjFE2FRGyaDHmKNd5wOIwBQg==
 
-"@lukasdanckwerth/urlparams@^1.0.5":
+"@lukasdanckwerth/urlparams@1":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@lukasdanckwerth/urlparams/-/urlparams-1.0.5.tgz#410d5c70c81936416506679811367756928c7659"
   integrity sha512-jYyWS1+ijXxmEfBKcYtJMCYICP9pHZ+FNgqFGuDn0QtMJWVyFZxjeOZW9SudcyDmipGPm7tSrf9jcUIp/PeU4Q==
 
-"@rollup/plugin-node-resolve@^11.2.0":
+"@rollup/plugin-node-resolve@11":
   version "11.2.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-11.2.1.tgz#82aa59397a29cd4e13248b106e6a4a1880362a60"
   integrity sha512-yc2n43jcqVyGE2sqV5/YCmocy9ArjVAP/BeXyTtADTBBX6V0e5UMqwO8CdQ0kzjb6zu5P1qMzsScCMRvE9OlVg==
@@ -129,7 +129,7 @@ chalk@^4.1.2:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chokidar-cli@^3.0.0:
+chokidar-cli@3:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/chokidar-cli/-/chokidar-cli-3.0.0.tgz#29283666063b9e167559d30f247ff8fc48794eb7"
   integrity sha512-xVW+Qeh7z15uZRxHOkP93Ux8A0xbPzwK4GaqD8dQOYc34TlkqUhVSS59fK36DOp5WdJlrRzlYSy02Ht99FjZqQ==
@@ -139,7 +139,7 @@ chokidar-cli@^3.0.0:
     lodash.throttle "^4.1.1"
     yargs "^13.3.0"
 
-chokidar@^3.5.2, chokidar@^3.5.3:
+chokidar@3, chokidar@^3.5.2:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
   integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
@@ -232,7 +232,7 @@ d3-chord@3:
   dependencies:
     d3-path "1 - 3"
 
-"d3-color@1 - 3", d3-color@3:
+"d3-color@1 - 3", d3-color@3, d3-color@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-3.1.0.tgz#395b2833dfac71507f12ac2f7af23bf819de24e2"
   integrity sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==
@@ -251,7 +251,7 @@ d3-delaunay@6:
   dependencies:
     delaunator "5"
 
-"d3-dispatch@1 - 3", d3-dispatch@3:
+"d3-dispatch@1 - 3", d3-dispatch@3, d3-dispatch@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/d3-dispatch/-/d3-dispatch-3.0.1.tgz#5fc75284e9c2375c36c839411a0cf550cbfc4d5e"
   integrity sha512-rzUyPU/S7rwUflMyLc1ETDeBj0NRuHKKAcvukozwhshr6g6c5d8zh4c2gQjY2bZ0dXeGLWc1PF174P2tVvKhfg==
@@ -264,7 +264,7 @@ d3-delaunay@6:
     d3-dispatch "1 - 3"
     d3-selection "3"
 
-"d3-dsv@1 - 3", d3-dsv@3:
+"d3-dsv@1 - 3", d3-dsv@3, d3-dsv@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/d3-dsv/-/d3-dsv-3.0.1.tgz#c63af978f4d6a0d084a52a673922be2160789b73"
   integrity sha512-UG6OvdI5afDIFP9w4G0mNq50dSOsXHJaRE8arAS5o9ApWnIElp8GZw1Dun8vP8OyHOZ/QJUKUJwxiiCCnUwm+Q==
@@ -338,7 +338,7 @@ d3-random@3:
   resolved "https://registry.yarnpkg.com/d3-random/-/d3-random-3.0.1.tgz#d4926378d333d9c0bfd1e6fa0194d30aebaa20f4"
   integrity sha512-FXMe9GfxTxqd5D6jFsQ+DJ8BJS4E/fT5mqqdjovykEB2oFbTMDVdg1MGFxfQW+FBOGoB++k8swBrgwSHT1cUXQ==
 
-d3-scale-chromatic@3:
+d3-scale-chromatic@3, d3-scale-chromatic@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/d3-scale-chromatic/-/d3-scale-chromatic-3.0.0.tgz#15b4ceb8ca2bb0dcb6d1a641ee03d59c3b62376a"
   integrity sha512-Lx9thtxAKrO2Pq6OO2Ua474opeziKr279P/TKZsMAhYyNDD3EnCffdbgeSYN5O7m2ByQsxtuP2CSDczNUIZ22g==
@@ -346,7 +346,7 @@ d3-scale-chromatic@3:
     d3-color "1 - 3"
     d3-interpolate "1 - 3"
 
-d3-scale@4:
+d3-scale@4, d3-scale@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-4.0.2.tgz#82b38e8e8ff7080764f8dcec77bd4be393689396"
   integrity sha512-GZW464g1SH7ag3Y7hXjf8RoUuAFIqklOAq3MRl4OaWabTFJY9PN/E1YklhXLh+OQ3fM9yS2nOkCoS+WLZ6kvxQ==
@@ -369,7 +369,7 @@ d3-shape@3:
   dependencies:
     d3-path "1 - 3"
 
-"d3-time-format@2 - 4", d3-time-format@4:
+"d3-time-format@2 - 4", d3-time-format@4, d3-time-format@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-4.1.0.tgz#7ab5257a5041d11ecb4fe70a5c7d16a195bb408a"
   integrity sha512-dJxPBlzC7NugB2PDLwo9Q8JiTR3M3e4/XANkreKSUxF8vvXKqm1Yfq4Q5dl8budlunRVlUUaDUgFt7eA8D6NLg==
@@ -410,7 +410,7 @@ d3-zoom@3:
     d3-selection "2 - 3"
     d3-transition "2 - 3"
 
-d3@^7.3.0, d3@^7.6.1:
+d3@7:
   version "7.6.1"
   resolved "https://registry.yarnpkg.com/d3/-/d3-7.6.1.tgz#b21af9563485ed472802f8c611cc43be6c37c40c"
   integrity sha512-txMTdIHFbcpLx+8a0IFhZsbp+PfBBPt8yfbmukZTQFroKuFqIwqswF0qE5JXWefylaAVpSXFoKm3yP+jpNLFLw==
@@ -573,7 +573,7 @@ http-proxy@^1.18.1:
     follow-redirects "^1.0.0"
     requires-port "^1.0.0"
 
-http-server@^14.0.0:
+http-server@14:
   version "14.1.1"
   resolved "https://registry.yarnpkg.com/http-server/-/http-server-14.1.1.tgz#d60fbb37d7c2fdff0f0fbff0d0ee6670bd285e2e"
   integrity sha512-+cbxadF40UXd9T01zUHgA+rlo2Bg1Srer4+B4NwIHdaGxAGGv59nYRnGGDJ9LBk7alpS0US+J+bLLdQOOkJq4A==
@@ -673,15 +673,136 @@ lodash@^4.17.14:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-lotivis@^1.0.103:
-  version "1.0.103"
-  resolved "https://registry.yarnpkg.com/lotivis/-/lotivis-1.0.103.tgz#1c9b880041e9ed7e995b238daf62ca3989afd5ff"
-  integrity sha512-Xha+NnaRKqyNydwuGMNttXDbF32avotkX0BT2im1UMma1gp+dEZayJhdRGibPmYCFpXAUukyxv4gS0pygF9vBg==
+lotivis-bar@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/lotivis-bar/-/lotivis-bar-1.0.2.tgz#95e6ae1defe7b9aaca5e8b1c29a87b247c9554d4"
+  integrity sha512-3z4fWH9i3aaGTTagMXXbhbpWGrmxjIlF/TlaPnuZFCZQD5S162x6msfezxbqsvSmaoH8mBwIOTTntAWjFaqETw==
   dependencies:
-    d3 "^7.3.0"
+    d3 "7"
+    lotivis-chart "^1.0.8"
+    lotivis-colors "1"
+    lotivis-datasets "1"
+    lotivis-legend "^1.0.0"
+
+lotivis-chart@1, lotivis-chart@^1.0.8:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/lotivis-chart/-/lotivis-chart-1.0.11.tgz#9340c2d087b07dcb7065a828517bc3ad8d9373d3"
+  integrity sha512-dyiAMYXMqcPk1Y1mTUYzPX+JpXVtpAxX3s9JlGqxIHWblJIhKYtSMURkTSyvArI2A53Yw5qgeHtNmgIrBPeELg==
+  dependencies:
+    d3 "7"
+    lotivis-data "1"
+
+lotivis-chart@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/lotivis-chart/-/lotivis-chart-1.0.12.tgz#0be964a3e2d89d03ddfdca7a0430aa408e206efb"
+  integrity sha512-WTVdNXMEsTV9ugL54T2ym/6IXtl0WB/Z7MVwY+hSlZUiPw1zZ/4qbvto2r9H80lgCkw9BNDZtFU4ie7f5iVz9Q==
+  dependencies:
+    d3 "7"
+    lotivis-data "^1.0.1"
+
+lotivis-colors@1:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lotivis-colors/-/lotivis-colors-1.0.0.tgz#b61f6253d37f8c71236d6eac9c7a12359694ba45"
+  integrity sha512-R0TQ0RMY9CA3ORAYYdGLRRCKmbwzDLhRnNjp9KTXmiUMHgPdo6vv3ntyBGEGtWyfqvf7tvW/5Dk/V2ECf48H9w==
+  dependencies:
+    d3-array "^3.2.0"
+    d3-color "^3.1.0"
+    d3-scale "^4.0.2"
+    d3-scale-chromatic "^3.0.0"
+
+lotivis-csv@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/lotivis-csv/-/lotivis-csv-1.0.2.tgz#8da20eedcc642eb7ff7b519f58158882966fd625"
+  integrity sha512-qcaL2OL0a8sDKpjX1C1Sd3fi775vgygBJgkmvRjciANB41p436Hue+/XrD2Y/9blv0hDvCln52mGmSl8BELdjA==
+  dependencies:
+    d3-dsv "^3.0.1"
+
+lotivis-data@1, lotivis-data@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/lotivis-data/-/lotivis-data-1.0.1.tgz#b27a99d90fa592000a5fce1292387a02ac8a29de"
+  integrity sha512-pHIPP9TwpEKQLawKPScFq3geFxKQRkU85U/1pG+3jcwVegz+Bs6IT76jCD1meWtvwnAKTf0d5dPnDCSQKqXdRg==
+  dependencies:
+    d3-array "^3.2.0"
+    d3-dispatch "^3.0.1"
+    d3-time-format "^4.1.0"
+
+lotivis-datasets@1:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lotivis-datasets/-/lotivis-datasets-1.0.0.tgz#07e60268d4bd0d070ae4a118452187708aa63b05"
+  integrity sha512-mEIcU2kJY2XLIkkxLE7BI4G892X1LH3TLGBj0gusz5olBY01dOhxE157fO7OxQ16iDgcmpThAreUPkbWJF0ttw==
+
+lotivis-datatext@1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/lotivis-datatext/-/lotivis-datatext-1.0.1.tgz#264c5235df45640872577aa9c35f264b4fb976ab"
+  integrity sha512-xfSkzG3Bzjuw9jkpIzgZONS/M3+Pp5E7yMwmLW0MyaHLCMlKDCG/7HXfzJf7rtOrLndDs2BdntqyvgJHGuHL2Q==
+  dependencies:
+    lotivis-chart "1"
+    lotivis-colors "1"
+    lotivis-csv "1"
+    lotivis-datasets "1"
+
+lotivis-export@1:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lotivis-export/-/lotivis-export-1.0.0.tgz#cc167603b277509d75ac869083731d2dc487a8ac"
+  integrity sha512-fgzNmJPk8PEWwe6m1zQ+D4Kv7+tPj4StM2Sq1Mm/hh8Aw6kxKNUddc8ucx/DNQw6TyaqbUCb+knR8RAy7IMgxw==
+
+lotivis-gantt@1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/lotivis-gantt/-/lotivis-gantt-1.0.1.tgz#8d12519d5eed1d584d9513ef8e1274d161186c1d"
+  integrity sha512-/fRm78KFaduvfUkPKu99X0R22OYhQIhWWpNoNlJpWC0Jl2dqmWSvxnQpa08iuydjDUv7+bmamLywdue3/fEBMw==
+  dependencies:
+    d3 "7"
+    lotivis-chart "1"
+    lotivis-colors "1"
+    lotivis-datasets "1"
+
+lotivis-geojson@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/lotivis-geojson/-/lotivis-geojson-1.0.2.tgz#8d27461044181edf7931a38558dfa499e8728574"
+  integrity sha512-vMkaB/woNNbDCSWqtRBhhEYUZ+EJ0iN4JPHStMgrJyS3rY22tfJPBCMu9XmLVZnvqLgdNFCWYir9c1ftXYdnnw==
+  dependencies:
     topojson-client "^3.1.0"
     topojson-server "^3.0.1"
     topojson-simplify "^3.0.3"
+
+lotivis-legend@1, lotivis-legend@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lotivis-legend/-/lotivis-legend-1.0.0.tgz#4639ca1876aa16bd171891307c736880fc612309"
+  integrity sha512-BqVpkUl1/YSM96RNGiUR0dYDKaRFj6a0Olab6qwl0FVVMEjq9P/yomyLWHuG/0iQHPSRKMcfNMMFdMcTGAZ7OQ==
+  dependencies:
+    d3 "7"
+    lotivis-chart "1"
+    lotivis-colors "1"
+    lotivis-datasets "1"
+
+lotivis-map@1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/lotivis-map/-/lotivis-map-1.0.1.tgz#7c9baa9fbce1fd4a37ee93c85606f5af30916f25"
+  integrity sha512-PMa+eQ70IVCEO/2jpVdBZLFpTdc86efBRia2D3MH6zWBtt9SapaFsTe9achvsLM8KdozzZWFd3BJbN5x5B1OGQ==
+  dependencies:
+    d3 "7"
+    lotivis-chart "1"
+    lotivis-colors "1"
+    lotivis-datasets "1"
+    lotivis-geojson "1"
+
+lotivis@^1.0.106:
+  version "1.0.106"
+  resolved "https://registry.yarnpkg.com/lotivis/-/lotivis-1.0.106.tgz#7c1eea2df6f71ba39ffa8711020d2288b7b8d0f6"
+  integrity sha512-rnkOtC3rwfcnBDaXZPHhClsOE24EJHABCU9EqixRNZ3KS+Pdj7sZuVOZOE9Ijdvgwl7RhwLWoIAMtbATGuTWCg==
+  dependencies:
+    lotivis-bar "1"
+    lotivis-chart "^1.0.12"
+    lotivis-colors "1"
+    lotivis-csv "1"
+    lotivis-data "1"
+    lotivis-datasets "1"
+    lotivis-datatext "1"
+    lotivis-export "1"
+    lotivis-gantt "1"
+    lotivis-geojson "1"
+    lotivis-legend "1"
+    lotivis-map "1"
 
 mime@^1.6.0:
   version "1.6.0"
@@ -819,10 +940,10 @@ robust-predicates@^3.0.0:
   resolved "https://registry.yarnpkg.com/robust-predicates/-/robust-predicates-3.0.1.tgz#ecde075044f7f30118682bd9fb3f123109577f9a"
   integrity sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==
 
-rollup@^2.39.0:
-  version "2.77.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.77.0.tgz#749eaa5ac09b6baa52acc076bc46613eddfd53f4"
-  integrity sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==
+rollup@2:
+  version "2.77.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.77.2.tgz#6b6075c55f9cc2040a5912e6e062151e42e2c4e3"
+  integrity sha512-m/4YzYgLcpMQbxX3NmAqDvwLATZzxt8bIegO78FZLl+lAgKJBd1DRAOeEiZcKOIOPjxE6ewHWHNgGEalFXuz1g==
   optionalDependencies:
     fsevents "~2.3.2"
 

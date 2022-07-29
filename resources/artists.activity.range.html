@@ -2,15 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="../../node_modules/lotivis/dist/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Artists Activity Range</title>
     <style>
-      .ltv-plot-label {
+      .ltv-gantt-label {
         fill: black;
       }
     </style>
@@ -68,7 +63,7 @@
                 checked
               />
               <!-- SCREENSHOT BUTTON -->
-              <button type="button" onclick="plotChart.pngDownload()">
+              <button type="button" onclick="ganttChart.pngDownload()">
                 Screenshot
               </button>
             </div>
@@ -84,26 +79,28 @@
             overflow: scroll;
           "
         >
-          <div id="plot-chart"></div>
+          <div id="gantt-chart"></div>
         </div>
       </div>
     </div>
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
     <script src="js/lib/frc.js"></script>
 
     <script>
       lotivis.debug(true);
 
+      let customColorScale = lotivis.colorScale(
+        "white",
+        lotivis.colorSchemeLotivis10[0]
+      );
       let datasets = [];
-      let plotChart = lotivis
-        .plot()
-        .selector("#plot-chart")
+      let ganttChart = lotivis
+        .gantt()
+        .selector("#gantt-chart")
         .style("fraction")
-        // .colorScale(lotivis.colorScale2)
-        .colorScale(
-          lotivis.colorScale("white", lotivis.colorSchemeLotivis10[0])
-        )
+        .colorScale(customColorScale)
         .selectable(false)
         .width(800)
         .marginTop(20)
@@ -114,7 +111,10 @@
         .yGrid(false);
 
       function setDataset(index) {
-        plotChart.dataController(lotivis.parseDatasets(datasets[index])).run();
+        let dc = lotivis.dataController(
+          lotivis.datasetsToData(datasets[index])
+        );
+        ganttChart.dataController(dc).run();
       }
 
       function dataChange() {
@@ -122,22 +122,22 @@
       }
 
       function typeChange() {
-        plotChart.style(document.getElementById("type").value).run();
+        ganttChart.style(document.getElementById("type").value).run();
       }
 
       function sortChange() {
-        plotChart.sort(document.getElementById("sort").value).run();
+        ganttChart.sort(document.getElementById("sort").value).run();
       }
 
       function labelsChange() {
-        plotChart.labels(document.getElementById("labels").checked).run();
+        ganttChart.labels(document.getElementById("labels").checked).run();
       }
 
       Promise.all([
-        lotivis.d3.json("../data/artists.active.range.json"),
-        lotivis.d3.json("../data/artists.active.range.female.json"),
-        lotivis.d3.json("../data/artists.active.range.male.json"),
-        lotivis.d3.json("../data/artists.active.range.groups.json"),
+        d3.json("../data/artists.active.range.json"),
+        d3.json("../data/artists.active.range.female.json"),
+        d3.json("../data/artists.active.range.male.json"),
+        d3.json("../data/artists.active.range.groups.json"),
       ]).then((all) => ((datasets = all), setDataset(1)));
     </script>
   </body>

@@ -2,11 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="../../node_modules/lotivis/dist/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Years Data</title>
     <style>
@@ -73,6 +68,7 @@
     </div>
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
 
     <script>
       lotivis.debug(true);
@@ -96,10 +92,15 @@
       function setDataset(index) {
         let dataset = datasets[index];
         let aboutContainer = document.getElementById("frcv-about");
+
         aboutContainer.innerText = dataset[0].about || "-";
+
+        let data = lotivis.datasetsToData(dataset);
+        let dc = lotivis.dataController(data);
+
         barChart.title(dataset[0].label);
         barChart.title(null);
-        barChart.dataController(lotivis.parseDatasets(dataset)).run();
+        barChart.dataController(dc).run();
       }
 
       function dataChange() {
@@ -111,15 +112,15 @@
       }
 
       Promise.all([
-        lotivis.d3.json("../data/year.to.tracks.grouped.json"),
-        lotivis.d3.json("../data/year.to.tracks.grouped.json"),
-        lotivis.d3.json("../data/year.to.artists.per.tracks.json"),
-        lotivis.d3.json("../data/year.to.artists.per.tracks.grouped.json"),
-        lotivis.d3.json("../data/year.to.tokens.and.types.json"),
-        lotivis.d3.json("../data/year.to.tokens.and.types.relative.json"),
-        lotivis.d3.json("../data/year.to.types.per.tokens.json"),
-        lotivis.d3.json("../data/year.to.innovation.list.relative.json"),
-        lotivis.d3.json("../data/year.to.innovation.list.tokens.relative.json"),
+        d3.json("../data/year.to.tracks.grouped.json"),
+        d3.json("../data/year.to.tracks.grouped.json"),
+        d3.json("../data/year.to.artists.per.tracks.json"),
+        d3.json("../data/year.to.artists.per.tracks.grouped.json"),
+        d3.json("../data/year.to.tokens.and.types.json"),
+        d3.json("../data/year.to.tokens.and.types.relative.json"),
+        d3.json("../data/year.to.types.per.tokens.json"),
+        d3.json("../data/year.to.innovation.list.relative.json"),
+        d3.json("../data/year.to.innovation.list.tokens.relative.json"),
       ]).then((all) => {
         datasets = all;
         setDataset(0);

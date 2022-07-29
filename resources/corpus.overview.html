@@ -2,11 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="../../node_modules/lotivis/dist/lotivis.css" />
     <link rel="stylesheet" href="./css/frcv.css" />
     <title>FRCV - Corpus Overview</title>
     <style>
@@ -141,14 +136,14 @@
     </div>
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
     <script src="js/lib/frc.js"></script>
 
     <script>
       // enable debug mode
-      lotivis.debug(true);
-      lotivis.config.downloadFilePrefix = "frcv";
+      // lotivis.debug(true);
+      // lotivis.config.downloadFilePrefix = "frcv";
 
-      let d3 = lotivis.d3;
       // let corpus = null;
       let datasets = [];
 
@@ -200,7 +195,8 @@
 
       function setDataset(index) {
         let dataset = datasets[index];
-        let controller = lotivis.parseDataset(dataset);
+        let data = lotivis.datasetToData(dataset);
+        let controller = lotivis.dataController(data);
 
         barChart.dataController(controller).run();
         mapChart.dataController(controller).run();
@@ -230,7 +226,8 @@
           datasets = all;
           setDataset(0);
 
-          lotivis.d3.select("#loading-indicator").style("display", "none");
+          // document.querySelector("#loading-indicator").style("display", "none");
+          d3.select("#loading-indicator").style("display", "none");
         })
         .catch((e) => {
           console.error(e);
@@ -238,12 +235,12 @@
         });
 
       function setText(id, text) {
-        document.getElementById(id).innerText = lotivis
-          .config()
-          .numberFormat(text);
+        // document.getElementById(id).innerText = lotivis
+        //   .config()
+        //   .numberFormat(text);
       }
 
-      lotivis.d3.json("../data/about.json").then((about) => {
+      d3.json("../data/about.json").then((about) => {
         setText("frcv-artists-all", about.corpus.artists.all);
         setText("frcv-artists-female", about.corpus.artists.female);
         setText("frcv-artists-male", about.corpus.artists.male);
