@@ -18,6 +18,9 @@ RUN yarn run assets:about
 RUN yarn run assets:datasets:artists:activity:range
 RUN yarn run assets:count:innovation:list
 
+RUN ls -la data
+RUN ls -la generate
+
 RUN rm -rf node_modules
 
 RUN yarn install --production

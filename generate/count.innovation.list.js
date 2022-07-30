@@ -59,7 +59,7 @@ function handleList(filename) {
         .filter((item) => {
           let word = item[0];
           let value = item[1];
-          wordsWithNoOccurences.push(word);
+          if (value === 0) wordsWithNoOccurences.push(word);
           return value > 0;
         });
 
