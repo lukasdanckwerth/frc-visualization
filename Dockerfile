@@ -16,6 +16,7 @@ RUN yarn install
 RUN yarn run build
 RUN yarn run assets:about
 RUN yarn run assets:datasets:artists:activity:range
+RUN yarn run assets:count:innovation:list
 
 RUN rm -rf node_modules
 
