@@ -5,7 +5,9 @@ French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lo
 ## Contents
 
 - [Getting started](#getting-started)
-- [Getting started](#getting-started)
+- [Development](#development)
+- [Docker](#docker)
+- [Heroku](#heroku)
 
 ## Getting started
 
@@ -36,7 +38,7 @@ yarn build:watch
 yarn build:watch:serve
 ```
 
-### Docker
+## Docker
 
 Stati of [test container workdflow](./.github/workflows/test-docker.yml):
 
@@ -51,9 +53,7 @@ Stati of [test container workdflow](./.github/workflows/test-docker.yml):
 - `development` branch is deployed to Heroku `stage`
 - `master` branch is deployed to Heroku `production`
 
-| Environment | URL                                           | Status                                                                                                                                                                                                                       |
-| ----------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stage       | https://frc-visualization-stage.herokuapp.com | [![Deploy Stage](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-stage.yml)                |
-| Production  | https://frc-visualization.herokuapp.com       | [![Deploy Production](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/deploy-production.yml) |
-
-
+| Branch | Environment | URL |
+| - | - | - |
+| stage | Stage | https://frc-visualization-stage.herokuapp.com |
+| main | Production | https://frc-visualization.herokuapp.com |
