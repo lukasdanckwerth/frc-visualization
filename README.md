@@ -38,6 +38,8 @@ yarn build:watch
 yarn build:watch:serve
 ```
 
+
+
 ## Docker
 
 Stati of [test container workdflow](./.github/workflows/test-docker.yml):
@@ -49,9 +51,6 @@ Stati of [test container workdflow](./.github/workflows/test-docker.yml):
 | `dev` | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=dev)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
 
 ## Heroku
-
-- `development` branch is deployed to Heroku `stage`
-- `master` branch is deployed to Heroku `production`
 
 | Branch | Environment | URL |
 | - | - | - |
