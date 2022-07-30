@@ -15,6 +15,7 @@ COPY . ./
 RUN yarn install
 RUN yarn run build
 RUN yarn run assets:about
+RUN yarn run assets:datasets:artists:activity:range
 
 RUN rm -rf node_modules
 
