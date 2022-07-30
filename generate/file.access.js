@@ -51,6 +51,10 @@ function writeJSON(json, name) {
   // writeAsset(JSON.stringify(json), min(name));
 }
 
+function contents(path) {
+  return fs.readdirSync(path);
+}
+
 exports.corpusJSONPath = corpusJSONPath;
 exports.assetsDirectoryPath = assetsDirectoryPath;
 exports.bytesToSize = bytesToSize;
@@ -62,3 +66,4 @@ exports.readCorpusJSON = readCorpusJSON;
 exports.write = write;
 exports.writeAsset = writeAsset;
 exports.writeJSON = writeJSON;
+exports.contents = contents;

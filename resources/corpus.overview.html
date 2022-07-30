@@ -137,14 +137,11 @@
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
     <script src="../../node_modules/d3/dist/d3.js"></script>
-    <script src="js/lib/frc.js"></script>
 
     <script>
       // enable debug mode
-      // lotivis.debug(true);
-      // lotivis.config.downloadFilePrefix = "frcv";
+      lotivis.debug(true);
 
-      // let corpus = null;
       let datasets = [];
 
       let barChart = lotivis
@@ -216,9 +213,6 @@
         d3.json("../data/overview.innovation.list.tokens.json"),
       ])
         .then((all) => {
-          // let rawCorpus = all.shift();
-          // corpus = new frc.Corpus(rawCorpus);
-
           let geoJSON = all.shift();
           mapChart.geoJSON(geoJSON);
           mapChartParis.geoJSON(geoJSON);
@@ -235,9 +229,8 @@
         });
 
       function setText(id, text) {
-        // document.getElementById(id).innerText = lotivis
-        //   .config()
-        //   .numberFormat(text);
+        document.getElementById(id).innerText =
+          lotivis.config.numberFormat(text);
       }
 
       d3.json("../data/about.json").then((about) => {

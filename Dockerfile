@@ -14,6 +14,7 @@ COPY . ./
 # install dependecies
 RUN yarn install
 RUN yarn run build
+RUN yarn run assets:about
 
 RUN rm -rf node_modules
 
