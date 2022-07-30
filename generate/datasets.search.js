@@ -1,6 +1,6 @@
 const fileAccess = require("./file.access");
-const frc = require("../public/js/lib/frc.js");
-const lotivis = require("../public/js/lib/lotivis.js");
+const frc = require("../dist/frc.js");
+const lotivis = require("lotivis");
 
 const json = fileAccess.readCorpusJSON();
 const corpus = new frc.Corpus(json);

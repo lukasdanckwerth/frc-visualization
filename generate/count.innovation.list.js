@@ -1,5 +1,5 @@
-let fileAccess = require("./file.access");
-const frc = require("../public/js/lib/frc.js");
+const fileAccess = require("./file.access");
+const frc = require("../dist/frc.js");
 
 const json = fileAccess.readCorpusJSON();
 const tracks = frc.parseTracks(json);
