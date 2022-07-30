@@ -39,8 +39,8 @@ yarn build:watch:serve
 
 ## CI / Docker
 
-| Branch | Environment | URL | Docker |
+| Environment | Branch | URL | Docker |
 | - | - | - | - |
-| [`dev`](https://github.com/lukasdanckwerth/frc-visualization/tree/dev) | Development | https://frc-visualization-dev.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=dev)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
-| [`stage`](https://github.com/lukasdanckwerth/frc-visualization/tree/stage) | Stage | https://frc-visualization-stage.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=stage)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
-| [`main`](https://github.com/lukasdanckwerth/frc-visualization/tree/main) | Production | https://frc-visualization.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
+| Development | [`dev`](https://github.com/lukasdanckwerth/frc-visualization/tree/dev)  | https://frc-visualization-dev.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=dev)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
+| Stage | [`stage`](https://github.com/lukasdanckwerth/frc-visualization/tree/stage) | https://frc-visualization-stage.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=stage)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
+| Production | [`main`](https://github.com/lukasdanckwerth/frc-visualization/tree/main) | https://frc-visualization.onrender.com | [![Test Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml/badge.svg?branch=main)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/test-docker.yml) |
