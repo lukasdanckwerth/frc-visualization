@@ -41,8 +41,8 @@ yarn run assets
 
 | Command | Description |
 | - | - |
-| `yarn run assets:about`{.bash} | Creates the [`about.json`](./data/about.json). |
-| `yarn run assets:datasets:overview`{.bash} | Creates the corpus overview data. |
+| `yarn run assets:about` | Creates the [`about.json`](./data/about.json). |
+| `yarn run assets:datasets:overview` | Creates the corpus overview data. |
 
 ## Development
 
