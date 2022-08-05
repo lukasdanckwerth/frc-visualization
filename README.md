@@ -47,6 +47,14 @@ Create the [`about.json`](./data/about.json) by running:
 yarn run assets:about
 ```
 
+### Create corpus overview data
+
+Create the [`about.json`](./data/about.json) by running:
+
+```bash
+assets:datasets:overview
+```
+
 ## Development
 
 ```sh
