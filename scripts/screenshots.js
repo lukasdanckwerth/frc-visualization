@@ -16,7 +16,6 @@ async function createScreenshot(url, name, height = 1100, width = 1240) {
 
   await page.goto(url, { waitUntil: "networkidle2" });
   await page.setViewport({ width, height, deviceScaleFactor: 2 });
-  await page.pdf({ path: "page.pdf" });
   await page.screenshot({ path: imagePath });
   await browser.close();
 }

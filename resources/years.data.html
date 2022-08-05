@@ -6,11 +6,11 @@
     <title>FRCV - Years Data</title>
     <style>
       .ltv-bar-chart-label {
-        font-size: 12px;
+        font-size: 12px !important;
       }
 
-      .ltv-legend-pill-span {
-        border-radius: 0;
+      .ltv-bar-chart-axis-label {
+        font-size: 10px !important;
       }
     </style>
   </head>
@@ -54,7 +54,10 @@
               <br />
 
               <!-- SCREENSHOT BUTTON -->
-              <button type="button" onclick="barChart.pngDownload()">
+              <button
+                type="button"
+                onclick="lotivis.pngDownload('#bar-chart', 'bar-chart')"
+              >
                 Screenshot
               </button>
             </div>
@@ -68,7 +71,6 @@
     </div>
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
-    <script src="../../node_modules/d3/dist/d3.js"></script>
     <script src="../dist/frc.js"></script>
 
     <script>
@@ -113,15 +115,17 @@
       }
 
       Promise.all([
-        d3.json("../data/year.to.tracks.grouped.json"),
-        d3.json("../data/year.to.tracks.grouped.json"),
-        d3.json("../data/year.to.artists.per.tracks.json"),
-        d3.json("../data/year.to.artists.per.tracks.grouped.json"),
-        d3.json("../data/year.to.tokens.and.types.json"),
-        d3.json("../data/year.to.tokens.and.types.relative.json"),
-        d3.json("../data/year.to.types.per.tokens.json"),
-        d3.json("../data/year.to.innovation.list.relative.json"),
-        d3.json("../data/year.to.innovation.list.tokens.relative.json"),
+        lotivis.fetchJSON("../data/year.to.tracks.grouped.json"),
+        lotivis.fetchJSON("../data/year.to.tracks.grouped.json"),
+        lotivis.fetchJSON("../data/year.to.artists.per.tracks.json"),
+        lotivis.fetchJSON("../data/year.to.artists.per.tracks.grouped.json"),
+        lotivis.fetchJSON("../data/year.to.tokens.and.types.json"),
+        lotivis.fetchJSON("../data/year.to.tokens.and.types.relative.json"),
+        lotivis.fetchJSON("../data/year.to.types.per.tokens.json"),
+        lotivis.fetchJSON("../data/year.to.innovation.list.relative.json"),
+        lotivis.fetchJSON(
+          "../data/year.to.innovation.list.tokens.relative.json"
+        ),
       ]).then((all) => {
         datasets = all;
         setDataset(0);

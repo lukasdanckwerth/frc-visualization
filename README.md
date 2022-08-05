@@ -7,6 +7,7 @@ French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lo
 ## Contents
 
 - [Getting started](#getting-started)
+- [Assets creation](#assets-creation)
 - [Development](#development)
 - [CI / Docker](#ci--docker)
 
@@ -29,6 +30,10 @@ yarn install && yarn run build
 ```bash
 yarn run serve
 ```
+
+## Assets creation
+
+
 
 ## Development
 
