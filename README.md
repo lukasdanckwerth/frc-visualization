@@ -39,17 +39,10 @@ Creating all assets creation sub commands can be run by:
 yarn run assets
 ```
 
-Create the [`about.json`](./data/about.json) by running:
-
-```bash
-yarn run assets:about
-```
-
-Create corpus overview data:
-
-```bash
-assets:datasets:overview
-```
+| Command | Description |
+| - | - |
+| `yarn run assets:about`{:.bash} | Creates the [`about.json`](./data/about.json). |
+| `yarn run assets:datasets:overview`{:.bash} | Creates the corpus overview data. |
 
 ## Development
 
