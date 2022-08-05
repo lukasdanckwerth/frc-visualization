@@ -42,7 +42,10 @@ yarn run assets
 | Command | Description |
 | - | - |
 | `yarn run assets:about` | Creates the [`about.json`](./data/about.json). |
-| `yarn run assets:datasets:overview` | Creates the corpus overview data. |
+| `yarn run assets:overview` | Creates the corpus overview data. |
+| `yarn run assets:departement:artists` | Creates data for the departement overview page. |
+| `yarn run assets:year` | Creates data for the years overview page. |
+| `yarn run assets:artists:activity:range` | Creates data for the artists activity range page. |
 
 ## Development
 
@@ -51,6 +54,12 @@ yarn run assets
 yarn build:watch
 
 yarn build:watch:serve
+```
+
+If you are developing and want to watch a JavaScript file you can use the following script definition in the `package.json`:
+
+```bash
+    "my-script": "chokidar path/to/my/script.js -c \"node path/to/my/script.js\"""
 ```
 
 ## CI / Docker
