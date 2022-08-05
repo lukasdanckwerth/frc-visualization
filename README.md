@@ -39,21 +39,13 @@ Creating all assets creation sub commands can be run by:
 yarn run assets
 ```
 
-### Create about assets ([`about.json`](./data/about.json))
-
-Create the [`about.json`](./data/about.json) by running:
-
-```bash
-yarn run assets:about
-```
-
-### Create corpus overview data
-
-Create the [`about.json`](./data/about.json) by running:
-
-```bash
-assets:datasets:overview
-```
+| Command | Description |
+| - | - |
+| `yarn run assets:about` | Creates the [`about.json`](./data/about.json). |
+| `yarn run assets:overview` | Creates the corpus overview data. |
+| `yarn run assets:departement:artists` | Creates data for the departement overview page. |
+| `yarn run assets:year` | Creates data for the years overview page. |
+| `yarn run assets:artists:activity:range` | Creates data for the artists activity range page. |
 
 ## Development
 
@@ -62,6 +54,12 @@ assets:datasets:overview
 yarn build:watch
 
 yarn build:watch:serve
+```
+
+If you are developing and want to watch a JavaScript file you can use the following script definition in the `package.json`:
+
+```bash
+    "my-script": "chokidar path/to/my/script.js -c \"node path/to/my/script.js\"""
 ```
 
 ## CI / Docker

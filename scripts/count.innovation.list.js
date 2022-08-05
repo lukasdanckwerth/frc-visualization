@@ -14,6 +14,11 @@ function countTypes(input) {
 }
 
 function handleList(filename) {
+  let targetPathCSV =
+    "./data/innovation-lists-frequencies/" + filename + ".csv";
+  let targetPathNoOccurences =
+    "./data/innovation-lists-no-occurences/" + filename;
+
   let wordsWithNoOccurences = [];
   let sourceList = fileAccess
     .read("./data/innovation-lists/" + filename)
@@ -87,11 +92,6 @@ function handleList(filename) {
     //   break;
     // }
   }
-
-  let targetPathCSV =
-    "./data/innovation-lists-frequencies/" + filename + ".csv";
-  let targetPathNoOccurences =
-    "./data/innovation-lists-no-occurences/" + filename;
 
   fileAccess.write(csvContent, targetPathCSV);
   fileAccess.write(wordsWithNoOccurences.join("\n"), targetPathNoOccurences);

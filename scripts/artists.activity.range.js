@@ -1,11 +1,17 @@
 const fileAccess = require("./file.access");
 const frc = require("../dist/frc.js");
-
 const json = fileAccess.readCorpusJSON();
-const artists = frc.parseArtists(json);
-const female = artists.filter((a) => a.sex === "F");
-const male = artists.filter((a) => a.sex === "M");
-const groups = artists.filter((a) => a.group === "G");
+
+if (
+  fileAccess.allAssetsExist(
+    "artists.active.range.json",
+    "artists.active.range.male.json",
+    "artists.active.range.female.json",
+    "artists.active.range.groups.json"
+  )
+) {
+  return console.log("skipping creation of artist activity range.");
+}
 
 function datasets(artists) {
   return artists.map((a) => {
@@ -34,6 +40,11 @@ function datasets(artists) {
     };
   });
 }
+
+const artists = frc.parseArtists(json);
+const female = artists.filter((a) => a.sex === "F");
+const male = artists.filter((a) => a.sex === "M");
+const groups = artists.filter((a) => a.group === "G");
 
 fileAccess.writeJSON(datasets(artists), "artists.active.range.json");
 fileAccess.writeJSON(datasets(male), "artists.active.range.male.json");
