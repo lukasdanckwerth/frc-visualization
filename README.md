@@ -33,7 +33,19 @@ yarn run serve
 
 ## Assets creation
 
+Creating all assets creation sub commands can be run by:
 
+```bash
+yarn run assets
+```
+
+### Create about assets ([`about.json`](./data/about.json))
+
+Create the [`about.json`](./data/about.json) by running:
+
+```bash
+yarn run assets:about
+```
 
 ## Development
 
