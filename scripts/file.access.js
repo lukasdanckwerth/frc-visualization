@@ -48,11 +48,18 @@ function writeAsset(content, name) {
 
 function writeJSON(json, name) {
   writeAsset(JSON.stringify(json, null, 2), name);
-  // writeAsset(JSON.stringify(json), min(name));
 }
 
 function contents(path) {
   return fs.readdirSync(path);
+}
+function allFilesExist(...filepaths) {
+  return filepaths.filter((filepath) => fs.existsSync(filepath)).length > 0;
+}
+
+function allAssetsExist(...assetNames) {
+  const pathes = assetNames.map((name) => assetsDirectoryPath + "/" + name);
+  return allFilesExist(...pathes);
 }
 
 exports.corpusJSONPath = corpusJSONPath;
@@ -67,3 +74,5 @@ exports.write = write;
 exports.writeAsset = writeAsset;
 exports.writeJSON = writeJSON;
 exports.contents = contents;
+exports.allFilesExist = allFilesExist;
+exports.allAssetsExist = allAssetsExist;
