@@ -2,6 +2,8 @@
 
 French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lotivis).
 
+![Corpus Overview](img/corpus.overview.png)
+
 ## Contents
 
 - [Getting started](#getting-started)
