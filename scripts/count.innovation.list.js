@@ -1,16 +1,13 @@
 const fileAccess = require("./file.access");
 const frc = require("../dist/frc.js");
 const innovationLists = require("../data/innovation-lists.json");
-
-console.log("innovationLists", innovationLists);
-
 const json = fileAccess.readCorpusJSON();
-const tracks = frc.parseTracks(json);
-
-console.log("tracks", tracks.length);
+const corpus = new frc.Corpus(json);
 
 function countTypes(input) {
-  return tracks.filter((t) => t.tokensLower.indexOf(input) !== -1).length;
+  let datasets = corpus.search(input, 1995, 2020, "case-insensitive", "tracks");
+  return datasets[0].data.reduce((a, c) => a + c.value, 0);
+  // return tracks.filter((t) => t.tokensLower.indexOf(input) !== -1).length;
 }
 
 function handleList(filename) {
@@ -48,6 +45,7 @@ function handleList(filename) {
       for (let index2 = 0; index2 < variants.length; index2++) {
         let variant = variants[index2];
         let count = countTypes(variant);
+
         sumAllVariants += count;
         variantsToCount[variant] = count;
       }
@@ -88,9 +86,7 @@ function handleList(filename) {
       }
     }
 
-    // if (index > 5) {
-    //   break;
-    // }
+    // if (index > 5) break;
   }
 
   fileAccess.write(csvContent, targetPathCSV);

@@ -22,7 +22,8 @@
     }
   },
   "innovationLists": [
-    "innovation.list.txt",
-    "innovation.list.v2.txt"
+    "Neologismuskandidaten Entlehnungen.txt",
+    "Neologismuskandidaten Unbekannte Herkunft.txt",
+    "Neologismuskandidaten WBV.txt"
   ]
 }

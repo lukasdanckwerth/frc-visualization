@@ -34,8 +34,8 @@ export function internalSearch(
 
   let tracks = corpus.tracks;
   let artists = corpus.artists;
-  sensitivity = sensitivity || SearchType.insensitive;
-  searchType = searchType || SearchCountType.tracks;
+  searchType = searchType || SearchType.insensitive;
+  searchCountType = searchCountType || SearchCountType.tracks;
 
   function findTracks(accessor) {
     return tracks.filter(accessor);
