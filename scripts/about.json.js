@@ -1,10 +1,13 @@
 const fileAccess = require("./file.access");
 const package = require("../package.json");
-const frc = require("../public/js/lib/frc.js");
+const frc = require("../dist/frc.js");
 
 let corpusJSONPath = fileAccess.corpusJSONPath;
 let json = fileAccess.readCorpusJSON();
 let corpus = new frc.Corpus(json);
+let innovationLists = fileAccess
+  .contents("./data/innovation-lists")
+  .filter((filename) => filename.endsWith(".txt"));
 
 let about = {
   name: package.name,
@@ -26,6 +29,8 @@ let about = {
       formatted: fileAccess.fileSizeFormatted(corpusJSONPath),
     },
   },
+  innovationLists: innovationLists,
 };
 
 fileAccess.writeJSON(about, "about.json");
+fileAccess.writeJSON(innovationLists, "innovation-lists.json");

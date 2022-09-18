@@ -10,12 +10,23 @@
     "build:watch": "rollup --config --watch",
     "build:watch:serve": "yarn serve & yarn build:watch",
     "serve": "http-server .",
-    "assets": "npm run build && node generate/generate.assets.js",
-    "assets:dev": "npm run build && node generate/generate.assets.dev.js",
-    "assets:about": "npm run build && node generate/about.json.js",
-    "dev": "chokidar ./generate/create.wordlist.js -c \"node ./generate/create.wordlist.js\"",
-    "create.non.standard.count.list": "chokidar ./generate/create.non.standard.count.list.js -c \"node ./generate/create.non.standard.count.list.js\"",
-    "asset:count:innovation:list": "npm run build && node generate/count.innovation.list.js"
+    "screenshots": "node ./scripts/screenshots.js",
+    "screenshots:watch": "chokidar ./scripts/screenshots.js -c \"node ./scripts/screenshots.js\"",
+    "screenshots:search": "node ./scripts/screenshots.search.js",
+    "screenshots:search:watch": "chokidar ./scripts/screenshots.search.js -c \"node ./scripts/screenshots.search.js\"",
+    "assets": "yarn build && node scripts/generate.assets.js",
+    "assets:about": "yarn build && node scripts/about.json.js",
+    "assets:overview": "yarn build && node scripts/overview.js",
+    "assets:departement:artists": "yarn build && node scripts/departement.artists.js",
+    "assets:departement:tracks": "yarn build && node scripts/departement.tracks.js",
+    "assets:year": "yarn build && node scripts/year.js",
+    "assets:artists:activity:range": "yarn build && node scripts/artists.activity.range.js",
+    "assets:count:innovation:list": "node scripts/count.innovation.list.js",
+    "assets:create:wordlist": "yarn build && node scripts/create.wordlist.js",
+    "assets:innovation:list": "yarn build && node scripts/innovation.list.js",
+    "dev": "chokidar ./scripts/create.wordlist.js -c \"node ./scripts/create.wordlist.js\"",
+    "create.non.standard.count.list": "chokidar ./scripts/create.non.standard.count.list.js -c \"node ./scripts/create.non.standard.count.list.js\"",
+    "asset:count:innovation:list": "yarn build && node scripts/count.innovation.list.js"
   },
   "dependencies": {
     "@lukasdanckwerth/recentsearches": "1",
@@ -29,6 +40,7 @@
     "chokidar": "3",
     "chokidar-cli": "3",
     "path": "^0.12.7",
+    "puppeteer": "16",
     "rollup": "2"
   }
 }

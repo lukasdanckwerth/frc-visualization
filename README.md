@@ -2,9 +2,12 @@
 
 French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lotivis).
 
+![Corpus Overview](img/corpus.overview.png)
+
 ## Contents
 
 - [Getting started](#getting-started)
+- [Assets creation](#assets-creation)
 - [Development](#development)
 - [CI / Docker](#ci--docker)
 
@@ -28,6 +31,22 @@ yarn install && yarn run build
 yarn run serve
 ```
 
+## Assets creation
+
+Creating all assets creation sub commands can be run by:
+
+```bash
+yarn run assets
+```
+
+| Command | Description |
+| - | - |
+| `yarn run assets:about` | Creates the [`about.json`](./data/about.json). |
+| `yarn run assets:overview` | Creates the corpus overview data. |
+| `yarn run assets:departement:artists` | Creates data for the departement overview page. |
+| `yarn run assets:year` | Creates data for the years overview page. |
+| `yarn run assets:artists:activity:range` | Creates data for the artists activity range page. |
+
 ## Development
 
 ```sh
@@ -35,6 +54,12 @@ yarn run serve
 yarn build:watch
 
 yarn build:watch:serve
+```
+
+If you are developing and want to watch a JavaScript file you can use the following script definition in the `package.json`:
+
+```bash
+    "my-script": "chokidar path/to/my/script.js -c \"node path/to/my/script.js\"""
 ```
 
 ## CI / Docker
