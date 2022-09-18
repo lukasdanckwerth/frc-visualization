@@ -1,7 +1,10 @@
 {
   "name": "frc-visualization",
-  "version": "1.0.74",
-  "authors": ["Lukas Danckwerth", "Jan-Niklas Wilsker"],
+  "version": "1.0.80",
+  "authors": [
+    "Lukas Danckwerth",
+    "Jan-Niklas Wilsker"
+  ],
   "corpus": {
     "artists": {
       "all": 1252,
@@ -10,12 +13,17 @@
       "groups": 303,
       "index": 1530
     },
-    "tracks": 19457,
-    "tokens": 9650921,
-    "types": 5018876,
+    "tracks": 19849,
+    "tokens": 9807219,
+    "types": 4928632,
     "fileSize": {
       "bytes": 64571053,
       "formatted": "62 MB (64571053 bytes)"
     }
-  }
+  },
+  "innovationLists": [
+    "Neologismuskandidaten Entlehnungen.txt",
+    "Neologismuskandidaten Unbekannte Herkunft.txt",
+    "Neologismuskandidaten WBV.txt"
+  ]
 }

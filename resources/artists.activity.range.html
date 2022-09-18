@@ -85,8 +85,6 @@
     </div>
 
     <script src="../../node_modules/lotivis/dist/lotivis.js"></script>
-    <script src="../../node_modules/d3/dist/d3.js"></script>
-    <script src="js/lib/frc.js"></script>
 
     <script>
       lotivis.debug(true);
@@ -134,10 +132,10 @@
       }
 
       Promise.all([
-        d3.json("../data/artists.active.range.json"),
-        d3.json("../data/artists.active.range.female.json"),
-        d3.json("../data/artists.active.range.male.json"),
-        d3.json("../data/artists.active.range.groups.json"),
+        lotivis.fetchJSON("../data/artists.active.range.json"),
+        lotivis.fetchJSON("../data/artists.active.range.female.json"),
+        lotivis.fetchJSON("../data/artists.active.range.male.json"),
+        lotivis.fetchJSON("../data/artists.active.range.groups.json"),
       ]).then((all) => ((datasets = all), setDataset(1)));
     </script>
   </body>

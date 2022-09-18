@@ -362,7 +362,9 @@
           countType
         );
 
-        let dc = lotivis.datasetsToData(datasets);
+        let dc = lotivis.dataController(lotivis.datasetsToData(datasets));
+
+        console.log("dc", dc);
 
         barChart.run(dc);
         map.run(dc);
