@@ -95,9 +95,12 @@
             ></textarea>
             <br />
             <br />
-            <button onclick="showModal('innovation-list')">
+
+            <div id="innovation-lists-wrapper"></div>
+
+            <!-- <button onclick="showModal('innovation-list')">
               Innovation List
-            </button>
+            </button> -->
             <br />
             <button onclick="showModal('recent-searches')">
               Recent Searches
@@ -138,7 +141,7 @@
         <div id="content" style="display: none">
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="barChart.pngDownload()">
+              <button onclick="lotivis.pngDownload('#bar-chart', 'bar-chart')">
                 Screenshot BarChart
               </button>
             </div>
@@ -148,8 +151,12 @@
           </div>
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="map.pngDownload()">Screenshot Map France</button>
-              <button onclick="mapParis.pngDownload()">
+              <button onclick="lotivis.pngDownload('#map-chart', 'map-chart')">
+                Screenshot Map France
+              </button>
+              <button
+                onclick="lotivis.pngDownload('#map-chart-paris', 'map-chart-paris')"
+              >
                 Screenshot Map Paris
               </button>
               <br />
@@ -168,7 +175,7 @@
           </div>
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="ganttChart.pngDownload()">
+              <button onclick="lotivis.pngDownload('#gantt-chart')">
                 Screenshot PlotChart
               </button>
               <br />
@@ -232,15 +239,33 @@
         <div id="frcv-settings" class="frcv-settings">
           <div>Labels</div>
           <div>
-            <input type="checkbox" id="labelsBar" name="labelsBar" checked />
+            <input
+              type="checkbox"
+              id="labelsBar"
+              name="labelsBar"
+              checked
+              onchange="onLabelsBar()"
+            />
             <label for="labelsBar">BarChart</label>
           </div>
           <div>
-            <input type="checkbox" id="labelsMap" name="labelsMap" checked />
+            <input
+              type="checkbox"
+              id="labelsMap"
+              name="labelsMap"
+              checked
+              onchange="onLabelsMap()"
+            />
             <label for="labelsMap">MapChart</label>
           </div>
           <div>
-            <input type="checkbox" id="labelsPlot" name="labelsPlot" checked />
+            <input
+              type="checkbox"
+              id="labelsPlot"
+              name="labelsPlot"
+              checked
+              onchange="onLabelsPlot()"
+            />
             <label for="labelsPlot">PlotChart</label>
           </div>
           <br />
@@ -289,6 +314,8 @@
     <script src="../dist/frc.js"></script>
 
     <script>
+      console.log("lotivis", lotivis);
+
       // ###############################################################################
       // functions
       function getElement(id) {
@@ -308,15 +335,18 @@
       }
 
       function onLabelsBar() {
-        barChart.config.labels = getElement("labelsBar").checked;
+        barChart.labels(getElement("labelsBar").checked);
+        barChart.run();
       }
 
       function onLabelsMap() {
-        map.config.labels = getElement("labelsMap").checked;
+        map.labels(getElement("labelsMap").checked);
+        map.run();
       }
 
       function onLabelsPlot() {
-        ganttChart.config.labels = getElement("labelsPlot").checked;
+        ganttChart.labels(getElement("labelsPlot").checked);
+        ganttChart.run();
       }
 
       function mapColorScaleChange() {
@@ -351,7 +381,6 @@
           return console.log("search text too short");
 
         // searchText = searchText.replace(/\n/g, "");
-        console.log("searchText", searchText);
         urlparams.set("q", searchText.replace(/,/g, "_"));
 
         let datasets = corpus.search(
@@ -363,8 +392,6 @@
         );
 
         let dc = lotivis.dataController(lotivis.datasetsToData(datasets));
-
-        console.log("dc", dc);
 
         barChart.run(dc);
         map.run(dc);
@@ -401,7 +428,7 @@
 
       function fillYearDropdowns() {
         let html = "";
-        let firstYearOverride = 2000;
+        let firstYearOverride = 1995;
 
         for (let year = 1995; year < 2021; year++) {
           html += `<option value="${year}">${year}</option>`;
@@ -431,33 +458,18 @@
         let input = label;
         let lines = track.content.split("\n");
         let html = "";
+        let re = new RegExp(label);
 
         html += `<h1 class="frcv-headline">${track.title}</h1>`;
 
         for (let i = 0; i < lines.length; i++) {
           let line = lines[i];
-          let words = line.split(" ");
-          for (let j = 0; j < words.length; j++) {
-            let word = words[j];
+          let text = line.replace(
+            re,
+            (result) => `<span class="frcv-important">${result}</span>`
+          );
 
-            if (
-              [
-                input.toLowerCase(),
-                `${input},`.toLowerCase(),
-                `${input}.`.toLowerCase(),
-                `${input})`.toLowerCase(),
-                `(${input}`.toLowerCase(),
-                `${input}]`.toLowerCase(),
-                `[${input}`.toLowerCase(),
-              ].includes(word.toLowerCase())
-            ) {
-              html += `<b class="frcv-important">${word}</b>`;
-            } else {
-              html += word;
-            }
-
-            html += " ";
-          }
+          html += text;
           html += "<br>";
         }
 
@@ -493,16 +505,16 @@
           .enter()
           .append("div");
 
-        divs
-          .append("input")
-          .attr("type", "checkbox")
-          .attr("id", (item, index) => item[0])
-          .on("click", (item, index) => {
-            console.log(item);
-          })
-          .on("onchange", (item, index) => {
-            console.log(item);
-          });
+        // divs
+        //   .append("input")
+        //   .attr("type", "checkbox")
+        //   .attr("id", (item, index) => item[0])
+        //   .on("click", (item, index) => {
+        //     console.log(item);
+        //   })
+        //   .on("onchange", (item, index) => {
+        //     console.log(item);
+        //   });
 
         divs
           .append("span")
