@@ -1,4 +1,4 @@
-# FRC-Visualization
+# FRC-Visualization [![Docker](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/lukasdanckwerth/frc-visualization/actions/workflows/docker-publish.yml)
 
 French rap corpus visualization using [lotivis.js](https://github.com/lotivis/lotivis).
 
