@@ -2,8 +2,7 @@ name: Test Docker
 
 on:
   push:
-    branches:
-      - '**'
+    branches: ["dev", "stage"]
 
 jobs:
   docker:
