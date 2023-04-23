@@ -6,7 +6,15 @@
     <title>FRCV - Search</title>
     <style>
       .ltv-bar-chart-label {
-        font-size: 12px;
+        font-size: 10px !important;
+      }
+
+      .ltv-bar-chart-axis-label {
+        font-size: 10px !important;
+      }
+
+      svg .ltv-title {
+        font-size: 12px !important;
       }
 
       #map-chart-paris svg .ltv-map-label {
@@ -19,7 +27,9 @@
       <div class="frcv-header">
         <a href="../index.html"> Back </a>
         <div style="display: inline-flex; float: right">
-          <button onclick="showModal('settings')">Settings</button>
+          <button id="settings-button" onclick="showModal('settings')">
+            Settings
+          </button>
         </div>
       </div>
 
@@ -141,7 +151,18 @@
         <div id="content" style="display: none">
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="lotivis.pngDownload('#bar-chart', 'bar-chart')">
+              <input
+                type="checkbox"
+                id="combined-checkbox"
+                name="combined-checkbox"
+                onclick="onCombinedCheckbox(this)"
+              />
+              <label for="combined-checkbox">Combined</label>
+              <button
+                id="button-bar-chart-screenshot"
+                type="button"
+                onclick="lotivis.pngDownload('bar-chart', 'bar-chart')"
+              >
                 Screenshot BarChart
               </button>
             </div>
@@ -151,11 +172,17 @@
           </div>
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="lotivis.pngDownload('#map-chart', 'map-chart')">
+              <button
+                id="button-map-chart-screenshot"
+                type="button"
+                onclick="lotivis.pngDownload('map-chart', 'map-chart')"
+              >
                 Screenshot Map France
               </button>
               <button
-                onclick="lotivis.pngDownload('#map-chart-paris', 'map-chart-paris')"
+                id="button-map-chart-paris-screenshot"
+                type="button"
+                onclick="lotivis.pngDownload('map-chart-paris', 'map-chart-paris')"
               >
                 Screenshot Map Paris
               </button>
@@ -175,7 +202,11 @@
           </div>
           <div class="frcv-chart-wrapper">
             <div style="text-align: right">
-              <button onclick="lotivis.pngDownload('#gantt-chart')">
+              <button
+                type="button"
+                id="button-gantt-chart-screenshot"
+                onclick="lotivis.pngDownload('gantt-chart', 'gantt-chart')"
+              >
                 Screenshot PlotChart
               </button>
               <br />
@@ -359,9 +390,20 @@
       }
 
       function onShowData(checkbox) {
-        getElement("ltv-data").style.display = checkbox.checked
+        getElement("frcv-data").style.display = checkbox.checked
           ? "block"
           : "none";
+      }
+
+      function onCombinedCheckbox(checkbox) {
+        let combined = getElement("combined-checkbox").checked;
+        barChart.style(combined ? "combine" : "groups").run();
+        barChart
+          .legend()
+          .selector("#legend-1")
+          .marginLeft(0)
+          .groups(combined)
+          .run();
       }
 
       /* search */
@@ -393,7 +435,40 @@
 
         let dc = lotivis.dataController(lotivis.datasetsToData(datasets));
 
-        barChart.run(dc);
+        if (countType.includes("relative")) {
+          let datasetsAbs = corpus.search(
+            searchText,
+            firstYear,
+            lastYear,
+            sensitivity,
+            "tracks"
+          );
+
+          let dcAbs = lotivis.dataController(
+            lotivis.datasetsToData(datasetsAbs)
+          );
+          let dataAbs = dcAbs.data();
+          let groupsAbs = dcAbs.data().groups;
+          let title = "in %  - ";
+
+          title += groupsAbs
+            .map((group) => `${group} [n=${dataAbs.sumOfGroup(group)}]`)
+            .join(", ");
+
+          barChart.title(title);
+        } else {
+          barChart.title(null);
+        }
+
+        let combined = getElement("combined-checkbox").checked;
+        barChart.style(combined ? "combine" : "groups").run(dc);
+        barChart
+          .legend()
+          .selector("#legend-1")
+          .marginLeft(0)
+          .groups(combined)
+          .run();
+
         map.run(dc);
         mapParis.run(dc);
         ganttChart.run(dc);
@@ -447,11 +522,13 @@
       }
 
       function sensitivityDropdownAction(some) {
-        (sensitivity = some.value), search(searchField.value);
+        sensitivity = some.value;
+        search(searchField.value);
       }
 
       function countTypeAction(some) {
-        (countType = some.value), search(searchField.value);
+        countType = some.value;
+        search(searchField.value);
       }
 
       function presentTrackPopup(track, label) {
@@ -582,7 +659,7 @@
         .radius(0)
         .width(800)
         .height(300)
-        .marginTop(40)
+        .marginTop(70)
         .marginLeft(40)
         .labels(true);
 
@@ -696,6 +773,7 @@
       });
 
       fillRecentSearchesPanel();
+      onShowData({ checked: false });
     </script>
   </body>
 </html>
